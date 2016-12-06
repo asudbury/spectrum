@@ -1,0 +1,82 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.Umbraco", "Spectrum.Umbraco\Spectrum.Umbraco.csproj", "{99FEDF2D-01E6-442D-A6A2-17942D48B0C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.Content", "Spectrum.Content\Spectrum.Content.csproj", "{77D65CE9-6648-47B5-87AD-5E033F15A3A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.Model", "Spectrum.Model\Spectrum.Model.csproj", "{D431878D-5874-4AC6-A28F-C87D835E7EB3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.Core", "Spectrum.Core\Spectrum.Core.csproj", "{CBB9BA2E-D456-4995-BAB3-66EDA0AFC5C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.Application", "Spectrum.Application\Spectrum.Application.csproj", "{B4F98FC2-0FCE-40F3-8090-7D656CF482DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.Application.Tests", "Spectrum.Application.Tests\Spectrum.Application.Tests.csproj", "{0C4A1A39-0298-445B-8D79-CFF98FCDC403}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2725B32F-F5B2-40A3-937A-7AAB915D8A97}"
+	ProjectSection(SolutionItems) = preProject
+		DefaultWebConfig.txt = DefaultWebConfig.txt
+		ReadMe.txt = ReadMe.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.TestConsole", "Spectrum.TestConsole\Spectrum.TestConsole.csproj", "{F81DB1B5-B138-49E2-A73C-270E8F0F3F79}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.TestHarness", "Spectrum.TestHarness\Spectrum.TestHarness.csproj", "{C7A15CD9-3552-4B58-AECA-B7967C51986A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.RestApi", "Spectrum.RestApi\Spectrum.RestApi.csproj", "{30D84666-9A24-4A54-AA92-F24771D46840}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.Content.Tests", "Spectrum.Content.Tests\Spectrum.Content.Tests.csproj", "{BA87CE9B-53A2-4F92-AE4A-1D22674A3C26}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{99FEDF2D-01E6-442D-A6A2-17942D48B0C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99FEDF2D-01E6-442D-A6A2-17942D48B0C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99FEDF2D-01E6-442D-A6A2-17942D48B0C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99FEDF2D-01E6-442D-A6A2-17942D48B0C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77D65CE9-6648-47B5-87AD-5E033F15A3A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77D65CE9-6648-47B5-87AD-5E033F15A3A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77D65CE9-6648-47B5-87AD-5E033F15A3A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77D65CE9-6648-47B5-87AD-5E033F15A3A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D431878D-5874-4AC6-A28F-C87D835E7EB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D431878D-5874-4AC6-A28F-C87D835E7EB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D431878D-5874-4AC6-A28F-C87D835E7EB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D431878D-5874-4AC6-A28F-C87D835E7EB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBB9BA2E-D456-4995-BAB3-66EDA0AFC5C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBB9BA2E-D456-4995-BAB3-66EDA0AFC5C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBB9BA2E-D456-4995-BAB3-66EDA0AFC5C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBB9BA2E-D456-4995-BAB3-66EDA0AFC5C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4F98FC2-0FCE-40F3-8090-7D656CF482DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4F98FC2-0FCE-40F3-8090-7D656CF482DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4F98FC2-0FCE-40F3-8090-7D656CF482DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4F98FC2-0FCE-40F3-8090-7D656CF482DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C4A1A39-0298-445B-8D79-CFF98FCDC403}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C4A1A39-0298-445B-8D79-CFF98FCDC403}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C4A1A39-0298-445B-8D79-CFF98FCDC403}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C4A1A39-0298-445B-8D79-CFF98FCDC403}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F81DB1B5-B138-49E2-A73C-270E8F0F3F79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F81DB1B5-B138-49E2-A73C-270E8F0F3F79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F81DB1B5-B138-49E2-A73C-270E8F0F3F79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F81DB1B5-B138-49E2-A73C-270E8F0F3F79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7A15CD9-3552-4B58-AECA-B7967C51986A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7A15CD9-3552-4B58-AECA-B7967C51986A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7A15CD9-3552-4B58-AECA-B7967C51986A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7A15CD9-3552-4B58-AECA-B7967C51986A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30D84666-9A24-4A54-AA92-F24771D46840}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30D84666-9A24-4A54-AA92-F24771D46840}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30D84666-9A24-4A54-AA92-F24771D46840}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30D84666-9A24-4A54-AA92-F24771D46840}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA87CE9B-53A2-4F92-AE4A-1D22674A3C26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA87CE9B-53A2-4F92-AE4A-1D22674A3C26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA87CE9B-53A2-4F92-AE4A-1D22674A3C26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA87CE9B-53A2-4F92-AE4A-1D22674A3C26}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
