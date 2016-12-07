@@ -1,3 +1,0 @@
-﻿ 2016-12-04 02:43:25,351 [P7068/D2/T450] INFO  umbraco.BusinessLogic.Log - Log scrubbed.  Removed all items older than 2016-12-03 02:43:25
- 2016-12-04 06:43:25,373 [P7068/D2/T311] INFO  umbraco.BusinessLogic.Log - Log scrubbed.  Removed all items older than 2016-12-03 06:43:25
- 2016-12-04 10:43:25,389 [P7068/D2/T402] INFO  umbraco.BusinessLogic.Log - Log scrubbed.  Removed all items older than 2016-12-03 10:43:25
