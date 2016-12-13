@@ -47,12 +47,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Registration\Controllers\RegistrationController.cs" />
+    <Compile Include="Registration\Models\RegisterModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Appointments\" />
     <Folder Include="Authentication\Controllers\" />
     <Folder Include="Payments\" />
-    <Folder Include="Registration\Controllers\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
