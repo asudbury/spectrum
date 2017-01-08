@@ -46,17 +46,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Correspondence\EmailSentModel.cs" />
+    <Compile Include="Correspondence\EmailReadModel.cs" />
+    <Compile Include="Customer\UpdateNameModel.cs" />
+    <Compile Include="Customer\UpdateEmailAddressModel.cs" />
     <Compile Include="EmailRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Registration\RegisterModel.cs" />
+    <Compile Include="NotificationModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Appointments\" />
     <Folder Include="Authentication\" />
     <Folder Include="Payments\" />
-    <Folder Include="Registration\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

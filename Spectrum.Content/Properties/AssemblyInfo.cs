@@ -34,3 +34,7 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+
+[assembly: InternalsVisibleTo("Spectrum.Content.Tests")]
+[assembly: InternalsVisibleTo("Spectrum.TestHarness")]
+[assembly: InternalsVisibleTo("Spectrum.Content.TestConsole")]

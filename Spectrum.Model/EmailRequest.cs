@@ -5,10 +5,19 @@
 
     public class EmailRequest
     {
+        /// <summary>
+        /// Gets or sets the server.
+        /// </summary>
         public string Server { get; set; }
 
-        public MailMessage Message { get; set; } 
+        /// <summary>
+        /// Gets or sets the message.
+        /// </summary>
+        public MailMessage Message { get; set; }
 
+        /// <summary>
+        /// Gets or sets the tokens.
+        /// </summary>
         public ListDictionary Tokens { get; set; }
     }
 }

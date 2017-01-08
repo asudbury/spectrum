@@ -1,10 +1,10 @@
 ﻿using Umbraco.Core.Services;
+using Umbraco.Web;
 
 namespace Spectrum.Content.Registration.Providers
 {
-    using Application.Registration.Models;
-    using Messages;
-    using Model;
+    using Model.Registration;
+    using Models;
     using Services;
     using System;
     using ViewModels;
@@ -15,7 +15,7 @@ namespace Spectrum.Content.Registration.Providers
     /// The RegistrationProvider class.
     /// </summary>
     /// <seealso cref="Spectrum.Content.Registration.Providers.IRegistrationProvider" />
-    public class RegistrationProvider : IRegistrationProvider
+    internal class RegistrationProvider : IRegistrationProvider
     {
         /// <summary>
         /// The user service.
@@ -35,7 +35,7 @@ namespace Spectrum.Content.Registration.Providers
         /// <summary>
         /// Initializes a new instance of the <see cref="RegistrationProvider"/> class.
         /// </summary>
-        public RegistrationProvider() 
+        internal RegistrationProvider() 
             : this(new UserService(), 
               TinyIoC.TinyIoCContainer.Current.Resolve<ITinyMessengerHub>())
         {
@@ -46,7 +46,7 @@ namespace Spectrum.Content.Registration.Providers
         /// </summary>
         /// <param name="userService">The user service.</param>
         /// <param name="tinyMessengerHub"></param>
-        public RegistrationProvider(
+        internal RegistrationProvider(
             IUserService userService,
             ITinyMessengerHub tinyMessengerHub)
         {
@@ -81,7 +81,7 @@ namespace Spectrum.Content.Registration.Providers
                 viewModel.EmailAddress,
                 guid);
 
-            tinyMessengerHub.Publish(new RegistrationMessage(this, model));
+            tinyMessengerHub.Publish(new RegistrationCompleteMessage(this, model));
 
             return new RegisteredUser(member, guid);
         }
@@ -95,6 +95,16 @@ namespace Spectrum.Content.Registration.Providers
         {
             userService.MemberService = MemberService;
             return userService.GetUser(emailAddress) != null;
+        }
+
+        /// <summary>
+        /// Verifies the user.
+        /// </summary>
+        /// <param name="viewModel">The view model.</param>
+        /// <returns>True or False.</returns>
+        public bool VerifyUser(VerifyUserViewModel viewModel)
+        {
+            return true;
         }
     }
 }

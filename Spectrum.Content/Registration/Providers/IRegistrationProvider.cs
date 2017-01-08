@@ -1,6 +1,6 @@
 ﻿namespace Spectrum.Content.Registration.Providers
 {
-    using Model;
+    using Models;
     using Umbraco.Core.Services;
     using ViewModels;
 
@@ -20,6 +20,13 @@
         /// <param name="viewModel">The view model.</param>
         /// <returns>A RegisteredUser.</returns>
         RegisteredUser RegisterUser(RegisterViewModel viewModel);
+
+        /// <summary>
+        /// Verifies the user.
+        /// </summary>
+        /// <param name="viewModel">The view model.</param>
+        /// <returns>True or False.</returns>
+        bool VerifyUser(VerifyUserViewModel viewModel);
 
         /// <summary>
         /// Checks the email in use.

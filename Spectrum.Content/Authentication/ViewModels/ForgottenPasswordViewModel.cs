@@ -5,6 +5,9 @@
 
     public class ForgottenPasswordViewModel
     {
+        /// <summary>
+        /// Gets or sets the email address.
+        /// </summary>
         [DisplayName("Email address")]
         [Required(ErrorMessage = "Please enter your email address")]
         [EmailAddress(ErrorMessage = "Please enter a valid email address")]

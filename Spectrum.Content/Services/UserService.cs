@@ -36,12 +36,32 @@
             string emailAddress,
             string memberType)
         {
-            Guid guid = Guid.NewGuid();
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentException("Name not supplied", name);
+            }
+
+            if (string.IsNullOrEmpty(password))
+            {
+                throw new ArgumentException("Password not supplied", password);
+            }
+
+            if (string.IsNullOrEmpty(emailAddress))
+            {
+                throw new ArgumentException("Email Address not supplied", emailAddress);
+            }
+
+            if (MemberService == null)
+            {
+                throw new ApplicationException("MemberService not set");
+            }
 
             if (MemberService.GetByEmail(emailAddress) != null)
             {
                 return null;
             }
+
+            Guid guid = Guid.NewGuid();
 
             IMember member = MemberService.CreateMemberWithIdentity(emailAddress, emailAddress, name, memberType);
 
@@ -78,6 +98,16 @@
             string userName,
             string password)
         {
+            if (string.IsNullOrEmpty(userName))
+            {
+                throw new ArgumentException("Username not supplied", userName);
+            }
+
+            if (string.IsNullOrEmpty(password))
+            {
+                throw new ArgumentException("Password not supplied", password);
+            }
+
             return GetMembershipHelper().Login(userName, password);
         }
 
@@ -96,6 +126,16 @@
         /// <returns>An IMember.</returns>
         public IMember GetUser(string userName)
         {
+            if (string.IsNullOrEmpty(userName))
+            {
+                throw new ArgumentException("Username not supplied", userName);
+            }
+
+            if (MemberService == null)
+            {
+                throw new ApplicationException("MemberService not set");
+            }
+
             return MemberService.GetByUsername(userName);
         }
 
@@ -105,6 +145,11 @@
         /// <param name="member">The member.</param>
         public void UpdateLoginStatus(IMember member)
         {
+            if (member == null)
+            {
+                throw new ArgumentException("Member not supplied");
+            }
+
             string hostName = Dns.GetHostName();
             string ipAddress = Dns.GetHostAddresses(hostName).GetValue(0).ToString();
 
@@ -125,6 +170,11 @@
         /// <returns> The Guid.</returns>
         public Guid GetUserGuid(IMember member)
         {
+            if (member == null)
+            {
+                throw new ArgumentException("Member not supplied");
+            }
+
             return member.GetValue<Guid>(UserConstants.Guid);
         }
 

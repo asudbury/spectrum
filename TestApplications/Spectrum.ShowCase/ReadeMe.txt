@@ -1,0 +1,16 @@
+﻿Database is Sql Server Compact
+
+Login Details
+
+admin
+adminadmin
+
+admin2
+adminadmin
+
+
+Umbraco Forms has been installed.
+
+packages installed
+
+Diplo Audit Log Viewer

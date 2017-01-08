@@ -9,18 +9,32 @@
 
     public class LoginController : SurfaceController
     {
+        /// <summary>
+        /// The user service.
+        /// </summary>
         private readonly IUserService userService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LoginController"/> class.
+        /// </summary>
+        /// <param name="userService">The user service.</param>
         public LoginController(IUserService userService)
         {
             this.userService = userService;
             this.userService.MemberService = Services.MemberService;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LoginController"/> class.
+        /// </summary>
         public LoginController() : this(new UserService())
         {
         }
 
+        /// <summary>
+        /// Renders the login.
+        /// </summary>
+        /// <returns></returns>
         public ActionResult RenderLogin()
         {
             LoginViewModel viewModel = new LoginViewModel();
@@ -37,6 +51,11 @@
             return PartialView("Login", viewModel);
         }
 
+        /// <summary>
+        /// Handles the login.
+        /// </summary>
+        /// <param name="viewModel">The view model.</param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult HandleLogin(LoginViewModel viewModel)
@@ -74,6 +93,10 @@
             }
         }
 
+        /// <summary>
+        /// Logouts this instance.
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Logout()
         {
             if (userService.IsUserLoggedIn())

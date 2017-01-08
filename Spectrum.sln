@@ -13,21 +13,27 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.Core", "Spectrum.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.Application", "Spectrum.Application\Spectrum.Application.csproj", "{B4F98FC2-0FCE-40F3-8090-7D656CF482DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.Application.Tests", "Spectrum.Application.Tests\Spectrum.Application.Tests.csproj", "{0C4A1A39-0298-445B-8D79-CFF98FCDC403}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2725B32F-F5B2-40A3-937A-7AAB915D8A97}"
 	ProjectSection(SolutionItems) = preProject
 		DefaultWebConfig.txt = DefaultWebConfig.txt
 		ReadMe.txt = ReadMe.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.TestConsole", "Spectrum.TestConsole\Spectrum.TestConsole.csproj", "{F81DB1B5-B138-49E2-A73C-270E8F0F3F79}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.TestHarness", "Spectrum.TestHarness\Spectrum.TestHarness.csproj", "{C7A15CD9-3552-4B58-AECA-B7967C51986A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.RestApi", "Spectrum.RestApi\Spectrum.RestApi.csproj", "{30D84666-9A24-4A54-AA92-F24771D46840}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.Content.Tests", "Spectrum.Content.Tests\Spectrum.Content.Tests.csproj", "{BA87CE9B-53A2-4F92-AE4A-1D22674A3C26}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{75BDE82F-1C8C-48D0-8CD6-1B41C405CA44}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestApplications", "TestApplications", "{D8271922-E4EC-4BC4-A795-AC3F70736FFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.TestConsole", "TestApplications\Spectrum.TestConsole\Spectrum.TestConsole.csproj", "{F81DB1B5-B138-49E2-A73C-270E8F0F3F79}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.TestHarness", "TestApplications\Spectrum.TestHarness\Spectrum.TestHarness.csproj", "{C7A15CD9-3552-4B58-AECA-B7967C51986A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.Application.Tests", "UnitTests\Spectrum.Application.Tests\Spectrum.Application.Tests.csproj", "{0C4A1A39-0298-445B-8D79-CFF98FCDC403}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.Content.Tests", "UnitTests\Spectrum.Content.Tests\Spectrum.Content.Tests.csproj", "{BA87CE9B-53A2-4F92-AE4A-1D22674A3C26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.ShowCase", "TestApplications\Spectrum.ShowCase\Spectrum.ShowCase.csproj", "{E5B20FA4-5897-46E5-9791-01630FFC486C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,10 +61,10 @@ Global
 		{B4F98FC2-0FCE-40F3-8090-7D656CF482DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4F98FC2-0FCE-40F3-8090-7D656CF482DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4F98FC2-0FCE-40F3-8090-7D656CF482DD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0C4A1A39-0298-445B-8D79-CFF98FCDC403}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0C4A1A39-0298-445B-8D79-CFF98FCDC403}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0C4A1A39-0298-445B-8D79-CFF98FCDC403}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0C4A1A39-0298-445B-8D79-CFF98FCDC403}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30D84666-9A24-4A54-AA92-F24771D46840}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30D84666-9A24-4A54-AA92-F24771D46840}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30D84666-9A24-4A54-AA92-F24771D46840}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30D84666-9A24-4A54-AA92-F24771D46840}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F81DB1B5-B138-49E2-A73C-270E8F0F3F79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F81DB1B5-B138-49E2-A73C-270E8F0F3F79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F81DB1B5-B138-49E2-A73C-270E8F0F3F79}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -67,16 +73,27 @@ Global
 		{C7A15CD9-3552-4B58-AECA-B7967C51986A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7A15CD9-3552-4B58-AECA-B7967C51986A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7A15CD9-3552-4B58-AECA-B7967C51986A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{30D84666-9A24-4A54-AA92-F24771D46840}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{30D84666-9A24-4A54-AA92-F24771D46840}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{30D84666-9A24-4A54-AA92-F24771D46840}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{30D84666-9A24-4A54-AA92-F24771D46840}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C4A1A39-0298-445B-8D79-CFF98FCDC403}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C4A1A39-0298-445B-8D79-CFF98FCDC403}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C4A1A39-0298-445B-8D79-CFF98FCDC403}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C4A1A39-0298-445B-8D79-CFF98FCDC403}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BA87CE9B-53A2-4F92-AE4A-1D22674A3C26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BA87CE9B-53A2-4F92-AE4A-1D22674A3C26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA87CE9B-53A2-4F92-AE4A-1D22674A3C26}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA87CE9B-53A2-4F92-AE4A-1D22674A3C26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5B20FA4-5897-46E5-9791-01630FFC486C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5B20FA4-5897-46E5-9791-01630FFC486C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5B20FA4-5897-46E5-9791-01630FFC486C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5B20FA4-5897-46E5-9791-01630FFC486C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F81DB1B5-B138-49E2-A73C-270E8F0F3F79} = {D8271922-E4EC-4BC4-A795-AC3F70736FFC}
+		{C7A15CD9-3552-4B58-AECA-B7967C51986A} = {D8271922-E4EC-4BC4-A795-AC3F70736FFC}
+		{0C4A1A39-0298-445B-8D79-CFF98FCDC403} = {75BDE82F-1C8C-48D0-8CD6-1B41C405CA44}
+		{BA87CE9B-53A2-4F92-AE4A-1D22674A3C26} = {75BDE82F-1C8C-48D0-8CD6-1B41C405CA44}
+		{E5B20FA4-5897-46E5-9791-01630FFC486C} = {D8271922-E4EC-4BC4-A795-AC3F70736FFC}
 	EndGlobalSection
 EndGlobal

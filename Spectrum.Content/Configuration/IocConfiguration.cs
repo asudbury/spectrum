@@ -1,8 +1,9 @@
 ﻿namespace Spectrum.Content.Configuration
 {
+    using Registration.Models;
     using Registration.Handlers;
-    using Registration.Messages;
     using System.Web.Http;
+    using TinyIoC;
     using TinyMessenger;
     
     /// <summary>
@@ -15,7 +16,10 @@
         /// </summary>
         public void Setup(HttpConfiguration config)
         {
-            ////config.DependencyResolver = new TinyIoCDependencyResolver(container);
+            ////config.DependencyResolver = new TinyIocMvcDependencyResolver(GetContainer());
+             
+            RegisterServices();
+            RegisterSubscribers();
         }
 
         /// <summary>
@@ -30,9 +34,18 @@
         /// </summary>
         public void RegisterSubscribers()
         {
-            ITinyMessengerHub messengerHub = TinyIoC.TinyIoCContainer.Current.Resolve<ITinyMessengerHub>();
+            ITinyMessengerHub messengerHub = GetContainer().Resolve<ITinyMessengerHub>();
 
-            messengerHub.Subscribe<RegistrationMessage>(m => { new RegistrationHandler().Handle(m); });
+            messengerHub.Subscribe<RegistrationCompleteMessage>(m => { new RegistrationHandler().Handle(m); });
+        }
+
+        /// <summary>
+        /// Gets the container.
+        /// </summary>
+        /// <returns>The Container.</returns>
+        private TinyIoCContainer GetContainer()
+        {
+            return TinyIoCContainer.Current;
         }
     }
 }

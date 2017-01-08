@@ -46,14 +46,42 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Appointments\Controllers\AppointmentsController.cs" />
+    <Compile Include="Appointments\Providers\IAppointmentsProvider.cs" />
+    <Compile Include="Appointments\Providers\AppointmentsProvider.cs" />
+    <Compile Include="Authentication\Controllers\LoginController.cs" />
+    <Compile Include="Authentication\Controllers\PasswordController.cs" />
+    <Compile Include="Authentication\Providers\IPasswordProvider.cs" />
+    <Compile Include="Authentication\Providers\ILoginProvider.cs" />
+    <Compile Include="Authentication\Providers\PasswordProvider.cs" />
+    <Compile Include="Authentication\Providers\LoginProvider.cs" />
+    <Compile Include="Authentication\Repositories\IPasswordRepository.cs" />
+    <Compile Include="Authentication\Repositories\ILoginRepository.cs" />
+    <Compile Include="Authentication\Repositories\PasswordRepository.cs" />
+    <Compile Include="Authentication\Repositories\LoginRepository.cs" />
+    <Compile Include="Correspondence\Controllers\EmailController.cs" />
+    <Compile Include="Correspondence\Providers\EmailProvider.cs" />
+    <Compile Include="Correspondence\Providers\IEmailProvider.cs" />
+    <Compile Include="Correspondence\Repositories\EmailRepository.cs" />
+    <Compile Include="Correspondence\Repositories\IEmailRepository.cs" />
+    <Compile Include="Customer\Controllers\CustomerController.cs" />
+    <Compile Include="Customer\Providers\ICustomerProvider.cs" />
+    <Compile Include="Customer\Providers\CustomerProvider.cs" />
+    <Compile Include="Customer\Repositories\ICustomerRepository.cs" />
+    <Compile Include="Customer\Repositories\CustomerRepository.cs" />
+    <Compile Include="Process.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Registration\Controllers\RegistrationController.cs" />
-    <Compile Include="Registration\Models\RegisterModel.cs" />
+    <Compile Include="Registration\Providers\IRegistrationProvider.cs" />
+    <Compile Include="Registration\Providers\RegistrationProvider.cs" />
+    <Compile Include="Registration\Repositories\IRegistrationRepository.cs" />
+    <Compile Include="Registration\Repositories\RegistrationRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Appointments\" />
-    <Folder Include="Authentication\Controllers\" />
-    <Folder Include="Payments\" />
+    <Folder Include="Appointments\Repositories\" />
+    <Folder Include="Payments\Controllers\" />
+    <Folder Include="Payments\Providers\" />
+    <Folder Include="Payments\Repositories\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

@@ -1,6 +1,6 @@
 ﻿namespace Spectrum.Content.Registration.Controllers
 {
-    using Model;
+    using Models;
     using Providers;
     using System.Web.Mvc;
     using Umbraco.Web;
@@ -76,10 +76,35 @@
             if (registeredUser == null)
             {
                 ModelState.AddModelError("", "Member already exists");
+                return PartialView("Register", viewModel);
+            }
+
+            return PartialView("Register", new RegisterViewModel());
+        }
+
+        /// <summary>
+        /// Handles the verify user.
+        /// </summary>
+        /// <param name="viewModel">The view model.</param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult HandleVerifyUser(VerifyUserViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return PartialView("Verify", viewModel);
+            }
+
+            bool result = registrationProvider.VerifyUser(viewModel);
+
+            if (!result)
+            {
+                ModelState.AddModelError("", "Invalid verification");
                 return CurrentUmbracoPage();
             }
-            
-            return PartialView("Register", new RegisterViewModel());
+
+            return PartialView("Verify", new VerifyUserViewModel());
         }
 
         /// <summary>
@@ -91,7 +116,7 @@
         {
             bool result = registrationProvider.CheckEmailInUse(emailAddress);
 
-            if (!result)
+            if (result)
             {
                 return Json($"The email address '{emailAddress}' is already in use.", JsonRequestBehavior.AllowGet);
             }

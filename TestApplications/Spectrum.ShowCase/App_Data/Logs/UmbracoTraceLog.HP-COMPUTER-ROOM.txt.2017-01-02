@@ -1,0 +1,5 @@
+﻿ 2017-01-02 00:33:31,064 [P8216/D2/T1020] INFO  umbraco.BusinessLogic.Log - Log scrubbed.  Removed all items older than 2017-01-01 00:33:31
+ 2017-01-02 04:33:31,080 [P8216/D2/T231] INFO  umbraco.BusinessLogic.Log - Log scrubbed.  Removed all items older than 2017-01-01 04:33:31
+ 2017-01-02 08:33:31,087 [P8216/D2/T79] INFO  umbraco.BusinessLogic.Log - Log scrubbed.  Removed all items older than 2017-01-01 08:33:31
+ 2017-01-02 12:33:31,102 [P8216/D2/T976] INFO  umbraco.BusinessLogic.Log - Log scrubbed.  Removed all items older than 2017-01-01 12:33:31
+ 2017-01-02 16:33:31,111 [P8216/D2/T257] INFO  umbraco.BusinessLogic.Log - Log scrubbed.  Removed all items older than 2017-01-01 16:33:31
