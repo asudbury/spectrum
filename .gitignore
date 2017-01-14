@@ -240,3 +240,6 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+
+TestApplications/Spectrum.ShowCase/App_Data
+Spectrum.Umbraco/App_Data/
