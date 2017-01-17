@@ -1,10 +1,13 @@
 ﻿namespace Spectrum.Model.Registration
 {
+    using NPoco;
     using System;
 
     /// <summary>
     /// The RegisterModel class.
     /// </summary>
+    [TableName("User")]
+    [PrimaryKey("Guid")]
     public class RegisterModel
     {
         /// <summary>
