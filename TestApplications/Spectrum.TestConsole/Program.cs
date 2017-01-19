@@ -1,11 +1,9 @@
 ﻿namespace Spectrum.TestConsole
 {
-    using Application;
     using Application.Authentication.Controllers;
     using Application.Correspondence.Controllers;
     using Application.Customer.Controllers;
     using Application.Registration.Controllers;
-    using Model;
     using Model.Registration;
     using Model.Correspondence;
     using Model.Customer;
@@ -20,51 +18,51 @@
         static void Main(string[] args)
         {
             //// change this to execute a different scenario!
-            Process process = Process.UserRegistered;
+            Event eventType = Event.UserRegistered;
 
-            switch (process)
+            switch (eventType)
             {
-                case Process.UserRegistered:
+                case Event.UserRegistered:
                     UserRegistered();
                     break;
 
-                case Process.UserVerified:
+                case Event.UserVerified:
                     UserVerified();
                     break;
 
-                case Process.LoginComplete:
+                case Event.LoginComplete:
                     LoginComplete();
                     break;
 
-                case Process.LoginFailed:
+                case Event.LoginFailed:
                     LoginFailed();
                     break;
 
-                case Process.UserLockedOut:
+                case Event.UserLockedOut:
                     UserLockedOut();
                     break;
 
-                case Process.PasswordResetRequested:
+                case Event.PasswordResetRequested:
                     PasswordResetRequested();
                     break;
 
-                case Process.PasswordResetCompleted:
+                case Event.PasswordResetCompleted:
                     PasswordResetCompleted();
                     break;
 
-                case Process.CustomerEmailAddressUpdated:
+                case Event.CustomerEmailAddressUpdated:
                     CustomerEmailAddressUpdated();
                     break;
 
-                case Process.CustomerNameUpdated:
+                case Event.CustomerNameUpdated:
                     CustomerNameUpdated();
                     break;
 
-                case Process.EmailSent:
+                case Event.EmailSent:
                     EmailSent();
                     break;
 
-                case Process.EmailRead:
+                case Event.EmailRead:
                     EmailRead();
                     break;
             }
@@ -107,7 +105,6 @@
             controller.UserVerified(model);
         }
 
-
         static void LoginComplete()
         {
             LoginController controller = new LoginController();
@@ -116,8 +113,7 @@
 
             controller.LoginComplete(model);
         }
-
-
+        
         static void LoginFailed()
         {
             LoginController controller = new LoginController();
@@ -139,8 +135,7 @@
 
             controller.ResetRequested(model);
         }
-
-
+        
         static void PasswordResetCompleted()
         {
             PasswordController controller = new PasswordController();
@@ -149,8 +144,7 @@
 
             controller.ResetCompleted(model);
         }
-
-
+        
         static void CustomerEmailAddressUpdated()
         {
             CustomerController controller = new CustomerController();
@@ -159,8 +153,7 @@
 
             controller.EmailAddressUpdated(model);
         }
-
-
+        
         static void CustomerNameUpdated()
         {
             CustomerController controller = new CustomerController();
@@ -169,8 +162,7 @@
 
             controller.NameUpdated(model);
         }
-
-
+        
         static void EmailSent()
         {
             EmailController controller = new EmailController();

@@ -1,60 +1,60 @@
-﻿namespace Spectrum.Application
+﻿namespace Spectrum.Model.Correspondence
 {
-    public enum Process
+    public enum Event
     {
         /// <summary>
         /// The user registered.
         /// </summary>
-        UserRegistered,
+        UserRegistered = 1,
 
         /// <summary>
         /// The user verified.
         /// </summary>
-        UserVerified,
+        UserVerified = 2,
 
         /// <summary>
         /// The login completed.
         /// </summary>
-        LoginComplete,
+        LoginComplete = 3,
 
         /// <summary>
         /// The login failed.
         /// </summary>
-        LoginFailed,
+        LoginFailed = 4,
 
         /// <summary>
         /// The user locked out.
         /// </summary>
-        UserLockedOut,
+        UserLockedOut = 5,
 
         /// <summary>
         /// The password reset requested.
         /// </summary>
-        PasswordResetRequested,
+        PasswordResetRequested = 6,
 
         /// <summary>
         /// The password reset completed.
         /// </summary>
-        PasswordResetCompleted,
+        PasswordResetCompleted = 7,
 
         /// <summary>
         /// The customer email address updated.
         /// </summary>
-        CustomerEmailAddressUpdated,
+        CustomerEmailAddressUpdated = 8,
 
         /// <summary>
         /// The customer name updated.
         /// </summary>
-        CustomerNameUpdated,
+        CustomerNameUpdated = 9,
 
         /// <summary>
         /// The email sent.
         /// </summary>
-        EmailSent,
+        EmailSent = 10,
 
         /// <summary>
         /// The email read
         /// </summary>
-        EmailRead
+        EmailRead = 11
     }
 }

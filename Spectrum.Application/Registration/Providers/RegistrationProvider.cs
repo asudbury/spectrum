@@ -1,6 +1,5 @@
 ﻿namespace Spectrum.Application.Registration.Providers
 {
-    using Model;
     using Model.Registration;
     using Repositories;
 
@@ -39,15 +38,6 @@
         public void UserRegistered(RegisterModel model)
         {
             registrationRepository.UserRegistered(model);
-        }
-
-        /// <summary>
-        /// The user has been verified.
-        /// </summary>
-        /// <param name="model">The model.</param>
-        public void UserVerified(NotificationModel model)
-        {
-            registrationRepository.UserVerified(model);
         }
     }
 }

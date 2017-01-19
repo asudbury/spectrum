@@ -1,4 +1,4 @@
-﻿namespace Spectrum.Model
+﻿namespace Spectrum.Model.Correspondence
 {
     using System.Collections.Specialized;
     using System.Net.Mail;

@@ -1,10 +1,12 @@
 ﻿namespace Spectrum.Application.Registration.Controllers
 {
-    using Model;
+    using Correspondence.Controllers;
+    using Correspondence.Providers;
+    using Model.Correspondence;
     using Model.Registration;
     using Providers;
 
-    public class RegistrationController
+    public class RegistrationController : EventController
     {
         /// <summary>
         /// The registration provider.
@@ -15,7 +17,11 @@
         /// Initializes a new instance of the <see cref="RegistrationController" /> class.
         /// </summary>
         /// <param name="registrationProvider">The registration provider.</param>
-        public RegistrationController(IRegistrationProvider registrationProvider)
+        /// <param name="eventProvider">The event provider.</param>
+        public RegistrationController(
+            IRegistrationProvider registrationProvider,
+            IEventProvider eventProvider)
+            : base(eventProvider) 
         {
             this.registrationProvider = registrationProvider;
         }
@@ -24,7 +30,7 @@
         /// Initializes a new instance of the <see cref="RegistrationController"/> class.
         /// </summary>
         public RegistrationController()
-            :this(new RegistrationProvider())
+            :this(new RegistrationProvider(), new EventProvider())
         {
         }
 
@@ -43,7 +49,8 @@
         /// <param name="model">The model.</param>
         public void UserVerified(NotificationModel model)
         {
-            registrationProvider.UserVerified(model);
+            EventModel eventModel = new EventModel(model.Guid, Event.UserVerified);
+            eventProvider.InsertEvent(eventModel);
         }
     }
 }

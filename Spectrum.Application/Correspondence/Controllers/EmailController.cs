@@ -3,7 +3,7 @@
     using Model.Correspondence;
     using Providers;
 
-    public class EmailController
+    public class EmailController : EventController
     {
         /// <summary>
         /// The email provider.
@@ -14,7 +14,10 @@
         /// Initializes a new instance of the <see cref="EmailController" /> class.
         /// </summary>
         /// <param name="emailProvider">The email provider.</param>
-        public EmailController(IEmailProvider emailProvider)
+        public EmailController(
+            IEmailProvider emailProvider,
+            IEventProvider eventProvider)
+            :base(eventProvider)
         {
             this.emailProvider = emailProvider;
         }
@@ -23,7 +26,7 @@
         /// Initializes a new instance of the <see cref="EmailController"/> class.
         /// </summary>
         public EmailController()
-            : this(new EmailProvider())
+            : this(new EmailProvider(), new EventProvider())
         {
         }
 
@@ -34,6 +37,9 @@
         public void EmailRead(EmailReadModel model)
         {
             emailProvider.EmailRead(model);
+
+            EventModel eventModel = new EventModel(model.Guid, Event.EmailRead);
+            eventProvider.InsertEvent(eventModel);
         }
 
         /// <summary>
@@ -43,6 +49,9 @@
         public void EmailSent(EmailSentModel model)
         {
             emailProvider.EmailSent(model);
+
+            EventModel eventModel = new EventModel(model.Guid, Event.EmailSent);
+            eventProvider.InsertEvent(eventModel);
         }
     }
 }

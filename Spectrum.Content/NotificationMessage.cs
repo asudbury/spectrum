@@ -1,6 +1,6 @@
 ﻿namespace Spectrum.Content
 {
-    using Model;
+    using Model.Correspondence;
     using TinyMessenger;
 
     /// <summary>

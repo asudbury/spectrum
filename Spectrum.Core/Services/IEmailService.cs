@@ -1,6 +1,6 @@
 ﻿namespace Spectrum.Core.Services
 {
-    using Model;
+    using Model.Correspondence;
 
     /// <summary>
     /// The EmailService interface.

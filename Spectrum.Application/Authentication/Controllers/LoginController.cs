@@ -1,29 +1,25 @@
 ﻿namespace Spectrum.Application.Authentication.Controllers
 {
-    using Model;
-    using Providers;
+    using Correspondence.Controllers;
+    using Correspondence.Providers;
+    using Model.Correspondence;
 
-    public class LoginController
+    public class LoginController : EventController
     {
-        /// <summary>
-        /// The login provider.
-        /// </summary>
-        private readonly ILoginProvider loginProvider;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="LoginController" /> class.
         /// </summary>
         /// <param name="loginProvider">The login provider.</param>
-        public LoginController(ILoginProvider loginProvider)
+        public LoginController(IEventProvider eventProvider)
+            : base(eventProvider)
         {
-            this.loginProvider = loginProvider;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LoginController"/> class.
         /// </summary>
         public LoginController()
-            : this(new LoginProvider())
+            : this(new EventProvider())
         {
         }
 
@@ -33,7 +29,8 @@
         /// <param name="model">The model.</param>
         public void LoginComplete(NotificationModel model)
         {
-            loginProvider.LoginComplete(model);
+            EventModel eventModel = new EventModel(model.Guid, Event.LoginComplete);
+            eventProvider.InsertEvent(eventModel);
         }
 
         /// <summary>
@@ -42,7 +39,8 @@
         /// <param name="model">The model.</param>
         public void LoginFailed(NotificationModel model)
         {
-            loginProvider.LoginFailed(model);
+            EventModel eventModel = new EventModel(model.Guid, Event.LoginFailed);
+            eventProvider.InsertEvent(eventModel);
         }
     }
 }

@@ -1,16 +1,15 @@
-﻿namespace Spectrum.Application.Registration.Repositories
+﻿namespace Spectrum.Application.Correspondence.Repositories
 {
-    using Model.Registration;
+    using Model.Correspondence;
     using NPoco;
 
-    internal class RegistrationRepository : IRegistrationRepository
+    internal class EventRepository : IEventRepository
     {
         /// <summary>
-        /// The user has been registered.
-        /// Here we need to create the user in the database.
+        /// Inserts the event.
         /// </summary>
         /// <param name="model">The model.</param>
-        public void UserRegistered(RegisterModel model)
+        void IEventRepository.InsertEvent(EventModel model)
         {
             //// TODO : we want to read the connection string from web/app.config at some point
             IDatabase db = new Database("connStringName");

@@ -1,25 +1,26 @@
 ﻿namespace Spectrum.Application.Authentication.Controllers
 {
-    using Model;
-    using Providers;
+    using Correspondence.Controllers;
+    using Correspondence.Providers;
+    using Model.Correspondence;
 
-    public class PasswordController
+    public class PasswordController : EventController
     {
-        /// <summary>
-        /// The password provider.
-        /// </summary>
-        private readonly IPasswordProvider passwordProvider;
-
-        public PasswordController(IPasswordProvider passwordProvider)
-        {
-            this.passwordProvider = passwordProvider;
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="PasswordController"/> class.
         /// </summary>
+        /// <param name="passwordProvider">The password provider.</param>
+        /// <param name="eventProvider">The event provider.</param>
+        public PasswordController(IEventProvider eventProvider)
+            :base(eventProvider)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PasswordController" /> class.
+        /// </summary>
         public PasswordController()
-            : this(new PasswordProvider())
+            : this(new EventProvider())
         {
             
         }
@@ -29,7 +30,8 @@
         /// <param name="model">The model.</param>
         public void ResetRequested(NotificationModel model)
         {
-            passwordProvider.ResetRequested(model);
+            EventModel eventModel = new EventModel(model.Guid, Event.PasswordResetRequested);
+            eventProvider.InsertEvent(eventModel);
         }
 
         /// <summary>
@@ -38,7 +40,8 @@
         /// <param name="model">The model.</param>
         public void ResetCompleted(NotificationModel model)
         {
-            passwordProvider.ResetRequested(model);    
+            EventModel eventModel = new EventModel(model.Guid, Event.PasswordResetCompleted);
+            eventProvider.InsertEvent(eventModel);
         }
     }
 }
