@@ -20,6 +20,11 @@
         public Event Event { get; }
 
         /// <summary>
+        /// Gets the date time.
+        /// </summary>
+        public DateTime DateTime { get; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="EventModel" /> class.
         /// </summary>
         /// <param name="guid">The identifier.</param>
@@ -30,6 +35,23 @@
         {
             Guid = guid;
             Event = userEvent;
+            DateTime = DateTime.Now;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EventModel" /> class.
+        /// </summary>
+        /// <param name="guid">The identifier.</param>
+        /// <param name="userEvent">The user event.</param>
+        /// <param name="dateTime">The date time.</param>
+        public EventModel(
+            Guid guid,
+            Event userEvent,
+            DateTime dateTime)
+        {
+            Guid = guid;
+            Event = userEvent;
+            DateTime = dateTime;
         }
     }
 }
