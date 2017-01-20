@@ -7,7 +7,7 @@
     /// The RegisterModel class.
     /// </summary>
     [TableName("User")]
-    [PrimaryKey("Guid")]
+    [PrimaryKey("Guid", AutoIncrement = false)]
     public class RegisterModel
     {
         /// <summary>
