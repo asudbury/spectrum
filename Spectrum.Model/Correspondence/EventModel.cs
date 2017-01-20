@@ -32,10 +32,8 @@
         public EventModel(
             Guid guid,
             Event userEvent)
+            : this(guid, userEvent, DateTime.Now)
         {
-            Guid = guid;
-            Event = userEvent;
-            DateTime = DateTime.Now;
         }
 
         /// <summary>
