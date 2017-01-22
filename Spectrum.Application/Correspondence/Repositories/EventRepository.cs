@@ -12,7 +12,7 @@
         void IEventRepository.InsertEvent(EventModel model)
         {
             //// TODO : we want to read the connection string from web/app.config at some point
-            IDatabase db = new Database("connStringName");
+            IDatabase db = new Database("Spectrum");
             db.Insert(model);
         }
     }

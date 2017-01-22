@@ -18,7 +18,9 @@
         static void Main(string[] args)
         {
             //// change this to execute a different scenario!
-            Event eventType = Event.UserRegistered;
+            //Event eventType = Event.UserRegistered;
+
+            Event eventType = Event.UserVerified;
 
             switch (eventType)
             {
