@@ -41,8 +41,11 @@
         public void UserRegistered(RegisterModel model)
         {
             registrationProvider.UserRegistered(model);
+
+            EventModel eventModel = new EventModel(model.Guid, Event.UserRegistered);
+            eventProvider.InsertEvent(eventModel);
         }
-        
+
         /// <summary>
         /// USer has been verified.
         /// </summary>
