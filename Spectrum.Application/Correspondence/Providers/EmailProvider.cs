@@ -1,6 +1,7 @@
 ﻿
 namespace Spectrum.Application.Correspondence.Providers
 {
+    using Core.Services;
     using Model.Correspondence;
     using Repositories;
 
@@ -27,7 +28,7 @@ namespace Spectrum.Application.Correspondence.Providers
         /// Initializes a new instance of the <see cref="EmailProvider"/> class.
         /// </summary>
         internal EmailProvider()
-            : this(new EmailRepository())
+            : this(new EmailRepository(new DatabaseService()))
         {
         }
 

@@ -1,6 +1,7 @@
 ﻿
 namespace Spectrum.Application.Correspondence.Providers
 {
+    using Core.Services;
     using Model.Correspondence;
     using Repositories;
 
@@ -27,7 +28,7 @@ namespace Spectrum.Application.Correspondence.Providers
         /// Initializes a new instance of the <see cref="EventProvider"/> class.
         /// </summary>
         internal EventProvider()
-            : this(new EventRepository())
+            : this(new EventRepository(new DatabaseService()))
         {
         }
 
@@ -37,7 +38,7 @@ namespace Spectrum.Application.Correspondence.Providers
         /// <param name="model">The model.</param>
         public void InsertEvent(EventModel model)
         {
-            this.eventRepository.InsertEvent(model);
+            eventRepository.InsertEvent(model);
         }
     }
 }

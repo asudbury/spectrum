@@ -1,5 +1,6 @@
 ﻿namespace Spectrum.Application.Registration.Providers
 {
+    using Core.Services;
     using Model.Registration;
     using Repositories;
 
@@ -27,7 +28,7 @@
         /// Initializes a new instance of the <see cref="RegistrationProvider"/> class.
         /// </summary>
         internal RegistrationProvider()
-            : this(new RegistrationRepository())
+            : this(new RegistrationRepository(new DatabaseService()))
         {
         }
 
