@@ -45,6 +45,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Spectrum", "Spectrum", "{A2
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Umbraco", "Umbraco", "{3371A59B-39AE-4B64-B2D4-4C9AE674EEBC}"
 	ProjectSection(SolutionItems) = preProject
+		AdminPasswordReset.txt = AdminPasswordReset.txt
 		DevOps\Scripts\Umbraco\DefaultWebConfig.txt = DevOps\Scripts\Umbraco\DefaultWebConfig.txt
 	EndProjectSection
 EndProject
