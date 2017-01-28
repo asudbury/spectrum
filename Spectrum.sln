@@ -54,6 +54,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{43
 		DevOps\Scripts\Spectrum\Database\ReadMe.txt = DevOps\Scripts\Spectrum\Database\ReadMe.txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{530F0C5D-DADA-4935-B7CC-EAAC9B8579E5}"
+	ProjectSection(SolutionItems) = preProject
+		DevOps\Database\Spectrum\Scripts\Script0001-Create User.sql = DevOps\Database\Spectrum\Scripts\Script0001-Create User.sql
+		DevOps\Database\Spectrum\Scripts\Script0002-Create Event.sql = DevOps\Database\Spectrum\Scripts\Script0002-Create Event.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -118,5 +124,6 @@ Global
 		{A2BC0AB1-47F1-41D2-9C4F-A8D88DB37EAE} = {F4E04EEC-CE94-47B7-9253-8C03195F48E2}
 		{3371A59B-39AE-4B64-B2D4-4C9AE674EEBC} = {F4E04EEC-CE94-47B7-9253-8C03195F48E2}
 		{43F75644-EBB2-4097-97A8-3C4B462F140F} = {A2BC0AB1-47F1-41D2-9C4F-A8D88DB37EAE}
+		{530F0C5D-DADA-4935-B7CC-EAAC9B8579E5} = {43F75644-EBB2-4097-97A8-3C4B462F140F}
 	EndGlobalSection
 EndGlobal
