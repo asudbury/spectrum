@@ -72,7 +72,7 @@
     <Compile Include="Customer\Providers\CustomerProvider.cs" />
     <Compile Include="Customer\Repositories\ICustomerRepository.cs" />
     <Compile Include="Customer\Repositories\CustomerRepository.cs" />
-    <Compile Include="DbUp\buildRegistration.cs">
+    <Compile Include="DbUp\RegistrationDatabase.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

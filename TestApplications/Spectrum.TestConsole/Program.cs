@@ -1,5 +1,6 @@
 ﻿namespace Spectrum.TestConsole
 {
+    using Application.DbUp;
     using Application.Authentication.Controllers;
     using Application.Correspondence.Controllers;
     using Application.Customer.Controllers;
@@ -8,7 +9,6 @@
     using Model.Correspondence;
     using Model.Customer;
     using System;
-    using Application.Database;
 
     class Program
     {
@@ -22,8 +22,8 @@
             //Event eventType = Event.UserRegistered;
             //Event eventType = Event.UserVerified;
 
-            RegistrationDb registrationDb = new RegistrationDb();
-            registrationDb.Upgrade();
+            RegistrationDatabase registrationDatabase = new RegistrationDatabase();
+            registrationDatabase.Update();
 
             Event eventType = Event.UserRegistered;
 
