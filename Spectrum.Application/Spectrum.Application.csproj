@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DbUp, Version=3.3.5.0, Culture=neutral, PublicKeyToken=4b419c53bdfd4cbf, processorArchitecture=MSIL">
+      <HintPath>..\packages\dbup.3.3.5\lib\net35\DbUp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NPoco, Version=3.4.8.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NPoco.3.4.8\lib\net45\NPoco.dll</HintPath>
       <Private>True</Private>
@@ -68,6 +72,9 @@
     <Compile Include="Customer\Providers\CustomerProvider.cs" />
     <Compile Include="Customer\Repositories\ICustomerRepository.cs" />
     <Compile Include="Customer\Repositories\CustomerRepository.cs" />
+    <Compile Include="DbUp\buildRegistration.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Registration\Controllers\RegistrationController.cs" />
     <Compile Include="Registration\Providers\IRegistrationProvider.cs" />

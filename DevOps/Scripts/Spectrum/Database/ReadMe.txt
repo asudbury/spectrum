@@ -1,1 +1,0 @@
-This directory should contain scripts for setting up the database.

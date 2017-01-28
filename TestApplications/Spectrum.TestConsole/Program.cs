@@ -8,6 +8,7 @@
     using Model.Correspondence;
     using Model.Customer;
     using System;
+    using Application.Database;
 
     class Program
     {
@@ -19,8 +20,12 @@
         {
             //// change this to execute a different scenario!
             //Event eventType = Event.UserRegistered;
+            //Event eventType = Event.UserVerified;
 
-            Event eventType = Event.UserVerified;
+            RegistrationDb registrationDb = new RegistrationDb();
+            registrationDb.Upgrade();
+
+            Event eventType = Event.UserRegistered;
 
             switch (eventType)
             {

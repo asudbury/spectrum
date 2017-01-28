@@ -34,23 +34,24 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.Content.Tests", "U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.ShowCase", "TestApplications\Spectrum.ShowCase\Spectrum.ShowCase.csproj", "{E5B20FA4-5897-46E5-9791-01630FFC486C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{F4E04EEC-CE94-47B7-9253-8C03195F48E2}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps", "DevOps", "{C5A4291A-678B-4AA8-9C54-AF2B18B39F18}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps", "DevOps", "{D4F0D67E-8A77-4C85-B83C-D29BC0DE2E97}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{14CA1464-DB69-4CF1-BFED-E48F3A065D7D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Spectrum", "Spectrum", "{A2BC0AB1-47F1-41D2-9C4F-A8D88DB37EAE}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Spectrum", "Spectrum", "{4C43F71F-E268-4BED-A40D-90B6BAD3E8B4}"
 	ProjectSection(SolutionItems) = preProject
-		DevOps\Scripts\Spectrum\Spectrum-ConnectionStrings.config = DevOps\Scripts\Spectrum\Spectrum-ConnectionStrings.config
+		DevOps\Database\Spectrum\Spectrum-ConnectionStrings.config = DevOps\Database\Spectrum\Spectrum-ConnectionStrings.config
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Umbraco", "Umbraco", "{3371A59B-39AE-4B64-B2D4-4C9AE674EEBC}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{84979720-8800-48E5-803F-578E4F14A5E3}"
 	ProjectSection(SolutionItems) = preProject
-		DevOps\Scripts\Umbraco\DefaultWebConfig.txt = DevOps\Scripts\Umbraco\DefaultWebConfig.txt
+		DevOps\Database\Spectrum\Scripts\Script0001-Create User.sql = DevOps\Database\Spectrum\Scripts\Script0001-Create User.sql
+		DevOps\Database\Spectrum\Scripts\Script0002-Create Event.sql = DevOps\Database\Spectrum\Scripts\Script0002-Create Event.sql
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{43F75644-EBB2-4097-97A8-3C4B462F140F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Umbraco", "Umbraco", "{AA0306C5-1477-4BD9-AF17-418DD04D62F0}"
 	ProjectSection(SolutionItems) = preProject
-		DevOps\Scripts\Spectrum\Database\ReadMe.txt = DevOps\Scripts\Spectrum\Database\ReadMe.txt
+		DevOps\Database\Umbraco\DefaultWebConfig.txt = DevOps\Database\Umbraco\DefaultWebConfig.txt
 	EndProjectSection
 EndProject
 Global
@@ -113,9 +114,9 @@ Global
 		{0C4A1A39-0298-445B-8D79-CFF98FCDC403} = {75BDE82F-1C8C-48D0-8CD6-1B41C405CA44}
 		{BA87CE9B-53A2-4F92-AE4A-1D22674A3C26} = {75BDE82F-1C8C-48D0-8CD6-1B41C405CA44}
 		{E5B20FA4-5897-46E5-9791-01630FFC486C} = {D8271922-E4EC-4BC4-A795-AC3F70736FFC}
-		{F4E04EEC-CE94-47B7-9253-8C03195F48E2} = {D4F0D67E-8A77-4C85-B83C-D29BC0DE2E97}
-		{A2BC0AB1-47F1-41D2-9C4F-A8D88DB37EAE} = {F4E04EEC-CE94-47B7-9253-8C03195F48E2}
-		{3371A59B-39AE-4B64-B2D4-4C9AE674EEBC} = {F4E04EEC-CE94-47B7-9253-8C03195F48E2}
-		{43F75644-EBB2-4097-97A8-3C4B462F140F} = {A2BC0AB1-47F1-41D2-9C4F-A8D88DB37EAE}
+		{14CA1464-DB69-4CF1-BFED-E48F3A065D7D} = {C5A4291A-678B-4AA8-9C54-AF2B18B39F18}
+		{4C43F71F-E268-4BED-A40D-90B6BAD3E8B4} = {14CA1464-DB69-4CF1-BFED-E48F3A065D7D}
+		{84979720-8800-48E5-803F-578E4F14A5E3} = {4C43F71F-E268-4BED-A40D-90B6BAD3E8B4}
+		{AA0306C5-1477-4BD9-AF17-418DD04D62F0} = {14CA1464-DB69-4CF1-BFED-E48F3A065D7D}
 	EndGlobalSection
 EndGlobal
