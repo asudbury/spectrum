@@ -8,15 +8,15 @@
         /// <summary>
         /// The event provider.
         /// </summary>
-        protected readonly IEventProvider eventProvider;
+        protected readonly IEventProvider EventProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EventController" /> class.
         /// </summary>
-        /// <param name="emailProvider">The email provider.</param>
+        /// <param name="eventProvider">The event provider.</param>
         public EventController(IEventProvider eventProvider)
         {
-            this.eventProvider = eventProvider;
+            EventProvider = eventProvider;
         }
 
         /// <summary>
@@ -25,7 +25,7 @@
         /// <param name="model">The model.</param>
         public void InsertEvent(EventModel model)
         {
-            eventProvider.InsertEvent(model);
+            EventProvider.InsertEvent(model);
         }
     }
 }

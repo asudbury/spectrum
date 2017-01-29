@@ -2,12 +2,18 @@
 {
     using Correspondence.Controllers;
     using Correspondence.Providers;
+    using Core.Services;
     using Model.Correspondence;
     using Model.Customer;
     using Providers;
 
     public class CustomerController : EventController
     {
+        /// <summary>
+        /// The settings service.
+        /// </summary>
+        private readonly ISettingsService settingsService;
+
         /// <summary>
         /// The customer provider.
         /// </summary>
@@ -16,12 +22,16 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="CustomerController" /> class.
         /// </summary>
+        /// <param name="settingsService">The settings service.</param>
         /// <param name="customerProvider">The customer provider.</param>
+        /// <param name="eventProvider">The event provider.</param>
         public CustomerController(
+            ISettingsService settingsService,
             ICustomerProvider customerProvider,
             IEventProvider eventProvider)
             :base(eventProvider)
         {
+            this.settingsService = settingsService;
             this.customerProvider = customerProvider;
         }
 
@@ -29,7 +39,7 @@
         /// Initializes a new instance of the <see cref="CustomerController"/> class.
         /// </summary>
         public CustomerController()
-            : this(new CustomerProvider(), new EventProvider())
+            : this(new SettingsService(), new CustomerProvider(), new EventProvider())
         {
         }
 
@@ -39,10 +49,13 @@
         /// <param name="model">The model.</param>
         public void EmailAddressUpdated(UpdateEmailAddressModel model)
         {
-            customerProvider.EmailAddressUpdated(model);
+            if (settingsService.IsCustomerEnabled)
+            { 
+                customerProvider.EmailAddressUpdated(model);
 
-            EventModel eventModel = new EventModel(model.Guid, Event.CustomerEmailAddressUpdated);
-            eventProvider.InsertEvent(eventModel);
+                EventModel eventModel = new EventModel(model.Guid, Event.CustomerEmailAddressUpdated);
+                EventProvider.InsertEvent(eventModel);
+            }
         }
 
         /// <summary>
@@ -51,10 +64,14 @@
         /// <param name="model">The model.</param>
         public void NameUpdated(UpdateNameModel model)
         {
-            customerProvider.NameUpdated(model);
+            if (settingsService.IsCustomerEnabled)
+            {
+                customerProvider.NameUpdated(model);
 
-            EventModel eventModel = new EventModel(model.Guid, Event.CustomerNameUpdated);
-            eventProvider.InsertEvent(eventModel);
+                EventModel eventModel = new EventModel(model.Guid, Event.CustomerNameUpdated);
+                EventProvider.InsertEvent(eventModel);
+            }
         }
     }
 }
+

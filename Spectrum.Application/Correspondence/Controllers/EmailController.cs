@@ -1,10 +1,16 @@
 ﻿namespace Spectrum.Application.Correspondence.Controllers
 {
+    using Core.Services;
     using Model.Correspondence;
     using Providers;
 
     public class EmailController : EventController
     {
+        /// <summary>
+        /// The settings service.
+        /// </summary>
+        private readonly ISettingsService settingsService;
+
         /// <summary>
         /// The email provider.
         /// </summary>
@@ -13,12 +19,16 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="EmailController" /> class.
         /// </summary>
+        /// <param name="settingsService">The settings service.</param>
         /// <param name="emailProvider">The email provider.</param>
+        /// <param name="eventProvider">The event provider.</param>
         public EmailController(
+            ISettingsService settingsService,
             IEmailProvider emailProvider,
             IEventProvider eventProvider)
             :base(eventProvider)
         {
+            this.settingsService = settingsService;
             this.emailProvider = emailProvider;
         }
 
@@ -26,7 +36,7 @@
         /// Initializes a new instance of the <see cref="EmailController"/> class.
         /// </summary>
         public EmailController()
-            : this(new EmailProvider(), new EventProvider())
+            : this(new SettingsService(), new EmailProvider(), new EventProvider())
         {
         }
 
@@ -36,10 +46,13 @@
         /// <param name="model">The model.</param>
         public void EmailRead(EmailReadModel model)
         {
-            emailProvider.EmailRead(model);
+            if (settingsService.IsCorrespondenceEnabled)
+            {
+                emailProvider.EmailRead(model);
 
-            EventModel eventModel = new EventModel(model.Guid, Event.EmailRead);
-            eventProvider.InsertEvent(eventModel);
+                EventModel eventModel = new EventModel(model.Guid, Event.EmailRead);
+                EventProvider.InsertEvent(eventModel);
+            }
         }
 
         /// <summary>
@@ -48,10 +61,13 @@
         /// <param name="model">The model.</param>
         public void EmailSent(EmailSentModel model)
         {
-            emailProvider.EmailSent(model);
+            if (settingsService.IsCorrespondenceEnabled)
+            {
+                emailProvider.EmailSent(model);
 
-            EventModel eventModel = new EventModel(model.Guid, Event.EmailSent);
-            eventProvider.InsertEvent(eventModel);
+                EventModel eventModel = new EventModel(model.Guid, Event.EmailSent);
+                EventProvider.InsertEvent(eventModel);
+            }
         }
     }
 }

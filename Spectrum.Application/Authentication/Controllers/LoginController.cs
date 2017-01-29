@@ -1,5 +1,6 @@
 ﻿namespace Spectrum.Application.Authentication.Controllers
 {
+    using Core.Services;
     using Correspondence.Controllers;
     using Correspondence.Providers;
     using Model.Correspondence;
@@ -7,19 +8,28 @@
     public class LoginController : EventController
     {
         /// <summary>
+        /// The settings service.
+        /// </summary>
+        private readonly ISettingsService settingsService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="LoginController" /> class.
         /// </summary>
-        /// <param name="loginProvider">The login provider.</param>
-        public LoginController(IEventProvider eventProvider)
+        /// <param name="settingsService">The settings service.</param>
+        /// <param name="eventProvider">The event provider.</param>
+        public LoginController(
+            ISettingsService settingsService,
+            IEventProvider eventProvider)
             : base(eventProvider)
         {
+            this.settingsService = settingsService;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LoginController"/> class.
         /// </summary>
         public LoginController()
-            : this(new EventProvider())
+            : this(new SettingsService(), new EventProvider())
         {
         }
 
@@ -29,8 +39,11 @@
         /// <param name="model">The model.</param>
         public void LoginComplete(NotificationModel model)
         {
-            EventModel eventModel = new EventModel(model.Guid, Event.LoginComplete);
-            eventProvider.InsertEvent(eventModel);
+            if (settingsService.IsAuthenticationEnabled)
+            {
+                EventModel eventModel = new EventModel(model.Guid, Event.LoginComplete);
+                EventProvider.InsertEvent(eventModel);
+            }
         }
 
         /// <summary>
@@ -39,8 +52,11 @@
         /// <param name="model">The model.</param>
         public void LoginFailed(NotificationModel model)
         {
-            EventModel eventModel = new EventModel(model.Guid, Event.LoginFailed);
-            eventProvider.InsertEvent(eventModel);
+            if (settingsService.IsAuthenticationEnabled)
+            {
+                EventModel eventModel = new EventModel(model.Guid, Event.LoginFailed);
+                EventProvider.InsertEvent(eventModel);
+            }
         }
     }
 }

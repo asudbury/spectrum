@@ -1,39 +1,7 @@
 ﻿namespace Spectrum.Core.Services
 {
-    using System.Configuration;
-
     public class DatabaseService : IDatabaseService
     {
-        /// <summary>
-        /// The appointments key.
-        /// </summary>
-        private const string AppointmentsKey = "Spectrum-Appointments";
-
-        /// <summary>
-        /// The authentication key.
-        /// </summary>
-        private const string AuthenticationKey = "Spectrum-Authentication";
-
-        /// <summary>
-        /// The correspondence key.
-        /// </summary>
-        private const string CorrespondenceKey = "Spectrum-Correspondence";
-
-        /// <summary>
-        /// The customer key.
-        /// </summary>
-        private const string CustomerKey = "Spectrum-Customer";
-
-        /// <summary>
-        /// The payments key.
-        /// </summary>
-        private const string PaymentsKey = "Spectrum-Payments";
-
-        /// <summary>
-        /// The registration key.
-        /// </summary>
-        private const string RegistrationKey = "Spectrum-Registration";
-
         /// <summary>
         /// Gets the connection string.
         /// </summary>
@@ -49,49 +17,31 @@
         /// <summary>
         /// Gets the appointments connection string.
         /// </summary>
-        public string AppointmentsConnectionString
-        {
-            get { return GetConnectionString(AppointmentsKey); }
-        }
+        public string AppointmentsConnectionString => GetConnectionString(Constants.AppointmentsKey);
 
         /// <summary>
         /// Gets the authentication connection string.
         /// </summary>
-        public string AuthenticationConnectionString
-        {
-            get { return GetConnectionString(AuthenticationKey); }
-        }
+        public string AuthenticationConnectionString => GetConnectionString(Constants.AuthenticationKey);
 
         /// <summary>
         /// Gets the correspondence connection string.
         /// </summary>
-        public string CorrespondenceConnectionString
-        {
-            get { return GetConnectionString(CorrespondenceKey); }
-        }
+        public string CorrespondenceConnectionString => GetConnectionString(Constants.CorrespondenceKey);
 
         /// <summary>
         /// Gets the customer connection string.
         /// </summary>
-        public string CustomerConnectionString
-        {
-            get { return GetConnectionString(CustomerKey); }
-        }
+        public string CustomerConnectionString => GetConnectionString(Constants.CustomerKey);
 
         /// <summary>
         /// Gets the payments connection string.
         /// </summary>
-        public string PaymentsConnectionString
-        {
-            get { return GetConnectionString(PaymentsKey); }
-        }
+        public string PaymentsConnectionString => GetConnectionString(Constants.PaymentsKey);
 
         /// <summary>
         /// Gets the registration connection string.
         /// </summary>
-        public string RegistrationConnectionString
-        {
-            get { return GetConnectionString(RegistrationKey); }
-        }
+        public string RegistrationConnectionString => GetConnectionString(Constants.RegistrationKey);
     }
 }
