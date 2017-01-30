@@ -34,31 +34,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.Content.Tests", "U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.ShowCase", "TestApplications\Spectrum.ShowCase\Spectrum.ShowCase.csproj", "{E5B20FA4-5897-46E5-9791-01630FFC486C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{F4E04EEC-CE94-47B7-9253-8C03195F48E2}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps", "DevOps", "{D4F0D67E-8A77-4C85-B83C-D29BC0DE2E97}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Spectrum", "Spectrum", "{A2BC0AB1-47F1-41D2-9C4F-A8D88DB37EAE}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Spectrum", "Spectrum", "{FE005A91-0607-46AF-82CC-0BEBDAE864A4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Umbraco", "Umbraco", "{915917FD-4C3A-49C4-9ADF-8EF909F7B2FB}"
 	ProjectSection(SolutionItems) = preProject
-		TestApplications\Spectrum.TestConsole\App_Config\Spectrum-ConnectionStrings.config = TestApplications\Spectrum.TestConsole\App_Config\Spectrum-ConnectionStrings.config
-		TestApplications\Spectrum.TestConsole\App_Config\Spectrum-DatabaseScripts.config = TestApplications\Spectrum.TestConsole\App_Config\Spectrum-DatabaseScripts.config
+		DevOps\Umbraco\AdminPasswordReset.txt = DevOps\Umbraco\AdminPasswordReset.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Umbraco", "Umbraco", "{3371A59B-39AE-4B64-B2D4-4C9AE674EEBC}"
-	ProjectSection(SolutionItems) = preProject
-		AdminPasswordReset.txt = AdminPasswordReset.txt
-		DevOps\Scripts\Umbraco\DefaultWebConfig.txt = DevOps\Scripts\Umbraco\DefaultWebConfig.txt
-	EndProjectSection
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{F7454C17-5850-4F8A-9D48-3B126A2FE66B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{43F75644-EBB2-4097-97A8-3C4B462F140F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{757EF8E7-349A-4CFD-97B6-D167431FB192}"
 	ProjectSection(SolutionItems) = preProject
-		DevOps\Scripts\Spectrum\Database\ReadMe.txt = DevOps\Scripts\Spectrum\Database\ReadMe.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{530F0C5D-DADA-4935-B7CC-EAAC9B8579E5}"
-	ProjectSection(SolutionItems) = preProject
-		DevOps\Database\Spectrum\Scripts\Script0001-Create User.sql = DevOps\Database\Spectrum\Scripts\Script0001-Create User.sql
-		DevOps\Database\Spectrum\Scripts\Script0002-Create Event.sql = DevOps\Database\Spectrum\Scripts\Script0002-Create Event.sql
+		DevOps\Spectrum\Database\Scripts\Script0001-Create User.sql = DevOps\Spectrum\Database\Scripts\Script0001-Create User.sql
+		DevOps\Spectrum\Database\Scripts\Script0002-Create Event.sql = DevOps\Spectrum\Database\Scripts\Script0002-Create Event.sql
 	EndProjectSection
 EndProject
 Global
@@ -121,10 +111,9 @@ Global
 		{0C4A1A39-0298-445B-8D79-CFF98FCDC403} = {75BDE82F-1C8C-48D0-8CD6-1B41C405CA44}
 		{BA87CE9B-53A2-4F92-AE4A-1D22674A3C26} = {75BDE82F-1C8C-48D0-8CD6-1B41C405CA44}
 		{E5B20FA4-5897-46E5-9791-01630FFC486C} = {D8271922-E4EC-4BC4-A795-AC3F70736FFC}
-		{F4E04EEC-CE94-47B7-9253-8C03195F48E2} = {D4F0D67E-8A77-4C85-B83C-D29BC0DE2E97}
-		{A2BC0AB1-47F1-41D2-9C4F-A8D88DB37EAE} = {F4E04EEC-CE94-47B7-9253-8C03195F48E2}
-		{3371A59B-39AE-4B64-B2D4-4C9AE674EEBC} = {F4E04EEC-CE94-47B7-9253-8C03195F48E2}
-		{43F75644-EBB2-4097-97A8-3C4B462F140F} = {A2BC0AB1-47F1-41D2-9C4F-A8D88DB37EAE}
-		{530F0C5D-DADA-4935-B7CC-EAAC9B8579E5} = {43F75644-EBB2-4097-97A8-3C4B462F140F}
+		{FE005A91-0607-46AF-82CC-0BEBDAE864A4} = {D4F0D67E-8A77-4C85-B83C-D29BC0DE2E97}
+		{915917FD-4C3A-49C4-9ADF-8EF909F7B2FB} = {D4F0D67E-8A77-4C85-B83C-D29BC0DE2E97}
+		{F7454C17-5850-4F8A-9D48-3B126A2FE66B} = {FE005A91-0607-46AF-82CC-0BEBDAE864A4}
+		{757EF8E7-349A-4CFD-97B6-D167431FB192} = {F7454C17-5850-4F8A-9D48-3B126A2FE66B}
 	EndGlobalSection
 EndGlobal
