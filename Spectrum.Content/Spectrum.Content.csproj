@@ -297,6 +297,7 @@
     <Compile Include="Registration\Controllers\RegistrationController.cs" />
     <Compile Include="Registration\Handlers\VerificationHandler.cs" />
     <Compile Include="Registration\Handlers\RegistrationHandler.cs" />
+    <Compile Include="Registration\Models\UserVerificationCompleteMessage.cs" />
     <Compile Include="Registration\Models\RegistrationCompleteMessage.cs" />
     <Compile Include="Registration\Models\RegisteredUser.cs" />
     <Compile Include="Registration\Providers\IRegistrationProvider.cs" />
@@ -315,9 +316,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Authentication\Models\" />
-    <Folder Include="Views\Partials\Appointments\" />
-    <Folder Include="Views\Partials\Authentication\" />
-    <Folder Include="Views\Partials\Payments\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Spectrum.Application\Spectrum.Application.csproj">
@@ -334,12 +332,12 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="Views\Partials\Registration\Register.cshtml" />
+    <Content Include="Views\Partials\Register.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets')" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(ProjectDir)Views\*" "$(SolutionDir)\Spectrum.Umbraco\Views"</PostBuildEvent>
+    <PostBuildEvent>copy $(ProjectDir)Views\Partials\* $(SolutionDir)Spectrum.Umbraco\Views\Partials"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

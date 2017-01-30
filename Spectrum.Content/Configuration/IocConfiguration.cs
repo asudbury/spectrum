@@ -37,6 +37,7 @@
             ITinyMessengerHub messengerHub = GetContainer().Resolve<ITinyMessengerHub>();
 
             messengerHub.Subscribe<RegistrationCompleteMessage>(m => { new RegistrationHandler().Handle(m); });
+            messengerHub.Subscribe<UserVerificationCompleteMessage>(m => { new VerificationHandler().Handle(m); });
         }
 
         /// <summary>

@@ -1,15 +1,13 @@
-﻿using Umbraco.Core.Services;
-using Umbraco.Web;
-
-namespace Spectrum.Content.Registration.Providers
+﻿namespace Spectrum.Content.Registration.Providers
 {
     using Model.Registration;
     using Models;
-    using Services;
+    using Model.Correspondence;
     using System;
     using ViewModels;
     using TinyMessenger;
     using Umbraco.Core.Models;
+    using Umbraco.Core.Services;
 
     /// <summary>
     /// The RegistrationProvider class.
@@ -20,7 +18,7 @@ namespace Spectrum.Content.Registration.Providers
         /// <summary>
         /// The user service.
         /// </summary>
-        private readonly IUserService userService;
+        private readonly Services.IUserService userService;
 
         /// <summary>
         /// The tiny messenger hub.
@@ -36,7 +34,7 @@ namespace Spectrum.Content.Registration.Providers
         /// Initializes a new instance of the <see cref="RegistrationProvider"/> class.
         /// </summary>
         internal RegistrationProvider() 
-            : this(new UserService(), 
+            : this(new Services.UserService(), 
               TinyIoC.TinyIoCContainer.Current.Resolve<ITinyMessengerHub>())
         {
         }
@@ -47,7 +45,7 @@ namespace Spectrum.Content.Registration.Providers
         /// <param name="userService">The user service.</param>
         /// <param name="tinyMessengerHub"></param>
         internal RegistrationProvider(
-            IUserService userService,
+            Services.IUserService userService,
             ITinyMessengerHub tinyMessengerHub)
         {
             this.userService = userService;
@@ -104,6 +102,12 @@ namespace Spectrum.Content.Registration.Providers
         /// <returns>True or False.</returns>
         public bool VerifyUser(VerifyUserViewModel viewModel)
         {
+            //// TODO : we need to extract the guid from the token
+            
+            NotificationModel model = new NotificationModel(new Guid());
+
+            tinyMessengerHub.Publish(new UserVerificationCompleteMessage(this, model));
+
             return true;
         }
     }
