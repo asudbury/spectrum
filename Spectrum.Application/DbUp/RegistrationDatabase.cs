@@ -5,6 +5,8 @@ using Spectrum.Core.Services;
 namespace Spectrum.Application.DbUp
 {
     using System.Configuration;
+    using Model.Correspondence;
+    using NPoco;
 
     public class RegistrationDatabase
     {
@@ -49,6 +51,23 @@ namespace Spectrum.Application.DbUp
                                         .Build();
 
             DatabaseUpgradeResult result = upgrader.PerformUpgrade();
+
+            //Bootstrap registration static data
+            using (IDatabase db = new Database(databaseService.RegistrationConnectionString))
+            {
+                foreach (Event EventModel in Event.GetValues(typeof(Event)))
+                {
+                    string EventDescription = EventModel.ToString();
+
+                    EventTypeModel eventTypeModel = new EventTypeModel(EventModel, EventDescription);
+
+                    // Does this static data item exist.
+                    if (db.IsNew(eventTypeModel))
+                    {
+                        db.Insert(eventTypeModel);
+                    }
+                }
+            }
         }
     }
 }

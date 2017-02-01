@@ -22,6 +22,8 @@
             //Event eventType = Event.UserRegistered;
             //Event eventType = Event.UserVerified;
 
+            //Call bootstrap database
+
             RegistrationDatabase registrationDatabase = new RegistrationDatabase();
             registrationDatabase.Update();
 

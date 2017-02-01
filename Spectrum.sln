@@ -48,7 +48,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{757EF8E7-349A-4CFD-97B6-D167431FB192}"
 	ProjectSection(SolutionItems) = preProject
 		DevOps\Spectrum\Database\Scripts\Script0001-Create User.sql = DevOps\Spectrum\Database\Scripts\Script0001-Create User.sql
-		DevOps\Spectrum\Database\Scripts\Script0002-Create Event.sql = DevOps\Spectrum\Database\Scripts\Script0002-Create Event.sql
+		DevOps\Spectrum\Database\Scripts\Script0002-Create EventType.sql = DevOps\Spectrum\Database\Scripts\Script0002-Create EventType.sql
+		DevOps\Spectrum\Database\Scripts\Script0003-Create Event.sql = DevOps\Spectrum\Database\Scripts\Script0003-Create Event.sql
 	EndProjectSection
 EndProject
 Global
