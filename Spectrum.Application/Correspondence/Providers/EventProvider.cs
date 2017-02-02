@@ -13,15 +13,15 @@ namespace Spectrum.Application.Correspondence.Providers
         /// <summary>
         /// The event repository.
         /// </summary>
-        protected readonly IEventRepository eventRepository;
+        protected readonly IEventRepository EventRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EventProvider" /> class.
         /// </summary>
-        /// <param name="emailRepository">The event repository.</param>
+        /// <param name="eventRepository">The event repository.</param>
         internal EventProvider(IEventRepository eventRepository)
         {
-            this.eventRepository = eventRepository;
+            this.EventRepository = eventRepository;
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace Spectrum.Application.Correspondence.Providers
         /// <param name="model">The model.</param>
         public void InsertEvent(EventModel model)
         {
-            eventRepository.InsertEvent(model);
+            EventRepository.InsertEvent(model);
         }
     }
 }

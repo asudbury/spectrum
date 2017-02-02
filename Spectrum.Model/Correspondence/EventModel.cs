@@ -25,12 +25,12 @@
         public DateTime DateTime { get; }
 
         /// <summary>
-        /// Gets Description.
+        /// Gets the Description.
         /// </summary>
         public string Description { get; }
 
         /// <summary>
-        /// Gets Text.
+        /// Gets the Text.
         /// </summary>
         public string Text { get; }
 
@@ -42,7 +42,7 @@
         public EventModel(
             Guid guid,
             Event userEvent)
-            : this(guid, userEvent, "", "", DateTime.Now)
+            : this(guid, userEvent, string.Empty, string.Empty, DateTime.Now)
         {
         }
 
@@ -56,8 +56,8 @@
         public EventModel(
             Guid guid,
             Event userEvent,
-            String description,
-            String text)
+            string description,
+            string text)
             : this(guid, userEvent, description, text, DateTime.Now)
         {
         }
@@ -67,12 +67,14 @@
         /// </summary>
         /// <param name="guid">The identifier.</param>
         /// <param name="userEvent">The user event.</param>
+        /// <param name="description">The description.</param>
+        /// <param name="text">The text.</param>
         /// <param name="dateTime">The date time.</param>
         public EventModel(
             Guid guid,
             Event userEvent,
-            String description,
-            String text,
+            string description,
+            string text,
             DateTime dateTime)
         {
             Guid = guid;
