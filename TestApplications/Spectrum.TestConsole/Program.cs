@@ -1,4 +1,6 @@
-﻿namespace Spectrum.TestConsole
+﻿using Spectrum.Core.Services;
+
+namespace Spectrum.TestConsole
 {
     using Application.DbUp;
     using Application.Authentication.Controllers;
@@ -22,10 +24,15 @@
             //Event eventType = Event.UserRegistered;
             //Event eventType = Event.UserVerified;
 
+            SettingsService settingsService = new SettingsService();
+
             //Call bootstrap database
 
-            RegistrationDatabase registrationDatabase = new RegistrationDatabase();
-            registrationDatabase.Update();
+            if (settingsService.CreateSpectrumDatabase)
+            {
+                RegistrationDatabase registrationDatabase = new RegistrationDatabase();
+                registrationDatabase.Update();
+            }
 
             Event eventType = Event.UserRegistered;
 

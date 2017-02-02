@@ -2,6 +2,10 @@
 {
     public interface ISettingsService
     {
+        /// <summary>
+        /// Gets a value indicating whether [create spectrum database].
+        /// </summary>
+        bool CreateSpectrumDatabase { get;  }
 
         /// <summary>
         /// Gets a value indicating whether this instance is appointments enabled.

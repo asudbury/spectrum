@@ -9,6 +9,11 @@ namespace Spectrum.Core
         public const string SpectrumConfigSectionName = "Spectrum";
 
         /// <summary>
+        /// The database creation key.
+        /// </summary>
+        public const string DatabaseCreationKey = "Spectrum-Database-Creation";
+
+        /// <summary>
         /// The appointments key.
         /// </summary>
         public const string AppointmentsKey = "Spectrum-Appointments";

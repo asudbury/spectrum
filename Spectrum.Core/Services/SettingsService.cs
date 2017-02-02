@@ -11,6 +11,11 @@
         private static readonly NameValueCollection SpectrumSettings = ConfigurationManager.GetSection(Constants.SpectrumConfigSectionName) as NameValueCollection;
 
         /// <summary>
+        /// Gets a value indicating whether [create spectrum database].
+        /// </summary>
+        public bool CreateSpectrumDatabase => GetBoolSetting(Constants.DatabaseCreationKey);
+        
+        /// <summary>
         /// Gets a value indicating whether this instance is appointments enabled.
         /// </summary>
         public bool IsAppointmentsEnabled => GetBoolSetting(Constants.AppointmentsKey + Constants.EnabledKey);
