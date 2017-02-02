@@ -4,6 +4,7 @@ using Spectrum.Core.Services;
 
 namespace Spectrum.Application.DbUp
 {
+    using System;
     using System.Configuration;
     using Model.Correspondence;
     using NPoco;
@@ -50,18 +51,18 @@ namespace Spectrum.Application.DbUp
                                         .LogToConsole()
                                         .Build();
 
-            DatabaseUpgradeResult result = upgrader.PerformUpgrade();
+            upgrader.PerformUpgrade();
 
-            //Bootstrap registration static data
+            //// Bootstrap registration static data
             using (IDatabase db = new Database(databaseService.RegistrationConnectionString))
             {
-                foreach (Event EventModel in Event.GetValues(typeof(Event)))
+                foreach (Event eventModel in Enum.GetValues(typeof(Event)))
                 {
-                    string EventDescription = EventModel.ToString();
+                    string eventDescription = eventModel.ToString();
 
-                    EventTypeModel eventTypeModel = new EventTypeModel(EventModel, EventDescription);
+                    EventTypeModel eventTypeModel = new EventTypeModel(eventModel, eventDescription);
 
-                    // Does this static data item exist.
+                    //// Does this static data item exist.
                     if (db.IsNew(eventTypeModel))
                     {
                         db.Insert(eventTypeModel);
