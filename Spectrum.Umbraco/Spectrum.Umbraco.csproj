@@ -352,6 +352,7 @@
     <Content Include="Config\BaseRestExtensions.config" />
     <Content Include="Config\applications.config" />
     <Content Include="Config\404handlers.config" />
+    <None Include="Properties\PublishProfiles\AdrianTest.pubxml" />
     <None Include="Properties\PublishProfiles\DevelopPublush.pubxml" />
     <Content Include="Views\Partials\Grid\Editors\Textstring.cshtml" />
     <Content Include="Views\Partials\Grid\Editors\Rte.cshtml" />
@@ -372,7 +373,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web.config" />
+    <None Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
