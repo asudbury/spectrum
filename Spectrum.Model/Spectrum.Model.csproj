@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Correspondence\EmailSentModel.cs" />
     <Compile Include="Correspondence\EmailReadModel.cs" />
+    <Compile Include="Correspondence\EventTypeModel.cs" />
     <Compile Include="Customer\UpdateNameModel.cs" />
     <Compile Include="Customer\UpdateEmailAddressModel.cs" />
     <Compile Include="Correspondence\EmailRequest.cs" />
