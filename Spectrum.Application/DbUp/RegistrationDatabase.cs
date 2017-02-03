@@ -17,19 +17,27 @@ namespace Spectrum.Application.DbUp
         private readonly IDatabaseService databaseService;
 
         /// <summary>
+        /// The settings service.
+        /// </summary>
+        private readonly ISettingsService settingsService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="RegistrationDatabase" /> class.
         /// </summary>
         /// <param name="databaseService">The database service.</param>
-        public RegistrationDatabase(IDatabaseService databaseService)
+        public RegistrationDatabase(
+            IDatabaseService databaseService,
+            ISettingsService settingsService)
         {
             this.databaseService = databaseService;
+            this.settingsService = settingsService;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegistrationDatabase"/> class.
         /// </summary>
         public RegistrationDatabase()
-            : this(new DatabaseService())
+            : this(new DatabaseService(), new SettingsService())
         {
         }
 
@@ -38,34 +46,37 @@ namespace Spectrum.Application.DbUp
         /// </summary>
         public void Update()
         {
-            string connectionString = ConfigurationManager.ConnectionStrings[databaseService.RegistrationConnectionString].ToString();
-
-            EnsureDatabase.For.SqlDatabase(connectionString);
-
-            string location = ConfigurationManager.AppSettings["ScriptLocation"];
-
-            UpgradeEngine upgrader = DeployChanges
-                                        .To
-                                        .SqlDatabase(connectionString)
-                                        .WithScriptsFromFileSystem(location)
-                                        .LogToConsole()
-                                        .Build();
-
-            upgrader.PerformUpgrade();
-
-            //// Bootstrap registration static data
-            using (IDatabase db = new Database(databaseService.RegistrationConnectionString))
+            if (settingsService.IsRegistrationEnabled)
             {
-                foreach (Event eventModel in Enum.GetValues(typeof(Event)))
+                string connectionString = ConfigurationManager.ConnectionStrings[databaseService.RegistrationConnectionString].ToString();
+
+                EnsureDatabase.For.SqlDatabase(connectionString);
+
+                string location = ConfigurationManager.AppSettings["ScriptLocation"];
+
+                UpgradeEngine upgrader = DeployChanges
+                                            .To
+                                            .SqlDatabase(connectionString)
+                                            .WithScriptsFromFileSystem(location)
+                                            .LogToConsole()
+                                            .Build();
+
+                upgrader.PerformUpgrade();
+
+                //// Bootstrap registration static data
+                using (IDatabase db = new Database(databaseService.RegistrationConnectionString))
                 {
-                    string eventDescription = eventModel.ToString();
-
-                    EventTypeModel eventTypeModel = new EventTypeModel(eventModel, eventDescription);
-
-                    //// Does this static data item exist.
-                    if (db.IsNew(eventTypeModel))
+                    foreach (Event eventModel in Enum.GetValues(typeof(Event)))
                     {
-                        db.Insert(eventTypeModel);
+                        string eventDescription = eventModel.ToString();
+
+                        EventTypeModel eventTypeModel = new EventTypeModel(eventModel, eventDescription);
+
+                        //// Does this static data item exist.
+                        if (db.IsNew(eventTypeModel))
+                        {
+                            db.Insert(eventTypeModel);
+                        }
                     }
                 }
             }
