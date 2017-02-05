@@ -2,7 +2,7 @@
 
 namespace Spectrum.TestConsole
 {
-    using Application.DbUp;
+    //using Application.DbUp;
     using Application.Authentication.Controllers;
     using Application.Correspondence.Controllers;
     using Application.Customer.Controllers;
@@ -11,6 +11,7 @@ namespace Spectrum.TestConsole
     using Model.Correspondence;
     using Model.Customer;
     using System;
+    using Database.Bootstrap;
 
     class Program
     {
@@ -30,8 +31,9 @@ namespace Spectrum.TestConsole
 
             if (settingsService.CreateSpectrumDatabase)
             {
-                RegistrationDatabase registrationDatabase = new RegistrationDatabase();
-                registrationDatabase.Update();
+                //RegistrationDatabase registrationDatabase = new RegistrationDatabase();
+                //registrationDatabase.Update();
+                Bootstrap.Start();
             }
 
             Event eventType = Event.UserRegistered;
