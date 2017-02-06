@@ -173,6 +173,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.1, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\UmbracoCms.Core.7.5.7\lib\System.Data.SqlServerCe.dll</HintPath>
@@ -305,8 +306,10 @@
     <Compile Include="Registration\ViewModels\VerifyUserViewModel.cs" />
     <Compile Include="Registration\ViewModels\RegisterViewModel.cs" />
     <Compile Include="Services\ILoggingService.cs" />
+    <Compile Include="Services\IPageService.cs" />
     <Compile Include="Services\IUserService.cs" />
     <Compile Include="Services\LoggingService.cs" />
+    <Compile Include="Services\PageService.cs" />
     <Compile Include="Services\UserConstants.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="TinyIoC.cs" />
