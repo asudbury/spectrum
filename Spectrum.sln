@@ -52,6 +52,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{757E
 		DevOps\Spectrum\Database\Scripts\Script0003-Create Event.sql = DevOps\Spectrum\Database\Scripts\Script0003-Create Event.sql
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.Database", "Spectrum.Database\Spectrum.Database.csproj", "{AA645EDF-495C-440A-A735-A0F7BDE79EDB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -102,6 +104,10 @@ Global
 		{E5B20FA4-5897-46E5-9791-01630FFC486C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5B20FA4-5897-46E5-9791-01630FFC486C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E5B20FA4-5897-46E5-9791-01630FFC486C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA645EDF-495C-440A-A735-A0F7BDE79EDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA645EDF-495C-440A-A735-A0F7BDE79EDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA645EDF-495C-440A-A735-A0F7BDE79EDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA645EDF-495C-440A-A735-A0F7BDE79EDB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,15 +1,14 @@
-﻿using DbUp;
-using DbUp.Engine;
-using Spectrum.Core.Services;
-
-namespace Spectrum.Application.DbUp
+﻿namespace Spectrum.Database.Registration.Repositories
 {
     using System;
+    using DbUp;
+    using DbUp.Engine;
+    using Core.Services;
     using System.Configuration;
     using Model.Correspondence;
     using NPoco;
 
-    public class RegistrationDatabase
+    internal class RegistrationRepository : IRegistrationRepository
     {
         /// <summary>
         /// The database service.
@@ -17,27 +16,20 @@ namespace Spectrum.Application.DbUp
         private readonly IDatabaseService databaseService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RegistrationDatabase" /> class.
+        /// Initializes a new instance of the <see cref="RegistrationRepository"/> class.
         /// </summary>
         /// <param name="databaseService">The database service.</param>
-        public RegistrationDatabase(
-            IDatabaseService databaseService)
+        public RegistrationRepository(IDatabaseService databaseService)
         {
             this.databaseService = databaseService;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RegistrationDatabase"/> class.
+        /// The user has been registered.
+        /// Here we need to create the user in the database.
         /// </summary>
-        public RegistrationDatabase()
-            : this(new DatabaseService())
-        {
-        }
-
-        /// <summary>
-        /// Updates this instance.
-        /// </summary>
-        public void Update()
+        /// <param name="model">The model.</param>
+        public void Bootstrap()
         {
             string connectionString = ConfigurationManager.ConnectionStrings[databaseService.RegistrationConnectionString].ToString();
 
@@ -46,11 +38,11 @@ namespace Spectrum.Application.DbUp
             string location = ConfigurationManager.AppSettings["ScriptLocation"];
 
             UpgradeEngine upgrader = DeployChanges
-                                        .To
-                                        .SqlDatabase(connectionString)
-                                        .WithScriptsFromFileSystem(location)
-                                        .LogToConsole()
-                                        .Build();
+                                       .To
+                                       .SqlDatabase(connectionString)
+                                       .WithScriptsFromFileSystem(location)
+                                       .LogToConsole()
+                                       .Build();
 
             upgrader.PerformUpgrade();
 
