@@ -24,11 +24,19 @@
             this.databaseService = databaseService;
         }
 
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RegistrationRepository"/> class.
+        /// </summary>
+        public RegistrationRepository()
+            :this(new DatabaseService())
+        {
+        }
+
         /// <summary>
         /// The user has been registered.
         /// Here we need to create the user in the database.
         /// </summary>
-        /// <param name="model">The model.</param>
         public void Bootstrap()
         {
             string connectionString = ConfigurationManager.ConnectionStrings[databaseService.RegistrationConnectionString].ToString();

@@ -1,6 +1,5 @@
 ﻿namespace Spectrum.Database.Registration.Providers
 {
-    using Core.Services;
     using Repositories;
 
     /// <summary>
@@ -27,14 +26,13 @@
         /// Initializes a new instance of the <see cref="RegistrationProvider"/> class.
         /// </summary>
         internal RegistrationProvider()
-            : this(new RegistrationRepository(new DatabaseService()))
+            : this(new RegistrationRepository())
         {
         }
-
+        
         /// <summary>
-        /// The user has been registered.
+        /// Bootstraps this instance.
         /// </summary>
-        /// <param name="model">The model.</param>
         public void Bootstrap()
         {
             registrationRepository.Bootstrap();

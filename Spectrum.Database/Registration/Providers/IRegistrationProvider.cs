@@ -6,7 +6,7 @@
     public interface IRegistrationProvider
     {
         /// <summary>
-        /// The user has registered.
+        /// Bootstraps this instance.
         /// </summary>
         void Bootstrap();
 

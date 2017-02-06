@@ -1,4 +1,5 @@
 ﻿using Spectrum.Core.Services;
+using Spectrum.Database;
 
 namespace Spectrum.TestConsole
 {
@@ -11,7 +12,6 @@ namespace Spectrum.TestConsole
     using Model.Correspondence;
     using Model.Customer;
     using System;
-    using Database.Bootstrap;
 
     class Program
     {
@@ -25,16 +25,9 @@ namespace Spectrum.TestConsole
             //Event eventType = Event.UserRegistered;
             //Event eventType = Event.UserVerified;
 
-            SettingsService settingsService = new SettingsService();
-
-            //Call bootstrap database
-
-            if (settingsService.CreateSpectrumDatabase)
-            {
-                //RegistrationDatabase registrationDatabase = new RegistrationDatabase();
-                //registrationDatabase.Update();
-                Bootstrap.Start();
-            }
+            //// we let the Bootstrap class work out what needs to be done.
+            Bootstrap bootstrap = new Bootstrap(new SettingsService());
+            bootstrap.Start();
 
             Event eventType = Event.UserRegistered;
 

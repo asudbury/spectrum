@@ -23,7 +23,6 @@
         public RegistrationController(
             ISettingsService settingsService,
             IRegistrationProvider registrationProvider)
-            : base()
         {
             this.settingsService = settingsService;
             this.registrationProvider = registrationProvider;
@@ -38,9 +37,11 @@
         }
 
         /// <summary>
+        /// Bootstraps this instance.
         /// </summary>
         public void Bootstrap()
         {
+            //// check if registration bootstrapping is required.
             if (settingsService.IsRegistrationEnabled)
             {
                 registrationProvider.Bootstrap();
