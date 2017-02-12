@@ -25,5 +25,13 @@
             string message,
             Exception exception);
 
+        /// <summary>
+        /// Informations the specified calling type.
+        /// </summary>
+        /// <param name="callingType">Type of the calling.</param>
+        /// <param name="message">The message.</param>
+        void Info(
+            Type callingType,
+            string message);
     }
 }

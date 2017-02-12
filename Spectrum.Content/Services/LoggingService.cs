@@ -31,5 +31,17 @@
         {
             LogHelper.Error(callingType, message, exception);
         }
+
+        /// <summary>
+        /// Informations the specified calling type.
+        /// </summary>
+        /// <param name="callingType">Type of the calling.</param>
+        /// <param name="message">The message.</param>
+        public void Info(
+            Type callingType,
+            string message)
+        {
+            LogHelper.Info(callingType, message);
+        }
     }
 }

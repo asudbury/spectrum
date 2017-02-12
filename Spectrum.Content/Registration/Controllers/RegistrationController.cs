@@ -2,6 +2,8 @@
 {
     using Models;
     using Providers;
+    using Services;
+    using System;
     using System.Web.Mvc;
     using Umbraco.Web;
     using Umbraco.Web.Mvc;
@@ -14,29 +16,41 @@
     public class RegistrationController : SurfaceController
     {
         /// <summary>
+        /// The logging service.
+        /// </summary>
+        private readonly ILoggingService loggingService;
+
+        /// <summary>
         /// The registration provider.
         /// </summary>
         private readonly IRegistrationProvider registrationProvider;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RegistrationController"/> class.
+        /// Initializes a new instance of the <see cref="RegistrationController" /> class.
         /// </summary>
         /// <param name="context">The context.</param>
+        /// <param name="loggingService">The logging service.</param>
         /// <param name="registrationProvider">The registration provider.</param>
         public RegistrationController(
             UmbracoContext context,
+            ILoggingService loggingService,
             IRegistrationProvider registrationProvider)
             : base(context)
         {
+            this.loggingService = loggingService;
             this.registrationProvider = registrationProvider;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RegistrationController"/> class.
+        /// Initializes a new instance of the <see cref="RegistrationController" /> class.
         /// </summary>
+        /// <param name="loggingService">The logging service.</param>
         /// <param name="registrationProvider">The registration provider.</param>
-        public RegistrationController(IRegistrationProvider registrationProvider)
+        public RegistrationController(
+            ILoggingService loggingService,
+            IRegistrationProvider registrationProvider)
         {
+            this.loggingService = loggingService;
             this.registrationProvider = registrationProvider;
             this.registrationProvider.MemberService = Services.MemberService;
         }
@@ -44,7 +58,8 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="RegistrationController"/> class.
         /// </summary>
-        public RegistrationController() : this(new RegistrationProvider())
+        public RegistrationController() : 
+            this(new LoggingService(), new RegistrationProvider())
         {
         }
 
@@ -66,20 +81,43 @@
         [ValidateAntiForgeryToken]
         public ActionResult HandleRegister(RegisterViewModel viewModel)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return PartialView("Register", viewModel);
+                if (!ModelState.IsValid)
+                {
+                    return PartialView("Register", viewModel);
+                }
+
+                RegisteredUser registeredUser = registrationProvider.RegisterUser(viewModel);
+
+                if (registeredUser == null)
+                {
+                    string message = viewModel.Name + "Member already exists";
+
+                    loggingService.Info(GetType(), message);
+                    ModelState.AddModelError("", message);
+                    return PartialView("Register", viewModel);
+                }
+
+                //// now we want to send out the email!
+
+                //// now navigate to the thankyou page
+                if (CurrentPage.GetProperty(UserConstants.ThankYouPage) != null)
+                {
+                    int nodeId = Convert.ToInt32(CurrentPage.GetProperty(UserConstants.ThankYouPage).DataValue);
+                    string url = Umbraco.TypedContent(nodeId).Url;
+
+                    //// not sure if we should do a redirect like this!
+                    Response.Redirect(url);
+                }
+
+                return null;
             }
-
-            RegisteredUser registeredUser = registrationProvider.RegisterUser(viewModel);
-
-            if (registeredUser == null)
+            catch (Exception e)
             {
-                ModelState.AddModelError("", "Member already exists");
-                return PartialView("Register", viewModel);
+                loggingService.Error(GetType(), "Registration Error", e);
+                throw;
             }
-
-            return PartialView("Register", new RegisterViewModel());
         }
 
         /// <summary>
@@ -91,20 +129,31 @@
         [ValidateAntiForgeryToken]
         public ActionResult HandleVerifyUser(VerifyUserViewModel viewModel)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return PartialView("Verify", viewModel);
+                if (!ModelState.IsValid)
+                {
+                    return PartialView("Verify", viewModel);
+                }
+
+                bool result = registrationProvider.VerifyUser(viewModel);
+
+                if (!result)
+                {
+                    string message = "Invalid verification";
+
+                    loggingService.Info(GetType(), message);
+                    ModelState.AddModelError("", message);
+                    return CurrentUmbracoPage();
+                }
+
+                return PartialView("Verify", new VerifyUserViewModel());
             }
-
-            bool result = registrationProvider.VerifyUser(viewModel);
-
-            if (!result)
+            catch (Exception e)
             {
-                ModelState.AddModelError("", "Invalid verification");
-                return CurrentUmbracoPage();
+                loggingService.Error(GetType(), "Verification Error", e);
+                throw;
             }
-
-            return PartialView("Verify", new VerifyUserViewModel());
         }
 
         /// <summary>

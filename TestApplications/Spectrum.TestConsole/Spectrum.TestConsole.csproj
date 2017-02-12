@@ -53,9 +53,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="App_Config\Spectrum-PageGuids.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="App_Config\Spectrum.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -1,5 +1,6 @@
 ﻿namespace Spectrum.Content.Services
 {
+    using Extensions;
     using System;
     using System.Net;
     using Umbraco.Core.Models;
@@ -60,16 +61,14 @@
             {
                 return null;
             }
-
-            Guid guid = Guid.NewGuid();
-
+            
             IMember member = MemberService.CreateMemberWithIdentity(emailAddress, emailAddress, name, memberType);
 
             member.IsApproved = false;
-            member.SetValue(UserConstants.HasVerifiedEmail, false);
-            member.SetValue(UserConstants.ProfileUrl, member.Id);
-            member.SetValue(UserConstants.Guid, guid.ToString());
-            member.SetValue(UserConstants.RegistrationDate, DateTime.Now.ToString("dd/MM/yyyy @ HH:mm:ss"));
+
+            member.SetValueIfHasProperty(UserConstants.HasVerifiedEmail, false);
+            member.SetValueIfHasProperty(UserConstants.ProfileUrl, member.Id);
+            member.SetValueIfHasProperty(UserConstants.RegistrationDate, DateTime.Now);
 
             MemberService.Save(member);
             MemberService.SavePassword(member, password);
@@ -153,12 +152,15 @@
             string hostName = Dns.GetHostName();
             string ipAddress = Dns.GetHostAddresses(hostName).GetValue(0).ToString();
 
-            int noLogins = member.GetValue<int>(UserConstants.NumberOfLogins);
+            if (member.HasProperty(UserConstants.NumberOfLogins))
+            {
+                int noLogins = member.GetValue<int>(UserConstants.NumberOfLogins);
+                member.SetValueIfHasProperty(UserConstants.NumberOfLogins, noLogins + 1);
+            }
 
-            member.SetValue(UserConstants.NumberOfLogins, noLogins + 1);
-            member.SetValue(UserConstants.LastLoggedInDateTime, DateTime.Now.ToString("dd/MM/yyyy @ HH:mm:ss"));
-            member.SetValue(UserConstants.HostNameOfLastLogin, hostName);
-            member.SetValue(UserConstants.IpAddressOfLastLogin, ipAddress);
+            member.SetValueIfHasProperty(UserConstants.LastLoggedInDateTime, DateTime.Now);
+            member.SetValueIfHasProperty(UserConstants.HostNameOfLastLogin, hostName);
+            member.SetValueIfHasProperty(UserConstants.IpAddressOfLastLogin, ipAddress);
 
             MemberService.Save(member);
         }
@@ -175,7 +177,7 @@
                 throw new ArgumentException("Member not supplied");
             }
 
-            return member.GetValue<Guid>(UserConstants.Guid);
+            return member.Key;
         }
 
         /// <summary>

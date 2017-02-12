@@ -5,6 +5,7 @@ namespace Spectrum.Content.Tests.Registration.Controllers
     using Content.Registration.Models;
     using Content.Registration.Providers;
     using Content.Registration.ViewModels;
+    using Services;
     using GDev.Umbraco.Testing;
     using Moq;
     using NUnit.Framework;
@@ -24,6 +25,11 @@ namespace Spectrum.Content.Tests.Registration.Controllers
         private ContextMocker contextMocker;
 
         /// <summary>
+        /// The mock logging service.
+        /// </summary>
+        private Mock<ILoggingService> mockLoggingService;
+
+        /// <summary>
         /// The mock Registration Provider.
         /// </summary>
         private Mock<IRegistrationProvider> mockRegistrationProvider;
@@ -35,6 +41,7 @@ namespace Spectrum.Content.Tests.Registration.Controllers
         public void Setup()
         {
             contextMocker = new ContextMocker();
+            mockLoggingService = new Mock<ILoggingService>();
             mockRegistrationProvider = new Mock<IRegistrationProvider>();
         }
 
@@ -44,7 +51,10 @@ namespace Spectrum.Content.Tests.Registration.Controllers
         [Test]
         public void TestCanInitializeController()
         {
-            Assert.DoesNotThrow(() => new RegistrationController(contextMocker.UmbracoContextMock, mockRegistrationProvider.Object));
+            Assert.DoesNotThrow(() => new RegistrationController(
+                contextMocker.UmbracoContextMock, 
+                mockLoggingService.Object, 
+                mockRegistrationProvider.Object));
         }
 
         /// <summary>
@@ -53,7 +63,10 @@ namespace Spectrum.Content.Tests.Registration.Controllers
         [Test]
         public void TestRenderRegister()
         {
-            RegistrationController controller = new RegistrationController(contextMocker.UmbracoContextMock, mockRegistrationProvider.Object);
+            RegistrationController controller = new RegistrationController(
+                contextMocker.UmbracoContextMock,
+                mockLoggingService.Object,
+                mockRegistrationProvider.Object);
 
             ActionResult actionResult = controller.RenderRegister();
 
@@ -73,7 +86,10 @@ namespace Spectrum.Content.Tests.Registration.Controllers
         {
             RegisterViewModel viewModel = new RegisterViewModel { Name = "Test"};
             
-            RegistrationController controller = new RegistrationController(contextMocker.UmbracoContextMock, mockRegistrationProvider.Object);
+            RegistrationController controller = new RegistrationController(
+                contextMocker.UmbracoContextMock,
+                mockLoggingService.Object,
+                mockRegistrationProvider.Object);
 
             controller.ModelState.AddModelError("Email", "Email is required.");
 
@@ -94,7 +110,10 @@ namespace Spectrum.Content.Tests.Registration.Controllers
         {
             RegisterViewModel viewModel = new RegisterViewModel();
 
-            RegistrationController controller = new RegistrationController(contextMocker.UmbracoContextMock, mockRegistrationProvider.Object);
+            RegistrationController controller = new RegistrationController(
+                contextMocker.UmbracoContextMock,
+                mockLoggingService.Object,
+                mockRegistrationProvider.Object);
 
             mockRegistrationProvider.Setup(x => x.RegisterUser(It.IsAny<RegisterViewModel>())).Returns((RegisteredUser) null);
 
@@ -111,8 +130,11 @@ namespace Spectrum.Content.Tests.Registration.Controllers
         {
             RegisterViewModel viewModel = new RegisterViewModel();
 
-            RegistrationController controller = new RegistrationController(contextMocker.UmbracoContextMock, mockRegistrationProvider.Object);
-
+            RegistrationController controller = new RegistrationController(
+                contextMocker.UmbracoContextMock,
+                mockLoggingService.Object,
+                mockRegistrationProvider.Object);
+            
             IMemberType memberType = new MemberType(1);
 
             Member member = new Member(memberType);
@@ -138,7 +160,10 @@ namespace Spectrum.Content.Tests.Registration.Controllers
         {
             mockRegistrationProvider.Setup(x => x.CheckEmailInUse(It.IsAny<string>())).Returns((true));
 
-            RegistrationController controller = new RegistrationController(contextMocker.UmbracoContextMock, mockRegistrationProvider.Object);
+            RegistrationController controller = new RegistrationController(
+                contextMocker.UmbracoContextMock,
+                mockLoggingService.Object,
+                mockRegistrationProvider.Object);
 
             JsonResult result = controller.CheckEmailInUse("a@a.com");
 
@@ -153,7 +178,10 @@ namespace Spectrum.Content.Tests.Registration.Controllers
         {
             mockRegistrationProvider.Setup(x => x.CheckEmailInUse(It.IsAny<string>())).Returns((false));
 
-            RegistrationController controller = new RegistrationController(contextMocker.UmbracoContextMock, mockRegistrationProvider.Object);
+            RegistrationController controller = new RegistrationController(
+                contextMocker.UmbracoContextMock,
+                mockLoggingService.Object,
+                mockRegistrationProvider.Object);
 
             JsonResult result = controller.CheckEmailInUse("a@a.com");
 
