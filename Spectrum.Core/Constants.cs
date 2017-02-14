@@ -14,6 +14,11 @@ namespace Spectrum.Core
         public const string DatabaseCreationKey = "Spectrum-Database-Creation";
 
         /// <summary>
+        /// The database type modifier.
+        /// </summary>
+        public const string DatabaseSQLCe = "Spectrum-Database-SQLCe";
+
+        /// <summary>
         /// The appointments key.
         /// </summary>
         public const string AppointmentsKey = "Spectrum-Appointments";

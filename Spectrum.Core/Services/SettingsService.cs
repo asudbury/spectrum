@@ -14,7 +14,12 @@
         /// Gets a value indicating whether [create spectrum database].
         /// </summary>
         public bool CreateSpectrumDatabase => GetBoolSetting(Constants.DatabaseCreationKey);
-        
+
+        /// <summary>
+        /// Gets a value indicating whether [create spectrum database].
+        /// </summary>
+        public bool CreateSQLCeDatabase => GetBoolSetting(Constants.DatabaseSQLCe);
+
         /// <summary>
         /// Gets a value indicating whether this instance is appointments enabled.
         /// </summary>

@@ -11,7 +11,13 @@
         /// </returns>
         public string GetConnectionString(string system)
         {
-            return system;
+            string connectionString = system;
+            SettingsService settingsService = new SettingsService();
+            if (settingsService.CreateSQLCeDatabase)
+            {
+                connectionString += "-SQLCe";
+            }
+            return connectionString;
         }
 
         /// <summary>

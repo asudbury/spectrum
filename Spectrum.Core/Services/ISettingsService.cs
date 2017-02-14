@@ -8,6 +8,11 @@
         bool CreateSpectrumDatabase { get;  }
 
         /// <summary>
+        /// Gets a value indicating whether [create spectrum SQLCe database type].
+        /// </summary>
+        bool CreateSQLCeDatabase { get; }
+
+        /// <summary>
         /// Gets a value indicating whether this instance is appointments enabled.
         /// </summary>
         bool IsAppointmentsEnabled { get; }

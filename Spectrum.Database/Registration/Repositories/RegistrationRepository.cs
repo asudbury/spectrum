@@ -1,12 +1,17 @@
 ﻿namespace Spectrum.Database.Registration.Repositories
 {
     using System;
+    using System.IO;
     using DbUp;
     using DbUp.Engine;
+    using DbUp.SqlCe;
+    using System.Data.SqlServerCe;
+    using System.Data.SqlClient;
     using Core.Services;
     using System.Configuration;
     using Model.Correspondence;
     using NPoco;
+    using NPoco.DatabaseTypes;
 
     internal class RegistrationRepository : IRegistrationRepository
     {
@@ -16,20 +21,25 @@
         private readonly IDatabaseService databaseService;
 
         /// <summary>
+        /// The settings service.
+        /// </summary>
+        private readonly ISettingsService settingsService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="RegistrationRepository"/> class.
         /// </summary>
         /// <param name="databaseService">The database service.</param>
-        public RegistrationRepository(IDatabaseService databaseService)
+        public RegistrationRepository(IDatabaseService databaseService, ISettingsService settingsService)
         {
             this.databaseService = databaseService;
+            this.settingsService = settingsService;
         }
-
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegistrationRepository"/> class.
         /// </summary>
         public RegistrationRepository()
-            :this(new DatabaseService())
+            :this(new DatabaseService(), new SettingsService())
         {
         }
 
@@ -41,18 +51,47 @@
         {
             string connectionString = ConfigurationManager.ConnectionStrings[databaseService.RegistrationConnectionString].ToString();
 
-            EnsureDatabase.For.SqlDatabase(connectionString);
+            //Database type defaults to SLQServer but can be modified to SQLCe in the config.
+            if (settingsService.CreateSQLCeDatabase)
+            {
+                var cs = new SqlConnectionStringBuilder(connectionString);
+                string dataSource = cs.DataSource;
 
-            string location = ConfigurationManager.AppSettings["ScriptLocation"];
+                //Create the SQLCe database if it does not exist
+                if (!File.Exists(dataSource))
+                {
+                    var en = new SqlCeEngine(connectionString);
+                    en.CreateDatabase();
+                }
 
-            UpgradeEngine upgrader = DeployChanges
-                                       .To
-                                       .SqlDatabase(connectionString)
-                                       .WithScriptsFromFileSystem(location)
-                                       .LogToConsole()
-                                       .Build();
+                string location = ConfigurationManager.AppSettings["ScriptLocationSQLCe"];
 
-            upgrader.PerformUpgrade();
+                //Ensure all scripts have been run
+                var upgrader = DeployChanges
+                                .To
+                                .SqlCeDatabase(connectionString)
+                                .WithScriptsFromFileSystem(location)
+                                .LogToConsole()
+                                .Build();
+
+                upgrader.PerformUpgrade();
+            }
+            else
+            {
+                //Defaulting to SQLServer
+                EnsureDatabase.For.SqlDatabase(connectionString);
+
+                string location = ConfigurationManager.AppSettings["ScriptLocationSQLServer"];
+
+                UpgradeEngine upgrader = DeployChanges
+                                           .To
+                                           .SqlDatabase(connectionString)
+                                           .WithScriptsFromFileSystem(location)
+                                           .LogToConsole()
+                                           .Build();
+
+                upgrader.PerformUpgrade();
+            }
 
             //// Bootstrap registration static data
             using (IDatabase db = new Database(databaseService.RegistrationConnectionString))

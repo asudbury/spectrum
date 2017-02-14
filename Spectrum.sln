@@ -46,13 +46,24 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{F7454C17-5850-4F8A-9D48-3B126A2FE66B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{757EF8E7-349A-4CFD-97B6-D167431FB192}"
-	ProjectSection(SolutionItems) = preProject
-		DevOps\Spectrum\Database\Scripts\Script0001-Create User.sql = DevOps\Spectrum\Database\Scripts\Script0001-Create User.sql
-		DevOps\Spectrum\Database\Scripts\Script0002-Create EventType.sql = DevOps\Spectrum\Database\Scripts\Script0002-Create EventType.sql
-		DevOps\Spectrum\Database\Scripts\Script0003-Create Event.sql = DevOps\Spectrum\Database\Scripts\Script0003-Create Event.sql
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.Database", "Spectrum.Database\Spectrum.Database.csproj", "{AA645EDF-495C-440A-A735-A0F7BDE79EDB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LocalDb", "LocalDb", "{E543BC04-1D4B-40C5-861C-5087257C9217}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQLServer", "SQLServer", "{163B0971-3471-438A-8102-28E087F8F457}"
+	ProjectSection(SolutionItems) = preProject
+		DevOps\Spectrum\Database\Scripts\SQLServer\Script0001-Create User.sql = DevOps\Spectrum\Database\Scripts\SQLServer\Script0001-Create User.sql
+		DevOps\Spectrum\Database\Scripts\SQLServer\Script0002-Create EventType.sql = DevOps\Spectrum\Database\Scripts\SQLServer\Script0002-Create EventType.sql
+		DevOps\Spectrum\Database\Scripts\SQLServer\Script0003-Create Event.sql = DevOps\Spectrum\Database\Scripts\SQLServer\Script0003-Create Event.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQLCe", "SQLCe", "{B68E31FE-1E8C-4A75-9407-0F1C477FE32A}"
+	ProjectSection(SolutionItems) = preProject
+		DevOps\Spectrum\Database\Scripts\SQLCe\Script0001-Create User.sql = DevOps\Spectrum\Database\Scripts\SQLCe\Script0001-Create User.sql
+		DevOps\Spectrum\Database\Scripts\SQLCe\Script0002-Create EventType.sql = DevOps\Spectrum\Database\Scripts\SQLCe\Script0002-Create EventType.sql
+		DevOps\Spectrum\Database\Scripts\SQLCe\Script0003-Create Event.sql = DevOps\Spectrum\Database\Scripts\SQLCe\Script0003-Create Event.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -122,5 +133,8 @@ Global
 		{915917FD-4C3A-49C4-9ADF-8EF909F7B2FB} = {D4F0D67E-8A77-4C85-B83C-D29BC0DE2E97}
 		{F7454C17-5850-4F8A-9D48-3B126A2FE66B} = {FE005A91-0607-46AF-82CC-0BEBDAE864A4}
 		{757EF8E7-349A-4CFD-97B6-D167431FB192} = {F7454C17-5850-4F8A-9D48-3B126A2FE66B}
+		{E543BC04-1D4B-40C5-861C-5087257C9217} = {F7454C17-5850-4F8A-9D48-3B126A2FE66B}
+		{163B0971-3471-438A-8102-28E087F8F457} = {757EF8E7-349A-4CFD-97B6-D167431FB192}
+		{B68E31FE-1E8C-4A75-9407-0F1C477FE32A} = {757EF8E7-349A-4CFD-97B6-D167431FB192}
 	EndGlobalSection
 EndGlobal
