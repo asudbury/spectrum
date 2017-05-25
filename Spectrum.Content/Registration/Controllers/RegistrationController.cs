@@ -3,27 +3,26 @@
     using Models;
     using Providers;
     using Services;
+    using Services.Mail;
     using System;
     using System.Web.Mvc;
     using Umbraco.Web;
-    using Umbraco.Web.Mvc;
     using ViewModels;
 
     /// <summary>
     /// The Registration Controller.
     /// </summary>
-    /// <seealso cref="Umbraco.Web.Mvc.SurfaceController" />
-    public class RegistrationController : SurfaceController
+    public class RegistrationController : BaseController
     {
-        /// <summary>
-        /// The logging service.
-        /// </summary>
-        private readonly ILoggingService loggingService;
-
         /// <summary>
         /// The registration provider.
         /// </summary>
         private readonly IRegistrationProvider registrationProvider;
+
+        /// <summary>
+        /// The perplex mail service.
+        /// </summary>
+        private readonly IPerplexMailService perplexMailService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegistrationController" /> class.
@@ -31,14 +30,16 @@
         /// <param name="context">The context.</param>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="registrationProvider">The registration provider.</param>
+        /// <param name="perplexMailService">The perplex mail service.</param>
         public RegistrationController(
             UmbracoContext context,
             ILoggingService loggingService,
-            IRegistrationProvider registrationProvider)
-            : base(context)
+            IRegistrationProvider registrationProvider,
+            IPerplexMailService perplexMailService)
+            : base(context,loggingService)
         {
-            this.loggingService = loggingService;
             this.registrationProvider = registrationProvider;
+            this.perplexMailService = perplexMailService;
         }
 
         /// <summary>
@@ -46,20 +47,23 @@
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="registrationProvider">The registration provider.</param>
+        /// <param name="perplexMailService">The perplex mail service.</param>
         public RegistrationController(
             ILoggingService loggingService,
-            IRegistrationProvider registrationProvider)
+            IRegistrationProvider registrationProvider,
+            IPerplexMailService perplexMailService)
+            :base(loggingService)
         {
-            this.loggingService = loggingService;
             this.registrationProvider = registrationProvider;
             this.registrationProvider.MemberService = Services.MemberService;
+            this.perplexMailService = perplexMailService;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegistrationController"/> class.
         /// </summary>
         public RegistrationController() : 
-            this(new LoggingService(), new RegistrationProvider())
+            this(new LoggingService(), new RegistrationProvider(), new PerplexMailService())
         {
         }
 
@@ -92,22 +96,22 @@
 
                 if (registeredUser == null)
                 {
-                    string message = viewModel.Name + "Member already exists";
+                    string message = viewModel.Name + " Member already exists";
 
-                    loggingService.Info(GetType(), message);
-                    ModelState.AddModelError("", message);
+                    LoggingService.Info(GetType(), message);
+                    ModelState.AddModelError(string.Empty, message);
                     return PartialView("Register", viewModel);
                 }
 
                 //// now we want to send out the email!
+                perplexMailService.SendEmail(1112, viewModel.EmailAddress);
 
                 //// now navigate to the thankyou page
-                if (CurrentPage.GetProperty(UserConstants.ThankYouPage) != null)
-                {
-                    int nodeId = Convert.ToInt32(CurrentPage.GetProperty(UserConstants.ThankYouPage).DataValue);
-                    string url = Umbraco.TypedContent(nodeId).Url;
 
-                    //// not sure if we should do a redirect like this!
+                string url = GetPageUrl(UserConstants.ThankYouPage);
+
+                if (string.IsNullOrEmpty(url) == false)
+                {
                     Response.Redirect(url);
                 }
 
@@ -115,7 +119,7 @@
             }
             catch (Exception e)
             {
-                loggingService.Error(GetType(), "Registration Error", e);
+                LoggingService.Error(GetType(), "Registration Error", e);
                 throw;
             }
         }
@@ -142,7 +146,7 @@
                 {
                     string message = "Invalid verification";
 
-                    loggingService.Info(GetType(), message);
+                    LoggingService.Info(GetType(), message);
                     ModelState.AddModelError("", message);
                     return CurrentUmbracoPage();
                 }
@@ -151,7 +155,7 @@
             }
             catch (Exception e)
             {
-                loggingService.Error(GetType(), "Verification Error", e);
+                LoggingService.Error(GetType(), "Verification Error", e);
                 throw;
             }
         }

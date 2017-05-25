@@ -20,7 +20,9 @@ Analytics
 1.2.0 https://github.com/warrenbuckley/Analytics Warren Buckley and The Umbraco Community
 
 PerplexMail
-2016-05-13 https://www.perplex.nl/umbraco-cms/ Perplex Internetmarketing B.V.
+2016-05-13 https://www.perplex.nl/umbraco-cms/ Perplex Internetmarketing B.V
+           https://our.umbraco.org/projects/backoffice-extensions/perplexmail-for-umbraco/
+           https://our.umbraco.org/FileDownload?id=15862
 
 Umport
 1.740.1.1 https://our.umbraco.org/projects/developer-tools/umport Kenn Jacobsen

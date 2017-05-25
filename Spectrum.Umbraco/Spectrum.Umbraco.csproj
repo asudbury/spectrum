@@ -328,7 +328,9 @@
     <Content Include="Config\Lang\zh-CN.user.xml" />
     <Content Include="default.aspx" />
     <Content Include="Global.asax" />
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Web.config" />
     <Content Include="App_Plugins\ModelsBuilder\package.manifest" />
     <Content Include="Config\imageprocessor\security.config" />
@@ -352,6 +354,7 @@
     <Content Include="Config\BaseRestExtensions.config" />
     <Content Include="Config\applications.config" />
     <Content Include="Config\404handlers.config" />
+    <Content Include="App_Config\Registration.config" />
     <None Include="Properties\PublishProfiles\AdrianTest.pubxml" />
     <None Include="Properties\PublishProfiles\DevelopPublush.pubxml" />
     <Content Include="Views\Partials\Grid\Editors\Textstring.cshtml" />
@@ -365,6 +368,7 @@
     <Content Include="Views\Partials\Grid\Bootstrap2.cshtml" />
     <Content Include="Views\Partials\Grid\Bootstrap2-Fluid.cshtml" />
     <None Include="Properties\PublishProfiles\ScorchioCMS.pubxml" />
+    <Content Include="Views\Partials\Register.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -383,20 +387,11 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Spectrum.Application\Spectrum.Application.csproj">
-      <Project>{b4f98fc2-0fce-40f3-8090-7d656cf482dd}</Project>
-      <Name>Spectrum.Application</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Spectrum.Content\Spectrum.Content.csproj">
       <Project>{77d65ce9-6648-47b5-87ad-5e033f15a3a0}</Project>
       <Name>Spectrum.Content</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Spectrum.Model\Spectrum.Model.csproj">
-      <Project>{d431878d-5874-4ac6-a28f-c87d835e7eb3}</Project>
-      <Name>Spectrum.Model</Name>
-    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

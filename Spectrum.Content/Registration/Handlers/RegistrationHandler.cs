@@ -3,6 +3,10 @@
     using Application.Registration.Controllers;
     using Models;
 
+    /// <summary>
+    /// Handler for UserRegisterd.
+    /// Will call the Application Registration Controller.
+    /// </summary>
     public class RegistrationHandler
     {
         /// <summary>
