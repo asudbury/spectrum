@@ -52,7 +52,7 @@
             ILoggingService loggingService,
             IRegistrationProvider registrationProvider,
             IPerplexMailService perplexMailService)
-            :base(loggingService)
+            : base(loggingService)
         {
             this.registrationProvider = registrationProvider;
             this.registrationProvider.MemberService = Services.MemberService;
@@ -62,13 +62,13 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="RegistrationController"/> class.
         /// </summary>
-        public RegistrationController() : 
-            this(new LoggingService(), new RegistrationProvider(), new PerplexMailService())
+        public RegistrationController() 
+            : this(new LoggingService(), new RegistrationProvider(), new PerplexMailService())
         {
         }
 
         /// <summary>
-        /// Renders the register.
+        /// Renders the register partial view.
         /// </summary>
         /// <returns>An ActionResult</returns>
         public ActionResult RenderRegister()
