@@ -2,7 +2,7 @@
 {
     using Application.Registration.Controllers;
     using Models;
-    
+
     /// <summary>
     /// Handler for UserVerfication.
     /// Will call the Application Registration Controller.

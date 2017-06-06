@@ -1,7 +1,7 @@
 ﻿namespace Spectrum.Content
 {
-    using System;
     using Services;
+    using System;
     using Umbraco.Web;
     using Umbraco.Web.Mvc;
 

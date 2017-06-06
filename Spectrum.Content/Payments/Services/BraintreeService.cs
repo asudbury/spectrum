@@ -1,7 +1,7 @@
 ﻿namespace Spectrum.Content.Payments.Services
 {
-    using ContentModels;
     using Braintree;
+    using ContentModels;
     using ViewModels;
 
     public class BraintreeService : IBraintreeService

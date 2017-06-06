@@ -1,13 +1,13 @@
 ﻿namespace Spectrum.Content.Registration.Providers
 {
+    using Model.Correspondence;
     using Model.Registration;
     using Models;
-    using Model.Correspondence;
     using System;
-    using ViewModels;
     using TinyMessenger;
     using Umbraco.Core.Models;
     using Umbraco.Core.Services;
+    using ViewModels;
 
     /// <summary>
     /// The RegistrationProvider class.

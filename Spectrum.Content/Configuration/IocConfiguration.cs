@@ -1,11 +1,11 @@
 ﻿namespace Spectrum.Content.Configuration
 {
-    using Registration.Models;
     using Registration.Handlers;
+    using Registration.Models;
     using System.Web.Http;
     using TinyIoC;
     using TinyMessenger;
-    
+
     /// <summary>
     /// Defines the IocConfiguration.
     /// </summary>

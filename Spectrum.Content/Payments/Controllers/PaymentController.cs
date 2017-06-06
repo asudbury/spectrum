@@ -1,14 +1,13 @@
-﻿using Umbraco.Core.Models;
-
-namespace Spectrum.Content.Payments.Controllers
+﻿namespace Spectrum.Content.Payments.Controllers
 {
+    using Content.Services;
     using ContentModels;
     using Providers;
-    using System.Web.Mvc;
     using System;
-    using Content.Services;
-    using ViewModels;
+    using System.Web.Mvc;
+    using Umbraco.Core.Models;
     using Umbraco.Web;
+    using ViewModels;
 
     public class PaymentController : BaseController
     {

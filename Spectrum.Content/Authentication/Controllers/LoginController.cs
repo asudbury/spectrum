@@ -3,9 +3,9 @@
     using Services;
     using System;
     using System.Web.Mvc;
-    using ViewModels;
     using Umbraco.Core.Models;
     using Umbraco.Web.Mvc;
+    using ViewModels;
 
     public class LoginController : SurfaceController
     {
