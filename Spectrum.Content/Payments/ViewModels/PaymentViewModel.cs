@@ -6,9 +6,14 @@
     public class PaymentViewModel
     {
         /// <summary>
-        /// Gets or sets the node identifier.
+        /// Gets or sets the current page node identifier.
         /// </summary>
-        public string NodeId { get; set; }
+        public string CurrentPageNodeId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the email address.
+        /// </summary>
+        public string EmailAddress { get; set; }
 
         /// <summary>
         /// Gets or sets the nonce.

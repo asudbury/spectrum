@@ -1,6 +1,8 @@
-﻿namespace Spectrum.Content.Payments.Controllers
+﻿
+namespace Spectrum.Content.Payments.Controllers
 {
     using Content.Services;
+    using Content.Services.Mail;
     using ContentModels;
     using Providers;
     using System;
@@ -17,16 +19,24 @@
         private readonly IPaymentProvider paymentProvider;
 
         /// <summary>
+        /// The perplex mail service.
+        /// </summary>
+        private readonly IPerplexMailService perplexMailService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="PaymentController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="paymentProvider">The payment provider.</param>
+        /// <param name="perplexMailService">The perplex mail service.</param>
         public PaymentController(
             ILoggingService loggingService,
-            IPaymentProvider paymentProvider) 
+            IPaymentProvider paymentProvider,
+            IPerplexMailService perplexMailService) 
             : base(loggingService)
         {
             this.paymentProvider = paymentProvider;
+            this.perplexMailService = perplexMailService;
         }
 
         /// <summary>
@@ -35,20 +45,25 @@
         /// <param name="context">The context.</param>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="paymentProvider">The payment provider.</param>
+        /// <param name="perplexMailService">The perplex mail service.</param>
         public PaymentController(
             UmbracoContext context, 
             ILoggingService loggingService,
-            IPaymentProvider paymentProvider) 
+            IPaymentProvider paymentProvider,
+            IPerplexMailService perplexMailService) 
             : base(context, loggingService)
         {
             this.paymentProvider = paymentProvider;
+            this.perplexMailService = perplexMailService;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PaymentController"/> class.
         /// </summary>
         public PaymentController()
-            : this(new LoggingService(), new PaymentProvider())
+            : this(new LoggingService(), 
+                   new PaymentProvider(), 
+                   new PerplexMailService())
         {
         }
 
@@ -91,25 +106,23 @@
                     return PartialView("Payment", viewModel);
                 }
 
-                IPublishedContent currentPage = Umbraco.TypedContent(viewModel.NodeId);
+                IPublishedContent currentPage = Umbraco.TypedContent(viewModel.CurrentPageNodeId);
                 
                 BraintreeModel model = new BraintreeModel(currentPage);
 
-                paymentProvider.MakePayment(model, viewModel);
+                bool paymentMade = paymentProvider.MakePayment(model, viewModel);
 
-                //// now we want to send out the email!
-                ////perplexMailService.SendEmail(1112, viewModel.EmailAddress);
-
-                //// now navigate to the thankyou page
-
-                string url = GetPageUrl(UserConstants.ThankYouPage);
-
-                if (string.IsNullOrEmpty(url) == false)
+                if (paymentMade)
                 {
-                    Response.Redirect(url);
+                    if (model.EmailTemplateNodeId.HasValue)
+                    {
+                        perplexMailService.SendEmail(model.EmailTemplateNodeId.Value, viewModel.EmailAddress);
+                    }
+
+                    return Content(GetPageUrl(model.NextPageNodeId));
                 }
 
-                return null;
+                return Content(GetPageUrl(model.ErrorPageNodeId));
             }
             catch (Exception e)
             {

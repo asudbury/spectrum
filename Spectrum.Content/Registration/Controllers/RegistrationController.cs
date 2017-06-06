@@ -63,7 +63,9 @@
         /// Initializes a new instance of the <see cref="RegistrationController"/> class.
         /// </summary>
         public RegistrationController() 
-            : this(new LoggingService(), new RegistrationProvider(), new PerplexMailService())
+            : this(new LoggingService(), 
+                   new RegistrationProvider(), 
+                   new PerplexMailService())
         {
         }
 
@@ -108,12 +110,12 @@
 
                 //// now navigate to the thankyou page
 
-                string url = GetPageUrl(UserConstants.ThankYouPage);
+                /*string url = GetPageUrl(UserConstants.ThankYouPage);
 
                 if (string.IsNullOrEmpty(url) == false)
                 {
                     Response.Redirect(url);
-                }
+                }*/
 
                 return null;
             }

@@ -1,7 +1,6 @@
 ﻿namespace Spectrum.Content
 {
     using Services;
-    using System;
     using Umbraco.Web;
     using Umbraco.Web.Mvc;
 
@@ -34,16 +33,13 @@
         /// <summary>
         /// Gets the page URL.
         /// </summary>
-        /// <param name="propertyName">Name of the property.</param>
-        /// <returns>the url</returns>
-        public string GetPageUrl(
-            string propertyName)
+        /// <param name="nodeId">The node identifier.</param>
+        public string GetPageUrl(int? nodeId)
         {
             string url = string.Empty;
 
-            if (CurrentPage.GetProperty(propertyName) != null)
+            if (nodeId.HasValue)
             {
-                int nodeId = Convert.ToInt32(CurrentPage.GetProperty(propertyName).DataValue);
                 url = Umbraco.TypedContent(nodeId).Url;
             }
 

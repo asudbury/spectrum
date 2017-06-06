@@ -1,10 +1,9 @@
 ﻿namespace Spectrum.Content.Payments.ContentModels
 {
     using Umbraco.Core.Models;
-    using Umbraco.Core.Models.PublishedContent;
     using Umbraco.Web;
 
-    public class BraintreeModel : PublishedContentModel
+    public class BraintreeModel : PageModel
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Umbraco.Core.Models.PublishedContent.PublishedContentModel" /> class with

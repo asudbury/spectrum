@@ -292,6 +292,8 @@
     <Compile Include="Configuration\IocConfiguration.cs" />
     <Compile Include="Extensions\MemberExtensions.cs" />
     <Compile Include="NotificationMessage.cs" />
+    <Compile Include="Payments\ContentModels\BaseModel.cs" />
+    <Compile Include="Payments\ContentModels\PageModel.cs" />
     <Compile Include="Payments\Controllers\PaymentController.cs" />
     <Compile Include="Payments\ContentModels\BraintreeModel.cs" />
     <Compile Include="Payments\Providers\IPaymentProvider.cs" />
