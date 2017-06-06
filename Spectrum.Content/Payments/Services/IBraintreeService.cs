@@ -1,37 +1,33 @@
 ﻿namespace Spectrum.Content.Payments.Services
 {
     using Braintree;
+    using ContentModels;
+    using ViewModels;
 
     public interface IBraintreeService
     {
         /// <summary>
         /// Gets the gateway.
         /// </summary>
-        /// <param name="environment">The environment.</param>
-        /// <param name="merchantId">The merchant identifier.</param>
-        /// <param name="publicKey">The public key.</param>
-        /// <param name="privateKey">The private key.</param>
+        /// <param name="model">The model.</param>
         /// <returns></returns>
-        IBraintreeGateway GetGateway(
-            string environment,
-            string merchantId,
-            string publicKey,
-            string privateKey);
+        IBraintreeGateway GetGateway(BraintreeModel model);
 
         /// <summary>
         /// Gets the token.
         /// </summary>
+        /// <param name="model">The model.</param>
         /// <returns>The token.</returns>
-        string GetToken();
+        string GetAuthToken(BraintreeModel model);
 
         /// <summary>
         /// Makes the payment.
         /// </summary>
-        /// <param name="amount">The amount.</param>
-        /// <param name="nonce">The nonce.</param>
+        /// <param name="model">The model.</param>
+        /// <param name="viewModel">The view model.</param>
         /// <returns></returns>
         bool MakePayment(
-            decimal amount,
-            string nonce);
+            BraintreeModel model,
+            PaymentViewModel viewModel);
     }
 }

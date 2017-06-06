@@ -293,6 +293,7 @@
     <Compile Include="Extensions\MemberExtensions.cs" />
     <Compile Include="NotificationMessage.cs" />
     <Compile Include="Payments\Controllers\PaymentController.cs" />
+    <Compile Include="Payments\ContentModels\BraintreeModel.cs" />
     <Compile Include="Payments\Providers\IPaymentProvider.cs" />
     <Compile Include="Payments\Providers\PaymentProvider.cs" />
     <Compile Include="Payments\Services\BraintreeService.cs" />

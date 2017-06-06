@@ -1,6 +1,8 @@
 ﻿namespace Spectrum.Content.Payments.Providers
 {
+    using ContentModels;
     using Services;
+    using ViewModels;
 
     public class PaymentProvider : IPaymentProvider
     {
@@ -27,18 +29,26 @@
         }
 
         /// <summary>
+        /// Gets the authentication token.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
+        public string GetAuthToken(BraintreeModel model)
+        {
+            return braintreeService.GetAuthToken(model);
+        }
+
+        /// <summary>
         /// Makes the payment.
         /// </summary>
+        /// <param name="model">The model.</param>
+        /// <param name="viewModel">The view model.</param>
         /// <returns></returns>
-        public bool MakePayment()
+        public bool MakePayment(
+            BraintreeModel model,
+            PaymentViewModel viewModel)
         {
-            ////braintreeService.GetGateway();
-
-            ////braintreeService.GetToken();
-
-            ////braintreeService.MakePayment();
-
-            return true;
+            return braintreeService.MakePayment(model, viewModel);
         }
     }
 }

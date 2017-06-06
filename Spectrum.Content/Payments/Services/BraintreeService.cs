@@ -1,65 +1,58 @@
 ﻿namespace Spectrum.Content.Payments.Services
 {
+    using ContentModels;
     using Braintree;
+    using ViewModels;
 
     public class BraintreeService : IBraintreeService
     {
         /// <summary>
-        /// The braintree gateway.
-        /// </summary>
-        private IBraintreeGateway braintreeGateway;
-
-        /// <summary>
         /// Gets the gateway.
         /// </summary>
-        /// <param name="environment">The environment.</param>
-        /// <param name="merchantId">The merchant identifier.</param>
-        /// <param name="publicKey">The public key.</param>
-        /// <param name="privateKey">The private key.</param>
+        /// <param name="model">The model.</param>
         /// <returns></returns>
-        public IBraintreeGateway GetGateway(
-            string environment, 
-            string merchantId, 
-            string publicKey, 
-            string privateKey)
+        public IBraintreeGateway GetGateway(BraintreeModel model)
         {
-            return braintreeGateway ?? (braintreeGateway = new BraintreeGateway(
-                                                                environment, 
-                                                                merchantId, 
-                                                                publicKey, 
-                                                                privateKey));
+            return new BraintreeGateway(
+                        model.Environment, 
+                        model.MerchantId, 
+                        model.PublicKey, 
+                        model.PrivateKey);
         }
 
         /// <summary>
         /// Gets the token.
         /// </summary>
-        /// <returns>The token.</returns>
-        public string GetToken()
+        /// <param name="model">The model.</param>
+        /// <returns>
+        /// The token.
+        /// </returns>
+        public string GetAuthToken(BraintreeModel model)
         {
-            return braintreeGateway.ClientToken.generate();
+            return GetGateway(model).ClientToken.generate();
         }
 
         /// <summary>
         /// Makes the payment.
         /// </summary>
-        /// <param name="amount">The amount.</param>
-        /// <param name="nonce">The nonce.</param>
+        /// <param name="model">The model.</param>
+        /// <param name="viewModel">The view model.</param>
         /// <returns></returns>
         public bool MakePayment(
-            decimal amount,
-            string nonce)
+            BraintreeModel model,
+            PaymentViewModel viewModel)
         {
             TransactionRequest request = new TransactionRequest
             {
-                Amount = amount,
-                PaymentMethodNonce = nonce,
+                Amount = viewModel.Amount,
+                PaymentMethodNonce = viewModel.Nonce,
                 Options = new TransactionOptionsRequest
                 {
                     SubmitForSettlement = true
                 }
             };
 
-            Result<Transaction> result = braintreeGateway.Transaction.Sale(request);
+            Result<Transaction> result = GetGateway(model).Transaction.Sale(request);
 
             if (result.IsSuccess())
             {

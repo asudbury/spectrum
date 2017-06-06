@@ -343,11 +343,20 @@
     <Content Include="Config\Lang\ru-RU.user.xml" />
     <Content Include="Config\Lang\sv-SE.user.xml" />
     <Content Include="Config\Lang\zh-CN.user.xml" />
+    <Content Include="css\spectrum\style.css" />
     <Content Include="default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="scripts\spectrum\braintree.js" />
+    <Content Include="scripts\init.js" />
+    <Content Include="scripts\jquery.min.js" />
+    <Content Include="scripts\jquery.poptrox-2.2.js" />
+    <Content Include="scripts\Overflow.js" />
+    <Content Include="scripts\Overflow.min.js" />
+    <Content Include="scripts\skel.min.js" />
+    <Content Include="Views\Partials\Spectrum\Payment.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Config\imageprocessor\security.config" />
     <Content Include="Config\imageprocessor\processing.config" />
@@ -371,10 +380,10 @@
     <Content Include="Config\BaseRestExtensions.config" />
     <Content Include="Config\applications.config" />
     <Content Include="Config\404handlers.config" />
-    <None Include="Properties\PublishProfiles\AdrianTest.pubxml" />
     <None Include="Properties\PublishProfiles\DevelopPublush.pubxml" />
+    <None Include="Properties\PublishProfiles\Playground.pubxml" />
     <None Include="Properties\PublishProfiles\ScorchioCMS.pubxml" />
-    <Content Include="Views\Partials\Register.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Register.cshtml" />
     <Content Include="Views\Partials\Grid\Editors\Textstring.cshtml" />
     <Content Include="Views\Partials\Grid\Editors\Rte.cshtml" />
     <Content Include="Views\Partials\Grid\Editors\Media.cshtml" />
@@ -385,6 +394,8 @@
     <Content Include="Views\Partials\Grid\Bootstrap3-Fluid.cshtml" />
     <Content Include="Views\Partials\Grid\Bootstrap2.cshtml" />
     <Content Include="Views\Partials\Grid\Bootstrap2-Fluid.cshtml" />
+    <Content Include="scripts\jquery-1.10.2.min.map" />
+    <Content Include="scripts\Overflow.min.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

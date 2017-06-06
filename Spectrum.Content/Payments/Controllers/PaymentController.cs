@@ -1,6 +1,8 @@
-﻿
+﻿using Umbraco.Core.Models;
+
 namespace Spectrum.Content.Payments.Controllers
 {
+    using ContentModels;
     using Providers;
     using System.Web.Mvc;
     using System;
@@ -52,12 +54,27 @@ namespace Spectrum.Content.Payments.Controllers
         }
 
         /// <summary>
-        /// Renders the payment partial view.
+        /// Gets the authentication token.
         /// </summary>
-        /// <returns>An ActionResult</returns>
-        public ActionResult RenderPayment()
+        /// <returns></returns>
+        [ChildActionOnly]
+        public ActionResult GetAuthToken()
         {
-            return PartialView("Payment", new PaymentViewModel());
+            BraintreeModel model = new BraintreeModel(CurrentPage);
+
+            string token = paymentProvider.GetAuthToken(model);
+
+            return Content(token);
+        }
+
+        /// <summary>
+        /// Gets the node identifier.
+        /// </summary>
+        /// <returns></returns>
+        [ChildActionOnly]
+        public ActionResult GetNodeId()
+        {
+            return Content(CurrentPage.Id.ToString());
         }
 
         /// <summary>
@@ -66,7 +83,6 @@ namespace Spectrum.Content.Payments.Controllers
         /// <param name="viewModel">The view model.</param>
         /// <returns>An ActionResult</returns>
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult HandlePayment(PaymentViewModel viewModel)
         {
            try
@@ -76,16 +92,11 @@ namespace Spectrum.Content.Payments.Controllers
                     return PartialView("Payment", viewModel);
                 }
 
-                ////RegisteredUser registeredUser = registrationProvider.RegisterUser(viewModel);
+                IPublishedContent currentPage = Umbraco.TypedContent(viewModel.NodeId);
+                
+                BraintreeModel model = new BraintreeModel(currentPage);
 
-                /*if (registeredUser == null)
-                {
-                    string message = viewModel.Name + " Member already exists";
-
-                    LoggingService.Info(GetType(), message);
-                    ModelState.AddModelError(string.Empty, message);
-                    return PartialView("Payment", viewModel);
-                }*/
+                paymentProvider.MakePayment(model, viewModel);
 
                 //// now we want to send out the email!
                 ////perplexMailService.SendEmail(1112, viewModel.EmailAddress);
@@ -106,8 +117,6 @@ namespace Spectrum.Content.Payments.Controllers
                 LoggingService.Error(GetType(), "Payment Error", e);
                 throw;
             }
-            
         }
-        
     }
 }

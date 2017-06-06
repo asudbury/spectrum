@@ -1,5 +1,6 @@
 ﻿namespace Spectrum.Content.Extensions
 {
+    using System;
     using Umbraco.Core.Models;
 
     public static class MemberExtensions
@@ -15,9 +16,16 @@
             string propertyName,
             object value)
         {
-            if (instance.HasProperty(propertyName))
+            try
             {
-                instance.SetValue(propertyName, value);
+                if (instance.HasProperty(propertyName))
+                {
+                    instance.SetValue(propertyName, value);
+                }
+            }
+            catch (Exception)
+            {
+                // ignored
             }
         }
     }

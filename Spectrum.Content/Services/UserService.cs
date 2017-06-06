@@ -66,9 +66,9 @@
 
             member.IsApproved = false;
 
-            member.SetValueIfHasProperty(UserConstants.HasVerifiedEmail, false);
-            member.SetValueIfHasProperty(UserConstants.ProfileUrl, member.Id);
-            member.SetValueIfHasProperty(UserConstants.RegistrationDate, DateTime.Now);
+            ////member.SetValueIfHasProperty(UserConstants.HasVerifiedEmail, false);
+            ////member.SetValueIfHasProperty(UserConstants.ProfileUrl, member.Id);
+            ////member.SetValueIfHasProperty(UserConstants.RegistrationDate, DateTime.Now);
 
             MemberService.Save(member);
             MemberService.SavePassword(member, password);
