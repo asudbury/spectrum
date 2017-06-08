@@ -1,5 +1,7 @@
 ﻿namespace Spectrum.Content.Payments.ViewModels
 {
+    using Newtonsoft.Json;
+
     /// <summary>
     /// The PaymentViewModel class.
     /// </summary>
@@ -8,21 +10,25 @@
         /// <summary>
         /// Gets or sets the current page node identifier.
         /// </summary>
+        [JsonProperty(PropertyName = "currentPageNodeId")]
         public string CurrentPageNodeId { get; set; }
 
         /// <summary>
         /// Gets or sets the email address.
         /// </summary>
+        [JsonProperty(PropertyName = "emailAddress")]
         public string EmailAddress { get; set; }
 
         /// <summary>
         /// Gets or sets the nonce.
         /// </summary>
+        [JsonProperty(PropertyName = "nonce")]
         public string Nonce { get; set; }
 
         /// <summary>
         /// Gets or sets the amount.
         /// </summary>
+        [JsonProperty(PropertyName = "amount")]
         public decimal Amount { get; set; }
     }
 }

@@ -101,26 +101,31 @@ namespace Spectrum.Content.Payments.Controllers
         {
            try
             {
-                if (!ModelState.IsValid)
-                {
-                    return PartialView("Payment", viewModel);
-                }
+                LoggingService.Info(GetType(), "Entering HandlePayment");
 
                 IPublishedContent currentPage = Umbraco.TypedContent(viewModel.CurrentPageNodeId);
                 
                 BraintreeModel model = new BraintreeModel(currentPage);
 
+                LoggingService.Info(GetType(), "HandlePayment MakePayment");
+
                 bool paymentMade = paymentProvider.MakePayment(model, viewModel);
 
                 if (paymentMade)
                 {
+                    LoggingService.Info(GetType(), "Payment Succesful");
+
                     if (model.EmailTemplateNodeId.HasValue)
                     {
+                        LoggingService.Info(GetType(), "Sending Email");
+
                         perplexMailService.SendEmail(model.EmailTemplateNodeId.Value, viewModel.EmailAddress);
                     }
 
                     return Content(GetPageUrl(model.NextPageNodeId));
                 }
+
+                LoggingService.Info(GetType(), "Payment Failed");
 
                 return Content(GetPageUrl(model.ErrorPageNodeId));
             }
