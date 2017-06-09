@@ -4,10 +4,9 @@
     using System;
     using System.Web.Mvc;
     using Umbraco.Core.Models;
-    using Umbraco.Web.Mvc;
     using ViewModels;
 
-    public class LoginController : SurfaceController
+    public class LoginController : BaseController
     {
         /// <summary>
         /// The user service.
@@ -15,10 +14,14 @@
         private readonly IUserService userService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LoginController"/> class.
+        /// Initializes a new instance of the <see cref="LoginController" /> class.
         /// </summary>
+        /// <param name="loggingService">The logging service.</param>
         /// <param name="userService">The user service.</param>
-        public LoginController(IUserService userService)
+        public LoginController(
+            ILoggingService loggingService,
+            IUserService userService)
+            : base(loggingService)
         {
             this.userService = userService;
             this.userService.MemberService = Services.MemberService;
@@ -27,28 +30,10 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="LoginController"/> class.
         /// </summary>
-        public LoginController() : this(new UserService())
+        public LoginController() : 
+            this(new LoggingService(), 
+                new UserService())
         {
-        }
-
-        /// <summary>
-        /// Renders the login.
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult RenderLogin()
-        {
-            LoginViewModel viewModel = new LoginViewModel();
-
-            if (string.IsNullOrEmpty(HttpContext.Request["ReturnUrl"]))
-            {
-                viewModel.ReturnUrl = "/";
-            }
-            else
-            {
-                viewModel.ReturnUrl = HttpContext.Request["ReturnUrl"];
-            }
-
-            return PartialView("Login", viewModel);
         }
 
         /// <summary>
@@ -60,6 +45,8 @@
         [ValidateAntiForgeryToken]
         public ActionResult HandleLogin(LoginViewModel viewModel)
         {
+            LoggingService.Info(GetType(), "HandleLogin");
+            
             if (!ModelState.IsValid)
             {
                 return PartialView("Login", viewModel);
@@ -67,6 +54,7 @@
 
             if (userService.IsUserLoggedIn())
             {
+                LoggingService.Info(GetType(), "User LoggedIn");
                 return Redirect("/");
             }
 
@@ -76,6 +64,8 @@
 
                 if (result)
                 {
+                    LoggingService.Info(GetType(), "Successful Log In");
+
                     IMember member = userService.GetUser(viewModel.EmailAddress);
 
                     userService.UpdateLoginStatus( member);
@@ -83,11 +73,14 @@
                     return new RedirectResult(viewModel.ReturnUrl);
                 }
 
+                LoggingService.Info(GetType(), "Insuccessful Log In");
+
                 ModelState.AddModelError("LoginForm.", "Invalid details");
                 return PartialView("Login", viewModel);
             }
             catch (Exception ex)
             {
+                LoggingService.Error(GetType(), "Login Error", ex);
                 ModelState.AddModelError("LoginForm.", "Error: " + ex);
                 return PartialView("Login", viewModel);
             }
@@ -99,8 +92,11 @@
         /// <returns></returns>
         public ActionResult Logout()
         {
+            LoggingService.Info(GetType(), "Logout");
+
             if (userService.IsUserLoggedIn())
             {
+                Session.Clear();
                 userService.Logout();
             }
 

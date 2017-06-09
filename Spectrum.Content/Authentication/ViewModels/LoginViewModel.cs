@@ -22,6 +22,11 @@
         public string Password { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether [remember me].
+        /// </summary>
+        public bool RememberMe { get; set; }
+
+        /// <summary>
         /// Gets or sets the return URL.
         /// </summary>
         [HiddenInput(DisplayValue = false)]

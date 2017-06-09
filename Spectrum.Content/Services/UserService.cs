@@ -149,7 +149,7 @@
                 throw new ArgumentException("Member not supplied");
             }
 
-            string hostName = Dns.GetHostName();
+            /*string hostName = Dns.GetHostName();
             string ipAddress = Dns.GetHostAddresses(hostName).GetValue(0).ToString();
 
             if (member.HasProperty(UserConstants.NumberOfLogins))
@@ -157,10 +157,10 @@
                 int noLogins = member.GetValue<int>(UserConstants.NumberOfLogins);
                 member.SetValueIfHasProperty(UserConstants.NumberOfLogins, noLogins + 1);
             }
-
-            member.SetValueIfHasProperty(UserConstants.LastLoggedInDateTime, DateTime.Now);
-            member.SetValueIfHasProperty(UserConstants.HostNameOfLastLogin, hostName);
-            member.SetValueIfHasProperty(UserConstants.IpAddressOfLastLogin, ipAddress);
+            */
+            ////member.SetValueIfHasProperty(UserConstants.LastLoggedInDateTime, DateTime.Now);
+            ////member.SetValueIfHasProperty(UserConstants.HostNameOfLastLogin, hostName);
+            ////member.SetValueIfHasProperty(UserConstants.IpAddressOfLastLogin, ipAddress);
 
             MemberService.Save(member);
         }
