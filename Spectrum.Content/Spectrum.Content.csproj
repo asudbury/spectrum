@@ -291,6 +291,7 @@
     <Compile Include="Authentication\ViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="Configuration\IocConfiguration.cs" />
     <Compile Include="Extensions\MemberExtensions.cs" />
+    <Compile Include="Handlers\Error404Handler.cs" />
     <Compile Include="NotificationMessage.cs" />
     <Compile Include="Payments\ContentModels\BaseModel.cs" />
     <Compile Include="Payments\ContentModels\PageModel.cs" />
