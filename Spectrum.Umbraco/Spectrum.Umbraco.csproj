@@ -412,6 +412,8 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Partials\Spectrum\Navigation\MainNavigation.cshtml" />
     <Content Include="Views\Partials\Spectrum\Membership\Login.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Membership\Logout.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Navigation\Menu.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -437,7 +439,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Spectrum\" />
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,4 +1,4 @@
-﻿namespace Spectrum.Content.Payments.ContentModels
+﻿namespace Spectrum.Content.ContentModels
 {
     using Umbraco.Core.Models;
 

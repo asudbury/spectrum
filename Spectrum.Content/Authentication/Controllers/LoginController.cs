@@ -1,9 +1,11 @@
 ﻿namespace Spectrum.Content.Authentication.Controllers
 {
+    using ContentModels;
     using Services;
     using System;
     using System.Web.Mvc;
     using Umbraco.Core.Models;
+    using Umbraco.Web;
     using ViewModels;
 
     public class LoginController : BaseController
@@ -14,17 +16,25 @@
         private readonly IUserService userService;
 
         /// <summary>
+        /// The settings service.
+        /// </summary>
+        private readonly ISettingsService settingsService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="LoginController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
+        /// <param name="settingsService">The settings service.</param>
         /// <param name="userService">The user service.</param>
         public LoginController(
             ILoggingService loggingService,
+            ISettingsService settingsService,
             IUserService userService)
             : base(loggingService)
         {
             this.userService = userService;
             this.userService.MemberService = Services.MemberService;
+            this.settingsService = settingsService;
         }
 
         /// <summary>
@@ -32,7 +42,8 @@
         /// </summary>
         public LoginController() : 
             this(new LoggingService(), 
-                new UserService())
+                 new SettingsService(), 
+                 new UserService())
         {
         }
 
@@ -46,7 +57,9 @@
         public ActionResult HandleLogin(LoginViewModel viewModel)
         {
             LoggingService.Info(GetType(), "HandleLogin");
-            
+
+            TempData["Status"] = string.Empty;
+
             if (!ModelState.IsValid)
             {
                 return PartialView("Login", viewModel);
@@ -68,21 +81,37 @@
 
                     IMember member = userService.GetUser(viewModel.EmailAddress);
 
-                    userService.UpdateLoginStatus( member);
+                    userService.UpdateLoginStatus(member);
 
-                    return new RedirectResult(viewModel.ReturnUrl);
+                    string role = userService.GetDefaultRole(member.Username);
+
+                    if (!string.IsNullOrEmpty(role))
+                    { 
+                        IPublishedContent menuNode = settingsService.GetMenu(UmbracoContext.Current, role);
+
+                        if (menuNode != null)
+                        { 
+                            MenuModel menuModel = new MenuModel(menuNode);
+
+                            viewModel.ReturnUrl = menuModel.LandingPage;
+                        }
+                    }
+
+                    return !string.IsNullOrEmpty(viewModel.ReturnUrl) ? new RedirectResult(viewModel.ReturnUrl) 
+                                                                      : new RedirectResult("/");
                 }
 
                 LoggingService.Info(GetType(), "Insuccessful Log In");
 
-                ModelState.AddModelError("LoginForm.", "Invalid details");
-                return PartialView("Login", viewModel);
+                TempData["Status"] = "Invalid Log-in Credentials";
+                return RedirectToCurrentUmbracoPage();
             }
             catch (Exception ex)
             {
                 LoggingService.Error(GetType(), "Login Error", ex);
-                ModelState.AddModelError("LoginForm.", "Error: " + ex);
-                return PartialView("Login", viewModel);
+
+                TempData["Status"] = "Could not login";
+                return RedirectToCurrentUmbracoPage();
             }
         }
 
@@ -90,17 +119,19 @@
         /// Logouts this instance.
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public ActionResult Logout()
         {
             LoggingService.Info(GetType(), "Logout");
 
             if (userService.IsUserLoggedIn())
             {
+                TempData.Clear();
                 Session.Clear();
                 userService.Logout();
             }
 
-            return Redirect("/");
+            return Content(string.Empty);
         }
     }
 }

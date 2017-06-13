@@ -1,4 +1,4 @@
-﻿namespace Spectrum.Content.Payments.ContentModels
+﻿namespace Spectrum.Content.ContentModels
 {
     using Umbraco.Core.Models;
     using Umbraco.Core.Models.PublishedContent;
@@ -31,6 +31,16 @@
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Gets the nice URL.
+        /// </summary>
+        /// <param name="nodeId">The node identifier.</param>
+        /// <returns></returns>
+        public string GetNiceUrl(int nodeId)
+        {
+            return umbraco.library.NiceUrl(nodeId);
         }
     }
 }

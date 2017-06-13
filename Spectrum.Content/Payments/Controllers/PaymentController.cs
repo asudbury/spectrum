@@ -1,5 +1,4 @@
-﻿
-namespace Spectrum.Content.Payments.Controllers
+﻿namespace Spectrum.Content.Payments.Controllers
 {
     using Content.Services;
     using Content.Services.Mail;

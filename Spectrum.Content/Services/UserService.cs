@@ -1,8 +1,9 @@
 ﻿namespace Spectrum.Content.Services
 {
-    using Extensions;
     using System;
-    using System.Net;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web.Security;
     using Umbraco.Core.Models;
     using Umbraco.Core.Services;
     using Umbraco.Web.Security;
@@ -178,6 +179,34 @@
             }
 
             return member.Key;
+        }
+
+        /// <summary>
+        /// Gets the default role.
+        /// </summary>
+        /// <returns></returns>
+        public string GetDefaultRole()
+        {
+            string[] roles = Roles.GetRolesForUser();
+            
+            return roles.Length > 0 ? roles[0] : string.Empty;
+        }
+
+        /// <summary>
+        /// Gets the default role.
+        /// </summary>
+        /// <param name="member">The member.</param>
+        /// <returns></returns>
+        public string GetDefaultRole(string member)
+        {
+            List<string> memberRoles = Roles.GetRolesForUser(member).ToList();
+
+            if (memberRoles.Count > 0)
+            {
+                return memberRoles.First();
+            }
+
+            return string.Empty;
         }
 
         /// <summary>
