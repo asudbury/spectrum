@@ -395,7 +395,7 @@
     <None Include="Properties\PublishProfiles\DevelopPublush.pubxml" />
     <None Include="Properties\PublishProfiles\Playground.pubxml" />
     <None Include="Properties\PublishProfiles\ScorchioCMS.pubxml" />
-    <Content Include="Views\Partials\Spectrum\Register.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Registration\Register.cshtml" />
     <Content Include="Views\Partials\Grid\Editors\Textstring.cshtml" />
     <Content Include="Views\Partials\Grid\Editors\Rte.cshtml" />
     <Content Include="Views\Partials\Grid\Editors\Media.cshtml" />
