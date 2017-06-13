@@ -46,7 +46,7 @@
                 </div>
                 <div class="form-group col-xs-6">
                     <label class="control-label">Amount</label>
-                    <div class="form-control" id="postal-code"></div>
+                    <div class="form-control" id="amount"></div>
                 </div>
             </div>
 
@@ -59,9 +59,9 @@
             
             <script>
 
-                var xxxx = '@Html.Action("GetAuthToken", "Payment")';
-                var yyyy = '@Html.Action("GetNodeId", "Payment")';
-                var zzzz = '@Url.Action("HandlePayment", "Payment")';
+                var xxxx   = '@Html.Action("GetAuthToken", "Payment")';
+                var nodeId = '@Html.Action("GetNodeId", "Payment")';
+                var url    = '@Url.Action("HandlePayment", "Payment")';
 
                 braintree.client.create({
                     authorization: xxxx
@@ -155,20 +155,20 @@
                                     return;
                                 }
 
-                                var nodeIdString = '"' + yyyy + '"';
+                                var nodeIdString = '"' + nodeId + '"';
                                 var nonceString = '"' + payload.nonce + '"';
 
                                 $.ajax({
-                                    url: zzzz,
+                                    url: url,
                                     type: 'POST',
                                     dataType: 'json',
                                     data: '{ "currentPageNodeId": ' + nodeIdString + ', "emailAddress":"a@a.com", "nonce": ' + nonceString + ', "amount": "10"}',
                                     contentType: 'application/json; charset=utf-8',
                                     success: function (data) {
-                                        alert("success" + data);
+                                        window.location.href = data;
                                     },
                                     error: function (request, status, errorThrown) {
-                                        alert("error" + errorThrown);
+                                        window.location.href = "/error";
                                     }
                                 });
                             });

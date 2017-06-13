@@ -29,5 +29,12 @@
         bool MakePayment(
             BraintreeModel model,
             PaymentViewModel viewModel);
+
+        /// <summary>
+        /// Gets the transactions.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
+        ResourceCollection<Transaction> GetTransactions(BraintreeModel model);
     }
 }

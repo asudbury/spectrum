@@ -23,9 +23,28 @@
         {
             IPublishedProperty property = GetProperty(propertyName);
 
-            if (property != null)
+            if (property != null &&
+                property.HasValue)
             {
-                int nodeId = (int)property.DataValue;
+                int value;
+                int? nodeId = null;
+
+                bool isNumeric = int.TryParse(property.DataValue.ToString(), out value);
+
+                if (isNumeric)
+                {
+                    nodeId = (int)property.DataValue;
+                }
+
+                else
+                {
+                    IPublishedContent content = (IPublishedContent)property.Value;
+
+                    if (content != null)
+                    {
+                        nodeId = content.Id;
+                    }
+                }
 
                 return nodeId;
             }
@@ -38,9 +57,14 @@
         /// </summary>
         /// <param name="nodeId">The node identifier.</param>
         /// <returns></returns>
-        public string GetNiceUrl(int nodeId)
+        public string GetNiceUrl(int? nodeId)
         {
-            return umbraco.library.NiceUrl(nodeId);
+            if (nodeId.HasValue)
+            {
+                return umbraco.library.NiceUrl(nodeId.Value);
+            }
+
+            return string.Empty;
         }
     }
 }

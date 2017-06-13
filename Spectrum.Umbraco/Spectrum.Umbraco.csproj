@@ -366,7 +366,6 @@
     <Content Include="scripts\Overflow.js" />
     <Content Include="scripts\Overflow.min.js" />
     <Content Include="scripts\skel.min.js" />
-    <Content Include="Views\Partials\Spectrum\Payment.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Config\imageprocessor\security.config" />
     <Content Include="Config\imageprocessor\processing.config" />
@@ -414,6 +413,8 @@
     <Content Include="Views\Partials\Spectrum\Membership\Login.cshtml" />
     <Content Include="Views\Partials\Spectrum\Membership\Logout.cshtml" />
     <Content Include="Views\Partials\Spectrum\Navigation\Menu.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Payments\Transactions.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Payments\Payment.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -441,6 +442,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
