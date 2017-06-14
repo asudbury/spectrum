@@ -371,7 +371,6 @@
     <Content Include="Config\imageprocessor\processing.config" />
     <Content Include="Config\imageprocessor\cache.config" />
     <Content Include="Config\Dashboard.config" />
-    <Content Include="App_Config\Registration.config" />
     <Content Include="App_Plugins\ModelsBuilder\package.manifest" />
     <Content Include="Media\Web.config" />
     <Content Include="Config\umbracoSettings.config" />
