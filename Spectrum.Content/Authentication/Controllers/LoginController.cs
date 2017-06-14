@@ -131,7 +131,7 @@
                 userService.Logout();
             }
 
-            return Content(string.Empty);
+            return Content("/");
         }
     }
 }
