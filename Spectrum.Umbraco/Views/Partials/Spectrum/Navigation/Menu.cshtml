@@ -1,0 +1,14 @@
+﻿@model Spectrum.Content.Navigation.ViewModels.MenuViewModel
+@{
+}
+
+<ul class="nav nav-pills">
+
+    @foreach (var menuItem in Model.MenuItems)
+    {
+        <li>
+            <a href="@menuItem.Link">@menuItem.Text</a>
+        </li>
+    }
+</ul>
+

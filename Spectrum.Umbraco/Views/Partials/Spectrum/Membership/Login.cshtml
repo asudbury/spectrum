@@ -12,18 +12,43 @@
     @Html.ValidationSummary(true)
 
 
-    <div class="editor-field">
-        @Html.LabelFor(model => model.EmailAddress)
-        @Html.EditorFor(model => model.EmailAddress)
+    <div class="panel panel-default bootstrap-basic">
+        <div class="panel-heading">
+            <h3 class="panel-title">Login</h3>
+        </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="form-group col-xs-8">
+                <label class="control-label">Email Address</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-xs-8">
+                @Html.EditorFor(model => model.EmailAddress)
+                @Html.ValidationMessageFor(model => model.EmailAddress)
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-xs-8">
+                <label class="control-label">Password</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-xs-8">
+                @Html.EditorFor(model => model.Password)
+                @Html.ValidationMessageFor(model => model.Password)
+            </div>
+        </div>
+        
+        <button value="submit" id="submit" class="btn btn-success btn-lg">Login</button>
+        
+        <div class="row">
+            <div class="form-group col-xs-8">
+                <p>@TempData["Status"]</p>
+            </div>
+        </div>
+
     </div>
-
-
-    <div class="editor-label">
-        @Html.LabelFor(model => model.Password)
-        @Html.EditorFor(model => model.Password)
     </div>
-
-    <p>
-        <input type="submit" value="Login" />
-    </p>
 }
+

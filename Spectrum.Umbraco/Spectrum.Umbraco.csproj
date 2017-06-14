@@ -367,13 +367,11 @@
     <Content Include="scripts\Overflow.js" />
     <Content Include="scripts\Overflow.min.js" />
     <Content Include="scripts\skel.min.js" />
-    <Content Include="Views\Partials\Spectrum\Payment.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Config\imageprocessor\security.config" />
     <Content Include="Config\imageprocessor\processing.config" />
     <Content Include="Config\imageprocessor\cache.config" />
     <Content Include="Config\Dashboard.config" />
-    <Content Include="App_Config\Registration.config" />
     <Content Include="App_Plugins\ModelsBuilder\package.manifest" />
     <Content Include="Media\Web.config" />
     <Content Include="Config\umbracoSettings.config" />
@@ -397,7 +395,7 @@
     <None Include="Properties\PublishProfiles\DevelopPublush.pubxml" />
     <None Include="Properties\PublishProfiles\Playground.pubxml" />
     <None Include="Properties\PublishProfiles\ScorchioCMS.pubxml" />
-    <Content Include="Views\Partials\Spectrum\Register.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Registration\Register.cshtml" />
     <Content Include="Views\Partials\Grid\Editors\Textstring.cshtml" />
     <Content Include="Views\Partials\Grid\Editors\Rte.cshtml" />
     <Content Include="Views\Partials\Grid\Editors\Media.cshtml" />
@@ -413,6 +411,10 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Partials\Spectrum\Navigation\MainNavigation.cshtml" />
     <Content Include="Views\Partials\Spectrum\Membership\Login.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Membership\Logout.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Navigation\Menu.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Payments\Transactions.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Payments\Payment.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -438,8 +440,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Spectrum\" />
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

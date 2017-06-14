@@ -1,18 +1,12 @@
 ﻿@inherits UmbracoTemplatePage
 @{
-    var root = CurrentPage.AncestorOrSelf(1);
 }
 
-<ul>
+<nav>
+    @Html.Action("GetMenu", "MainNavigation")
     
-    <li class="@(root.IsAncestorOrSelf(CurrentPage) ? "current" : null)">
-        <a href="@root.Url">@root.Name</a>
-    </li>
-
-    @foreach (var page in root.Children)
+    @if (User.Identity.IsAuthenticated)
     {
-        <li class="@(page.IsAncestorOrSelf(CurrentPage) ? "current" : null)">
-            <a href="@page.Url">@page.Name</a>
-        </li>
+        <h5>Welcome @User.Identity.Name</h5>
     }
-</ul>
+</nav>

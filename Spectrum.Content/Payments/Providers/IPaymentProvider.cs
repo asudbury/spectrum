@@ -1,5 +1,6 @@
 ﻿namespace Spectrum.Content.Payments.Providers
 {
+    using Braintree;
     using ContentModels;
     using ViewModels;
 
@@ -21,5 +22,13 @@
         bool MakePayment(
             BraintreeModel braintreeModel,
             PaymentViewModel model);
+
+        /// <summary>
+        /// Gets the transactions.
+        /// </summary>
+        /// <param name="braintreeModel">The braintree model.</param>
+        /// <returns></returns>
+        ResourceCollection<Transaction> GetTransactions(BraintreeModel braintreeModel);
+
     }
 }

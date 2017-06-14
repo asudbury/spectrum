@@ -74,5 +74,18 @@ namespace Spectrum.Content.Services
         /// <param name="member">The member.</param>
         /// <returns>The Guid.</returns>
         Guid GetUserGuid(IMember member);
+
+        /// <summary>
+        /// Gets the default role.
+        /// </summary>
+        /// <returns></returns>
+        string GetDefaultRole();
+
+        /// <summary>
+        /// Gets the default role.
+        /// </summary>
+        /// <param name="member">The member.</param>
+        /// <returns></returns>
+        string GetDefaultRole(string member);
     }
 }

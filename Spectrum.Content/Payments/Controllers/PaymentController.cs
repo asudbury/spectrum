@@ -1,6 +1,6 @@
-﻿
-namespace Spectrum.Content.Payments.Controllers
+﻿namespace Spectrum.Content.Payments.Controllers
 {
+    using Braintree;
     using Content.Services;
     using Content.Services.Mail;
     using ContentModels;
@@ -97,15 +97,30 @@ namespace Spectrum.Content.Payments.Controllers
         /// <param name="viewModel">The view model.</param>
         /// <returns>An ActionResult</returns>
         [HttpPost]
-        public ActionResult HandlePayment(PaymentViewModel viewModel)
+        public JsonResult HandlePayment(PaymentViewModel viewModel)
         {
            try
             {
                 LoggingService.Info(GetType(), "Entering HandlePayment");
 
+                if (string.IsNullOrEmpty(viewModel.CurrentPageNodeId))
+                {
+                    throw new ApplicationException("Current Page Id Not Set");
+                }
+
                 IPublishedContent currentPage = Umbraco.TypedContent(viewModel.CurrentPageNodeId);
-                
+
                 BraintreeModel model = new BraintreeModel(currentPage);
+
+                if (string.IsNullOrEmpty(model.NextPageUrl))
+                {
+                    throw new ApplicationException("Next Page Url Not Set");
+                }
+
+                if (string.IsNullOrEmpty(model.ErrorPageUrl))
+                {
+                    throw new ApplicationException("Error Page Url Not Set");
+                }
 
                 LoggingService.Info(GetType(), "HandlePayment MakePayment");
 
@@ -115,25 +130,41 @@ namespace Spectrum.Content.Payments.Controllers
                 {
                     LoggingService.Info(GetType(), "Payment Succesful");
 
-                    if (model.EmailTemplateNodeId.HasValue)
+                    /*if (model.EmailTemplateNodeId.HasValue)
                     {
                         LoggingService.Info(GetType(), "Sending Email");
 
                         perplexMailService.SendEmail(model.EmailTemplateNodeId.Value, viewModel.EmailAddress);
-                    }
+                    }*/
 
-                    return Content(GetPageUrl(model.NextPageNodeId));
+                    return Json(model.NextPageUrl);
                 }
 
                 LoggingService.Info(GetType(), "Payment Failed");
 
-                return Content(GetPageUrl(model.ErrorPageNodeId));
+                return Json(model.ErrorPageUrl);
             }
             catch (Exception e)
             {
                 LoggingService.Error(GetType(), "Payment Error", e);
-                throw;
+                return Json("/Error");
             }
+        }
+
+        /// <summary>
+        /// Gets the transactions.
+        /// </summary>
+        /// <returns></returns>
+        [ChildActionOnly]
+        public ActionResult GetTransactions()
+        {
+            IPublishedContent currentPage = Umbraco.TypedContent(CurrentPage.Id.ToString());
+
+            BraintreeModel model = new BraintreeModel(currentPage);
+
+            ResourceCollection<Transaction> transactions = paymentProvider.GetTransactions(model);
+
+            return null;
         }
     }
 }

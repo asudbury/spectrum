@@ -61,5 +61,17 @@
 
             return false;
         }
+
+        /// <summary>
+        /// Gets the transactions.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
+        public ResourceCollection<Transaction> GetTransactions(BraintreeModel model)
+        {
+            TransactionSearchRequest request = new TransactionSearchRequest();
+
+            return GetGateway(model).Transaction.Search(request);
+        }
     }
 }
