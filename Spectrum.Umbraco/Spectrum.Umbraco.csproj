@@ -408,7 +408,6 @@
     <Content Include="Views\Partials\Grid\Bootstrap2-Fluid.cshtml" />
     <Content Include="scripts\jquery-1.10.2.min.map" />
     <Content Include="scripts\Overflow.min.js.map" />
-    <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Partials\Spectrum\Navigation\MainNavigation.cshtml" />
     <Content Include="Views\Partials\Spectrum\Membership\Login.cshtml" />
     <Content Include="Views\Partials\Spectrum\Membership\Logout.cshtml" />

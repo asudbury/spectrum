@@ -119,7 +119,7 @@
         /// Logouts this instance.
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
+        [ChildActionOnly]
         public ActionResult Logout()
         {
             LoggingService.Info(GetType(), "Logout");
@@ -131,7 +131,7 @@
                 userService.Logout();
             }
 
-            return Content(string.Empty);
+            return Content("/");
         }
     }
 }

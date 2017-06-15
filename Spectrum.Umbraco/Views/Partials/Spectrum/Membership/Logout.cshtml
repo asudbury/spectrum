@@ -2,5 +2,8 @@
 @{
 }
 
-@Html.Action("Logout", "Login")
+<script>
+    var loggedOutUrl = "@Html.Action("Logout", "Login")";
 
+    window.location.replace(loggedOutUrl);
+</script>

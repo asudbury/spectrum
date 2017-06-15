@@ -82,6 +82,18 @@
         }
 
         /// <summary>
+        /// Gets the environment.
+        /// </summary>
+        /// <returns></returns>
+        [ChildActionOnly]
+        public ActionResult GetEnvironment()
+        {
+            BraintreeModel model = new BraintreeModel(CurrentPage);
+
+            return Content(model.Environment);
+        }
+
+        /// <summary>
         /// Gets the node identifier.
         /// </summary>
         /// <returns></returns>
