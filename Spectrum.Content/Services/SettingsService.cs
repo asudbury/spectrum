@@ -42,6 +42,63 @@
         }
 
         /// <summary>
+        /// Gets the payments node.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        public IPublishedContent GetPaymentsNode(UmbracoContext context)
+        {
+            IPublishedContent settingsNode = GetSettingsNode(context);
+
+            return settingsNode?.Children.FirstOrDefault(x => x.DocumentTypeAlias == "payments");
+        }
+        
+        /// <summary>
+        /// Gets the maile node.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        public IPublishedContent GetMailNode(UmbracoContext context)
+        {
+            IPublishedContent settingsNode = GetSettingsNode(context);
+
+            return settingsNode?.Children.FirstOrDefault(x => x.DocumentTypeAlias == "mail");
+        }
+
+
+        /// <summary>
+        /// Gets the mail templates folder node.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="folderName">Name of the folder.</param>
+        /// <returns></returns>
+        public IPublishedContent GetMailTemplatesFolderNode(
+            UmbracoContext context, 
+            string folderName)
+        {
+            IPublishedContent templatesNode = GetMailNode(context);
+
+            return templatesNode?.Children.FirstOrDefault(x => x.Name == folderName);
+        }
+
+        /// <summary>
+        /// Gets the mail template.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="folderName">Name of the folder.</param>
+        /// <param name="templateName">Name of the template.</param>
+        /// <returns></returns>
+        public IPublishedContent GetMailTemplate(
+            UmbracoContext context, 
+            string folderName, 
+            string templateName)
+        {
+            IPublishedContent folderNode = GetMailTemplatesFolderNode(context, folderName);
+
+            return folderNode?.Children.FirstOrDefault(x => x.Name == templateName);
+        }
+
+        /// <summary>
         /// Gets the helper.
         /// </summary>
         /// <param name="context">The context.</param>
