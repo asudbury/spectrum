@@ -103,6 +103,7 @@
                         $('#submit').prop('disabled', true);
 
                         var displayError = '';
+                        $('#submit').text('Submitting...');
 
                         event.preventDefault();
                         hostedFieldsInstance.tokenize(function (err, payload) {
@@ -112,6 +113,11 @@
 
                                 //Parse the error
                                 if (err.type === 'CUSTOMER') {
+
+                                    if (err.code === 'HOSTED_FIELDS_FIELDS_EMPTY') {
+                                        displayError = 'You must enter your card details';
+                                    }
+
                                     //The customer makde the error
                                     if (err.code === 'HOSTED_FIELDS_FIELDS_INVALID') {
 
@@ -175,6 +181,7 @@
                                 $('#errorRow').show();
 
                                 //Enable the submit button again
+                                $('#submit').text('Pay with Card');
                                 $('#submit').prop('disabled', false);
                                 return;
                             }
@@ -189,12 +196,13 @@
                                 console.log('amount is valid = ' + amt);
                             } else {
                                 console.log('amount is invalid');
-                                displayError = 'The amount is invalid. You must specify pounds and pence 00.00';
+                                displayError = 'The amount is invalid. You must specify pounds and pence 0.0';
                                 //Add the error field to the view
                                 $('#errorText').text(displayError);
                                 //Make the error panel appear
                                 $('#errorRow').show();
                                 //Enable the submit button again
+                                $('#submit').text('Pay with Card');
                                 $('#submit').prop('disabled', false);
                                 return;
                             }
@@ -214,6 +222,7 @@
                                     //Make the error panel appear
                                     $('#errorRow').show();
                                     //Enable the submit button again
+                                    $('#submit').text('Pay with Card');
                                     $('#submit').prop('disabled', false);
                                     return;;
                                 }
