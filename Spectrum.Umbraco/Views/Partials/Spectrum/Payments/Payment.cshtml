@@ -23,6 +23,12 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="form-group col-xs-8">
+                        <label class="control-label">Email</label>
+                        <input type="text" class="form-control" id="emailAddress" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-8">
                         <label class="control-label">Card Number</label>
                         <div class="form-control" id="card-number"></div>
                         <span class="helper-text"></span>
@@ -47,17 +53,18 @@
                     <div class="form-group col-xs-6">
                         <label class="control-label">Amount</label>
                         <!--pattern='^\d+(?:\.\d{0,2})$'-->
-                        <input type="text" class="form-control" id="amount" placeholder="00.00" />
+                        <input type="text" class="form-control" id="amount" placeholder="00.00"/>
                     </div>
                 </div>
 
                 <button value="submit" id="submit" class="btn btn-success btn-lg">Pay with <span id="card-type">Card</span></button>
-        
+
                 <!--Error Panel-->
                 <div class="row errorPanel" id="errorRow">
                     <div class="form-group col-xs-12 ">
                         <div class="alert alert-danger fade in ">
-                            <div id="errorType" ></div><div id="errorText"></div>
+                            <div id="errorType"></div>
+                            <div id="errorText"></div>
                         </div>
                     </div>
                 </div>
