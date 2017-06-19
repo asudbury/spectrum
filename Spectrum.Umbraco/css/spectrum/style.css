@@ -28,6 +28,15 @@ body {
   display: block;
 }
 
+/*.validationPanel {
+    padding-top: 10px;
+}*/
+
+.errorPanel {
+    display: none;
+    padding-top: 2em;
+}
+
 /* Braintree Hosted Fields styling classes*/
 .braintree-hosted-fields-focused { 
   border: 1px solid #0275d8;
