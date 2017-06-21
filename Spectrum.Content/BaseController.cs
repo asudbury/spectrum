@@ -1,6 +1,9 @@
 ﻿namespace Spectrum.Content
 {
     using Services;
+    using System;
+    using System.Web.Mvc;
+    using Umbraco.Core.Models;
     using Umbraco.Web;
     using Umbraco.Web.Mvc;
 
@@ -28,6 +31,36 @@
             :base(context)
         {
             LoggingService = loggingService;
+        }
+
+        /// <summary>
+        /// Gets the node identifier.
+        /// </summary>
+        /// <returns></returns>
+        [ChildActionOnly]
+        public ActionResult GetNodeId()
+        {
+            return Content(CurrentPage.Id.ToString());
+        }
+
+        /// <summary>
+        /// Gets the content by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        public IPublishedContent GetContentById(int id)
+        {
+            return Umbraco.TypedContent(id);
+        }
+
+        /// <summary>
+        /// Gets the content by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        public IPublishedContent GetContentById(string id)
+        {
+            return GetContentById(Convert.ToInt32(id));
         }
 
         /// <summary>

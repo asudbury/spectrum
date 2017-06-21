@@ -3,9 +3,17 @@
     using Braintree;
     using ContentModels;
     using ViewModels;
+    using Umbraco.Core.Models;
 
     public interface IPaymentProvider
     {
+        /// <summary>
+        /// Gets the braintree model.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <returns></returns>
+        BraintreeModel GetBraintreeModel(IPublishedContent content);
+
         /// <summary>
         /// Gets the authentication token.
         /// </summary>

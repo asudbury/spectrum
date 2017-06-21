@@ -1,10 +1,10 @@
-﻿using Braintree;
-
-namespace Spectrum.Content.Payments.Providers
+﻿namespace Spectrum.Content.Payments.Providers
 {
+    using Braintree;
     using ContentModels;
     using Services;
     using ViewModels;
+    using Umbraco.Core.Models;
 
     public class PaymentProvider : IPaymentProvider
     {
@@ -26,8 +26,18 @@ namespace Spectrum.Content.Payments.Providers
         /// Initializes a new instance of the <see cref="PaymentProvider"/> class.
         /// </summary>
         public PaymentProvider()
-            : this(new BraintreeService())
+            : this(new Services.BraintreeService())
         {
+        }
+
+        /// <summary>
+        /// Gets the braintree model.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <returns></returns>
+        public BraintreeModel GetBraintreeModel(IPublishedContent content)
+        {
+            return new BraintreeModel(content);
         }
 
         /// <summary>

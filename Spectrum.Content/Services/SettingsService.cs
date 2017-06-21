@@ -64,21 +64,17 @@
 
             return settingsNode?.Children.FirstOrDefault(x => x.DocumentTypeAlias == "mail");
         }
-
-
+        
         /// <summary>
         /// Gets the mail templates folder node.
         /// </summary>
         /// <param name="context">The context.</param>
-        /// <param name="folderName">Name of the folder.</param>
         /// <returns></returns>
-        public IPublishedContent GetMailTemplatesFolderNode(
-            UmbracoContext context, 
-            string folderName)
+        public IPublishedContent GetMailTemplatesFolderNode(UmbracoContext context)
         {
             IPublishedContent templatesNode = GetMailNode(context);
 
-            return templatesNode?.Children.FirstOrDefault(x => x.Name == folderName);
+            return templatesNode?.Children.FirstOrDefault(x => x.Name == "mailTemplates");
         }
 
         /// <summary>
@@ -93,9 +89,24 @@
             string folderName, 
             string templateName)
         {
-            IPublishedContent folderNode = GetMailTemplatesFolderNode(context, folderName);
+            IPublishedContent folderNode = GetMailTemplatesFolderNode(context);
 
             return folderNode?.Children.FirstOrDefault(x => x.Name == templateName);
+        }
+
+        /// <summary>
+        /// Gets the mail template by identifier.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        public IPublishedContent GetMailTemplateById(
+            UmbracoContext context, 
+            int id)
+        {
+            IPublishedContent folderNode = GetMailTemplatesFolderNode(context);
+
+            return folderNode?.Children.FirstOrDefault(x => x.Id == id);
         }
 
         /// <summary>

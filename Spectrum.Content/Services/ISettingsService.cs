@@ -48,11 +48,8 @@
         /// Gets the mail templates folder node.
         /// </summary>
         /// <param name="context">The context.</param>
-        /// <param name="folderName">Name of the folder.</param>
         /// <returns></returns>
-        IPublishedContent GetMailTemplatesFolderNode(
-            UmbracoContext context,
-            string folderName);
+        IPublishedContent GetMailTemplatesFolderNode(UmbracoContext context);
         
         /// <summary>
         /// Gets the mail template.
@@ -65,6 +62,16 @@
             UmbracoContext context, 
             string folderName,
             string templateName);
+
+        /// <summary>
+        /// Gets the mail template by identifier.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        IPublishedContent GetMailTemplateById(
+            UmbracoContext context, 
+            int id);
 
     }
 }
