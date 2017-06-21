@@ -103,6 +103,7 @@
                         $('#submit').prop('disabled', true);
 
                         var displayError = '';
+                        $('#submit').text('Submitting...');
 
                         event.preventDefault();
                         hostedFieldsInstance.tokenize(function (err, payload) {
@@ -112,6 +113,11 @@
 
                                 //Parse the error
                                 if (err.type === 'CUSTOMER') {
+
+                                    if (err.code === 'HOSTED_FIELDS_FIELDS_EMPTY') {
+                                        displayError = 'You must enter your card details';
+                                    }
+
                                     //The customer makde the error
                                     if (err.code === 'HOSTED_FIELDS_FIELDS_INVALID') {
 
@@ -175,6 +181,7 @@
                                 $('#errorRow').show();
 
                                 //Enable the submit button again
+                                $('#submit').text('Pay with Card');
                                 $('#submit').prop('disabled', false);
                                 return;
                             }
@@ -189,15 +196,39 @@
                                 console.log('amount is valid = ' + amt);
                             } else {
                                 console.log('amount is invalid');
-                                displayError = 'The amount is invalid. You must specify pounds and pence 00.00';
+                                displayError = 'The amount is invalid. You must specify pounds and pence 0.0';
                                 //Add the error field to the view
                                 $('#errorText').text(displayError);
                                 //Make the error panel appear
                                 $('#errorRow').show();
                                 //Enable the submit button again
+                                $('#submit').text('Pay with Card');
                                 $('#submit').prop('disabled', false);
                                 return;
                             }
+
+                            //Validate the email address
+                            var email = $('#emailAddress').val();
+
+                            if (email) {
+
+                                //Email validation regex
+                                var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+                                if (!filter.test(email)) {
+                                    displayError = 'Your email address must be valid';
+                                    //Add the error field to the view
+                                    $('#errorText').text(displayError);
+                                    //Make the error panel appear
+                                    $('#errorRow').show();
+                                    //Enable the submit button again
+                                    $('#submit').text('Pay with Card');
+                                    $('#submit').prop('disabled', false);
+                                    return;;
+                                }
+                            }
+
+                            
 
                             $.ajax({
                                 url: url,
@@ -205,14 +236,16 @@
                                 dataType: 'json',
                                 data: '{ "currentPageNodeId": ' +
                                     nodeIdString +
-                                    ', "emailAddress":"a@a.com", "nonce": ' +
+                                    ', "emailAddress": "' + email + '", "nonce": ' +
                                     nonceString +
                                     ', "amount": ' + amt + ' }',
                                 contentType: 'application/json; charset=utf-8',
                                 success: function (data) {
+                                    console.log('Server success ' + data);
                                     window.location.href = data;
                                 },
                                 error: function (request, status, errorThrown) {
+                                    console.log('Server error ' + errorThrown);
                                     window.location.href = "/error";
                                 }
                             });
