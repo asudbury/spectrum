@@ -1,9 +1,9 @@
 ﻿namespace Spectrum.Content.Payments.Controllers
 {
-    using Braintree;
     using Content.Services;
-    using Content.Services.Mail;
     using ContentModels;
+    using Mail.Models;
+    using Mail.Services;
     using Providers;
     using System;
     using System.Web.Mvc;
@@ -14,29 +14,37 @@
     public class PaymentController : BaseController
     {
         /// <summary>
+        /// The settings service.
+        /// </summary>
+        private readonly ISettingsService settingsService;
+
+        /// <summary>
         /// The payment provider.
         /// </summary>
         private readonly IPaymentProvider paymentProvider;
 
         /// <summary>
-        /// The perplex mail service.
+        /// The mail service.
         /// </summary>
-        private readonly IPerplexMailService perplexMailService;
+        private readonly IMailService mailService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PaymentController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
+        /// <param name="settingsService">The settings service.</param>
         /// <param name="paymentProvider">The payment provider.</param>
-        /// <param name="perplexMailService">The perplex mail service.</param>
+        /// <param name="mailService">The mail service.</param>
         public PaymentController(
             ILoggingService loggingService,
+            ISettingsService settingsService,
             IPaymentProvider paymentProvider,
-            IPerplexMailService perplexMailService) 
+            IMailService mailService) 
             : base(loggingService)
         {
+            this.settingsService = settingsService;
             this.paymentProvider = paymentProvider;
-            this.perplexMailService = perplexMailService;
+            this.mailService = mailService;
         }
 
         /// <summary>
@@ -44,17 +52,19 @@
         /// </summary>
         /// <param name="context">The context.</param>
         /// <param name="loggingService">The logging service.</param>
+        /// <param name="settingsService">The settings service.</param>
         /// <param name="paymentProvider">The payment provider.</param>
-        /// <param name="perplexMailService">The perplex mail service.</param>
+        /// <param name="mailService">The mail service.</param>
         public PaymentController(
             UmbracoContext context, 
             ILoggingService loggingService,
+            ISettingsService settingsService,
             IPaymentProvider paymentProvider,
-            IPerplexMailService perplexMailService) 
+            IMailService mailService) 
             : base(context, loggingService)
         {
             this.paymentProvider = paymentProvider;
-            this.perplexMailService = perplexMailService;
+            this.mailService = mailService;
         }
 
         /// <summary>
@@ -62,8 +72,9 @@
         /// </summary>
         public PaymentController()
             : this(new LoggingService(), 
+                   new SettingsService(), 
                    new PaymentProvider(), 
-                   new PerplexMailService())
+                   new MailService())
         {
         }
 
@@ -74,7 +85,7 @@
         [ChildActionOnly]
         public ActionResult GetAuthToken()
         {
-            BraintreeModel model = new BraintreeModel(CurrentPage);
+            BraintreeModel model = paymentProvider.GetBraintreeModel(settingsService.GetPaymentsNode(UmbracoContext));
 
             string token = paymentProvider.GetAuthToken(model);
 
@@ -88,19 +99,9 @@
         [ChildActionOnly]
         public ActionResult GetEnvironment()
         {
-            BraintreeModel model = new BraintreeModel(CurrentPage);
+            BraintreeModel model = paymentProvider.GetBraintreeModel(settingsService.GetPaymentsNode(UmbracoContext));
 
             return Content(model.Environment);
-        }
-
-        /// <summary>
-        /// Gets the node identifier.
-        /// </summary>
-        /// <returns></returns>
-        [ChildActionOnly]
-        public ActionResult GetNodeId()
-        {
-            return Content(CurrentPage.Id.ToString());
         }
 
         /// <summary>
@@ -120,19 +121,19 @@
                     throw new ApplicationException("Current Page Id Not Set");
                 }
 
-                IPublishedContent currentPage = Umbraco.TypedContent(viewModel.CurrentPageNodeId);
+                PageModel pageModel = new PageModel(GetContentById(viewModel.CurrentPageNodeId));
 
-                BraintreeModel model = new BraintreeModel(currentPage);
-
-                if (string.IsNullOrEmpty(model.NextPageUrl))
+                if (string.IsNullOrEmpty(pageModel.NextPageUrl))
                 {
                     throw new ApplicationException("Next Page Url Not Set");
                 }
 
-                if (string.IsNullOrEmpty(model.ErrorPageUrl))
+                if (string.IsNullOrEmpty(pageModel.ErrorPageUrl))
                 {
                     throw new ApplicationException("Error Page Url Not Set");
                 }
+
+                BraintreeModel model = paymentProvider.GetBraintreeModel(settingsService.GetPaymentsNode(UmbracoContext));
 
                 LoggingService.Info(GetType(), "HandlePayment MakePayment");
 
@@ -142,41 +143,42 @@
                 {
                     LoggingService.Info(GetType(), "Payment Succesful");
 
-                    /*if (model.EmailTemplateNodeId.HasValue)
+                    if (pageModel.EmailTemplateNodeId.HasValue)
                     {
                         LoggingService.Info(GetType(), "Sending Email");
 
-                        perplexMailService.SendEmail(model.EmailTemplateNodeId.Value, viewModel.EmailAddress);
-                    }*/
+                        IPublishedContent content = settingsService.GetMailTemplateById(
+                                                        UmbracoContext, 
+                                                        pageModel.EmailTemplateNodeId.Value);
 
-                    return Json(model.NextPageUrl);
+                        if (content != null)
+                        {
+                            MailTemplateModel mailTemplateModel = new MailTemplateModel(content);
+
+                            MailResponse mailResponse = mailService.SendEmail(viewModel.EmailAddress, mailTemplateModel);
+
+
+                            //// TODO : we need to log the mail response!
+                        }
+
+                        else
+                        {
+                            LoggingService.Info(GetType(), "Cannot find email template id=" + pageModel.EmailTemplateNodeId);
+                        }
+                    }
+
+                    return Json(pageModel.NextPageUrl);
                 }
 
                 LoggingService.Info(GetType(), "Payment Failed");
 
-                return Json(model.ErrorPageUrl);
+                return Json(pageModel.ErrorPageUrl);
             }
             catch (Exception e)
             {
                 LoggingService.Error(GetType(), "Payment Error", e);
                 return Json("/Error");
             }
-        }
-
-        /// <summary>
-        /// Gets the transactions.
-        /// </summary>
-        /// <returns></returns>
-        [ChildActionOnly]
-        public ActionResult GetTransactions()
-        {
-            IPublishedContent currentPage = Umbraco.TypedContent(CurrentPage.Id.ToString());
-
-            BraintreeModel model = new BraintreeModel(currentPage);
-
-            ResourceCollection<Transaction> transactions = paymentProvider.GetTransactions(model);
-
-            return null;
         }
     }
 }

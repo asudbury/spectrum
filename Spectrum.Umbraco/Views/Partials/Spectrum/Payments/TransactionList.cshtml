@@ -1,0 +1,39 @@
+﻿@using Spectrum.Content.Payments.ViewModels
+@model TransactionsViewModel
+@{
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Transaction Id</th>
+            <th>Transaction Date</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Payment Information</th>
+            <th>Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (TransactionViewModel transaction in Model.Transactions)
+        {
+            <tr>
+                <td>@transaction.Id</td>
+                <td>
+                    @if (transaction.TransactionDateTime.HasValue)
+                    {
+                        @transaction.TransactionDateTime.Value.ToString("dd MMM yyyy HH:mm:ss")
+                    }
+                </td>
+
+                <td>@transaction.Type</td>
+                <td>@transaction.Status</td>
+                <td>@transaction.CardType @transaction.MaskedNumber</td>
+                <td>@transaction.Amount @transaction.CurrencyType</td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+

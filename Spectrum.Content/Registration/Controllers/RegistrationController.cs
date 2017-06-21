@@ -1,9 +1,9 @@
 ﻿namespace Spectrum.Content.Registration.Controllers
 {
+    using Mail.Services;
     using Models;
     using Providers;
     using Services;
-    using Services.Mail;
     using System;
     using System.Web.Mvc;
     using Umbraco.Web;
@@ -20,9 +20,9 @@
         private readonly IRegistrationProvider registrationProvider;
 
         /// <summary>
-        /// The perplex mail service.
+        /// The mail service.
         /// </summary>
-        private readonly IPerplexMailService perplexMailService;
+        private readonly IMailService mailService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegistrationController" /> class.
@@ -30,16 +30,16 @@
         /// <param name="context">The context.</param>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="registrationProvider">The registration provider.</param>
-        /// <param name="perplexMailService">The perplex mail service.</param>
+        /// <param name="mailService">The mail service.</param>
         public RegistrationController(
             UmbracoContext context,
             ILoggingService loggingService,
             IRegistrationProvider registrationProvider,
-            IPerplexMailService perplexMailService)
+            IMailService mailService)
             : base(context,loggingService)
         {
             this.registrationProvider = registrationProvider;
-            this.perplexMailService = perplexMailService;
+            this.mailService = mailService;
         }
 
         /// <summary>
@@ -47,16 +47,16 @@
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="registrationProvider">The registration provider.</param>
-        /// <param name="perplexMailService">The perplex mail service.</param>
+        /// <param name="mailService">The mail service.</param>
         public RegistrationController(
             ILoggingService loggingService,
             IRegistrationProvider registrationProvider,
-            IPerplexMailService perplexMailService)
+            IMailService mailService)
             : base(loggingService)
         {
             this.registrationProvider = registrationProvider;
             this.registrationProvider.MemberService = Services.MemberService;
-            this.perplexMailService = perplexMailService;
+            this.mailService = mailService;
         }
 
         /// <summary>
@@ -65,7 +65,7 @@
         public RegistrationController() 
             : this(new LoggingService(), 
                    new RegistrationProvider(), 
-                   new PerplexMailService())
+                   new MailService())
         {
         }
 
@@ -106,7 +106,7 @@
                 }
 
                 //// now we want to send out the email!
-                perplexMailService.SendEmail(1112, viewModel.EmailAddress);
+                ////perplexMailService.SendEmail(1112, viewModel.EmailAddress);
 
                 //// now navigate to the thankyou page
 

@@ -414,6 +414,7 @@
     <Content Include="Views\Partials\Spectrum\Navigation\Menu.cshtml" />
     <Content Include="Views\Partials\Spectrum\Payments\Transactions.cshtml" />
     <Content Include="Views\Partials\Spectrum\Payments\Payment.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Payments\TransactionList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

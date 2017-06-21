@@ -3,7 +3,7 @@
     using Umbraco.Core.Models;
     using Umbraco.Web;
 
-    public class BraintreeModel : PageModel
+    public class BraintreeModel : BaseModel
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Umbraco.Core.Models.PublishedContent.PublishedContentModel" /> class with

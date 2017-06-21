@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.Application", "Spe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.Content", "Spectrum.Content\Spectrum.Content.csproj", "{77D65CE9-6648-47B5-87AD-5E033F15A3A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.Core", "Spectrum.Core\Spectrum.Core.csproj", "{CBB9BA2E-D456-4995-BAB3-66EDA0AFC5C4}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.Model", "Spectrum.Model\Spectrum.Model.csproj", "{D431878D-5874-4AC6-A28F-C87D835E7EB3}"
 EndProject
 Global
@@ -31,10 +29,6 @@ Global
 		{77D65CE9-6648-47B5-87AD-5E033F15A3A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77D65CE9-6648-47B5-87AD-5E033F15A3A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77D65CE9-6648-47B5-87AD-5E033F15A3A0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CBB9BA2E-D456-4995-BAB3-66EDA0AFC5C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CBB9BA2E-D456-4995-BAB3-66EDA0AFC5C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CBB9BA2E-D456-4995-BAB3-66EDA0AFC5C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CBB9BA2E-D456-4995-BAB3-66EDA0AFC5C4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D431878D-5874-4AC6-A28F-C87D835E7EB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D431878D-5874-4AC6-A28F-C87D835E7EB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D431878D-5874-4AC6-A28F-C87D835E7EB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
