@@ -33,6 +33,12 @@
             this.mailService = mailService;
         }
 
+        public MailProvider()
+            : this(new SettingsService(), 
+                   new MailService())
+        {
+            
+        }
         /// <summary>
         /// Sends the email.
         /// </summary>

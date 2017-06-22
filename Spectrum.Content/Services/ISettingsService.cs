@@ -73,5 +73,12 @@
             UmbracoContext context, 
             int id);
 
+        /// <summary>
+        /// Gets the appointments node.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        IPublishedContent GetAppointmentsNode(UmbracoContext context);
+
     }
 }
