@@ -14,6 +14,7 @@
 
     @Html.ValidationSummary(true)
 
+    <div id="sandboxRibbon" class="corner-ribbon top-right sticky blue">Sand box</div>
     <div>
         
         <div class="panel panel-default bootstrap-basic">
@@ -78,6 +79,7 @@
                     var xxxx = '@Html.Action("GetAuthToken", "Payment")';
                     var nodeId = '@Html.Action("GetNodeId", "Payment")';
                     var url = '@Url.Action("HandlePayment", "Payment")';
+                    var env = '@Url.Action("GetEnvironment", "Payment")';
                 </script>
             
                 <script src="../../../../scripts/spectrum/braintree.js"></script>

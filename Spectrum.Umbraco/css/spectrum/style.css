@@ -2,6 +2,51 @@
 /* EDITOR PROPERTIES - PLEASE DON'T DELETE THIS LINE TO AVOID DUPLICATE PROPERTIES */
 
 /* Uses Bootstrap stylesheets for styling, see linked CSS*/
+
+/*********************************************************/
+/* This section deals with the sandbox corner ribbon     */
+/*********************************************************/
+
+.corner-ribbon{
+  width: 200px;
+  background: #e43;
+  position: absolute;
+  top: 25px;
+  left: -50px;
+  text-align: center;
+  line-height: 50px;
+  letter-spacing: 1px;
+  color: #f0f0f0;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.corner-ribbon.sticky{
+  position: fixed;
+}
+
+.corner-ribbon.shadow{
+  box-shadow: 0 0 3px rgba(0,0,0,.3);
+}
+
+.corner-ribbon.top-right{
+  top: 25px;
+  right: -50px;
+  left: auto;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+/*.corner-ribbon.blue{background: #39d;}*/
+.corner-ribbon.red{background: #e43;}
+
+
+
+
+
+/*********************************************************/
+/* This is the main section                              */
+/*********************************************************/
 body {
   background-color: #fff;
 }
@@ -27,10 +72,6 @@ body {
   height: 12px;
   display: block;
 }
-
-/*.validationPanel {
-    padding-top: 10px;
-}*/
 
 .errorPanel {
     display: none;

@@ -1,7 +1,9 @@
+/****************************************************************************************
+ * Payments Page 
+ ****************************************************************************************/
 
 
-                    
-    /*var env    = '@Url.Action("GetEnvironment", "Payment")';*/
+
 
 /*********************************************************************************
  * @param {} displayError 
@@ -117,11 +119,18 @@ function btCustomerError(err) {
  * @returns {} 
  * Main Braintree API
  *********************************************************************************/
-braintree.client.create({
-    authorization: xxxx
+    braintree.client.create({
+        authorization: xxxx
 
-},
+    },
     function (err, clientInstance) {
+
+        console.log('starting the js code. The env is ' + env);
+        env = 'sandbox';
+        if (env === 'sandbox') {
+            $('#sandboxRibbon').text('Sand Box');
+        }
+
 
         if (err) {
             console.error(err);
