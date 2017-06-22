@@ -110,6 +110,18 @@
         }
 
         /// <summary>
+        /// Gets the appointments node.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        public IPublishedContent GetAppointmentsNode(UmbracoContext context)
+        {
+            IPublishedContent settingsNode = GetSettingsNode(context);
+
+            return settingsNode?.Children.FirstOrDefault(x => x.DocumentTypeAlias == "appointments");
+        }
+
+        /// <summary>
         /// Gets the helper.
         /// </summary>
         /// <param name="context">The context.</param>

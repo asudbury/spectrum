@@ -3,11 +3,10 @@
     using Content.Services;
     using ContentModels;
     using Mail.Models;
-    using Mail.Services;
+    using Mail.Providers;
     using Providers;
     using System;
     using System.Web.Mvc;
-    using Umbraco.Core.Models;
     using Umbraco.Web;
     using ViewModels;
 
@@ -22,11 +21,11 @@
         /// The payment provider.
         /// </summary>
         private readonly IPaymentProvider paymentProvider;
-
+        
         /// <summary>
-        /// The mail service.
+        /// The mail provider.
         /// </summary>
-        private readonly IMailService mailService;
+        private readonly IMailProvider mailProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PaymentController" /> class.
@@ -34,17 +33,17 @@
         /// <param name="loggingService">The logging service.</param>
         /// <param name="settingsService">The settings service.</param>
         /// <param name="paymentProvider">The payment provider.</param>
-        /// <param name="mailService">The mail service.</param>
+        /// <param name="mailProvider">The mail provider.</param>
         public PaymentController(
             ILoggingService loggingService,
             ISettingsService settingsService,
             IPaymentProvider paymentProvider,
-            IMailService mailService) 
+            IMailProvider mailProvider) 
             : base(loggingService)
         {
             this.settingsService = settingsService;
             this.paymentProvider = paymentProvider;
-            this.mailService = mailService;
+            this.mailProvider = mailProvider;
         }
 
         /// <summary>
@@ -54,17 +53,17 @@
         /// <param name="loggingService">The logging service.</param>
         /// <param name="settingsService">The settings service.</param>
         /// <param name="paymentProvider">The payment provider.</param>
-        /// <param name="mailService">The mail service.</param>
+        /// <param name="mailProvider">The mail provider.</param>
         public PaymentController(
             UmbracoContext context, 
             ILoggingService loggingService,
             ISettingsService settingsService,
             IPaymentProvider paymentProvider,
-            IMailService mailService) 
+            IMailProvider mailProvider) 
             : base(context, loggingService)
         {
             this.paymentProvider = paymentProvider;
-            this.mailService = mailService;
+            this.mailProvider = mailProvider;
         }
 
         /// <summary>
@@ -74,7 +73,7 @@
             : this(new LoggingService(), 
                    new SettingsService(), 
                    new PaymentProvider(), 
-                   new MailService())
+                   new MailProvider())
         {
         }
 
@@ -147,24 +146,12 @@
                     {
                         LoggingService.Info(GetType(), "Sending Email");
 
-                        IPublishedContent content = settingsService.GetMailTemplateById(
+                        MailResponse mailResponse = mailProvider.SendEmail(
                                                         UmbracoContext, 
-                                                        pageModel.EmailTemplateNodeId.Value);
+                                                        pageModel.EmailTemplateNodeId.Value, 
+                                                        viewModel.EmailAddress);
 
-                        if (content != null)
-                        {
-                            MailTemplateModel mailTemplateModel = new MailTemplateModel(content);
-
-                            MailResponse mailResponse = mailService.SendEmail(viewModel.EmailAddress, mailTemplateModel);
-
-
-                            //// TODO : we need to log the mail response!
-                        }
-
-                        else
-                        {
-                            LoggingService.Info(GetType(), "Cannot find email template id=" + pageModel.EmailTemplateNodeId);
-                        }
+                        //// TODO : we need to log the mail response!
                     }
 
                     return Json(pageModel.NextPageUrl);

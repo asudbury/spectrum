@@ -1,0 +1,17 @@
+﻿
+<iframe id="myFrame" style="border: 0" width="100%" height="600" frameborder="0" scrolling="no"></iframe>
+
+<span id="message"></span>
+<script>
+
+    var url = '@Html.Action("GetCalendarUrl", "GoogleCalendar")';
+
+    if (url !== "") {
+        document.getElementById('myFrame').src = url;
+    } else {
+        document.getElementById('myFrame').height = 0;
+        document.getElementById('message').innerText = "Google Calendar Url has not been setup. Please ask website admin to configure this for you.";
+    }
+</script>
+
+

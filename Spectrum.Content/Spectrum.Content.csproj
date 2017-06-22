@@ -281,11 +281,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Appointments\Controllers\GoogleCalendarController.cs" />
     <Compile Include="Authentication\Controllers\LoginController.cs" />
     <Compile Include="Authentication\ViewModels\ForgottenPasswordViewModel.cs" />
     <Compile Include="Authentication\ViewModels\LoginViewModel.cs" />
     <Compile Include="Authentication\ViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="Configuration\IocConfiguration.cs" />
+    <Compile Include="ContentModels\AppointmentsModel.cs" />
     <Compile Include="ContentModels\MailTemplateModel.cs" />
     <Compile Include="ContentModels\MenuModel.cs" />
     <Compile Include="Extensions\MemberExtensions.cs" />
