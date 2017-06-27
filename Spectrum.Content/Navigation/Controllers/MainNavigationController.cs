@@ -44,27 +44,6 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseController" /> class.
-        /// </summary>
-        /// <param name="context">The context.</param>
-        /// <param name="loggingService">The logging service.</param>
-        /// <param name="settingsService">The settings service.</param>
-        /// <param name="userService">The user service.</param>
-        /// <param name="mainNavigationProvider">The main navigation provider.</param>
-        public MainNavigationController(
-            UmbracoContext context, 
-            ILoggingService loggingService,
-            ISettingsService settingsService,
-            IUserService userService,
-           IMainNavigationProvider mainNavigationProvider) 
-            : base(context, loggingService)
-        {
-            this.settingsService = settingsService;
-            this.userService = userService;
-            this.mainNavigationProvider = mainNavigationProvider;
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="MainNavigationController"/> class.
         /// </summary>
         public MainNavigationController()

@@ -4,8 +4,10 @@
     using Google.Apis.Calendar.v3;
     using Google.Apis.Calendar.v3.Data;
     using Google.Apis.Services;
+    using Google.Apis.Util.Store;
     using System;
     using System.Threading;
+    using System.Web;
 
     public class GoogleCalendarServices : IGoogleCalendarServices
     {
@@ -19,23 +21,28 @@
         /// </summary>
         /// <param name="clientId">The client identifier.</param>
         /// <param name="clientSecret">The client secret.</param>
+        /// <param name="redirectUrl">The redirect URL.</param>
         /// <returns></returns>
         public UserCredential GetCredentials(
             string clientId, 
-            string clientSecret)
+            string clientSecret,
+            string redirectUrl)
         {
-            return GoogleWebAuthorizationBroker.AuthorizeAsync(
-            new ClientSecrets
-            {
-                ClientId = clientId,
-                ClientSecret = clientSecret,
-            },
-            new[]
-            {
-                CalendarService.Scope.Calendar
-            },
-            "user",
-            CancellationToken.None).Result;
+            WebAuthorizationBroker.RedirectUri = redirectUrl;
+
+            return WebAuthorizationBroker.AuthorizeAsync(
+                new ClientSecrets
+                {
+                    ClientId = clientId,
+                    ClientSecret = clientSecret,
+                },
+                new[]
+                {
+                    CalendarService.Scope.Calendar
+                },
+                "user",
+                CancellationToken.None,
+                new FileDataStore(HttpContext.Current.Server.MapPath("/App_Data/MyGoogleStorage"))).Result;
         }
 
         /// <summary>

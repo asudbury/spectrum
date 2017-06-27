@@ -10,7 +10,7 @@
         /// </summary>
         /// <param name="viewModel">The view model.</param>
         /// <returns></returns>
-        public Event Translate(GoogleEventViewModel viewModel)
+        public Event Translate(EventViewModel viewModel)
         {
             return new Event();
         }

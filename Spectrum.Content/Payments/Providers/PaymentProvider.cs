@@ -2,23 +2,34 @@
 {
     using Braintree;
     using ContentModels;
+    using Content.Services;
     using Services;
-    using ViewModels;
     using Umbraco.Core.Models;
+    using Umbraco.Web;
+    using ViewModels;
 
     public class PaymentProvider : IPaymentProvider
     {
+        /// <summary>
+        /// The settings service.
+        /// </summary>
+        private readonly ISettingsService settingsService;
+
         /// <summary>
         /// The braintree service.
         /// </summary>
         private readonly IBraintreeService braintreeService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PaymentProvider"/> class.
+        /// Initializes a new instance of the <see cref="PaymentProvider" /> class.
         /// </summary>
+        /// <param name="settingsService">The settings service.</param>
         /// <param name="braintreeService">The braintree service.</param>
-        public PaymentProvider(IBraintreeService braintreeService)
+        public PaymentProvider(
+            ISettingsService settingsService,
+            IBraintreeService braintreeService)
         {
+            this.settingsService = settingsService;
             this.braintreeService = braintreeService;
         }
 
@@ -26,17 +37,21 @@
         /// Initializes a new instance of the <see cref="PaymentProvider"/> class.
         /// </summary>
         public PaymentProvider()
-            : this(new Services.BraintreeService())
+            : this(new SettingsService(), 
+                   new Services.BraintreeService())
+
         {
         }
 
         /// <summary>
         /// Gets the braintree model.
         /// </summary>
-        /// <param name="content">The content.</param>
+        /// <param name="umbracoContext">The umbraco context.</param>
         /// <returns></returns>
-        public BraintreeModel GetBraintreeModel(IPublishedContent content)
+        public BraintreeModel GetBraintreeModel(UmbracoContext umbracoContext)
         {
+            IPublishedContent content = settingsService.GetPaymentsNode(umbracoContext);
+
             return new BraintreeModel(content);
         }
 

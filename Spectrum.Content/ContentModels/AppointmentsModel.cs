@@ -15,10 +15,20 @@
         }
 
         /// <summary>
+        /// Gets the google calendar integration.
+        /// </summary>
+        public string GoogleCalendarIntegration => this.GetPropertyValue<string>("googleCalendarIntegration");
+
+        /// <summary>
         /// Gets the google calendar URL.
         /// </summary>
         public string GoogleCalendarUrl => this.GetPropertyValue<string>("googleCalendarUrl");
 
+        /// <summary>
+        /// Gets the name of the google calendar.
+        /// </summary>
+        public string GoogleCalendarName => this.GetPropertyValue<string>("googleCalendarName");
+        
         /// <summary>
         /// Gets the google client identifier.
         /// </summary>
@@ -28,5 +38,10 @@
         /// Gets the google client secret.
         /// </summary>
         public string GoogleClientSecret => this.GetPropertyValue<string>("googleClientSecret");
+
+        /// <summary>
+        /// Gets the redirect URL.
+        /// </summary>
+        public string RedirectUrl => this.GetPropertyValue<string>("RedirectUrl");
     }
 }

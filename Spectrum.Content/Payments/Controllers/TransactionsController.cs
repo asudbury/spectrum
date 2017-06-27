@@ -4,17 +4,11 @@
     using Translators;
     using Content.Services;
     using System.Web.Mvc;
-    using Umbraco.Web;
     using ContentModels;
     using ViewModels;
 
     public class TransactionsController : BaseController
     {
-        /// <summary>
-        /// The settings service.
-        /// </summary>
-        private readonly ISettingsService settingsService;
-
         /// <summary>
         /// The payment provider.
         /// </summary>
@@ -29,38 +23,14 @@
         /// Initializes a new instance of the <see cref="BaseController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
-        /// <param name="settingsService">The settings service.</param>
         /// <param name="paymentProvider">The payment provider.</param>
         /// <param name="transactionsTranslator">The transactions translator.</param>
         public TransactionsController(
             ILoggingService loggingService, 
-            ISettingsService settingsService, 
             IPaymentProvider paymentProvider, 
             ITransactionsTranslator transactionsTranslator) 
             : base(loggingService)
         {
-            this.settingsService = settingsService;
-            this.paymentProvider = paymentProvider;
-            this.transactionsTranslator = transactionsTranslator;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BaseController" /> class.
-        /// </summary>
-        /// <param name="context">The context.</param>
-        /// <param name="loggingService">The logging service.</param>
-        /// <param name="settingsService">The settings service.</param>
-        /// <param name="paymentProvider">The payment provider.</param>
-        /// <param name="transactionsTranslator">The transactions translator.</param>
-        public TransactionsController(
-            UmbracoContext context, 
-            ILoggingService loggingService, 
-            ISettingsService settingsService, 
-            IPaymentProvider paymentProvider, 
-            ITransactionsTranslator transactionsTranslator) 
-            : base(context, loggingService)
-        {
-            this.settingsService = settingsService;
             this.paymentProvider = paymentProvider;
             this.transactionsTranslator = transactionsTranslator;
         }
@@ -70,7 +40,6 @@
         /// </summary>
         public TransactionsController()
             : this(new LoggingService(), 
-                   new SettingsService(),
                    new PaymentProvider(), 
                    new TransactionsTranslator())
         {
@@ -83,7 +52,7 @@
         [ChildActionOnly]
         public ActionResult GetTransactions()
         {
-            BraintreeModel model = paymentProvider.GetBraintreeModel(settingsService.GetPaymentsNode(UmbracoContext));
+            BraintreeModel model = paymentProvider.GetBraintreeModel(UmbracoContext);
 
             TransactionsViewModel viewModel = transactionsTranslator.Translate(paymentProvider.GetTransactions(model));
 

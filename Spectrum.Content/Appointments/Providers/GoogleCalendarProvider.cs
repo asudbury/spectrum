@@ -1,23 +1,16 @@
 ﻿namespace Spectrum.Content.Appointments.Providers
 {
-    using Content.Services;
     using ContentModels;
     using Google.Apis.Auth.OAuth2;
     using Google.Apis.Calendar.v3;
     using Google.Apis.Calendar.v3.Data;
     using Services;
     using Translators;
-    using Umbraco.Core.Models;
     using Umbraco.Web;
     using ViewModels;
 
-    public class GoogleCalendarProvider : IGoogleCalendarProvider
+    public class GoogleCalendarProvider : BaseCalendarProvider, ICalendarProvider
     {
-        /// <summary>
-        /// The settings service.
-        /// </summary>
-        private readonly ISettingsService settingsService;
-
         /// <summary>
         /// The google calendar services.
         /// </summary>
@@ -29,28 +22,33 @@
         private readonly IGoogleEventTranslator googleEventTranslator;
 
         /// <summary>
+        /// The appointments provider.
+        /// </summary>
+        private readonly IAppointmentsProvider appointmentsProvider;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GoogleCalendarProvider" /> class.
         /// </summary>
-        /// <param name="settingsService">The settings service.</param>
         /// <param name="googleCalendarServices">The google calendar services.</param>
         /// <param name="googleEventTranslator">The google event translator.</param>
+        /// <param name="appointmentsProvider">The appointments provider.</param>
         public GoogleCalendarProvider(
-            ISettingsService settingsService,
             IGoogleCalendarServices googleCalendarServices,
-            IGoogleEventTranslator googleEventTranslator)
+            IGoogleEventTranslator googleEventTranslator,
+            IAppointmentsProvider appointmentsProvider)
         {
-            this.settingsService = settingsService;
             this.googleCalendarServices = googleCalendarServices;
             this.googleEventTranslator = googleEventTranslator;
+            this.appointmentsProvider = appointmentsProvider;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GoogleCalendarProvider"/> class.
         /// </summary>
         public GoogleCalendarProvider()
-            : this(new SettingsService(),
-                   new GoogleCalendarServices(),
-                   new GoogleEventTranslator())
+            : this(new GoogleCalendarServices(),
+                   new GoogleEventTranslator(),
+                   new AppointmentsProvider())
         {
         }
 
@@ -61,9 +59,7 @@
         /// <returns></returns>
         public string GetCalendarUrl(UmbracoContext umbracoContext)
         {
-            IPublishedContent content = settingsService.GetAppointmentsNode(umbracoContext);
-
-            AppointmentsModel model = new AppointmentsModel(content);
+            AppointmentsModel model = appointmentsProvider.GetAppointmentsModel(umbracoContext);
 
             return model.GoogleCalendarUrl;
         }
@@ -75,13 +71,18 @@
         /// <param name="viewModel">The view model.</param>
         public void InsertEvent(
             UmbracoContext umbracoContext,
-            GoogleEventViewModel viewModel)
+            EventViewModel viewModel)
         {
             CalendarService calendarService = GetCalendarService(umbracoContext);
 
             Event googleEvent = googleEventTranslator.Translate(viewModel);
 
-            googleCalendarServices.InsertEvent(calendarService, googleEvent);
+            Event insertedEvent = googleCalendarServices.InsertEvent(calendarService, googleEvent);
+
+            if (insertedEvent != null)
+            {
+                //// TODO: Now insert into our table
+            }
         }
 
         /// <summary>
@@ -116,15 +117,14 @@
         /// <returns></returns>
         internal CalendarService GetCalendarService(UmbracoContext umbracoContext)
         {
-            IPublishedContent content = settingsService.GetAppointmentsNode(umbracoContext);
-
-            AppointmentsModel model = new AppointmentsModel(content);
+            AppointmentsModel model = this.appointmentsProvider.GetAppointmentsModel(umbracoContext); 
 
             UserCredential userCredential = googleCalendarServices.GetCredentials(
                                                 model.GoogleClientId,
-                                                model.GoogleClientSecret);
+                                                model.GoogleClientSecret,
+                                                model.RedirectUrl);
 
-            return googleCalendarServices.GetCalendarService(userCredential, "app");
+            return googleCalendarServices.GetCalendarService(userCredential, model.GoogleCalendarName);
         }
     }
 }

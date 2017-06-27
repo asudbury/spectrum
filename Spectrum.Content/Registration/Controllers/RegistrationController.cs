@@ -6,7 +6,6 @@
     using Services;
     using System;
     using System.Web.Mvc;
-    using Umbraco.Web;
     using ViewModels;
 
     /// <summary>
@@ -23,24 +22,6 @@
         /// The mail service.
         /// </summary>
         private readonly IMailService mailService;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RegistrationController" /> class.
-        /// </summary>
-        /// <param name="context">The context.</param>
-        /// <param name="loggingService">The logging service.</param>
-        /// <param name="registrationProvider">The registration provider.</param>
-        /// <param name="mailService">The mail service.</param>
-        public RegistrationController(
-            UmbracoContext context,
-            ILoggingService loggingService,
-            IRegistrationProvider registrationProvider,
-            IMailService mailService)
-            : base(context,loggingService)
-        {
-            this.registrationProvider = registrationProvider;
-            this.mailService = mailService;
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegistrationController" /> class.

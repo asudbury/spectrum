@@ -11,10 +11,12 @@
         /// </summary>
         /// <param name="clientId">The client identifier.</param>
         /// <param name="clientSecret">The client secret.</param>
+        /// <param name="redirectUrl">The redirect URL.</param>
         /// <returns></returns>
         UserCredential GetCredentials(
             string clientId,
-            string clientSecret);
+            string clientSecret,
+            string redirectUrl);
 
         /// <summary>
         /// Gets the calendar service.

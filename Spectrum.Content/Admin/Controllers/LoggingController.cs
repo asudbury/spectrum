@@ -3,30 +3,18 @@
     using Services;
     using System;
     using System.Web.Mvc;
-    using Umbraco.Web;
 
     public class LoggingController : BaseController
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseController" /> class.
         /// </summary>
-        /// <param name="loggingService"></param>
+        /// <param name="loggingService">The logging service.</param>
+        /// <param name="settingsService">The settings service.</param>
         public LoggingController(
-            ILoggingService loggingService) 
+            ILoggingService loggingService,
+            ISettingsService settingsService) 
             : base(loggingService)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BaseController" /> class.
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="loggingService"></param>
-        public LoggingController(
-            UmbracoContext context, 
-            ILoggingService loggingService) 
-            : base(context, 
-                   loggingService)
         {
         }
 
@@ -34,7 +22,8 @@
         /// Initializes a new instance of the <see cref="LoggingController"/> class.
         /// </summary>
         public LoggingController()
-            : this(new LoggingService())
+            : this(new LoggingService(),
+                   new SettingsService())
         {
         }
 

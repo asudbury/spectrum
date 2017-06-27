@@ -1,49 +1,36 @@
 ﻿namespace Spectrum.Content.Appointments.Controllers
 {
+    using ContentModels;
     using Content.Services;
     using Providers;
     using System.Web.Mvc;
-    using Umbraco.Web;
-    using ViewModels;
 
     public class GoogleCalendarController : BaseController
     {
         /// <summary>
-        /// The google calendar provider.
+        /// The appointments provider.
         /// </summary>
-        private readonly IGoogleCalendarProvider googleCalendarProvider;
+        private readonly IAppointmentsProvider appointmentsProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GoogleCalendarController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
-        /// <param name="googleCalendarProvider">The google calendar provider.</param>
+        /// <param name="appointmentsProvider">The appointments provider.</param>
         public GoogleCalendarController(
             ILoggingService loggingService,
-            IGoogleCalendarProvider googleCalendarProvider) 
+            IAppointmentsProvider appointmentsProvider)
             : base(loggingService)
         {
-            this.googleCalendarProvider = googleCalendarProvider;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GoogleCalendarController"/> class.
-        /// </summary>
-        public GoogleCalendarController(
-            UmbracoContext context, 
-            ILoggingService loggingService,
-            IGoogleCalendarProvider googleCalendarProvider) 
-            : base(context, loggingService)
-        {
-            this.googleCalendarProvider = googleCalendarProvider;
+            this.appointmentsProvider = appointmentsProvider;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GoogleCalendarController"/> class.
         /// </summary>
         public GoogleCalendarController()
-            : this(new LoggingService(), 
-                   new GoogleCalendarProvider())
+            : this(new LoggingService(),
+                   new AppointmentsProvider())
         {
         }
 
@@ -54,28 +41,9 @@
         [ChildActionOnly]
         public ActionResult GetCalendarUrl()
         {
-            string url = googleCalendarProvider.GetCalendarUrl(UmbracoContext);
+            AppointmentsModel model = appointmentsProvider.GetAppointmentsModel(UmbracoContext);
 
-            return Content(url);
-        }
-
-        /// <summary>
-        /// Inserts the event.
-        /// </summary>
-        /// <param name="viewModel">The view model.</param>
-        [HttpPost]
-        public void InsertEvent(GoogleEventViewModel viewModel)
-        {
-            googleCalendarProvider.InsertEvent(UmbracoContext, viewModel);
-        }
-
-        /// <summary>
-        /// Gets the event.
-        /// </summary>
-        /// <param name="eventId">The event identifier.</param>
-        public void GetEvent(string eventId)
-        {
-           googleCalendarProvider.GetEvent(UmbracoContext, eventId);
+            return Content(model.GoogleCalendarUrl);
         }
     }
 }

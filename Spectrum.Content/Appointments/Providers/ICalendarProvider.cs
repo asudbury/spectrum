@@ -3,7 +3,7 @@
     using Umbraco.Web;
     using ViewModels;
 
-    public interface IGoogleCalendarProvider
+    public interface ICalendarProvider
     {
         /// <summary>
         /// Gets the calendar URL.
@@ -19,7 +19,7 @@
         /// <param name="viewModel">The view model.</param>
         void InsertEvent(
             UmbracoContext umbracoContext,
-            GoogleEventViewModel viewModel);
+            EventViewModel viewModel);
 
         /// <summary>
         /// Gets the events.

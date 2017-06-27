@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="antlr.runtime, Version=2.7.6.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ical.Net.2.3.2\lib\net46\antlr.runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="AutoMapper, Version=3.3.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.dll</HintPath>
       <Private>True</Private>
@@ -101,6 +105,14 @@
     </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.4.9.5, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.4.9.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ical.Net, Version=2.1.0.13690, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ical.Net.2.3.2\lib\net46\Ical.Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ical.Net.Collections, Version=2.1.0.13689, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ical.Net.2.3.2\lib\net46\Ical.Net.Collections.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
@@ -189,6 +201,10 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NodaTime, Version=1.3.0.0, Culture=neutral, PublicKeyToken=4226afe0d9b296d1, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ical.Net.2.3.2\lib\net46\NodaTime.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
@@ -325,15 +341,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Admin\Controllers\LoggingController.cs" />
+    <Compile Include="Appointments\Controllers\AppointmentsController.cs" />
     <Compile Include="Appointments\Controllers\GoogleCalendarController.cs" />
+    <Compile Include="Appointments\Factories\CalendarFactory.cs" />
+    <Compile Include="Appointments\Factories\ICalendarFactory.cs" />
     <Compile Include="Appointments\Models\AppointmentModel.cs" />
+    <Compile Include="Appointments\Models\ICalEventModel.cs" />
+    <Compile Include="Appointments\Providers\AppointmentsProvider.cs" />
+    <Compile Include="Appointments\Providers\BaseCalendarProvider.cs" />
     <Compile Include="Appointments\Providers\GoogleCalendarProvider.cs" />
-    <Compile Include="Appointments\Providers\IGoogleCalendarProvider.cs" />
+    <Compile Include="Appointments\Providers\IAppointmentsProvider.cs" />
+    <Compile Include="Appointments\Providers\ICalendarProvider.cs" />
     <Compile Include="Appointments\Services\GoogleCalendarServices.cs" />
+    <Compile Include="Appointments\Services\ICalendarService.cs" />
     <Compile Include="Appointments\Services\IGoogleCalendarServices.cs" />
+    <Compile Include="Appointments\Services\IICalendarService.cs" />
+    <Compile Include="Appointments\Services\WebAuthorizationCodeFlow.cs" />
+    <Compile Include="Appointments\Services\WebAuthorizationBroker.cs" />
     <Compile Include="Appointments\Translators\GoogleEventTranslator.cs" />
     <Compile Include="Appointments\Translators\IGoogleEventTranslator.cs" />
-    <Compile Include="Appointments\ViewModels\GoogleEventViewModel.cs" />
+    <Compile Include="Appointments\ViewModels\EventViewModel.cs" />
     <Compile Include="Authentication\Controllers\LoginController.cs" />
     <Compile Include="Authentication\ViewModels\ForgottenPasswordViewModel.cs" />
     <Compile Include="Authentication\ViewModels\LoginViewModel.cs" />

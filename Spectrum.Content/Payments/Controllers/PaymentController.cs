@@ -7,16 +7,10 @@
     using Providers;
     using System;
     using System.Web.Mvc;
-    using Umbraco.Web;
     using ViewModels;
 
     public class PaymentController : BaseController
     {
-        /// <summary>
-        /// The settings service.
-        /// </summary>
-        private readonly ISettingsService settingsService;
-
         /// <summary>
         /// The payment provider.
         /// </summary>
@@ -31,36 +25,13 @@
         /// Initializes a new instance of the <see cref="PaymentController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
-        /// <param name="settingsService">The settings service.</param>
         /// <param name="paymentProvider">The payment provider.</param>
         /// <param name="mailProvider">The mail provider.</param>
         public PaymentController(
             ILoggingService loggingService,
-            ISettingsService settingsService,
             IPaymentProvider paymentProvider,
             IMailProvider mailProvider) 
             : base(loggingService)
-        {
-            this.settingsService = settingsService;
-            this.paymentProvider = paymentProvider;
-            this.mailProvider = mailProvider;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BaseController" /> class.
-        /// </summary>
-        /// <param name="context">The context.</param>
-        /// <param name="loggingService">The logging service.</param>
-        /// <param name="settingsService">The settings service.</param>
-        /// <param name="paymentProvider">The payment provider.</param>
-        /// <param name="mailProvider">The mail provider.</param>
-        public PaymentController(
-            UmbracoContext context, 
-            ILoggingService loggingService,
-            ISettingsService settingsService,
-            IPaymentProvider paymentProvider,
-            IMailProvider mailProvider) 
-            : base(context, loggingService)
         {
             this.paymentProvider = paymentProvider;
             this.mailProvider = mailProvider;
@@ -71,7 +42,6 @@
         /// </summary>
         public PaymentController()
             : this(new LoggingService(), 
-                   new SettingsService(), 
                    new PaymentProvider(), 
                    new MailProvider())
         {
@@ -84,7 +54,7 @@
         [ChildActionOnly]
         public ActionResult GetAuthToken()
         {
-            BraintreeModel model = paymentProvider.GetBraintreeModel(settingsService.GetPaymentsNode(UmbracoContext));
+            BraintreeModel model = paymentProvider.GetBraintreeModel(UmbracoContext);
 
             string token = paymentProvider.GetAuthToken(model);
 
@@ -98,7 +68,7 @@
         [ChildActionOnly]
         public ActionResult GetEnvironment()
         {
-            BraintreeModel model = paymentProvider.GetBraintreeModel(settingsService.GetPaymentsNode(UmbracoContext));
+            BraintreeModel model = paymentProvider.GetBraintreeModel(UmbracoContext);
 
             return Content(model.Environment);
         }
@@ -132,7 +102,7 @@
                     throw new ApplicationException("Error Page Url Not Set");
                 }
 
-                BraintreeModel model = paymentProvider.GetBraintreeModel(settingsService.GetPaymentsNode(UmbracoContext));
+                BraintreeModel model = paymentProvider.GetBraintreeModel(UmbracoContext);
 
                 LoggingService.Info(GetType(), "HandlePayment MakePayment");
 
