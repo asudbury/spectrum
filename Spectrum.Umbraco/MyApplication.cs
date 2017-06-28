@@ -1,4 +1,5 @@
-﻿using Umbraco.Core;
+﻿using Spectrum.Content.Configuration;
+using Umbraco.Core;
 using Umbraco.Web.Routing;
 
 namespace Spectrum.Umbraco
@@ -12,9 +13,16 @@ namespace Spectrum.Umbraco
         /// </summary>
         /// <param name="umbracoApplication"></param>
         /// <param name="applicationContext"></param>
-        protected override void ApplicationStarting(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
+        protected override void ApplicationStarting(
+            UmbracoApplicationBase umbracoApplication, 
+            ApplicationContext applicationContext)
         {
             ContentFinderResolver.Current.InsertTypeBefore<ContentFinderByNotFoundHandlers, Error404Handler>();
+
+            //// do autofac wiring up
+
+            IocConfiguration.Setup();
+
             base.ApplicationStarting(umbracoApplication, applicationContext);
         }
     }

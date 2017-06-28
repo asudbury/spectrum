@@ -44,17 +44,6 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MainNavigationController"/> class.
-        /// </summary>
-        public MainNavigationController()
-            : this(new LoggingService(),
-                   new SettingsService(),
-                   new UserService(),   
-                   new MainNavigationProvider())
-        {
-        }
-
-        /// <summary>
         /// Gets the menu.
         /// </summary>
         /// <returns></returns>

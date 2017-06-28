@@ -38,16 +38,6 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PaymentController"/> class.
-        /// </summary>
-        public PaymentController()
-            : this(new LoggingService(), 
-                   new PaymentProvider(), 
-                   new MailProvider())
-        {
-        }
-
-        /// <summary>
         /// Gets the authentication token.
         /// </summary>
         /// <returns></returns>

@@ -19,15 +19,6 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LoggingController"/> class.
-        /// </summary>
-        public LoggingController()
-            : this(new LoggingService(),
-                   new SettingsService())
-        {
-        }
-
-        /// <summary>
         /// Logs the information.
         /// </summary>
         /// <param name="message">The message.</param>

@@ -1,52 +1,36 @@
 ﻿namespace Spectrum.Content.Configuration
 {
-    using Registration.Handlers;
-    using Registration.Models;
-    using System.Web.Http;
-    using TinyIoC;
-    using TinyMessenger;
+    using Appointments.Controllers;
+    using Autofac;
+    using Autofac.Integration.Mvc;
+    using System.Reflection;
+    using System.Web.Mvc;
 
     /// <summary>
     /// Defines the IocConfiguration.
     /// </summary>
-    public class IocConfiguration
+    public static class IocConfiguration
     {
         /// <summary>
         /// Setups this instance.
         /// </summary>
-        public void Setup(HttpConfiguration config)
+        public static void Setup()
         {
-            ////config.DependencyResolver = new TinyIocMvcDependencyResolver(GetContainer());
-             
-            RegisterServices();
-            RegisterSubscribers();
-        }
+            ContainerBuilder builder = new ContainerBuilder();
 
-        /// <summary>
-        /// Register the services.
-        /// </summary>
-        public void RegisterServices()
-        {
-        }
+            //// As long as all the controllers are in the same assembly this will work.
 
-        /// <summary>
-        /// Register the subscribers.
-        /// </summary>
-        public void RegisterSubscribers()
-        {
-            ITinyMessengerHub messengerHub = GetContainer().Resolve<ITinyMessengerHub>();
+            Assembly assembly = typeof(AppointmentsController).Assembly;
 
-            messengerHub.Subscribe<RegistrationCompleteMessage>(m => { new RegistrationHandler().Handle(m); });
-            messengerHub.Subscribe<UserVerificationCompleteMessage>(m => { new VerificationHandler().Handle(m); });
-        }
+            builder.RegisterControllers(assembly);
 
-        /// <summary>
-        /// Gets the container.
-        /// </summary>
-        /// <returns>The Container.</returns>
-        private TinyIoCContainer GetContainer()
-        {
-            return TinyIoCContainer.Current;
+            
+            builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces();
+
+            IContainer container = builder.Build();
+
+            //// Set the dependency resolver to be Autofac.
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }
     }
 }

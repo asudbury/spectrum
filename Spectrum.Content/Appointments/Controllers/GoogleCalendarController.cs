@@ -26,15 +26,6 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GoogleCalendarController"/> class.
-        /// </summary>
-        public GoogleCalendarController()
-            : this(new LoggingService(),
-                   new AppointmentsProvider())
-        {
-        }
-
-        /// <summary>
         /// Gets the calendar URL.
         /// </summary>
         /// <returns></returns>

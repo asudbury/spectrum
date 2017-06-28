@@ -40,15 +40,6 @@
             this.calendarFactory = calendarFactory;
         }
 
-        public AppointmentsController()
-            :this(new LoggingService(), 
-                 new SettingsService(), 
-                 new AppointmentsProvider(), 
-                 new CalendarFactory())
-
-        {
-        }
-
         /// <summary>
         /// Inserts the event.
         /// </summary>

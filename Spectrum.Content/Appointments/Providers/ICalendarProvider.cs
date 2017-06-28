@@ -35,6 +35,5 @@
         void GetEvent(
             UmbracoContext umbracoContext,
             string eventId);
-
     }
 }

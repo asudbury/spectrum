@@ -22,15 +22,6 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AppointmentsProvider"/> class.
-        /// </summary>
-        public AppointmentsProvider()
-            : this(new SettingsService())
-        {
-            
-        }
-
-        /// <summary>
         /// Gets the appointments node.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>

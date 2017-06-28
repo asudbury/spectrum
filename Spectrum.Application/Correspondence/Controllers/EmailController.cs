@@ -33,14 +33,6 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EmailController"/> class.
-        /// </summary>
-        public EmailController()
-            : this(new SettingsService(), new EmailProvider(), new EventProvider())
-        {
-        }
-
-        /// <summary>
         /// The user has read an email.
         /// </summary>
         /// <param name="model">The model.</param>

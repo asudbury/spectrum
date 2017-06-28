@@ -1,5 +1,6 @@
 ﻿namespace Spectrum.Content.Appointments.Models
 {
+    using System;
     using Umbraco.Core.Persistence;
     using Umbraco.Core.Persistence.DatabaseAnnotations;
 
@@ -17,14 +18,32 @@
         /// <summary>
         /// Gets or sets the payment identifier.
         /// </summary>
-        [Column("PaymentId")]
         public string PaymentId { get; set; }
         
         /// <summary>
         /// Gets or sets the appointment identifier.
         /// </summary>
-
-        [Column("AppointmentId")]
+        
         public string AppointmentId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the start time.
+        /// </summary>
+        public DateTime? StartTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the end time.
+        /// </summary>
+        public DateTime? EndTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the summary.
+        /// </summary>
+        public string Summary { get; set; }
+
+        /// <summary>
+        /// Gets or sets the description.
+        /// </summary>
+        public string Description { get; set; }
     }
 }

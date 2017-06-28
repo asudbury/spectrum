@@ -23,14 +23,6 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CustomerProvider"/> class.
-        /// </summary>
-        internal CustomerProvider()
-            : this(new CustomerRepository())
-        {
-        }
-
-        /// <summary>
         /// Emails the address updated.
         /// </summary>
         /// <param name="model">The model.</param>

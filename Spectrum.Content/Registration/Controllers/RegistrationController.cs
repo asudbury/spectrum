@@ -14,11 +14,6 @@
     public class RegistrationController : BaseController
     {
         /// <summary>
-        /// The registration provider.
-        /// </summary>
-        private readonly IRegistrationProvider registrationProvider;
-
-        /// <summary>
         /// The mail service.
         /// </summary>
         private readonly IMailService mailService;
@@ -27,27 +22,13 @@
         /// Initializes a new instance of the <see cref="RegistrationController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
-        /// <param name="registrationProvider">The registration provider.</param>
         /// <param name="mailService">The mail service.</param>
         public RegistrationController(
             ILoggingService loggingService,
-            IRegistrationProvider registrationProvider,
             IMailService mailService)
             : base(loggingService)
         {
-            this.registrationProvider = registrationProvider;
-            this.registrationProvider.MemberService = Services.MemberService;
             this.mailService = mailService;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RegistrationController"/> class.
-        /// </summary>
-        public RegistrationController() 
-            : this(new LoggingService(), 
-                   new RegistrationProvider(), 
-                   new MailService())
-        {
         }
 
         /// <summary>
@@ -70,7 +51,7 @@
         {
             try
             {
-                if (!ModelState.IsValid)
+                /*if (!ModelState.IsValid)
                 {
                     return PartialView("Register", viewModel);
                 }
@@ -118,7 +99,7 @@
         {
             try
             {
-                if (!ModelState.IsValid)
+                /*if (!ModelState.IsValid)
                 {
                     return PartialView("Verify", viewModel);
                 }
@@ -133,7 +114,7 @@
                     ModelState.AddModelError("", message);
                     return CurrentUmbracoPage();
                 }
-
+                */
                 return PartialView("Verify", new VerifyUserViewModel());
             }
             catch (Exception e)
@@ -150,14 +131,16 @@
         /// <returns>True or false.</returns>
         public JsonResult CheckEmailInUse(string emailAddress)
         {
-            bool result = registrationProvider.CheckEmailInUse(emailAddress);
+            return Json(false);
+
+            /*bool result = registrationProvider.CheckEmailInUse(emailAddress);
 
             if (result)
             {
                 return Json($"The email address '{emailAddress}' is already in use.", JsonRequestBehavior.AllowGet);
             }
 
-            return Json(true, JsonRequestBehavior.AllowGet);
+            return Json(true, JsonRequestBehavior.AllowGet);*/
         }
     }
 }

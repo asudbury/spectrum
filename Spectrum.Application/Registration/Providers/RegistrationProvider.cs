@@ -25,14 +25,6 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RegistrationProvider"/> class.
-        /// </summary>
-        internal RegistrationProvider()
-            : this(new RegistrationRepository(new DatabaseService()))
-        {
-        }
-
-        /// <summary>
         /// The user has been registered.
         /// </summary>
         /// <param name="model">The model.</param>

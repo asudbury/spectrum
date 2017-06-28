@@ -4,7 +4,6 @@
     using Model.Registration;
     using Models;
     using System;
-    using TinyMessenger;
     using Umbraco.Core.Models;
     using Umbraco.Core.Services;
     using ViewModels;
@@ -19,11 +18,6 @@
         /// The user service.
         /// </summary>
         private readonly Services.IUserService userService;
-
-        /// <summary>
-        /// The tiny messenger hub.
-        /// </summary>
-        private readonly ITinyMessengerHub tinyMessengerHub;
 
         /// <summary>
         /// Gets or sets the member service.

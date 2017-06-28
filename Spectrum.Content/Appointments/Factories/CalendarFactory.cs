@@ -1,6 +1,9 @@
 ﻿namespace Spectrum.Content.Appointments.Factories
 {
+    using Content.Services;
     using Providers;
+    using Services;
+    using Translators;
 
     public class CalendarFactory : ICalendarFactory
     {
@@ -11,7 +14,12 @@
         /// <returns></returns>
         public ICalendarProvider GetCalendarProvider(string calendarType)
         {
-            return new GoogleCalendarProvider();
+            //// TODO : need to use autofac to resolve.
+            return new GoogleCalendarProvider(
+                new GoogleCalendarServices(), 
+                new GoogleEventTranslator(),
+                new AppointmentsProvider(new SettingsService()));
         }
     }
 }
+

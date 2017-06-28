@@ -36,16 +36,6 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TransactionsController"/> class.
-        /// </summary>
-        public TransactionsController()
-            : this(new LoggingService(), 
-                   new PaymentProvider(), 
-                   new TransactionsTranslator())
-        {
-        }
-
-        /// <summary>
         /// Gets the transactions.
         /// </summary>
         /// <returns></returns>

@@ -36,14 +36,6 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CustomerController"/> class.
-        /// </summary>
-        public CustomerController()
-            : this(new SettingsService(), new CustomerProvider(), new EventProvider())
-        {
-        }
-
-        /// <summary>
         /// The user has updated their email address.
         /// </summary>
         /// <param name="model">The model.</param>

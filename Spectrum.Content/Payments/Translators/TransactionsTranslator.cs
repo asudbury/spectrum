@@ -21,14 +21,6 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TransactionsTranslator"/> class.
-        /// </summary>
-        public TransactionsTranslator()
-          : this(new TransactionTranslator())
-        {
-        }
-
-        /// <summary>
         /// Translates the specified transactions.
         /// </summary>
         /// <param name="transactions">The transactions.</param>

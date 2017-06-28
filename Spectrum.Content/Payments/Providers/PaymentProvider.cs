@@ -34,16 +34,6 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PaymentProvider"/> class.
-        /// </summary>
-        public PaymentProvider()
-            : this(new SettingsService(), 
-                   new Services.BraintreeService())
-
-        {
-        }
-
-        /// <summary>
         /// Gets the braintree model.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>

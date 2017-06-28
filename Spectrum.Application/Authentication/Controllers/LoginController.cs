@@ -26,14 +26,6 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LoginController"/> class.
-        /// </summary>
-        public LoginController()
-            : this(new SettingsService(), new EventProvider())
-        {
-        }
-
-        /// <summary>
         /// The user has logged in.
         /// </summary>
         /// <param name="model">The model.</param>

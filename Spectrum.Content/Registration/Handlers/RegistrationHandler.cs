@@ -13,10 +13,9 @@
         /// Handles the specified message.
         /// </summary>
         /// <param name="message">The message.</param>
-        public void Handle(RegistrationCompleteMessage message)
+        public void Handle()
         {
-            RegistrationController controller = new RegistrationController();
-            controller.UserRegistered(message.Content);
+            ////RegistrationController controller = new RegistrationController();
         }
     }
 }

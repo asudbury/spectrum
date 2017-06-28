@@ -36,14 +36,6 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RegistrationController"/> class.
-        /// </summary>
-        public RegistrationController()
-            :this(new SettingsService(), new RegistrationProvider(), new EventProvider())
-        {
-        }
-
-        /// <summary>
         /// User has registered.
         /// </summary>
         /// <param name="model">The model.</param>

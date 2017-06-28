@@ -36,13 +36,5 @@
             this.appointmentsProvider = appointmentsProvider;
             this.eventProvider = eventProvider;
         }
-        
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AppointmentsController"/> class.
-        /// </summary>
-        public AppointmentsController()
-            :this(new SettingsService(), new AppointmentsProvider(), new EventProvider())
-        {
-        }
     }
 }

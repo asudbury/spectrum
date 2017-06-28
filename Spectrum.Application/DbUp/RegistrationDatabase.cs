@@ -27,14 +27,6 @@ namespace Spectrum.Application.DbUp
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RegistrationDatabase"/> class.
-        /// </summary>
-        public RegistrationDatabase()
-            : this(new DatabaseService())
-        {
-        }
-
-        /// <summary>
         /// Updates this instance.
         /// </summary>
         public void Update()

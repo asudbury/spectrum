@@ -25,14 +25,6 @@ namespace Spectrum.Application.Correspondence.Providers
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EventProvider"/> class.
-        /// </summary>
-        internal EventProvider()
-            : this(new EventRepository(new DatabaseService()))
-        {
-        }
-
-        /// <summary>
         /// Record an event.
         /// </summary>
         /// <param name="model">The model.</param>

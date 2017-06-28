@@ -26,14 +26,6 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PasswordController" /> class.
-        /// </summary>
-        public PasswordController()
-            : this(new SettingsService(), new EventProvider())
-        {
-        }
-
-        /// <summary>
         /// Password reset requested.
         /// </summary>
         /// <param name="model">The model.</param>

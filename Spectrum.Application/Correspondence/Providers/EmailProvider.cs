@@ -25,14 +25,6 @@ namespace Spectrum.Application.Correspondence.Providers
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EmailProvider"/> class.
-        /// </summary>
-        internal EmailProvider()
-            : this(new EmailRepository(new DatabaseService()))
-        {
-        }
-
-        /// <summary>
         /// Email has been sent.
         /// </summary>
         /// <param name="model">The model.</param>

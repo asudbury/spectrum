@@ -43,16 +43,6 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GoogleCalendarProvider"/> class.
-        /// </summary>
-        public GoogleCalendarProvider()
-            : this(new GoogleCalendarServices(),
-                   new GoogleEventTranslator(),
-                   new AppointmentsProvider())
-        {
-        }
-
-        /// <summary>
         /// Gets the calendar URL.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>

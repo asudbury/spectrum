@@ -35,6 +35,14 @@
       <HintPath>..\packages\Ical.Net.2.3.2\lib\net46\antlr.runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Autofac, Version=4.0.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.0.1\lib\net45\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Autofac.Integration.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.Mvc5.4.0.2\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="AutoMapper, Version=3.3.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.dll</HintPath>
       <Private>True</Private>
@@ -381,7 +389,6 @@
     <Compile Include="Navigation\Providers\IMainNavigationProvider.cs" />
     <Compile Include="Navigation\Providers\MainNavigationProvider.cs" />
     <Compile Include="Navigation\ViewModels\MenuViewModel.cs" />
-    <Compile Include="NotificationMessage.cs" />
     <Compile Include="ContentModels\BaseModel.cs" />
     <Compile Include="ContentModels\PageModel.cs" />
     <Compile Include="Payments\Controllers\PaymentController.cs" />
@@ -403,11 +410,8 @@
     <Compile Include="Registration\Controllers\RegistrationController.cs" />
     <Compile Include="Registration\Handlers\VerificationHandler.cs" />
     <Compile Include="Registration\Handlers\RegistrationHandler.cs" />
-    <Compile Include="Registration\Models\UserVerificationCompleteMessage.cs" />
-    <Compile Include="Registration\Models\RegistrationCompleteMessage.cs" />
     <Compile Include="Registration\Models\RegisteredUser.cs" />
     <Compile Include="Registration\Providers\IRegistrationProvider.cs" />
-    <Compile Include="Registration\Providers\RegistrationProvider.cs" />
     <Compile Include="Registration\ViewModels\VerifyUserViewModel.cs" />
     <Compile Include="Registration\ViewModels\RegisterViewModel.cs" />
     <Compile Include="Services\ILoggingService.cs" />
@@ -417,9 +421,6 @@
     <Compile Include="Services\SettingsService.cs" />
     <Compile Include="Services\UserConstants.cs" />
     <Compile Include="Services\UserService.cs" />
-    <Compile Include="TinyIoC.cs" />
-    <Compile Include="TinyIoCAspNetExtensions.cs" />
-    <Compile Include="TinyMessenger.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Authentication\Models\" />
