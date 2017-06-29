@@ -1,4 +1,7 @@
-﻿namespace Spectrum.Content.Configuration
+﻿using Autofac.Integration.WebApi;
+using Umbraco.Web;
+
+namespace Spectrum.Content.Configuration
 {
     using Appointments.Controllers;
     using Autofac;
@@ -24,7 +27,8 @@
 
             builder.RegisterControllers(assembly);
 
-            
+            builder.RegisterApiControllers(typeof(UmbracoApplication).Assembly);
+
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces();
 
             IContainer container = builder.Build();

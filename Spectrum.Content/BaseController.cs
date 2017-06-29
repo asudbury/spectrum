@@ -4,7 +4,6 @@
     using System;
     using System.Web.Mvc;
     using Umbraco.Core.Models;
-    using Umbraco.Web;
     using Umbraco.Web.Mvc;
 
     public class BaseController : SurfaceController
@@ -15,20 +14,10 @@
         protected readonly ILoggingService LoggingService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseController"/> class.
+        /// Initializes a new instance of the <see cref="BaseController" /> class.
         /// </summary>
+        /// <param name="loggingService">The logging service.</param>
         public BaseController(ILoggingService loggingService)
-        {
-            LoggingService = loggingService;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BaseController"/> class.
-        /// </summary>
-        public BaseController(
-            UmbracoContext context,
-            ILoggingService loggingService)
-            :base(context)
         {
             LoggingService = loggingService;
         }
