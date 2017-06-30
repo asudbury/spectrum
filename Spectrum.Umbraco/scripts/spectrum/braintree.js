@@ -4,7 +4,6 @@
 
 
 
-
 /*********************************************************************************
  * @param {} displayError 
  * @returns {} 
@@ -124,13 +123,12 @@ function btCustomerError(err) {
 
     },
     function (err, clientInstance) {
-
-        console.log('starting the js code. The env is ' + env);
-        env = 'sandbox';
-        if (env === 'sandbox') {
-            $('#sandboxRibbon').text('Sand Box');
-        }
-
+        
+        if (env !== 'production') {
+            console.log('starting the js code. The env is ' + env);
+            $('#sandboxRibbon').text(env);
+            $('#sandboxRibbon').show();
+        } 
 
         if (err) {
             console.error(err);

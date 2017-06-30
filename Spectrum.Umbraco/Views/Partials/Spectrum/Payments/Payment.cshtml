@@ -14,7 +14,7 @@
 
     @Html.ValidationSummary(true)
 
-    <div id="sandboxRibbon" class="corner-ribbon top-right sticky blue">Sand box</div>
+    <div id="sandboxRibbon" class="corner-ribbon top-right sticky red">Sand box</div>
     <div>
         
         <div class="panel panel-default bootstrap-basic">
@@ -74,14 +74,13 @@
 
                 <script src="https://js.braintreegateway.com/web/3.17.0/js/client.min.js"></script>
                 <script src="https://js.braintreegateway.com/web/3.17.0/js/hosted-fields.min.js"></script>
-               
+            
                 <script>
                     var xxxx = '@Html.Action("GetAuthToken", "Payment")';
                     var nodeId = '@Html.Action("GetNodeId", "Payment")';
                     var url = '@Url.Action("HandlePayment", "Payment")';
-                    var env = '@Url.Action("GetEnvironment", "Payment")';
+                    var env = '@Html.Action("GetEnvironment", "Payment")';
                 </script>
-            
                 <script src="../../../../scripts/spectrum/braintree.js"></script>
 
         </div>
