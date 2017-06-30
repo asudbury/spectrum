@@ -390,6 +390,8 @@
     <Compile Include="Mail\Services\IMailService.cs" />
     <Compile Include="Mail\Services\MailService.cs" />
     <Compile Include="Navigation\Controllers\MainNavigationController.cs" />
+    <Compile Include="Navigation\Managers\IMainNavigationManager.cs" />
+    <Compile Include="Navigation\Managers\MainNavigationManager.cs" />
     <Compile Include="Navigation\Providers\IMainNavigationProvider.cs" />
     <Compile Include="Navigation\Providers\MainNavigationProvider.cs" />
     <Compile Include="Navigation\ViewModels\MenuViewModel.cs" />
@@ -398,6 +400,10 @@
     <Compile Include="Payments\Controllers\PaymentController.cs" />
     <Compile Include="ContentModels\BraintreeModel.cs" />
     <Compile Include="Payments\Controllers\TransactionsController.cs" />
+    <Compile Include="Payments\Managers\IPaymentManager.cs" />
+    <Compile Include="Payments\Managers\ITransactionsManager.cs" />
+    <Compile Include="Payments\Managers\PaymentManager.cs" />
+    <Compile Include="Payments\Managers\TransactionsManager.cs" />
     <Compile Include="Payments\Providers\IPaymentProvider.cs" />
     <Compile Include="Payments\Providers\PaymentProvider.cs" />
     <Compile Include="Payments\Services\BraintreeService.cs" />

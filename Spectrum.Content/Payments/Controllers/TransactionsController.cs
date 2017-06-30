@@ -1,38 +1,64 @@
 ﻿namespace Spectrum.Content.Payments.Controllers
 {
-    using Providers;
-    using Translators;
     using Content.Services;
+    using Managers;
     using System.Web.Mvc;
-    using ContentModels;
+    using Umbraco.Web;
     using ViewModels;
 
     public class TransactionsController : BaseController
     {
         /// <summary>
-        /// The payment provider.
+        /// The transactions manager.
         /// </summary>
-        private readonly IPaymentProvider paymentProvider;
-
-        /// <summary>
-        /// The transactions translator.
-        /// </summary>
-        private readonly ITransactionsTranslator transactionsTranslator;
+        private readonly ITransactionsManager transactionsManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
-        /// <param name="paymentProvider">The payment provider.</param>
-        /// <param name="transactionsTranslator">The transactions translator.</param>
+        /// <param name="transactionsManager">The transactions manager.</param>
         public TransactionsController(
-            ILoggingService loggingService, 
-            IPaymentProvider paymentProvider, 
-            ITransactionsTranslator transactionsTranslator) 
+            ILoggingService loggingService,
+            ITransactionsManager transactionsManager) 
             : base(loggingService)
         {
-            this.paymentProvider = paymentProvider;
-            this.transactionsTranslator = transactionsTranslator;
+            this.transactionsManager = transactionsManager;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TransactionsController" /> class.
+        /// </summary>
+        /// <param name="umbracoContext">The umbraco context.</param>
+        /// <param name="loggingService">The logging service.</param>
+        /// <param name="transactionsManager">The transactions manager.</param>
+        public TransactionsController(
+            UmbracoContext umbracoContext,
+            ILoggingService loggingService,
+            ITransactionsManager transactionsManager)
+            : base(loggingService, 
+                   umbracoContext)
+        {
+            this.transactionsManager = transactionsManager;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TransactionsController"/> class.
+        /// </summary>
+        /// <param name="umbracoContext">The umbraco context.</param>
+        /// <param name="umbracoHelper">The umbraco helper.</param>
+        /// <param name="loggingService">The logging service.</param>
+        /// <param name="transactionsManager">The transactions manager.</param>
+        public TransactionsController(
+            UmbracoContext umbracoContext,
+            UmbracoHelper umbracoHelper,
+            ILoggingService loggingService,
+            ITransactionsManager transactionsManager)
+            : base(loggingService, 
+                   umbracoContext, 
+                   umbracoHelper)
+        {
+            this.transactionsManager = transactionsManager;
         }
 
         /// <summary>
@@ -42,9 +68,9 @@
         [ChildActionOnly]
         public ActionResult GetTransactions()
         {
-            BraintreeModel model = paymentProvider.GetBraintreeModel(UmbracoContext);
+            LoggingService.Info(GetType(), string.Empty);
 
-            TransactionsViewModel viewModel = transactionsTranslator.Translate(paymentProvider.GetTransactions(model));
+            TransactionsViewModel viewModel = transactionsManager.GetTransactionsViewModel(UmbracoContext);
 
             return PartialView("Partials/Spectrum/Payments/TransactionList", viewModel);
         }

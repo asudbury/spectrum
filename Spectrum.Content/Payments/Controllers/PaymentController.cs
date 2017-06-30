@@ -1,41 +1,65 @@
 ﻿namespace Spectrum.Content.Payments.Controllers
 {
     using Content.Services;
-    using ContentModels;
-    using Mail.Models;
-    using Mail.Providers;
-    using Providers;
+    using Managers;
     using System;
     using System.Web.Mvc;
+    using Umbraco.Core.Models;
+    using Umbraco.Web;
     using ViewModels;
 
     public class PaymentController : BaseController
     {
         /// <summary>
-        /// The payment provider.
+        /// The payment manager.
         /// </summary>
-        private readonly IPaymentProvider paymentProvider;
-        
+        private readonly IPaymentManager paymentManager;
+
         /// <summary>
-        /// The mail provider.
+        /// Initializes a new instance of the <see cref="PaymentController"/> class.
         /// </summary>
-        private readonly IMailProvider mailProvider;
+        /// <param name="loggingService">The logging service.</param>
+        /// <param name="paymentManager">The payment manager.</param>
+        public PaymentController(
+            ILoggingService loggingService,
+            IPaymentManager paymentManager)
+            : base(loggingService)
+        {
+            this.paymentManager = paymentManager;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PaymentController" /> class.
         /// </summary>
+        /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="loggingService">The logging service.</param>
-        /// <param name="paymentProvider">The payment provider.</param>
-        /// <param name="mailProvider">The mail provider.</param>
+        /// <param name="paymentManager">The payment manager.</param>
         public PaymentController(
+            UmbracoContext umbracoContext,
             ILoggingService loggingService,
-            IPaymentProvider paymentProvider,
-            IMailProvider mailProvider) 
+            IPaymentManager paymentManager)
             : base(loggingService)
         {
-            this.paymentProvider = paymentProvider;
-            this.mailProvider = mailProvider;
+            this.paymentManager = paymentManager;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PaymentController"/> class.
+        /// </summary>
+        /// <param name="umbracoContext">The umbraco context.</param>
+        /// <param name="umbracoHelper">The umbraco helper.</param>
+        /// <param name="loggingService">The logging service.</param>
+        /// <param name="paymentManager">The payment manager.</param>
+        public PaymentController(
+            UmbracoContext umbracoContext,
+            UmbracoHelper umbracoHelper,
+            ILoggingService loggingService,
+            IPaymentManager paymentManager)
+            : base(loggingService)
+        {
+            this.paymentManager = paymentManager;
+        }
+
 
         /// <summary>
         /// Gets the authentication token.
@@ -44,11 +68,9 @@
         [ChildActionOnly]
         public ActionResult GetAuthToken()
         {
-            BraintreeModel model = paymentProvider.GetBraintreeModel(UmbracoContext);
+            LoggingService.Info(GetType(), string.Empty);
 
-            string token = paymentProvider.GetAuthToken(model);
-
-            return Content(token);
+            return Content(paymentManager.GetAuthToken(UmbracoContext));
         }
 
         /// <summary>
@@ -58,9 +80,9 @@
         [ChildActionOnly]
         public ActionResult GetEnvironment()
         {
-            BraintreeModel model = paymentProvider.GetBraintreeModel(UmbracoContext);
+            LoggingService.Info(GetType(), string.Empty);
 
-            return Content(model.Environment);
+            return Content(paymentManager.GetEnvironment(UmbracoContext));
         }
 
         /// <summary>
@@ -73,53 +95,18 @@
         {
            try
             {
-                LoggingService.Info(GetType(), "Entering HandlePayment");
+                LoggingService.Info(GetType(), string.Empty);
 
                 if (string.IsNullOrEmpty(viewModel.CurrentPageNodeId))
                 {
                     throw new ApplicationException("Current Page Id Not Set");
                 }
 
-                PageModel pageModel = new PageModel(GetContentById(viewModel.CurrentPageNodeId));
+                IPublishedContent publishedContent = GetContentById(viewModel.CurrentPageNodeId);
 
-                if (string.IsNullOrEmpty(pageModel.NextPageUrl))
-                {
-                    throw new ApplicationException("Next Page Url Not Set");
-                }
+                string url = paymentManager.HandlePayment(UmbracoContext, publishedContent, viewModel);
 
-                if (string.IsNullOrEmpty(pageModel.ErrorPageUrl))
-                {
-                    throw new ApplicationException("Error Page Url Not Set");
-                }
-
-                BraintreeModel model = paymentProvider.GetBraintreeModel(UmbracoContext);
-
-                LoggingService.Info(GetType(), "HandlePayment MakePayment");
-
-                bool paymentMade = paymentProvider.MakePayment(model, viewModel);
-
-                if (paymentMade)
-                {
-                    LoggingService.Info(GetType(), "Payment Succesful");
-
-                    if (pageModel.EmailTemplateNodeId.HasValue)
-                    {
-                        LoggingService.Info(GetType(), "Sending Email");
-
-                        MailResponse mailResponse = mailProvider.SendEmail(
-                                                        UmbracoContext, 
-                                                        pageModel.EmailTemplateNodeId.Value, 
-                                                        viewModel.EmailAddress);
-
-                        //// TODO : we need to log the mail response!
-                    }
-
-                    return Json(pageModel.NextPageUrl);
-                }
-
-                LoggingService.Info(GetType(), "Payment Failed");
-
-                return Json(pageModel.ErrorPageUrl);
+                return Json(url);
             }
             catch (Exception e)
             {

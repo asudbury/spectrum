@@ -1,46 +1,64 @@
 ﻿namespace Spectrum.Content.Navigation.Controllers
 {
-    using Providers;
-    using System.Web.Mvc;
+    using Managers;
     using Services;
-    using ViewModels;
-    using Umbraco.Core.Models;
+    using System.Web.Mvc;
     using Umbraco.Web;
+    using ViewModels;
 
     public class MainNavigationController : BaseController
     {
         /// <summary>
-        /// The settings service.
+        /// The main navigation manager.
         /// </summary>
-        private readonly ISettingsService settingsService;
-
-        /// <summary>
-        /// The user service.
-        /// </summary>
-        private readonly IUserService userService;
-
-        /// <summary>
-        /// The main navigation provider.
-        /// </summary>
-        private readonly IMainNavigationProvider mainNavigationProvider;
+        private readonly IMainNavigationManager mainNavigationManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
-        /// <param name="settingsService">The settings service.</param>
-        /// <param name="userService">The user service.</param>
-        /// <param name="mainNavigationProvider">The main navigation provider.</param>
+        /// <param name="mainNavigationManager">The main navigation manager.</param>
         public MainNavigationController(
             ILoggingService loggingService,
-            ISettingsService settingsService,
-            IUserService userService,
-            IMainNavigationProvider mainNavigationProvider) 
-            : base(loggingService)
+            IMainNavigationManager mainNavigationManager) 
+            :base(loggingService)
         {
-            this.settingsService = settingsService;
-            this.userService = userService;
-            this.mainNavigationProvider = mainNavigationProvider;
+            this.mainNavigationManager = mainNavigationManager;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaseController" /> class.
+        /// </summary>
+        /// <param name="umbracoContext">The umbraco context.</param>
+        /// <param name="loggingService">The logging service.</param>
+        /// <param name="mainNavigationManager">The main navigation manager.</param>
+        public MainNavigationController(
+            UmbracoContext umbracoContext,
+            ILoggingService loggingService,
+            IMainNavigationManager mainNavigationManager)
+            : base(loggingService,
+                   umbracoContext)
+        {
+            this.mainNavigationManager = mainNavigationManager;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaseController" /> class.
+        /// </summary>
+        /// <param name="umbracoContext">The umbraco context.</param>
+        /// <param name="umbracoHelper">The umbraco helper.</param>
+        /// <param name="loggingService">The logging service.</param>
+        /// <param name="mainNavigationManager">The main navigation manager.</param>
+        public MainNavigationController(
+            UmbracoContext umbracoContext,
+            UmbracoHelper umbracoHelper,
+            ILoggingService loggingService,
+            IMainNavigationManager mainNavigationManager)
+            : base(loggingService,
+                   umbracoContext,
+                   umbracoHelper)
+        {
+            this.mainNavigationManager = mainNavigationManager;
         }
 
         /// <summary>
@@ -50,34 +68,9 @@
         [ChildActionOnly]
         public ActionResult GetMenu()
         {
-            string menu = "Default";
+            MenuViewModel viewModel = mainNavigationManager.GetMenuViewModel();
 
-            if (userService.IsUserLoggedIn())
-            {
-                //// use the name of the role to be the lookup of the menu in umbraco
-                //// OfficeAdmin is the one we have started with.
-
-                menu = userService.GetDefaultRole();
-
-                if (menu == string.Empty)
-                {
-                    menu = "DefaultLoggedIn";
-                }
-            }
-
-            IPublishedContent menuNode = settingsService.GetMenu(UmbracoContext.Current, menu);
-
-            if (menuNode != null)
-            {
-                MenuViewModel viewModel = new MenuViewModel
-                {
-                    MenuItems = mainNavigationProvider.GetMenu(menuNode)
-                };
-
-                return PartialView("Partials/Spectrum/Navigation/Menu", viewModel);
-            }
-
-            return PartialView("Partials/Spectrum/Navigation/Menu", new MenuViewModel());
+            return PartialView("Partials/Spectrum/Navigation/Menu", viewModel);
         }
     }
 }
