@@ -9,7 +9,7 @@
     using Umbraco.Web;
     using ViewModels;
 
-    public class GoogleCalendarProvider : BaseCalendarProvider, ICalendarProvider
+    public class GoogleCalendarProvider : ICalendarProvider
     {
         /// <summary>
         /// The google calendar services.
@@ -61,18 +61,13 @@
         /// <param name="viewModel">The view model.</param>
         public void InsertEvent(
             UmbracoContext umbracoContext,
-            EventViewModel viewModel)
+            InsertAppointmentViewModel viewModel)
         {
             CalendarService calendarService = GetCalendarService(umbracoContext);
 
             Event googleEvent = googleEventTranslator.Translate(viewModel);
 
             Event insertedEvent = googleCalendarServices.InsertEvent(calendarService, googleEvent);
-
-            if (insertedEvent != null)
-            {
-                //// TODO: Now insert into our table
-            }
         }
 
         /// <summary>

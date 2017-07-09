@@ -4,7 +4,7 @@
     using Umbraco.Core.Persistence;
     using Umbraco.Core.Persistence.DatabaseAnnotations;
 
-    [TableName("SpectrumAppointment")]
+    [TableName(AppointmentConstants.AppointmentTableName)]
     [PrimaryKey("Id", autoIncrement = true)]
     public class AppointmentModel
     {
@@ -16,34 +16,44 @@
         public int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the payment identifier.
+        /// Gets or sets the created time.
         /// </summary>
-        public string PaymentId { get; set; }
-        
+        public DateTime CreatedTime { get; set; }
+
         /// <summary>
-        /// Gets or sets the appointment identifier.
+        /// Gets or sets the created user.
         /// </summary>
-        
-        public string AppointmentId { get; set; }
+        public string CreatedUser { get; set; }
 
         /// <summary>
         /// Gets or sets the start time.
         /// </summary>
-        public DateTime? StartTime { get; set; }
+        public DateTime StartTime { get; set; }
 
         /// <summary>
         /// Gets or sets the end time.
         /// </summary>
-        public DateTime? EndTime { get; set; }
+        public DateTime EndTime { get; set; }
 
         /// <summary>
-        /// Gets or sets the summary.
+        /// Gets or sets the location.
         /// </summary>
-        public string Summary { get; set; }
+        public string Location { get; set; }
 
         /// <summary>
         /// Gets or sets the description.
         /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// Gets or sets the payment identifier.
+        /// </summary>
+        [NullSetting(NullSetting = NullSettings.Null)]
+        public string PaymentId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the status.
+        /// </summary>
+        public int Status { get; set; }
     }
 }

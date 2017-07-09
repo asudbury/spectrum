@@ -8,8 +8,8 @@
         /// <summary>
         /// Gets the i calendar string.
         /// </summary>
-        /// <param name="eventViewModel">The event view model.</param>
+        /// <param name="viewModel">The view model.</param>
         /// <returns></returns>
-        ICalEventModel GetICalendarString(EventViewModel eventViewModel);
+        ICalEventModel GetICalendarString(InsertAppointmentViewModel viewModel);
     }
 }

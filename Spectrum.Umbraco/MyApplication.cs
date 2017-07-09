@@ -1,10 +1,8 @@
-﻿using Spectrum.Content.Configuration;
-using Umbraco.Core;
-using Umbraco.Web.Routing;
+﻿using Umbraco.Core;
 
 namespace Spectrum.Umbraco
 {
-    using Content.Handlers;
+    using Content.Configuration;
 
     public class MyApplication : ApplicationEventHandler
     {
@@ -17,13 +15,24 @@ namespace Spectrum.Umbraco
             UmbracoApplicationBase umbracoApplication, 
             ApplicationContext applicationContext)
         {
-            ContentFinderResolver.Current.InsertTypeBefore<ContentFinderByNotFoundHandlers, Error404Handler>();
-
-            //// do autofac wiring up
-
             IocConfiguration.Setup();
 
             base.ApplicationStarting(umbracoApplication, applicationContext);
+        }
+
+        /// <summary>
+        /// Overridable method to execute when Bootup is completed, this allows you to perform any other bootup logic required for the application.
+        /// Resolution is frozen so now they can be used to resolve instances.
+        /// </summary>
+        /// <param name="umbracoApplication"></param>
+        /// <param name="applicationContext"></param>
+        protected override void ApplicationStarted(
+            UmbracoApplicationBase umbracoApplication, 
+            ApplicationContext applicationContext)
+        {
+            Application.Started(umbracoApplication, applicationContext);
+
+            base.ApplicationStarted(umbracoApplication, applicationContext);
         }
     }
 }

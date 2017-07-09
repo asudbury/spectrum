@@ -2,7 +2,6 @@
 {
     using Content.Services;
     using ContentModels;
-    using Mail.Models;
     using Mail.Providers;
     using Providers;
     using System;
@@ -74,11 +73,11 @@
         /// <param name="publishedContent">Content of the published.</param>
         /// <param name="viewModel">The view model.</param>
         /// <returns></returns>
-        /// <exception cref="System.ApplicationException">Current Page Id Not Set
-        /// or
+        /// <exception cref="System.ApplicationException">
+        /// Current Page Id Not Set
         /// Next Page Url Not Set
-        /// or
-        /// Error Page Url Not Set</exception>
+        /// Error Page Url Not Set
+        /// </exception>
         public string HandlePayment(
             UmbracoContext umbracoContext,
             IPublishedContent publishedContent,
@@ -100,12 +99,14 @@
 
             loggingService.Info(GetType(), "HandlePayment MakePayment");
 
-            bool paymentMade = paymentProvider.MakePayment(model, viewModel);
+            string paymentId = paymentProvider.MakePayment(model, viewModel);
 
-            if (paymentMade)
+            if (string.IsNullOrEmpty(paymentId) == false)
             {
                 loggingService.Info(GetType(), "Payment Succesful");
 
+                //// now work you if we need to associate the payment with an appointment.
+                
                 if (pageModel.EmailTemplateNodeId.HasValue)
                 {
                     //// TODO : not currently implemented.

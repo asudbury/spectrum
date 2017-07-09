@@ -1,0 +1,99 @@
+﻿@using Spectrum.Content.Appointments.Controllers
+@model Spectrum.Content.Appointments.ViewModels.InsertAppointmentViewModel
+@{
+    Html.EnableClientValidation(true);
+    Html.EnableUnobtrusiveJavaScript(true);
+}
+
+@using (Html.BeginUmbracoForm<AppointmentsController>("InsertAppointment"))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true)
+
+
+    <div class="panel panel-default bootstrap-basic">
+        <div class="panel-heading">
+            <h3 class="panel-title">Appointment</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-group col-xs-8">
+                    <label class="control-label">Start Time</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-xs-8">
+                    @Html.TextBoxFor(model => model.StartTime, "{0:dd-MMM-yyyy HH:mm}", new {@class = "date"})
+                    <span class="btn" style="cursor: pointer;">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                    @Html.ValidationMessageFor(model => model.StartTime)
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-xs-8">
+                    <label class="control-label">End Time</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-xs-8">
+                    @Html.TextBoxFor(model => model.EndTime, "{0:dd-MMM-yyyy HH:mm}", new {@class = "date"})
+                    <span class="btn" style="cursor: pointer;">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                    @Html.ValidationMessageFor(model => model.EndTime)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-xs-8">
+                    <label class="control-label">Location</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-xs-8">
+                    @Html.EditorFor(model => model.Location)
+                    @Html.ValidationMessageFor(model => model.Location)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-xs-8">
+                    <label class="control-label">Description</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group has-error col-xs-8">
+                    @Html.TextAreaFor(model => model.Description, 10, 80, null)
+                    @Html.ValidationMessageFor(model => model.Description)
+                </div>
+            </div>
+
+            <button value="submit" id="submit" class="btn btn-success btn-lg">Save Appointment</button>
+
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('.date').datetimepicker(
+                {
+                    dateFormat: 'dd-M-yy',
+                    controlType: 'select',
+                    hourMin: 8,
+                    hourMax: 20,
+                    stepMinute: 5, 
+                    oneLine: true
+                });
+
+            $('.btn').click(function() {
+                $(".date", $(this).closest(".form-group")).focus();
+            });
+        });
+
+    </script>
+}
+
+
+

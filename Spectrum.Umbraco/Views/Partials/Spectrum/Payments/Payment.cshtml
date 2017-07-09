@@ -1,8 +1,8 @@
 ﻿@using System.Web.Mvc.Html
 @using Spectrum.Content.Payments.Controllers
 @using Umbraco.Web
-@model Spectrum.Content.Payments.ViewModels.PaymentViewModel
 
+@inherits UmbracoViewPage<Spectrum.Content.Payments.ViewModels.PaymentViewModel>
 @{
     Html.EnableClientValidation(true);
     Html.EnableUnobtrusiveJavaScript(true);
@@ -11,32 +11,30 @@
 @using (Html.BeginUmbracoForm<PaymentController>("HandlePayment"))
 {
     @Html.AntiForgeryToken()
-
     @Html.ValidationSummary(true)
 
-    <div id="sandboxRibbon" class="corner-ribbon top-right sticky red">Sand box</div>
+    <div id="sandboxRibbon" class="corner-ribbon top-right sticky red"></div>
     <div>
-        
         <div class="panel panel-default bootstrap-basic">
         <div class="panel-heading">
-            <h3 class="panel-title">Enter Card Details</h3>
+            <h3 class="panel-title">@Umbraco.Field("Title")</h3>
         </div>
             <div class="panel-body">
-                <div class="row">
+                <!--<div class="row">
                     <div class="form-group col-xs-8">
                         <label class="control-label">Email</label>
                         <input type="text" class="form-control" id="emailAddress" />
                     </div>
-                </div>
+                </div>-->
                 <div class="row">
                     <div class="form-group col-xs-8">
-                        <label class="control-label">Card Number</label>
+                        <label class="control-label">@Umbraco.Field("CardNumber")</label>
                         <div class="form-control" id="card-number"></div>
                         <span class="helper-text"></span>
                     </div>
                     <div class="form-group col-xs-4">
                         <div class="row">
-                            <label class="control-label col-xs-12">Expiration Date</label>
+                            <label class="control-label col-xs-12">@Umbraco.Field("ExpirationDate")</label>
                             <div class="col-xs-6">
                                 <div class="form-control" id="expiration-month"></div>
                             </div>
@@ -48,19 +46,19 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-xs-6">
-                        <label class="control-label">Security Code</label>
+                        <label class="control-label">@Umbraco.Field("SecurityCode")</label>
                         <div class="form-control" id="cvv"></div>
                     </div>
                     <div class="form-group col-xs-6">
-                        <label class="control-label">Amount</label>
-                        <!--pattern='^\d+(?:\.\d{0,2})$'-->
+                        <label class="control-label">@Umbraco.Field("Amount")</label>
                         <input type="text" class="form-control" id="amount" placeholder="0.0"/>
                     </div>
                 </div>
 
-                <button value="submit" id="submit" class="btn btn-success btn-lg">Pay with <span id="card-type">Card</span></button>
+                <button value="submit" id="submit" class="btn btn-success btn-lg">
+                    @Umbraco.Field("PayWith") <span id="card-type">Card</span>
+                </button>
 
-                <!--Error Panel-->
                 <div class="row errorPanel" id="errorRow">
                     <div class="form-group col-xs-12 ">
                         <div class="alert alert-danger fade in ">
@@ -69,20 +67,18 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
-                <script src="https://js.braintreegateway.com/web/3.17.0/js/client.min.js"></script>
-                <script src="https://js.braintreegateway.com/web/3.17.0/js/hosted-fields.min.js"></script>
-            
-                <script>
-                    var xxxx = '@Html.Action("GetAuthToken", "Payment")';
-                    var nodeId = '@Html.Action("GetNodeId", "Payment")';
-                    var url = '@Url.Action("HandlePayment", "Payment")';
-                    var env = '@Html.Action("GetEnvironment", "Payment")';
-                </script>
-                <script src="../../../../scripts/spectrum/braintree.js"></script>
-
+            <script src="https://js.braintreegateway.com/web/3.17.0/js/client.min.js"></script>
+            <script src="https://js.braintreegateway.com/web/3.17.0/js/hosted-fields.min.js"></script>
+            <script src="../../../../scripts/spectrum/braintree.js"></script>
+            <script>
+                var token = '@Html.Action("GetAuthToken", "Payment")';
+                var nodeId = '@Html.Action("GetNodeId", "Payment")';
+                var url = '@Url.Action("HandlePayment", "Payment")';
+                var env = '@Html.Action("GetEnvironment", "Payment")';
+                setupBraintree(token, nodeId, url, env);
+            </script>            
         </div>
 </div>
 }

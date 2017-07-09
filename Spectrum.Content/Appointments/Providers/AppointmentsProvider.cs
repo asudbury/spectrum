@@ -40,15 +40,5 @@
         {
             return new AppointmentsModel(GetAppointmentsNode(umbracoContext));
         }
-
-        /// <summary>
-        /// Gets the google calendar integration.
-        /// </summary>
-        /// <param name="umbracoContext">The umbraco context.</param>
-        /// <returns></returns>
-        public string GetGoogleCalendarIntegration(UmbracoContext umbracoContext)
-        {
-            return GetAppointmentsModel(umbracoContext).GoogleCalendarIntegration;
-        }
     }
 }

@@ -37,8 +37,8 @@
         /// </summary>
         /// <param name="model">The model.</param>
         /// <param name="viewModel">The view model.</param>
-        /// <returns></returns>
-        public bool MakePayment(
+        /// <returns>Payment Id</returns>
+        public string MakePayment(
             BraintreeModel model,
             PaymentViewModel viewModel)
         {
@@ -54,12 +54,13 @@
 
             Result<Transaction> result = GetGateway(model).Transaction.Sale(request);
 
-            if (result.IsSuccess())
+            if (result.IsSuccess() && 
+                result.Target != null)
             {
-                return true;
+                return result.Target.Id;
             }
 
-            return false;
+            return null;
         }
 
         /// <summary>

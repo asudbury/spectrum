@@ -17,7 +17,18 @@
         /// <summary>
         /// Gets the google calendar integration.
         /// </summary>
-        public string GoogleCalendarIntegration => this.GetPropertyValue<string>("googleCalendarIntegration");
+        public bool GoogleCalendarIntegration => this.GetPropertyValue<bool>("googleCalendar");
+
+        /// <summary>
+        /// Gets a value indicating whether [i cal integration].
+        /// </summary>
+        // ReSharper disable once InconsistentNaming
+        public bool iCalIntegration => this.GetPropertyValue<bool>("iCal");
+
+        /// <summary>
+        /// Gets a value indicating whether [database integration].
+        /// </summary>
+        public bool DatabaseIntegration => this.GetPropertyValue<bool>("database");
 
         /// <summary>
         /// Gets the google calendar URL.

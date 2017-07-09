@@ -6,20 +6,13 @@
     public interface ICalendarProvider
     {
         /// <summary>
-        /// Gets the calendar URL.
-        /// </summary>
-        /// <param name="umbracoContext">The umbraco context.</param>
-        /// <returns></returns>
-        string GetCalendarUrl(UmbracoContext umbracoContext);
-
-        /// <summary>
         /// Inserts the event.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="viewModel">The view model.</param>
         void InsertEvent(
             UmbracoContext umbracoContext,
-            EventViewModel viewModel);
+            InsertAppointmentViewModel viewModel);
 
         /// <summary>
         /// Gets the events.

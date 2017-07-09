@@ -1,7 +1,6 @@
-﻿using Spectrum.Content.ContentModels;
-
-namespace Spectrum.Content.Appointments.Providers
+﻿namespace Spectrum.Content.Appointments.Providers
 {
+    using ContentModels;
     using Umbraco.Core.Models;
     using Umbraco.Web;
 
@@ -14,13 +13,11 @@ namespace Spectrum.Content.Appointments.Providers
         /// <returns></returns>
         IPublishedContent GetAppointmentsNode(UmbracoContext umbracoContext);
 
-        AppointmentsModel GetAppointmentsModel(UmbracoContext umbracoContext);
-
         /// <summary>
-        /// Gets the google calendar integration.
+        /// Gets the appointments model.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <returns></returns>
-        string GetGoogleCalendarIntegration(UmbracoContext umbracoContext);
+        AppointmentsModel GetAppointmentsModel(UmbracoContext umbracoContext);
     }
 }

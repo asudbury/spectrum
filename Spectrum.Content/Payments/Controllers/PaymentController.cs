@@ -59,8 +59,7 @@
         {
             this.paymentManager = paymentManager;
         }
-
-
+        
         /// <summary>
         /// Gets the authentication token.
         /// </summary>
@@ -104,7 +103,10 @@
 
                 IPublishedContent publishedContent = GetContentById(viewModel.CurrentPageNodeId);
 
-                string url = paymentManager.HandlePayment(UmbracoContext, publishedContent, viewModel);
+                string url = paymentManager.HandlePayment(
+                    UmbracoContext, 
+                    publishedContent, 
+                    viewModel);
 
                 return Json(url);
             }

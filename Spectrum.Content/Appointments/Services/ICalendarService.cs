@@ -16,17 +16,16 @@
         /// <summary>
         /// Gets the i calendar string.
         /// </summary>
-        /// <param name="eventViewModel"></param>
+        /// <param name="viewModel"></param>
         /// <returns></returns>
-        public ICalEventModel GetICalendarString(EventViewModel eventViewModel)
+        public ICalEventModel GetICalendarString(InsertAppointmentViewModel viewModel)
         {
             Event calendarEvent = new Event
             {
-                DtStart = new CalDateTime(eventViewModel.StartTime),
-                DtEnd = new CalDateTime(eventViewModel.EndTime),
-                Summary =  eventViewModel.Summary,
-                Description = eventViewModel.Description,
-                Attendees = GetAttendees(eventViewModel.Attendees)
+                DtStart = new CalDateTime(viewModel.StartTime),
+                DtEnd = new CalDateTime(viewModel.EndTime),
+                Description = viewModel.Description,
+                Attendees = GetAttendees(viewModel.Attendees)
             };
 
             Calendar calendar = new Calendar();
