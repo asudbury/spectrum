@@ -31,6 +31,11 @@
         public bool DatabaseIntegration => this.GetPropertyValue<bool>("database");
 
         /// <summary>
+        /// Gets a value indicating whether [automatic allocate payments].
+        /// </summary>
+        public bool AutoAllocatePayments => this.GetPropertyValue<bool>("autoAllocatePayments");
+        
+        /// <summary>
         /// Gets the google calendar URL.
         /// </summary>
         public string GoogleCalendarUrl => this.GetPropertyValue<string>("googleCalendarUrl");

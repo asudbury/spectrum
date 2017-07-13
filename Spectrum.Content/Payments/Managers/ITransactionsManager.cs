@@ -1,6 +1,7 @@
 ﻿namespace Spectrum.Content.Payments.Managers
 {
     using ViewModels;
+    using System.Collections.Generic;
     using Umbraco.Web;
 
     public interface ITransactionsManager
@@ -10,6 +11,6 @@
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <returns></returns>
-        TransactionsViewModel GetTransactionsViewModel(UmbracoContext umbracoContext);
+        IEnumerable<TransactionViewModel> GetTransactionsViewModel(UmbracoContext umbracoContext);
     }
 }

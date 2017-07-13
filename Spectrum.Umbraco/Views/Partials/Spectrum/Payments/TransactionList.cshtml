@@ -1,5 +1,5 @@
 ﻿@using Spectrum.Content.Payments.ViewModels
-@model TransactionsViewModel
+@model IEnumerable<TransactionViewModel>
 @{
 }
 
@@ -15,7 +15,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (TransactionViewModel transaction in Model.Transactions)
+        @foreach (TransactionViewModel transaction in Model)
         {
             <tr>
                 <td>@transaction.Id</td>

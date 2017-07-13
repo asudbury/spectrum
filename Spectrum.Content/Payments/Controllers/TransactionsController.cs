@@ -2,6 +2,7 @@
 {
     using Content.Services;
     using Managers;
+    using System.Collections.Generic;
     using System.Web.Mvc;
     using Umbraco.Web;
     using ViewModels;
@@ -70,9 +71,9 @@
         {
             LoggingService.Info(GetType(), string.Empty);
 
-            TransactionsViewModel viewModel = transactionsManager.GetTransactionsViewModel(UmbracoContext);
+            IEnumerable<TransactionViewModel> viewModels = transactionsManager.GetTransactionsViewModel(UmbracoContext);
 
-            return PartialView("Partials/Spectrum/Payments/TransactionList", viewModel);
+            return PartialView("Partials/Spectrum/Payments/TransactionList", viewModels);
         }
     }
 }

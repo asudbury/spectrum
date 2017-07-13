@@ -1,0 +1,33 @@
+﻿@using Spectrum.Content.Appointments.ViewModels
+@model AppointmentsViewModel
+@{
+}
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Start</th>
+        <th>End</th>
+        <th>Payment Id</th>
+        <th>Location</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+        @foreach (AppointmentViewModel appointment in Model.Appointments)
+        {
+            <tr>
+                <td>@appointment.Id</td>
+                <td>@appointment.StartTime</td>
+                <td>@appointment.EndTime</td>
+                <td>@appointment.PaymentId</td>
+                <td>@appointment.Location</td>
+                <td>@appointment.Description</td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+

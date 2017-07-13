@@ -2,7 +2,7 @@
 {
     using Content.Services;
     using Managers;
-    using Services;
+    using System;
     using System.Web.Mvc;
     using Umbraco.Core.Models;
     using Umbraco.Web;
@@ -75,11 +75,13 @@
             }
 
             IPublishedContent publishedContent = GetContentById(CurrentPage.Id.ToString());
-            
+
+            string currentUserName = Members.CurrentUserName;
+
             string nextUrl = appointmentsManager.InsertAppointment(
                                          UmbracoContext,
                                          publishedContent,
-                                         HttpContext.Response.Cookies,
+                                         currentUserName,
                                          viewModel);
             
             return Redirect(nextUrl);
@@ -88,21 +90,29 @@
         /// <summary>
         /// Gets the event.
         /// </summary>
-        /// <param name="eventId">The event identifier.</param>
+        /// <param name="appointmentId">The appointment identifier.</param>
         [ChildActionOnly]
-        public void GetEvent(string eventId)
+        public void GetAppointment(int appointmentId)
         {
-            ////calendarFactory.GetCalendarProvider(GetGooleCalendarIntegration())
-             ////   .GetEvent(UmbracoContext, eventId);
+            appointmentsManager.GetAppointment(
+                UmbracoContext,
+                appointmentId);
         }
 
         /// <summary>
         /// Gets the events.
         /// </summary>
+        /// <param name="dateRangeStart">The date range start.</param>
+        /// <param name="dateRangeEnd">The date range end.</param>
         [ChildActionOnly]
-        public void GetEvents()
+        public void GetAppointments(
+            DateTime dateRangeStart,
+            DateTime dateRangeEnd)
         {
-            ICalendarService service = new ICalendarService();
+            appointmentsManager.GetAppointments(
+                UmbracoContext,
+                dateRangeStart,
+                dateRangeEnd);
         }
     }
 }

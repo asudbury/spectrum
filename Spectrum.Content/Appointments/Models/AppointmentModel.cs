@@ -12,7 +12,7 @@
         /// Gets or sets the identifier.
         /// </summary>
         [Column("Id")]
-        [PrimaryKeyColumn(AutoIncrement = true)]
+        [PrimaryKeyColumn(AutoIncrement = true, IdentitySeed = 1000)]
         public int Id { get; set; }
 
         /// <summary>

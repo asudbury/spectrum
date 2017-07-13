@@ -8,7 +8,6 @@
 @using (Html.BeginUmbracoForm<AppointmentsController>("InsertAppointment"))
 {
     @Html.AntiForgeryToken()
-
     @Html.ValidationSummary(true)
 
 
@@ -65,7 +64,7 @@
             </div>
             <div class="row">
                 <div class="form-group has-error col-xs-8">
-                    @Html.TextAreaFor(model => model.Description, 10, 80, null)
+                    @Html.TextAreaFor(model => model.Description, 8, 80, null)
                     @Html.ValidationMessageFor(model => model.Description)
                 </div>
             </div>
@@ -76,7 +75,7 @@
     </div>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('.date').datetimepicker(
                 {
                     dateFormat: 'dd-M-yy',

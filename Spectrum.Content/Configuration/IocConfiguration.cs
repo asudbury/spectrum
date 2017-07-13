@@ -1,13 +1,15 @@
-﻿using Autofac.Integration.WebApi;
-using Umbraco.Web;
+﻿using Autofac.Events;
 
 namespace Spectrum.Content.Configuration
 {
     using Appointments.Controllers;
     using Autofac;
+    using Autofac.Features.Variance;
     using Autofac.Integration.Mvc;
+    using Autofac.Integration.WebApi;
     using System.Reflection;
     using System.Web.Mvc;
+    using Umbraco.Web;
 
     /// <summary>
     /// Defines the IocConfiguration.
@@ -21,6 +23,10 @@ namespace Spectrum.Content.Configuration
         {
             ContainerBuilder builder = new ContainerBuilder();
 
+            //// Set up publish and subscribe.
+            builder.RegisterSource(new ContravariantRegistrationSource());
+            builder.RegisterEventing();
+
             //// As long as all the controllers are in the same assembly this will work.
 
             Assembly assembly = typeof(AppointmentsController).Assembly;
@@ -30,6 +36,10 @@ namespace Spectrum.Content.Configuration
             builder.RegisterApiControllers(typeof(UmbracoApplication).Assembly);
 
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces();
+
+            ////assembly = typeof(ContravariantRegistrationSource).Assembly;
+
+            ////builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces();
 
             IContainer container = builder.Build();
 

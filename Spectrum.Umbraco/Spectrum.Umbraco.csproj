@@ -511,9 +511,10 @@
     <Content Include="Views\Partials\Spectrum\Payments\Payment.cshtml" />
     <Content Include="Views\Partials\Spectrum\Payments\TransactionList.cshtml" />
     <Content Include="Views\Partials\Spectrum\Appointments\GoogleCalendar.cshtml" />
-    <Content Include="Views\Partials\Spectrum\Appointments\Events.cshtml" />
     <Content Include="scripts\jquery-1.12.4.min.map" />
     <Content Include="Views\Partials\Spectrum\Appointments\InsertAppointment.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Appointments\Appointments.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Appointments\AppointmentList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,6 +1,8 @@
 ﻿namespace Spectrum.Content.Payments.Managers
 {
+    using Autofac.Events;
     using Content.Services;
+    using Messages;
     using ContentModels;
     using Mail.Providers;
     using Providers;
@@ -22,6 +24,11 @@
         private readonly IPaymentProvider paymentProvider;
 
         /// <summary>
+        /// The event publisher.
+        /// </summary>
+        private readonly IEventPublisher eventPublisher;
+
+        /// <summary>
         /// The mail provider.
         /// </summary>
         private readonly IMailProvider mailProvider;
@@ -31,14 +38,17 @@
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="paymentProvider">The payment provider.</param>
+        /// <param name="eventPublisher">The event publisher.</param>
         /// <param name="mailProvider">The mail provider.</param>
         public PaymentManager(
             ILoggingService loggingService,
             IPaymentProvider paymentProvider,
+            IEventPublisher eventPublisher,
             IMailProvider mailProvider)
         {
             this.loggingService = loggingService;
             this.paymentProvider = paymentProvider;
+            this.eventPublisher = eventPublisher;
             this.mailProvider = mailProvider;
         }
 
@@ -50,7 +60,6 @@
         public string GetAuthToken(UmbracoContext umbracoContext)
         {
             BraintreeModel model = paymentProvider.GetBraintreeModel(umbracoContext);
-
             return paymentProvider.GetAuthToken(model);
         }
 
@@ -62,7 +71,6 @@
         public string GetEnvironment(UmbracoContext umbracoContext)
         {
             BraintreeModel model = paymentProvider.GetBraintreeModel(umbracoContext);
-
             return model.Environment;
         }
 
@@ -103,9 +111,9 @@
 
             if (string.IsNullOrEmpty(paymentId) == false)
             {
-                loggingService.Info(GetType(), "Payment Succesful");
+                loggingService.Info(GetType(), "Payment Succesful Id=" + paymentId);
 
-                //// now work you if we need to associate the payment with an appointment.
+                eventPublisher.Publish(new PaymentMadeMessage(umbracoContext, paymentId));
                 
                 if (pageModel.EmailTemplateNodeId.HasValue)
                 {
