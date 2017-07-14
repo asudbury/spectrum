@@ -1,21 +1,21 @@
 ﻿@using Spectrum.Content.Appointments.ViewModels
-@model AppointmentsViewModel
+@model IEnumerable<AppointmentViewModel>
 @{
 }
 
 <table class="table table-striped">
     <thead>
-    <tr>
-        <th>Id</th>
-        <th>Start</th>
-        <th>End</th>
-        <th>Payment Id</th>
-        <th>Location</th>
-        <th>Description</th>
-    </tr>
+        <tr>
+            <th>Id</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Payment Id</th>
+            <th>Location</th>
+            <th>Description</th>
+        </tr>
     </thead>
     <tbody>
-        @foreach (AppointmentViewModel appointment in Model.Appointments)
+        @foreach (AppointmentViewModel appointment in Model)
         {
             <tr>
                 <td>@appointment.Id</td>

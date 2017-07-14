@@ -1,16 +1,15 @@
-﻿using System.Linq;
-using Braintree;
-
-namespace Spectrum.Content.Payments.Managers
+﻿namespace Spectrum.Content.Payments.Managers
 {
+    using Braintree;
     using Content.Services;
     using ContentModels;
     using Providers;
     using System.Collections.Generic;
+    using System.Linq;
     using Translators;
     using Umbraco.Web;
     using ViewModels;
-    
+
     public class TransactionsManager : ITransactionsManager
     {
         /// <summary>
@@ -51,7 +50,7 @@ namespace Spectrum.Content.Payments.Managers
         /// <returns></returns>
         public IEnumerable<TransactionViewModel> GetTransactionsViewModel(UmbracoContext umbracoContext)
         {
-            loggingService.Info(GetType(), string.Empty);
+            loggingService.Info(GetType());
 
             BraintreeModel model = paymentProvider.GetBraintreeModel(umbracoContext);
 

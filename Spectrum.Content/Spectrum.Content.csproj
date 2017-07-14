@@ -380,12 +380,13 @@
     <Compile Include="Appointments\Services\WebAuthorizationCodeFlow.cs" />
     <Compile Include="Appointments\Services\WebAuthorizationBroker.cs" />
     <Compile Include="Appointments\Translators\AppointmentTranslator.cs" />
-    <Compile Include="Appointments\Translators\GoogleEventTranslator.cs" />
     <Compile Include="Appointments\Translators\IAppointmentTranslator.cs" />
+    <Compile Include="Appointments\Translators\InsertAppointmentTranslator.cs" />
+    <Compile Include="Appointments\Translators\GoogleEventTranslator.cs" />
+    <Compile Include="Appointments\Translators\IInsertAppointmentTranslator.cs" />
     <Compile Include="Appointments\Translators\IGoogleEventTranslator.cs" />
     <Compile Include="Appointments\ViewModels\AppointmentViewModel.cs" />
-    <Compile Include="Appointments\ViewModels\InsertEventViewModel.cs" />
-    <Compile Include="Appointments\ViewModels\AppointmentsViewModel.cs" />
+    <Compile Include="Appointments\ViewModels\InsertAppointmentViewModel.cs" />
     <Compile Include="Authentication\Controllers\LoginController.cs" />
     <Compile Include="Authentication\ViewModels\ForgottenPasswordViewModel.cs" />
     <Compile Include="Authentication\ViewModels\LoginViewModel.cs" />

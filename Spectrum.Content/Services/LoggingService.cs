@@ -43,5 +43,14 @@
         {
             LogHelper.Info(callingType, message);
         }
+
+        /// <summary>
+        /// Informations the specified calling type.
+        /// </summary>
+        /// <param name="callingType">Type of the calling.</param>
+        public void Info(Type callingType)
+        {
+            LogHelper.Info(callingType, string.Empty);
+        }
     }
 }

@@ -3,13 +3,13 @@
     using Models;
     using ViewModels;
 
-    public interface IAppointmentTranslator
+    public interface IInsertAppointmentTranslator
     {
         /// <summary>
         /// Translates the specified view model.
         /// </summary>
-        /// <param name="model">The model.</param>
+        /// <param name="viewModel">The view model.</param>
         /// <returns></returns>
-        AppointmentViewModel Translate(AppointmentModel model);
+        AppointmentModel Translate(InsertAppointmentViewModel viewModel);
     }
 }

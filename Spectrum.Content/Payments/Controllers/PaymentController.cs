@@ -67,7 +67,7 @@
         [ChildActionOnly]
         public ActionResult GetAuthToken()
         {
-            LoggingService.Info(GetType(), string.Empty);
+            LoggingService.Info(GetType());
 
             return Content(paymentManager.GetAuthToken(UmbracoContext));
         }
@@ -79,7 +79,7 @@
         [ChildActionOnly]
         public ActionResult GetEnvironment()
         {
-            LoggingService.Info(GetType(), string.Empty);
+            LoggingService.Info(GetType());
 
             return Content(paymentManager.GetEnvironment(UmbracoContext));
         }
@@ -93,8 +93,8 @@
         public JsonResult HandlePayment(PaymentViewModel viewModel)
         {
            try
-            {
-                LoggingService.Info(GetType(), string.Empty);
+           {
+               LoggingService.Info(GetType());
 
                 if (string.IsNullOrEmpty(viewModel.CurrentPageNodeId))
                 {

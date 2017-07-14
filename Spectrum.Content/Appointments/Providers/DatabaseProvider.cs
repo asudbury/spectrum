@@ -35,7 +35,7 @@
 
             Sql sql = new Sql()
                 .Select("*")
-                .From();
+                .From(AppointmentConstants.AppointmentTableName);
    
             return context.Database.Fetch<AppointmentModel>(sql);
         }

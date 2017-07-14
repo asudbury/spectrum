@@ -1,4 +1,7 @@
-﻿namespace Spectrum.Content.Appointments.Controllers
+﻿using System.Collections.Generic;
+using Spectrum.Content.Appointments.Models;
+
+namespace Spectrum.Content.Appointments.Controllers
 {
     using Content.Services;
     using Managers;
@@ -105,14 +108,19 @@
         /// <param name="dateRangeStart">The date range start.</param>
         /// <param name="dateRangeEnd">The date range end.</param>
         [ChildActionOnly]
-        public void GetAppointments(
-            DateTime dateRangeStart,
-            DateTime dateRangeEnd)
+        public ActionResult GetAppointments(
+            /*DateTime dateRangeStart,
+            DateTime dateRangeEnd*/)
         {
-            appointmentsManager.GetAppointments(
+            DateTime dateRangeStart = DateTime.Now.AddDays(-200);
+            DateTime dateRangeEnd = DateTime.Now.AddDays(200);
+
+            IEnumerable<AppointmentModel> appointments = appointmentsManager.GetAppointments(
                 UmbracoContext,
                 dateRangeStart,
                 dateRangeEnd);
+
+            return PartialView("Partials/Spectrum/Appointments/AppointmentList", appointments);
         }
     }
 }

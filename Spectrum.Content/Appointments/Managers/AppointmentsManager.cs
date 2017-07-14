@@ -28,7 +28,7 @@ namespace Spectrum.Content.Appointments.Managers
         /// <summary>
         /// The appointment translator.
         /// </summary>
-        private readonly IAppointmentTranslator appointmentTranslator;
+        private readonly IInsertAppointmentTranslator appointmentTranslator;
 
         /// <summary>
         /// The database provider.
@@ -57,7 +57,7 @@ namespace Spectrum.Content.Appointments.Managers
         public AppointmentsManager(
             ILoggingService loggingService,
             IAppointmentsProvider appointmentsProvider,
-            IAppointmentTranslator appointmentTranslator,
+            IInsertAppointmentTranslator appointmentTranslator,
             IDatabaseProvider databaseProvider,
             IEventPublisher eventPublisher,
             ICookieService cookieService)
@@ -154,7 +154,7 @@ namespace Spectrum.Content.Appointments.Managers
             UmbracoContext umbracoContext,
             int appointmentId)
         {
-            loggingService.Info(GetType(), string.Empty);
+            loggingService.Info(GetType());
 
             AppointmentsModel model = appointmentsProvider.GetAppointmentsModel(umbracoContext);
 
@@ -178,7 +178,7 @@ namespace Spectrum.Content.Appointments.Managers
             DateTime dateRangeStart, 
             DateTime dateRangeEnd)
         {
-            loggingService.Info(GetType(), string.Empty);
+            loggingService.Info(GetType());
 
             AppointmentsModel model = appointmentsProvider.GetAppointmentsModel(umbracoContext);
 

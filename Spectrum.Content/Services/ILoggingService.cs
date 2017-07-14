@@ -33,5 +33,11 @@
         void Info(
             Type callingType,
             string message);
+
+        /// <summary>
+        /// Informations the specified calling type.
+        /// </summary>
+        /// <param name="callingType">Type of the calling.</param>
+        void Info(Type callingType);
     }
 }
