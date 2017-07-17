@@ -11,13 +11,13 @@
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        public IBraintreeGateway GetGateway(BraintreeModel model)
+        public IBraintreeGateway GetGateway(BraintreeSettingsModel model)
         {
             return new BraintreeGateway(
-                        model.Environment, 
-                        model.MerchantId, 
-                        model.PublicKey, 
-                        model.PrivateKey);
+                model.Environment,
+                model.MerchantId,
+                model.PublicKey,
+                model.PrivateKey);
         }
 
         /// <summary>
@@ -27,7 +27,7 @@
         /// <returns>
         /// The token.
         /// </returns>
-        public string GetAuthToken(BraintreeModel model)
+        public string GetAuthToken(BraintreeSettingsModel model)
         {
             return GetGateway(model).ClientToken.generate();
         }
@@ -39,7 +39,7 @@
         /// <param name="viewModel">The view model.</param>
         /// <returns>Payment Id</returns>
         public string MakePayment(
-            BraintreeModel model,
+            BraintreeSettingsModel model,
             PaymentViewModel viewModel)
         {
             TransactionRequest request = new TransactionRequest
@@ -54,7 +54,7 @@
 
             Result<Transaction> result = GetGateway(model).Transaction.Sale(request);
 
-            if (result.IsSuccess() && 
+            if (result.IsSuccess() &&
                 result.Target != null)
             {
                 return result.Target.Id;
@@ -68,11 +68,24 @@
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        public ResourceCollection<Transaction> GetTransactions(BraintreeModel model)
+        public ResourceCollection<Transaction> GetTransactions(BraintreeSettingsModel model)
         {
             TransactionSearchRequest request = new TransactionSearchRequest();
 
             return GetGateway(model).Transaction.Search(request);
+        }
+
+        /// <summary>
+        /// Gets the transaction.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <param name="transactionId">The transaction identifier.</param>
+        /// <returns></returns>
+        public Transaction GetTransaction(
+            BraintreeSettingsModel model,
+            string transactionId)
+        {
+            return GetGateway(model).Transaction.Find(transactionId);
         }
     }
 }

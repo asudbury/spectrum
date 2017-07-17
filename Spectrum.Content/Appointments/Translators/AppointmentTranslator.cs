@@ -12,7 +12,17 @@
         /// <returns></returns>
         public AppointmentViewModel Translate(AppointmentModel model)
         {
-            AppointmentViewModel viewModel = new AppointmentViewModel();
+            AppointmentViewModel viewModel = new AppointmentViewModel
+            {
+                Id = model.Id,
+                StartTime = model.StartTime,
+                EndTime = model.EndTime,
+                Status =  ((AppointmentStatus)model.Status).ToString(),
+                PaymentId = model.PaymentId,
+                Location = model.Location,
+                Description = model.Description
+            };
+
 
             return viewModel;
         }

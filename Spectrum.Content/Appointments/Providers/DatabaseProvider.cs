@@ -33,9 +33,12 @@
         {
             DatabaseContext context = ApplicationContext.Current.DatabaseContext;
 
+            int deleted = (int)AppointmentStatus.Deleted;
+
             Sql sql = new Sql()
                 .Select("*")
-                .From(AppointmentConstants.AppointmentTableName);
+                .From(AppointmentConstants.AppointmentTableName)
+                .Where("Status != " + deleted + " and StartTime >= '" + dateRangeStart + "' and EndTime <= '" + dateRangeEnd + "'");
    
             return context.Database.Fetch<AppointmentModel>(sql);
         }

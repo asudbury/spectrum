@@ -18,6 +18,6 @@
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <returns></returns>
-        AppointmentsModel GetAppointmentsModel(UmbracoContext umbracoContext);
+        AppointmentSettingsModel GetAppointmentsModel(UmbracoContext umbracoContext);
     }
 }

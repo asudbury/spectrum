@@ -38,11 +38,11 @@
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <returns></returns>
-        public BraintreeModel GetBraintreeModel(UmbracoContext umbracoContext)
+        public BraintreeSettingsModel GetBraintreeModel(UmbracoContext umbracoContext)
         {
             IPublishedContent content = settingsService.GetPaymentsNode(umbracoContext);
 
-            return new BraintreeModel(content);
+            return new BraintreeSettingsModel(content);
         }
 
         /// <summary>
@@ -50,7 +50,7 @@
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        public string GetAuthToken(BraintreeModel model)
+        public string GetAuthToken(BraintreeSettingsModel model)
         {
             return braintreeService.GetAuthToken(model);
         }
@@ -62,7 +62,7 @@
         /// <param name="viewModel">The view model.</param>
         /// <returns>Payment Id</returns>
         public string MakePayment(
-            BraintreeModel model,
+            BraintreeSettingsModel model,
             PaymentViewModel viewModel)
         {
             return braintreeService.MakePayment(model, viewModel);
@@ -73,9 +73,22 @@
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        public ResourceCollection<Transaction> GetTransactions(BraintreeModel model)
+        public ResourceCollection<Transaction> GetTransactions(BraintreeSettingsModel model)
         {
             return braintreeService.GetTransactions(model);
+        }
+
+        /// <summary>
+        /// Gets the transaction.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <param name="transactionId">The transaction identifier.</param>
+        /// <returns></returns>
+        public Transaction GetTransaction(
+            BraintreeSettingsModel model,
+            string transactionId)
+        {
+            return braintreeService.GetTransaction(model, transactionId);
         }
     }
 }

@@ -1,39 +1,56 @@
 ﻿@using Spectrum.Content.Payments.ViewModels
 @model IEnumerable<TransactionViewModel>
-@{
-}
 
 <table class="table table-striped">
     <thead>
-        <tr>
-            <th>Transaction Id</th>
-            <th>Transaction Date</th>
-            <th>Type</th>
-            <th>Status</th>
-            <th>Payment Information</th>
-            <th>Amount</th>
-        </tr>
+    <tr>
+        <th>Id</th>
+        <th>Date</th>
+        <th>Type</th>
+        <th>Status</th>
+        <th>Payment Information</th>
+        <th>Amount</th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (TransactionViewModel transaction in Model)
-        {
-            <tr>
-                <td>@transaction.Id</td>
-                <td>
-                    @if (transaction.TransactionDateTime.HasValue)
-                    {
-                        @transaction.TransactionDateTime.Value.ToString("dd MMM yyyy HH:mm:ss")
-                    }
-                </td>
+    @foreach (TransactionViewModel transaction in Model)
+    {
+        <tr>
+            <td>@transaction.Id</td>
+            <td>
+                @if (transaction.TransactionDateTime.HasValue)
+                {
+                    @transaction.TransactionDateTime.Value.ToString("dd MMM yyyy HH:mm:ss")
+                }
+            </td>
 
-                <td>@transaction.Type</td>
-                <td>@transaction.Status</td>
-                <td>@transaction.CardType @transaction.MaskedNumber</td>
-                <td>@transaction.Amount @transaction.CurrencyType</td>
-            </tr>
-        }
+            <td>@transaction.Type</td>
+            <td>@transaction.Status</td>
+            <td>@transaction.CardType @transaction.MaskedNumber</td>
+            <td>@transaction.Amount @transaction.CurrencyType</td>
+            <td>
+                <a data-ajax="true" 
+                   data-ajax-mode="replace" 
+                   data-ajax-update="#transaction" 
+                   data-ajax-success="onTransaction"
+                   href="/umbraco/Surface/Transactions/View/@transaction.Id">View</a>
+            </td>
+        </tr>
+    }
 
     </tbody>
 </table>
+
+<div id="transaction"></div>
+
+<script type="text/javascript">
+
+    function onTransaction() {
+        jQuery('#transaction').dialog({ 'width': 400, 'height': 300 });
+        jQuery('#transaction').dialog().css("background-color", "#eaecef");
+    }
+
+</script>
 
 

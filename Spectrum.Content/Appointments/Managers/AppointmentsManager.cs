@@ -26,9 +26,9 @@ namespace Spectrum.Content.Appointments.Managers
         private readonly IAppointmentsProvider appointmentsProvider;
 
         /// <summary>
-        /// The appointment translator.
+        /// The insert appointment translator.
         /// </summary>
-        private readonly IInsertAppointmentTranslator appointmentTranslator;
+        private readonly IInsertAppointmentTranslator insertAppointmentTranslator;
 
         /// <summary>
         /// The database provider.
@@ -46,28 +46,36 @@ namespace Spectrum.Content.Appointments.Managers
         private readonly ICookieService cookieService;
 
         /// <summary>
+        /// The appointment translator.
+        /// </summary>
+        private readonly IAppointmentTranslator appointmentTranslator;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="AppointmentsManager" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="appointmentsProvider">The appointments provider.</param>
-        /// <param name="appointmentTranslator">The appointment translator.</param>
+        /// <param name="insertappointmentTranslator">The insertappointment translator.</param>
         /// <param name="databaseProvider">The database provider.</param>
         /// <param name="eventPublisher">The event publisher.</param>
         /// <param name="cookieService">The cookie service.</param>
+        /// <param name="appointmentTranslator">The appointment translator.</param>
         public AppointmentsManager(
             ILoggingService loggingService,
             IAppointmentsProvider appointmentsProvider,
-            IInsertAppointmentTranslator appointmentTranslator,
+            IInsertAppointmentTranslator insertappointmentTranslator,
             IDatabaseProvider databaseProvider,
             IEventPublisher eventPublisher,
-            ICookieService cookieService)
+            ICookieService cookieService,
+            IAppointmentTranslator appointmentTranslator)
         {
             this.loggingService = loggingService;
             this.appointmentsProvider = appointmentsProvider;
-            this.appointmentTranslator = appointmentTranslator;
+            this.insertAppointmentTranslator = insertappointmentTranslator;
             this.databaseProvider = databaseProvider;
             this.eventPublisher = eventPublisher;
             this.cookieService = cookieService;
+            this.appointmentTranslator = appointmentTranslator;
         }
 
         /// <summary>
@@ -100,9 +108,9 @@ namespace Spectrum.Content.Appointments.Managers
                 loggingService.Info(GetType(), "Error Page Url not set");
             }
 
-            AppointmentsModel model = appointmentsProvider.GetAppointmentsModel(umbracoContext);
+            AppointmentSettingsModel model = appointmentsProvider.GetAppointmentsModel(umbracoContext);
 
-            AppointmentModel appointmentModel = appointmentTranslator.Translate(viewModel);
+            AppointmentModel appointmentModel = insertAppointmentTranslator.Translate(viewModel);
 
             appointmentModel.CreatedUser = createdUserName;
 
@@ -150,20 +158,22 @@ namespace Spectrum.Content.Appointments.Managers
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="appointmentId">The appointment identifier.</param>
         /// <returns></returns>
-        public AppointmentModel GetAppointment(
+        public AppointmentViewModel GetAppointment(
             UmbracoContext umbracoContext,
             int appointmentId)
         {
             loggingService.Info(GetType());
 
-            AppointmentsModel model = appointmentsProvider.GetAppointmentsModel(umbracoContext);
+            AppointmentSettingsModel settingsModel = appointmentsProvider.GetAppointmentsModel(umbracoContext);
 
-            if (model.DatabaseIntegration)
+            if (settingsModel.DatabaseIntegration)
             {
-                return databaseProvider.GetAppointment(appointmentId);
+                AppointmentModel model = databaseProvider.GetAppointment(appointmentId);
+
+                return appointmentTranslator.Translate(model);
             }
 
-            return new AppointmentModel();
+            return new AppointmentViewModel();
         }
 
         /// <summary>
@@ -173,23 +183,56 @@ namespace Spectrum.Content.Appointments.Managers
         /// <param name="dateRangeStart">The date range start.</param>
         /// <param name="dateRangeEnd">The date range end.</param>
         /// <returns></returns>
-        public IEnumerable<AppointmentModel> GetAppointments(
+        public IEnumerable<AppointmentViewModel> GetAppointments(
             UmbracoContext umbracoContext,
             DateTime dateRangeStart, 
             DateTime dateRangeEnd)
         {
             loggingService.Info(GetType());
 
-            AppointmentsModel model = appointmentsProvider.GetAppointmentsModel(umbracoContext);
+            AppointmentSettingsModel model = appointmentsProvider.GetAppointmentsModel(umbracoContext);
 
             if (model.DatabaseIntegration)
             {
-                return databaseProvider.GetAppointments(
-                    dateRangeStart,
-                    dateRangeEnd);
+                IEnumerable<AppointmentModel> models =  databaseProvider.GetAppointments(
+                                                            dateRangeStart,
+                                                            dateRangeEnd);
+
+                List<AppointmentViewModel> viewModels = new List<AppointmentViewModel>();
+
+                foreach (AppointmentModel appointmentModel in models)
+                {
+                    viewModels.Add(appointmentTranslator.Translate(appointmentModel));
+                }
+
+                return viewModels;
             }
 
-            return new List<AppointmentModel>();
+            return new List<AppointmentViewModel>();
+        }
+
+        /// <summary>
+        /// Deletes the appointment.
+        /// </summary>
+        /// <param name="umbracoContext">The umbraco context.</param>
+        /// <param name="appointmentId">The appointment identifier.</param>
+        /// <returns></returns>
+        public bool DeleteAppointment(
+            UmbracoContext umbracoContext, 
+            int appointmentId)
+        {
+            AppointmentSettingsModel appointmentsModel = appointmentsProvider.GetAppointmentsModel(umbracoContext);
+
+            if (appointmentsModel.DatabaseIntegration)
+            {
+                AppointmentModel model = databaseProvider.GetAppointment(appointmentId);
+
+                model.Status = (int)AppointmentStatus.Deleted;
+
+                databaseProvider.UpdateAppointment(model);
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -202,7 +245,7 @@ namespace Spectrum.Content.Appointments.Managers
 
             loggingService.Info(GetType(), "PaymentMadeMessage PaymentId=" + paymentId);
 
-            AppointmentsModel appointmentsModel = appointmentsProvider.GetAppointmentsModel(paymentMadeMessage.UmbracoContext);
+            AppointmentSettingsModel appointmentsModel = appointmentsProvider.GetAppointmentsModel(paymentMadeMessage.UmbracoContext);
 
             //// if we are supporting database integration and auto allocating of payments then proceed!
             if (appointmentsModel.DatabaseIntegration &&

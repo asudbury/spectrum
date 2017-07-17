@@ -1,4 +1,6 @@
-﻿namespace Spectrum.Content.Payments.Translators
+﻿using Spectrum.Content.Extensions;
+
+namespace Spectrum.Content.Payments.Translators
 {
     using Braintree;
     using ViewModels;
@@ -17,8 +19,8 @@
                 Id = transaction.Id,
                 Amount = transaction.Amount,
                 TransactionDateTime = transaction.CreatedAt,
-                Status = transaction.Status.ToString(),
-                Type = transaction.Type.ToString(),
+                Status = transaction.Status.ToString().UppercaseFirst(),
+                Type = transaction.Type.ToString().UppercaseFirst(),
                 CurrencyType = transaction.CurrencyIsoCode,
                 CardType = GetCardType(transaction),
                 MaskedNumber = GetMaskedNumber(transaction)

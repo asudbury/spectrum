@@ -20,6 +20,11 @@
         public DateTime EndTime { get; set; }
 
         /// <summary>
+        /// Gets or sets the status.
+        /// </summary>
+        public string Status { get; set; }
+
+        /// <summary>
         /// Gets or sets the payment identifier.
         /// </summary>
         public string PaymentId { get; set; }

@@ -36,9 +36,9 @@
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <returns></returns>
-        public AppointmentsModel GetAppointmentsModel(UmbracoContext umbracoContext)
+        public AppointmentSettingsModel GetAppointmentsModel(UmbracoContext umbracoContext)
         {
-            return new AppointmentsModel(GetAppointmentsNode(umbracoContext));
+            return new AppointmentSettingsModel(GetAppointmentsNode(umbracoContext));
         }
     }
 }

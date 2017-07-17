@@ -49,7 +49,7 @@
         /// <returns></returns>
         public string GetCalendarUrl(UmbracoContext umbracoContext)
         {
-            AppointmentsModel model = appointmentsProvider.GetAppointmentsModel(umbracoContext);
+            AppointmentSettingsModel model = appointmentsProvider.GetAppointmentsModel(umbracoContext);
 
             return model.GoogleCalendarUrl;
         }
@@ -102,7 +102,7 @@
         /// <returns></returns>
         internal CalendarService GetCalendarService(UmbracoContext umbracoContext)
         {
-            AppointmentsModel model = this.appointmentsProvider.GetAppointmentsModel(umbracoContext); 
+            AppointmentSettingsModel model = this.appointmentsProvider.GetAppointmentsModel(umbracoContext); 
 
             UserCredential userCredential = googleCalendarServices.GetCredentials(
                                                 model.GoogleClientId,

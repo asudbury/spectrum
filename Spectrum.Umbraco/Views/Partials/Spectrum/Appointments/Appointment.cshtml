@@ -1,0 +1,17 @@
+﻿@using Spectrum.Content.Appointments.ViewModels
+@model AppointmentViewModel
+
+<dl class="dl-horizontal">
+    <dt>Id</dt>
+    <dd>@Model.Id</dd>
+    <dt>Start</dt>
+    <dd>@Model.StartTime.ToString("dd MMM yyyy HH:mm:ss")</dd>
+    <dt>End</dt>
+    <dd>@Model.EndTime.ToString("dd MMM yyyy HH:mm:ss")</dd>
+    <dt>Payment Id</dt>
+    <dd>@Model.PaymentId</dd>
+    <dt>Location</dt>
+    <dd>@Model.Location</dd>
+    <dt>Description</dt>
+    <dd>@Model.Description</dd>
+</dl>

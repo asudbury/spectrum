@@ -1,6 +1,5 @@
 ﻿namespace Spectrum.Content.Appointments.Managers
 {
-    using Models;
     using System;
     using System.Collections.Generic;
     using Umbraco.Core.Models;
@@ -29,7 +28,7 @@
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="appointmentId">The appointment identifier.</param>
         /// <returns></returns>
-        AppointmentModel GetAppointment(
+        AppointmentViewModel GetAppointment(
             UmbracoContext umbracoContext,
             int appointmentId);
         
@@ -40,9 +39,19 @@
         /// <param name="dateRangeStart">The date range start.</param>
         /// <param name="dateRangeEnd">The date range end.</param>
         /// <returns></returns>
-        IEnumerable<AppointmentModel> GetAppointments(
+        IEnumerable<AppointmentViewModel> GetAppointments(
             UmbracoContext umbracoContext,
             DateTime dateRangeStart,
             DateTime dateRangeEnd);
+
+        /// <summary>
+        /// Deletes the appointment.
+        /// </summary>
+        /// <param name="umbracoContext">The umbraco context.</param>
+        /// <param name="appointmentId">The appointment identifier.</param>
+        /// <returns></returns>
+        bool DeleteAppointment(
+            UmbracoContext umbracoContext,
+            int appointmentId);
     }
 }

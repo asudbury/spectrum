@@ -32,7 +32,7 @@
         [ChildActionOnly]
         public ActionResult GetCalendarUrl()
         {
-            AppointmentsModel model = appointmentsProvider.GetAppointmentsModel(UmbracoContext);
+            AppointmentSettingsModel model = appointmentsProvider.GetAppointmentsModel(UmbracoContext);
 
             return Content(model.GoogleCalendarUrl);
         }

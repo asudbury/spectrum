@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using Spectrum.Content.Appointments.Models;
-
-namespace Spectrum.Content.Appointments.Controllers
+﻿namespace Spectrum.Content.Appointments.Controllers
 {
     using Content.Services;
     using Managers;
     using System;
+    using System.Collections.Generic;
     using System.Web.Mvc;
     using Umbraco.Core.Models;
     using Umbraco.Web;
@@ -13,6 +11,11 @@ namespace Spectrum.Content.Appointments.Controllers
 
     public class AppointmentsController : BaseController
     {
+        /// <summary>
+        /// The appointments partial.
+        /// </summary>
+        private const string AppointmentsPartial = "Partials/Spectrum/Appointments/AppointmentList";
+
         /// <summary>
         /// The appointments manager.
         /// </summary>
@@ -103,24 +106,85 @@ namespace Spectrum.Content.Appointments.Controllers
         }
 
         /// <summary>
-        /// Gets the events.
+        /// Gets the future appointments.
         /// </summary>
-        /// <param name="dateRangeStart">The date range start.</param>
-        /// <param name="dateRangeEnd">The date range end.</param>
+        /// <returns></returns>
         [ChildActionOnly]
-        public ActionResult GetAppointments(
-            /*DateTime dateRangeStart,
-            DateTime dateRangeEnd*/)
+        public ActionResult GetFutureAppointments()
         {
-            DateTime dateRangeStart = DateTime.Now.AddDays(-200);
-            DateTime dateRangeEnd = DateTime.Now.AddDays(200);
+            DateTime dateRangeStart = DateTime.Today;
+            DateTime dateRangeEnd = DateTime.Now.AddDays(1000);
 
-            IEnumerable<AppointmentModel> appointments = appointmentsManager.GetAppointments(
+            IEnumerable<AppointmentViewModel> appointments = appointmentsManager.GetAppointments(
                 UmbracoContext,
                 dateRangeStart,
                 dateRangeEnd);
 
-            return PartialView("Partials/Spectrum/Appointments/AppointmentList", appointments);
+            return PartialView(AppointmentsPartial, appointments);
+        }
+
+        /// <summary>
+        /// Gets the events.
+        /// </summary>
+        /// <param name="dateRangeStart">The date range start.</param>
+        /// <param name="dateRangeEnd">The date range end.</param>
+        /// <returns></returns>
+        [ChildActionOnly]
+        public ActionResult GetAppointments(
+            DateTime dateRangeStart,
+            DateTime dateRangeEnd)
+        {
+            IEnumerable<AppointmentViewModel> appointments = appointmentsManager.GetAppointments(
+                UmbracoContext,
+                dateRangeStart,
+                dateRangeEnd);
+
+            return PartialView(AppointmentsPartial, appointments);
+        }
+
+        /// <summary>
+        /// Views the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult View(int id)
+        {
+            LoggingService.Info(GetType(), "Id=" + id);
+
+            AppointmentViewModel viewModel = appointmentsManager.GetAppointment(UmbracoContext, id);
+
+            return Content("hello from View");
+        }
+
+        /// <summary>
+        /// Edits the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            LoggingService.Info(GetType(), "Id=" + id);
+
+            AppointmentViewModel viewModel = appointmentsManager.GetAppointment(UmbracoContext, id);
+
+            return Content("hello from Edit");
+        }
+
+        /// <summary>
+        /// Deletes the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult Delete(int id)
+        {
+            LoggingService.Info(GetType(), "Id=" + id);
+
+            appointmentsManager.DeleteAppointment(UmbracoContext, id);
+
+            return Content("appointment deleted");
         }
     }
 }

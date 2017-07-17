@@ -455,6 +455,8 @@
     <Content Include="scripts\jquery-ui-timepicker-addon.js" />
     <Content Include="scripts\jquery-ui-timepicker-addon.min.js" />
     <Content Include="scripts\jquery.ui.unobtrusive.js" />
+    <Content Include="scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />
     <Content Include="scripts\spectrum\braintree.js" />
     <Content Include="scripts\init.js" />
@@ -515,6 +517,8 @@
     <Content Include="Views\Partials\Spectrum\Appointments\InsertAppointment.cshtml" />
     <Content Include="Views\Partials\Spectrum\Appointments\Appointments.cshtml" />
     <Content Include="Views\Partials\Spectrum\Appointments\AppointmentList.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Payments\Transaction.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Appointments\Appointment.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

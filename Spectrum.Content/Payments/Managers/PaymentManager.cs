@@ -59,7 +59,7 @@
         /// <returns></returns>
         public string GetAuthToken(UmbracoContext umbracoContext)
         {
-            BraintreeModel model = paymentProvider.GetBraintreeModel(umbracoContext);
+            BraintreeSettingsModel model = paymentProvider.GetBraintreeModel(umbracoContext);
             return paymentProvider.GetAuthToken(model);
         }
 
@@ -70,7 +70,7 @@
         /// <returns></returns>
         public string GetEnvironment(UmbracoContext umbracoContext)
         {
-            BraintreeModel model = paymentProvider.GetBraintreeModel(umbracoContext);
+            BraintreeSettingsModel model = paymentProvider.GetBraintreeModel(umbracoContext);
             return model.Environment;
         }
 
@@ -103,7 +103,7 @@
                 throw new ApplicationException("Error Page Url Not Set");
             }
 
-            BraintreeModel model = paymentProvider.GetBraintreeModel(umbracoContext);
+            BraintreeSettingsModel model = paymentProvider.GetBraintreeModel(umbracoContext);
 
             loggingService.Info(GetType(), "HandlePayment MakePayment");
 

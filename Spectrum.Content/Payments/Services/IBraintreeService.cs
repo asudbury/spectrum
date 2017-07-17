@@ -11,14 +11,14 @@
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        IBraintreeGateway GetGateway(BraintreeModel model);
+        IBraintreeGateway GetGateway(BraintreeSettingsModel model);
 
         /// <summary>
         /// Gets the token.
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns>The token.</returns>
-        string GetAuthToken(BraintreeModel model);
+        string GetAuthToken(BraintreeSettingsModel model);
 
         /// <summary>
         /// Makes the payment.
@@ -27,7 +27,7 @@
         /// <param name="viewModel">The view model.</param>
         /// <returns>Payment Id</returns>
         string MakePayment(
-            BraintreeModel model,
+            BraintreeSettingsModel model,
             PaymentViewModel viewModel);
 
         /// <summary>
@@ -35,6 +35,16 @@
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        ResourceCollection<Transaction> GetTransactions(BraintreeModel model);
+        ResourceCollection<Transaction> GetTransactions(BraintreeSettingsModel model);
+
+        /// <summary>
+        /// Gets the transaction.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <param name="transactionId">The transaction identifier.</param>
+        /// <returns></returns>
+        Transaction GetTransaction(
+            BraintreeSettingsModel model,
+            string transactionId);
     }
 }

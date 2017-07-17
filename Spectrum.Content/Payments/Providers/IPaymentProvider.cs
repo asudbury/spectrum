@@ -12,14 +12,14 @@
         /// </summary>
         /// <param name="content">The content.</param>
         /// <returns></returns>
-        BraintreeModel GetBraintreeModel(UmbracoContext content);
+        BraintreeSettingsModel GetBraintreeModel(UmbracoContext content);
 
         /// <summary>
         /// Gets the authentication token.
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        string GetAuthToken(BraintreeModel model);
+        string GetAuthToken(BraintreeSettingsModel model);
 
         /// <summary>
         /// Makes the payment.
@@ -28,15 +28,25 @@
         /// <param name="model">The model.</param>
         /// <returns>Payment Id</returns>
         string MakePayment(
-            BraintreeModel braintreeModel,
+            BraintreeSettingsModel braintreeModel,
             PaymentViewModel model);
 
         /// <summary>
         /// Gets the transactions.
         /// </summary>
-        /// <param name="braintreeModel">The braintree model.</param>
+        /// <param name="model">The model.</param>
         /// <returns></returns>
-        ResourceCollection<Transaction> GetTransactions(BraintreeModel braintreeModel);
+        ResourceCollection<Transaction> GetTransactions(BraintreeSettingsModel model);
+
+        /// <summary>
+        /// Gets the transaction.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <param name="transactionId">The transaction identifier.</param>
+        /// <returns></returns>
+        Transaction GetTransaction(
+            BraintreeSettingsModel model,
+            string transactionId);
 
     }
 }

@@ -3,14 +3,14 @@
     using Umbraco.Core.Models;
     using Umbraco.Web;
 
-    public class AppointmentsModel : BaseModel
+    public class AppointmentSettingsModel : BaseModel
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Umbraco.Core.Models.PublishedContent.PublishedContentModel" /> class with
         /// an original <see cref="T:Umbraco.Core.Models.IPublishedContent" /> instance.
         /// </summary>
         /// <param name="content">The original content.</param>
-        public AppointmentsModel(IPublishedContent content) : base(content)
+        public AppointmentSettingsModel(IPublishedContent content) : base(content)
         {
         }
 

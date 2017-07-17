@@ -75,5 +75,20 @@
 
             return PartialView("Partials/Spectrum/Payments/TransactionList", viewModels);
         }
+
+        /// <summary>
+        /// Views the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        [HttpGet]
+        public PartialViewResult View(string id)
+        {
+            LoggingService.Info(GetType(), "Id=" + id);
+
+            TransactionViewModel viewModel = transactionsManager.GetTransactionViewModel(UmbracoContext, id);
+
+            return PartialView("Partials/Spectrum/Payments/Transaction", viewModel);
+        }
     }
 }
