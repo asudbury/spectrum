@@ -2,7 +2,7 @@
 @model AppointmentViewModel
 
 <dl class="dl-horizontal">
-    <dt>Id</dt>
+    <dt>Appointment Id</dt>
     <dd>@Model.Id</dd>
     <dt>Start</dt>
     <dd>@Model.StartTime.ToString("dd MMM yyyy HH:mm:ss")</dd>
@@ -15,3 +15,17 @@
     <dt>Description</dt>
     <dd>@Model.Description</dd>
 </dl>
+
+<table class="table table-striped">
+    <tbody>
+    <tr>
+        <td>Appointment Id</td>
+        <td>@Model.Id</td>
+    </tr>
+    <tr>
+        <td>Start Time</td>
+        <td>@Model.StartTime.ToString("dd MMM yyyy HH:mm:ss")</td>
+    </tr>
+    </tbody>
+</table>
+

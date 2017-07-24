@@ -18,5 +18,15 @@
         /// Gets or sets the appointment identifier.
         /// </summary>
         public int AppointmentId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the email address.
+        /// </summary>
+        public string EmailAddress { get; set; }
     }
 }

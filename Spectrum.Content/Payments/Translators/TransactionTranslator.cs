@@ -14,7 +14,7 @@ namespace Spectrum.Content.Payments.Translators
         /// <returns></returns>
         public TransactionViewModel Translate(Transaction transaction)
         {
-            return new TransactionViewModel()
+            return new TransactionViewModel
             {
                 Id = transaction.Id,
                 Amount = transaction.Amount,

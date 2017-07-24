@@ -15,8 +15,13 @@
         }
 
         /// <summary>
-        /// Gets the link.
+        /// Gets the landing page.
         /// </summary>
         public string LandingPage => GetNiceUrl(this.GetPropertyValue<int>("landingPage"));
+
+        /// <summary>
+        /// Gets the logged out page.
+        /// </summary>
+        public string LoggedOutPage => GetNiceUrl(this.GetPropertyValue<int>("loggedOutPage"));
     }
 }

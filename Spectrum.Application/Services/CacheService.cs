@@ -1,4 +1,4 @@
-﻿namespace Spectrum.Content.Services
+﻿namespace Spectrum.Application.Services
 {
     using System;
     using System.Web;

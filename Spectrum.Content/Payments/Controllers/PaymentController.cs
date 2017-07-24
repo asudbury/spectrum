@@ -85,6 +85,34 @@
         }
 
         /// <summary>
+        /// Gets the automatic allocate.
+        /// </summary>
+        /// <returns></returns>
+        [ChildActionOnly]
+        public ActionResult GetAutoAllocate()
+        {
+            LoggingService.Info(GetType());
+
+            string autoallocate = Request.QueryString["autoAllocate"];
+
+            return Content(autoallocate);
+        }
+
+        /// <summary>
+        /// Gets the appointment identifier.
+        /// </summary>
+        /// <returns></returns>
+        [ChildActionOnly]
+        public ActionResult GetAppointmentId()
+        {
+            LoggingService.Info(GetType());
+
+            string appointmentId = Request.QueryString["appointmentId"];
+
+            return Content(appointmentId);
+        }
+
+        /// <summary>
         /// Handles the payment.
         /// </summary>
         /// <param name="viewModel">The view model.</param>

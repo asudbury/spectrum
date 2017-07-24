@@ -98,7 +98,7 @@
         /// </summary>
         /// <param name="appointmentId">The appointment identifier.</param>
         [ChildActionOnly]
-        public void GetAppointment(int appointmentId)
+        public void GetAppointment(string appointmentId)
         {
             appointmentsManager.GetAppointment(
                 UmbracoContext,
@@ -106,21 +106,21 @@
         }
 
         /// <summary>
-        /// Gets the future appointments.
+        /// Gets the appointments.
         /// </summary>
         /// <returns></returns>
-        [ChildActionOnly]
-        public ActionResult GetFutureAppointments()
+        [HttpGet]
+        public JsonResult GetAppointments()
         {
-            DateTime dateRangeStart = DateTime.Today;
-            DateTime dateRangeEnd = DateTime.Now.AddDays(1000);
+            DateTime dateRangeStart = DateTime.Now.AddDays(-10000);
+            DateTime dateRangeEnd = DateTime.Now.AddDays(10000);
 
             IEnumerable<AppointmentViewModel> appointments = appointmentsManager.GetAppointments(
                 UmbracoContext,
                 dateRangeStart,
                 dateRangeEnd);
 
-            return PartialView(AppointmentsPartial, appointments);
+            return Json(appointments, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -148,13 +148,13 @@
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult View(int id)
+        public PartialViewResult View(string id)
         {
             LoggingService.Info(GetType(), "Id=" + id);
 
             AppointmentViewModel viewModel = appointmentsManager.GetAppointment(UmbracoContext, id);
 
-            return Content("hello from View");
+            return PartialView("Partials/Spectrum/Appointments/Appointment", viewModel);
         }
 
         /// <summary>
@@ -163,13 +163,13 @@
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Edit(int id)
+        public PartialViewResult Edit(string id)
         {
             LoggingService.Info(GetType(), "Id=" + id);
 
             AppointmentViewModel viewModel = appointmentsManager.GetAppointment(UmbracoContext, id);
 
-            return Content("hello from Edit");
+            return PartialView("Partials/Spectrum/Appointments/Appointment", viewModel);
         }
 
         /// <summary>
@@ -178,7 +178,7 @@
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id)
         {
             LoggingService.Info(GetType(), "Id=" + id);
 

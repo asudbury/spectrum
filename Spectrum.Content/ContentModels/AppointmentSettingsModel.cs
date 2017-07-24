@@ -31,10 +31,10 @@
         public bool DatabaseIntegration => this.GetPropertyValue<bool>("database");
 
         /// <summary>
-        /// Gets a value indicating whether [automatic allocate payments].
+        /// Gets the payments page.
         /// </summary>
-        public bool AutoAllocatePayments => this.GetPropertyValue<bool>("autoAllocatePayments");
-        
+        public string PaymentsPage => GetNiceUrl(this.GetPropertyValue<int>("paymentsPage"));
+
         /// <summary>
         /// Gets the google calendar URL.
         /// </summary>
@@ -59,5 +59,7 @@
         /// Gets the redirect URL.
         /// </summary>
         public string RedirectUrl => this.GetPropertyValue<string>("RedirectUrl");
+
+
     }
 }

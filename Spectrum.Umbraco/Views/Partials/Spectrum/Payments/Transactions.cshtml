@@ -1,2 +1,77 @@
 ﻿<h4>Payments</h4>
-@Html.Action("GetTransactions", "Transactions")
+<div id="transactionsGrid"></div>
+
+<script>
+
+    var DateField = function (config) {
+        jsGrid.Field.call(this, config);
+    };
+
+    DateField.prototype = new jsGrid.Field({
+        itemTemplate: function (value) {
+            return moment.utc(value).format('ddd DD MMM YYYY HH:mm');
+        }
+    });
+
+    jsGrid.fields.date = DateField;
+
+    $("#transactionsGrid").jsGrid({
+
+        width: "100%",
+        //filtering: true,
+        paging: true,
+        pageSize: 6,
+        autoload: true,
+
+        controller: {
+            loadData: function() {
+
+                return $.ajax({
+                    url: "@Url.Action("GetTransactions", "Transactions")",
+                    dataType: "json"
+                });
+            }
+        },
+
+        fields: [
+            { name: "Id", align: "center", type: "text" },
+            { name: "TransactionDateTime", align: "center", title: "Date", type: "date" },
+            { name: "Type", align:"center", type: "text" },
+            { name: "Status", align:"center", type: "text" },
+            { name: "CardType", align: "center", title: "Payment Information", type: "text",
+                cellRenderer : function(value, item) {
+                    return "<td>" + value + " " + item.MaskedNumber + "</td>";
+                }
+            },
+            { name: "Amount", align: "center", type: "text",
+                cellRenderer : function(value, item) {
+                    return "<td>" + parseFloat(Math.round(value * 100) / 100).toFixed(2) + " " + item.CurrencyType + "</td>";
+                }
+            },
+            { name: "CurrencyType", align: "center", type: "text", title: "",
+                cellRenderer: function (value, item) {
+                    return '<td>' + 
+                        '<a data-ajax="true"' +
+                        ' data-ajax-mode="replace"' +  
+                        ' data-ajax-update="#transaction"' +
+                        ' data-ajax-success="onTransaction"' +
+                        ' href="/umbraco/Surface/Transactions/View/' + item.Id + '">View</a>' +
+                        '</td>';
+                }
+            }
+        ]
+    });
+</script>
+
+<div id="transaction"></div>
+
+<script type="text/javascript">
+    
+    function onTransaction() {
+        jQuery('#transaction').dialog({ 'title': 'Payment', 'width': 400, 'height': 300 });
+    }
+
+</script>
+
+
+

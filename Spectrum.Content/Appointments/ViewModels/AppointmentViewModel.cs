@@ -10,6 +10,11 @@
         public int Id { get; set; }
 
         /// <summary>
+        /// Gets or sets the encrypted identifier.
+        /// </summary>
+        public string EncryptedId { get; set; }
+
+        /// <summary>
         /// Gets or sets the start time.
         /// </summary>
         public DateTime StartTime { get; set; }
@@ -38,5 +43,10 @@
         /// Gets or sets the description.
         /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// Gets or sets the take payment URL.
+        /// </summary>
+        public string TakePaymentUrl { get; set; }
     }
 }

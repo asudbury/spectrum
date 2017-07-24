@@ -1,5 +1,6 @@
 ﻿namespace Spectrum.Content.Payments.Managers
 {
+    using Application.Services;
     using Braintree;
     using Content.Services;
     using ContentModels;
@@ -60,7 +61,15 @@
         {
             loggingService.Info(GetType());
 
+            bool exists = cacheService.Exists("Transactions");
+
+            if (exists)
+            {
+                return cacheService.Get<IEnumerable<TransactionViewModel>>("Transactions");
+            }
+
             BraintreeSettingsModel model = paymentProvider.GetBraintreeModel(umbracoContext);
+
 
             ResourceCollection<Transaction> transactions = paymentProvider.GetTransactions(model);
 
@@ -84,7 +93,7 @@
             UmbracoContext umbracoContext,
             string transactionId)
         {
-            loggingService.Info(GetType());
+            loggingService.Info(GetType(), "EncryptedTransactionId=" + transactionId);
 
             BraintreeSettingsModel model = paymentProvider.GetBraintreeModel(umbracoContext);
 

@@ -1,2 +1,131 @@
 ﻿<h4>Appointments</h4>
-@Html.Action("GetFutureAppointments", "Appointments")
+
+<div id="appoiontmentsGrid"></div>
+
+
+<script>
+
+    var DateField = function(config) {
+        jsGrid.Field.call(this, config);
+    };
+
+    DateField.prototype = new jsGrid.Field({
+        itemTemplate: function(value) {
+            return moment.utc(value).format('ddd DD MMM YYYY HH:mm');
+        }
+    });
+
+    jsGrid.fields.date = DateField;
+
+    $("#appoiontmentsGrid").jsGrid({
+        width: "100%",
+        //filtering: true,
+        paging: true,
+        pageSize: 10,
+        autoload: true,
+
+        controller: {
+            loadData: function() {
+
+                return $.ajax({
+                    url: "@Url.Action("GetAppointments", "Appointments")",
+                    dataType: "json"
+                });
+            }
+        },
+
+        fields: [
+            { name: "Id", align: "center", type: "text", width: "40" },
+            { name: "StartTime", align:"center", title:"Start", type: "date"},
+            { name: "EndTime", align:"center", title:"End", type: "date" },
+            { name: "Status", align:"center", type: "text", width: "60" },
+            { name: "PaymentId", align: "center", title: "Payment Id", type: "payment",
+                cellRenderer : function(value, item) {
+                    if (value !== '') {
+                        return '<td><a data-ajax="true" data-ajax-mode="replace" data-ajax-update="#transaction" ' +
+                            'data-ajax-success="onTransaction" href="/umbraco/Surface/Transactions/View/' +
+                            value + '">' + value + '</a></td>';
+                    }
+
+                    return '<td><a href="' + item.TakePaymentUrl + '" style="color: red">Take Payment</a></td>';
+                }
+            },
+            { name: "Location", align:"center", type: "text" },
+            { name: "Description", align: "center", type: "text" },
+            { name: "EncryptedId", align: "center", type: "text", title: "",
+                cellRenderer: function (value, item) {
+
+                    return '<td>' +
+                        '<a data-ajax="true"' +
+                        ' data-ajax-mode="replace"' +
+                        ' data-ajax-update="#Appointment"' +
+                        ' data-ajax-success="onAppointmentView"' +
+                        ' href="/umbraco/Surface/Appointments/View/' + value + '">View</a>' +
+                        ' | ' +
+                        '<a data-ajax="true"' +
+                        ' data-ajax-mode="replace"' +
+                        ' data-ajax-update="#Appointment"' +
+                        ' data-ajax-success="onAppointmentEdit"' +
+                        ' href="/umbraco/Surface/Appointments/Edit/' + value + '">Edit</a>' +
+                        ' | ' +
+                        '<a data-ajax="true"' +
+                        ' data-ajax-mode="replace"' +
+                        ' data-ajax-success="onAppointmentDeleted"' +
+                        ' data-ajax-confirm="Confirm you want to delete appointment' + item.Id + '"' +
+                        ' href="/umbraco/Surface/Appointments/Delete/' + value + '">Delete</a>' +
+                        '</td>';
+                }
+            }
+        ]
+    });
+</script>
+
+    <div id="Appoiontment"></div>
+
+    <script type="text/javascript">
+
+        window.confirm = function (message, callback, caption) {
+            caption = caption || 'Confirmation';
+            $(document.createElement('div')).attr({
+                title: caption,
+                'class': 'dialog'
+            }).html(message).dialog({
+                dialogClass: 'fixed',
+                buttons: {
+                    "OK": function () {
+                        $(this).dialog('close');
+                        callback();
+                        return true;
+                    },
+                    "Cancel": function () {
+                        $(this).dialog('close');
+                        return false;
+                    }
+                },
+                close: function () {
+                    $(this).remove();
+                },
+                draggable: false,
+                modal: true,
+                resizable: false,
+                width: 'auto'
+            });
+        };
+
+        function onAppointmentView() {
+            jQuery('#Appoiontment').dialog({ 'title': 'Appointment', 'width': 400, 'height': 300 });
+            jQuery('#Appoiontment').dialog().css("border-color", "blue");
+        }
+
+        function onAppointmentEdit() {
+            jQuery('#Appoiontment').dialog({ 'title': 'Appointment', 'width': 400, 'height': 300 });
+            jQuery('#Appoiontment').dialog().css("border-color", "blue");
+        }
+
+        function onAppointmentDeleted() {
+            location.reload();
+        }
+
+    </script>
+
+

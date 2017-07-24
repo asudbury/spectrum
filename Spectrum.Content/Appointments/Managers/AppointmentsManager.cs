@@ -1,5 +1,8 @@
+using Spectrum.Content.Appointments.Services;
+
 namespace Spectrum.Content.Appointments.Managers
 {
+    using Application.Services;
     using Autofac.Events;
     using Content.Services;
     using ContentModels;
@@ -36,6 +39,11 @@ namespace Spectrum.Content.Appointments.Managers
         private readonly IDatabaseProvider databaseProvider;
 
         /// <summary>
+        /// The icalendar service.
+        /// </summary>
+        private readonly IICalendarService iCalendarService;
+
+        /// <summary>
         /// The event publisher.
         /// </summary>
         private readonly IEventPublisher eventPublisher;
@@ -51,31 +59,42 @@ namespace Spectrum.Content.Appointments.Managers
         private readonly IAppointmentTranslator appointmentTranslator;
 
         /// <summary>
+        /// The encryption service.
+        /// </summary>
+        private readonly IEncryptionService encryptionService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="AppointmentsManager" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="appointmentsProvider">The appointments provider.</param>
         /// <param name="insertappointmentTranslator">The insertappointment translator.</param>
         /// <param name="databaseProvider">The database provider.</param>
+        /// <param name="iCalendarService">The i calendar service.</param>
         /// <param name="eventPublisher">The event publisher.</param>
         /// <param name="cookieService">The cookie service.</param>
         /// <param name="appointmentTranslator">The appointment translator.</param>
+        /// <param name="encryptionService">The encryption service.</param>
         public AppointmentsManager(
             ILoggingService loggingService,
             IAppointmentsProvider appointmentsProvider,
             IInsertAppointmentTranslator insertappointmentTranslator,
             IDatabaseProvider databaseProvider,
+            IICalendarService iCalendarService,
             IEventPublisher eventPublisher,
             ICookieService cookieService,
-            IAppointmentTranslator appointmentTranslator)
+            IAppointmentTranslator appointmentTranslator,
+            IEncryptionService encryptionService)
         {
             this.loggingService = loggingService;
             this.appointmentsProvider = appointmentsProvider;
             this.insertAppointmentTranslator = insertappointmentTranslator;
             this.databaseProvider = databaseProvider;
+            this.iCalendarService = iCalendarService;
             this.eventPublisher = eventPublisher;
             this.cookieService = cookieService;
             this.appointmentTranslator = appointmentTranslator;
+            this.encryptionService = encryptionService;
         }
 
         /// <summary>
@@ -112,13 +131,15 @@ namespace Spectrum.Content.Appointments.Managers
 
             AppointmentModel appointmentModel = insertAppointmentTranslator.Translate(viewModel);
 
+            string appointmentId = string.Empty;
+
             appointmentModel.CreatedUser = createdUserName;
 
             if (model.DatabaseIntegration)
             {
                 loggingService.Info(GetType(), "Database Integration");
 
-                string appointmentId = databaseProvider.InsertAppointment(appointmentModel);
+                appointmentId = databaseProvider.InsertAppointment(appointmentModel);
 
                 if (string.IsNullOrEmpty(appointmentId) == false)
                 {
@@ -138,6 +159,9 @@ namespace Spectrum.Content.Appointments.Managers
             if (model.iCalIntegration)
             {
                 loggingService.Info(GetType(), "iCal Integration");
+
+                ICalAppointmentModel iCalModel = iCalendarService.GetICalAppoinment(appointmentModel);
+
                 processed = true;
             }
 
@@ -160,7 +184,7 @@ namespace Spectrum.Content.Appointments.Managers
         /// <returns></returns>
         public AppointmentViewModel GetAppointment(
             UmbracoContext umbracoContext,
-            int appointmentId)
+            string appointmentId)
         {
             loggingService.Info(GetType());
 
@@ -168,9 +192,11 @@ namespace Spectrum.Content.Appointments.Managers
 
             if (settingsModel.DatabaseIntegration)
             {
-                AppointmentModel model = databaseProvider.GetAppointment(appointmentId);
+                string id = encryptionService.DecryptString(appointmentId);
 
-                return appointmentTranslator.Translate(model);
+                AppointmentModel model = databaseProvider.GetAppointment(Convert.ToInt32(id));
+
+                return appointmentTranslator.Translate(settingsModel.PaymentsPage, model);
             }
 
             return new AppointmentViewModel();
@@ -194,15 +220,17 @@ namespace Spectrum.Content.Appointments.Managers
 
             if (model.DatabaseIntegration)
             {
-                IEnumerable<AppointmentModel> models =  databaseProvider.GetAppointments(
+                IEnumerable<AppointmentModel> models = databaseProvider.GetAppointments(
                                                             dateRangeStart,
                                                             dateRangeEnd);
 
                 List<AppointmentViewModel> viewModels = new List<AppointmentViewModel>();
 
+                string paymentsPage = model.PaymentsPage;
+
                 foreach (AppointmentModel appointmentModel in models)
                 {
-                    viewModels.Add(appointmentTranslator.Translate(appointmentModel));
+                    viewModels.Add(appointmentTranslator.Translate(paymentsPage, appointmentModel));
                 }
 
                 return viewModels;
@@ -219,13 +247,15 @@ namespace Spectrum.Content.Appointments.Managers
         /// <returns></returns>
         public bool DeleteAppointment(
             UmbracoContext umbracoContext, 
-            int appointmentId)
+            string appointmentId)
         {
             AppointmentSettingsModel appointmentsModel = appointmentsProvider.GetAppointmentsModel(umbracoContext);
 
             if (appointmentsModel.DatabaseIntegration)
             {
-                AppointmentModel model = databaseProvider.GetAppointment(appointmentId);
+                string id = encryptionService.DecryptString(appointmentId);
+
+                AppointmentModel model = databaseProvider.GetAppointment(Convert.ToInt32(id));
 
                 model.Status = (int)AppointmentStatus.Deleted;
 
@@ -242,39 +272,83 @@ namespace Spectrum.Content.Appointments.Managers
         public void Handle(PaymentMadeMessage paymentMadeMessage)
         {
             string paymentId = paymentMadeMessage.PaymentId;
+            string autoAllocate = paymentMadeMessage.AutoAllocate;
+            string appointmentId = paymentMadeMessage.AppointmentId;
 
-            loggingService.Info(GetType(), "PaymentMadeMessage PaymentId=" + paymentId);
+            string message = "PaymentMadeMessage " + 
+                             "PaymentId=" + paymentId + " " +
+                             "AutoAllocate=" + autoAllocate + " " + 
+                             "AppointmentId=" + appointmentId;
+
+            loggingService.Info(GetType(), message);
+
+            int? id = GetAppointmentId(autoAllocate, appointmentId);
+
+            if (id.HasValue == false)
+            {
+                loggingService.Info(GetType(), "Payment not handled");
+                return;
+            }
 
             AppointmentSettingsModel appointmentsModel = appointmentsProvider.GetAppointmentsModel(paymentMadeMessage.UmbracoContext);
 
-            //// if we are supporting database integration and auto allocating of payments then proceed!
-            if (appointmentsModel.DatabaseIntegration &&
-                appointmentsModel.AutoAllocatePayments)
+            if (appointmentsModel.DatabaseIntegration)
             {
-                loggingService.Info(GetType(), "AutoAllocating");
+                UpdateAppointment(id.Value, paymentId);
+            }
+        }
 
-                int appointmentId = cookieService.GetValue<int>(AppointmentConstants.LastAppointmentIdCookie);
+        /// <summary>
+        /// Gets the appointment identifier.
+        /// </summary>
+        /// <param name="autoAllocate">The automatic allocate.</param>
+        /// <param name="appointmentId">The appointment identifier.</param>
+        /// <returns></returns>
+        internal int? GetAppointmentId(
+            string autoAllocate,
+            string appointmentId)
+        {
+            int? id = null;
 
-                if (appointmentId > 0)
-                {
-                    loggingService.Info(GetType(), "AppointmentId Found from cookie");
+            if (string.IsNullOrEmpty(appointmentId) == false)
+            {
+                string appId = encryptionService.DecryptString(appointmentId);
 
-                    AppointmentModel model = databaseProvider.GetAppointment(appointmentId);
+                id = Convert.ToInt32(appId);
+            }
 
-                    if (model != null)
-                    {
-                        loggingService.Info(GetType(), "Appointment Found");
+            else if (string.IsNullOrEmpty(autoAllocate) == false &&
+                     autoAllocate.ToLower() == "y")
+            {
+                id = cookieService.GetValue<int>(AppointmentConstants.LastAppointmentIdCookie);
+            }
 
-                        //// remove the cookie so it doesnt get allocated to the next payment.
-                        cookieService.Expire(AppointmentConstants.LastAppointmentIdCookie);
+            //// remove the cookie so it doesnt get allocated to the next payment.
+            cookieService.Expire(AppointmentConstants.LastAppointmentIdCookie);
 
-                        model.PaymentId = paymentId;
+            return id;
+        }
 
-                        databaseProvider.UpdateAppointment(model);
+        /// <summary>
+        /// Updates the appointment.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="paymentId">The payment identifier.</param>
+        internal void UpdateAppointment(
+            int id, 
+            string paymentId)
+        {
+            AppointmentModel model = databaseProvider.GetAppointment(id);
 
-                        loggingService.Info(GetType(), "Appointment updated with PaymentId=" + paymentId);
-                    }
-                }
+            if (model != null)
+            {
+                loggingService.Info(GetType(), "Appointment Found");
+
+                model.PaymentId = paymentId;
+
+                databaseProvider.UpdateAppointment(model);
+
+                loggingService.Info(GetType(), "Appointment updated with PaymentId=" + paymentId);
             }
         }
     }

@@ -1,7 +1,7 @@
 ﻿namespace Spectrum.Content.Appointments.Models
 {
     // ReSharper disable once InconsistentNaming
-    public class ICalEventModel
+    public class ICalAppointmentModel
     {
         /// <summary>
         /// Gets or sets the unique identifier.

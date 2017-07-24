@@ -1,4 +1,5 @@
 ﻿using Autofac.Events;
+using Spectrum.Application.Services;
 
 namespace Spectrum.Content.Configuration
 {
@@ -27,8 +28,6 @@ namespace Spectrum.Content.Configuration
             builder.RegisterSource(new ContravariantRegistrationSource());
             builder.RegisterEventing();
 
-            //// As long as all the controllers are in the same assembly this will work.
-
             Assembly assembly = typeof(AppointmentsController).Assembly;
 
             builder.RegisterControllers(assembly);
@@ -37,9 +36,8 @@ namespace Spectrum.Content.Configuration
 
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces();
 
-            ////assembly = typeof(ContravariantRegistrationSource).Assembly;
-
-            ////builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces();
+            //// this will register all the interfaces in the application assembly.
+            builder.RegisterAssemblyTypes(typeof(CacheService).Assembly).AsImplementedInterfaces();
 
             IContainer container = builder.Build();
 

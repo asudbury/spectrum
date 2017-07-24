@@ -27,6 +27,8 @@
                 applicationContext.ProfilingLogger.Logger,
                 databaseContext.SqlSyntax);
 
+            //// TODO : maybe only create tables if appointments are supported??
+             
             if (!db.TableExist(AppointmentConstants.AppointmentStatusTableName))
             {
                 //// create look up table for the appointment status
@@ -42,6 +44,11 @@
             if (!db.TableExist(AppointmentConstants.AppointmentTableName))
             {
                 db.CreateTable<AppointmentModel>(false);
+            }
+
+            if (!db.TableExist(AppointmentConstants.AppointmentAttendeeTableName))
+            {
+                db.CreateTable<AppointmentAttendeeModel>(false);
             }
         }
     }

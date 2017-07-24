@@ -77,7 +77,10 @@
                 var nodeId = '@Html.Action("GetNodeId", "Payment")';
                 var url = '@Url.Action("HandlePayment", "Payment")';
                 var env = '@Html.Action("GetEnvironment", "Payment")';
-                setupBraintree(token, nodeId, url, env);
+                var autoAllocate = '@Html.Action("GetAutoAllocate", "Payment")';
+                var appointmentId = '@Html.Action("GetAppointmentId", "Payment")';
+
+                setupBraintree(token, nodeId, url, env, autoAllocate, appointmentId);
             </script>            
         </div>
 </div>

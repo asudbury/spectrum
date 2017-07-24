@@ -390,6 +390,10 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Content\jsgrid-theme.css" />
+    <Content Include="Content\jsgrid-theme.min.css" />
+    <Content Include="Content\jsgrid.css" />
+    <Content Include="Content\jsgrid.min.css" />
     <Content Include="css\spectrum\style.css" />
     <Content Include="default.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -457,7 +461,13 @@
     <Content Include="scripts\jquery.ui.unobtrusive.js" />
     <Content Include="scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="scripts\jsgrid.js" />
+    <Content Include="scripts\jsgrid.min.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />
+    <Content Include="scripts\moment-with-locales.js" />
+    <Content Include="scripts\moment-with-locales.min.js" />
+    <Content Include="scripts\moment.js" />
+    <Content Include="scripts\moment.min.js" />
     <Content Include="scripts\spectrum\braintree.js" />
     <Content Include="scripts\init.js" />
     <Content Include="scripts\jquery.min.js" />
@@ -511,12 +521,10 @@
     <Content Include="Views\Partials\Spectrum\Navigation\Menu.cshtml" />
     <Content Include="Views\Partials\Spectrum\Payments\Transactions.cshtml" />
     <Content Include="Views\Partials\Spectrum\Payments\Payment.cshtml" />
-    <Content Include="Views\Partials\Spectrum\Payments\TransactionList.cshtml" />
     <Content Include="Views\Partials\Spectrum\Appointments\GoogleCalendar.cshtml" />
     <Content Include="scripts\jquery-1.12.4.min.map" />
     <Content Include="Views\Partials\Spectrum\Appointments\InsertAppointment.cshtml" />
     <Content Include="Views\Partials\Spectrum\Appointments\Appointments.cshtml" />
-    <Content Include="Views\Partials\Spectrum\Appointments\AppointmentList.cshtml" />
     <Content Include="Views\Partials\Spectrum\Payments\Transaction.cshtml" />
     <Content Include="Views\Partials\Spectrum\Appointments\Appointment.cshtml" />
     <None Include="Web.Debug.config">

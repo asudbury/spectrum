@@ -38,7 +38,8 @@
             Sql sql = new Sql()
                 .Select("*")
                 .From(AppointmentConstants.AppointmentTableName)
-                .Where("Status != " + deleted + " and StartTime >= '" + dateRangeStart + "' and EndTime <= '" + dateRangeEnd + "'");
+                .Where("Status != " + deleted + " and StartTime >= '" + dateRangeStart + "' and EndTime <= '" + dateRangeEnd + "'")
+                .OrderBy("StartTime desc");
    
             return context.Database.Fetch<AppointmentModel>(sql);
         }

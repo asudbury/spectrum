@@ -366,7 +366,7 @@
     <Compile Include="Appointments\Models\AppointmentAttendeeModel.cs" />
     <Compile Include="Appointments\Models\AppointmentStatusModel.cs" />
     <Compile Include="Appointments\Models\AppointmentModel.cs" />
-    <Compile Include="Appointments\Models\ICalEventModel.cs" />
+    <Compile Include="Appointments\Models\ICalAppointmentModel.cs" />
     <Compile Include="Appointments\Providers\AppointmentsProvider.cs" />
     <Compile Include="Appointments\Providers\DatabaseProvider.cs" />
     <Compile Include="Appointments\Providers\GoogleCalendarProvider.cs" />
@@ -439,10 +439,6 @@
     <Compile Include="Registration\Providers\IRegistrationProvider.cs" />
     <Compile Include="Registration\ViewModels\VerifyUserViewModel.cs" />
     <Compile Include="Registration\ViewModels\RegisterViewModel.cs" />
-    <Compile Include="Services\CacheService.cs" />
-    <Compile Include="Services\CookieService.cs" />
-    <Compile Include="Services\ICacheService.cs" />
-    <Compile Include="Services\ICookieService.cs" />
     <Compile Include="Services\ILoggingService.cs" />
     <Compile Include="Services\ISettingsService.cs" />
     <Compile Include="Services\IUserService.cs" />

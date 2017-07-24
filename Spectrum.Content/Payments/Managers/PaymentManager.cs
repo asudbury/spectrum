@@ -1,4 +1,6 @@
-﻿namespace Spectrum.Content.Payments.Managers
+﻿using Spectrum.Application.Services;
+
+namespace Spectrum.Content.Payments.Managers
 {
     using Autofac.Events;
     using Content.Services;
@@ -29,6 +31,11 @@
         private readonly IEventPublisher eventPublisher;
 
         /// <summary>
+        /// The cache service.
+        /// </summary>
+        private readonly ICacheService cacheService;
+
+        /// <summary>
         /// The mail provider.
         /// </summary>
         private readonly IMailProvider mailProvider;
@@ -39,16 +46,19 @@
         /// <param name="loggingService">The logging service.</param>
         /// <param name="paymentProvider">The payment provider.</param>
         /// <param name="eventPublisher">The event publisher.</param>
+        /// <param name="cacheService">The cache service.</param>
         /// <param name="mailProvider">The mail provider.</param>
         public PaymentManager(
             ILoggingService loggingService,
             IPaymentProvider paymentProvider,
             IEventPublisher eventPublisher,
+            ICacheService cacheService,
             IMailProvider mailProvider)
         {
             this.loggingService = loggingService;
             this.paymentProvider = paymentProvider;
             this.eventPublisher = eventPublisher;
+            this.cacheService = cacheService;
             this.mailProvider = mailProvider;
         }
 
@@ -111,9 +121,16 @@
 
             if (string.IsNullOrEmpty(paymentId) == false)
             {
+                //// make sure we clear the cache!
+                cacheService.Clear("Transactions");
+
                 loggingService.Info(GetType(), "Payment Succesful Id=" + paymentId);
 
-                eventPublisher.Publish(new PaymentMadeMessage(umbracoContext, paymentId));
+                eventPublisher.Publish(new PaymentMadeMessage(
+                                            umbracoContext, 
+                                            paymentId, 
+                                            viewModel.AutoAllocate, 
+                                            viewModel.AppointmentId));
                 
                 if (pageModel.EmailTemplateNodeId.HasValue)
                 {

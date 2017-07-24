@@ -8,24 +8,24 @@
     using System;
     using System.Collections.Generic;
     using Models;
-    using ViewModels;
 
     // ReSharper disable once InconsistentNaming
     public class ICalendarService : IICalendarService
     {
         /// <summary>
-        /// Gets the i calendar string.
+        /// Gets the ical appoinment.
         /// </summary>
-        /// <param name="viewModel"></param>
+        /// <param name="model">The model.</param>
         /// <returns></returns>
-        public ICalEventModel GetICalendarString(InsertAppointmentViewModel viewModel)
+        public ICalAppointmentModel GetICalAppoinment(AppointmentModel model)
         {
             Event calendarEvent = new Event
             {
-                DtStart = new CalDateTime(viewModel.StartTime),
-                DtEnd = new CalDateTime(viewModel.EndTime),
-                Description = viewModel.Description,
-                Attendees = GetAttendees(viewModel.Attendees)
+                DtStart = new CalDateTime(model.StartTime),
+                DtEnd = new CalDateTime(model.EndTime),
+                Description = model.Description,
+                Location = model.Location//,
+                ////Attendees = GetAttendees(model.Attendees)
             };
 
             Calendar calendar = new Calendar();
@@ -34,7 +34,7 @@
             CalendarSerializer serializer = new CalendarSerializer(new SerializationContext());
             string serializedCalendar = serializer.SerializeToString(calendar);
 
-            return new ICalEventModel
+            return new ICalAppointmentModel
             {
                 Guid = calendarEvent.Uid,
                 SerializedString = serializedCalendar

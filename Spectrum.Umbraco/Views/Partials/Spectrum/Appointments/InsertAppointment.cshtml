@@ -13,59 +13,71 @@
 
     <div class="panel panel-default bootstrap-basic">
         <div class="panel-heading">
-            <h3 class="panel-title">Appointment</h3>
+            <h3 class="panel-title">Make an Appointment</h3>
         </div>
         <div class="panel-body">
             <div class="row">
                 <div class="form-group col-xs-8">
-                    <label class="control-label">Start Time</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-xs-8">
-                    @Html.TextBoxFor(model => model.StartTime, "{0:dd-MMM-yyyy HH:mm}", new {@class = "date"})
-                    <span class="btn" style="cursor: pointer;">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                    @Html.ValidationMessageFor(model => model.StartTime)
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-xs-8">
-                    <label class="control-label">End Time</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-xs-8">
-                    @Html.TextBoxFor(model => model.EndTime, "{0:dd-MMM-yyyy HH:mm}", new {@class = "date"})
-                    <span class="btn" style="cursor: pointer;">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                    @Html.ValidationMessageFor(model => model.EndTime)
+                    <div>
+                        <label class="control-label">Start Time</label>
+                    </div>
+                    <div>
+                        @Html.TextBoxFor(model => model.StartTime, "{0:dd-MMM-yyyy HH:mm}", new {@class = "date"})
+                        <span class="btn" style="cursor: pointer;">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                        @Html.ValidationMessageFor(model => model.StartTime)
+                    </div>
                 </div>
             </div>
 
             <div class="row">
                 <div class="form-group col-xs-8">
-                    <label class="control-label">Location</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-xs-8">
-                    @Html.EditorFor(model => model.Location)
-                    @Html.ValidationMessageFor(model => model.Location)
+                    <div>
+                        <label class="control-label">End Time</label>
+                    </div>
+                    <div>
+                        @Html.TextBoxFor(model => model.EndTime, "{0:dd-MMM-yyyy HH:mm}", new {@class = "date"})
+                        <span class="btn" style="cursor: pointer;">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                        @Html.ValidationMessageFor(model => model.EndTime)                       
+                    </div>
                 </div>
             </div>
 
             <div class="row">
                 <div class="form-group col-xs-8">
-                    <label class="control-label">Description</label>
+                    <div>
+                        <label class="control-label">Location</label>
+                    </div>
+                    <div>
+                        @Html.EditorFor(model => model.Location)
+                        @Html.ValidationMessageFor(model => model.Location)                        
+                    </div>
                 </div>
             </div>
+
             <div class="row">
-                <div class="form-group has-error col-xs-8">
-                    @Html.TextAreaFor(model => model.Description, 8, 80, null)
-                    @Html.ValidationMessageFor(model => model.Description)
+                <div class="form-group col-xs-8">
+                    <div>
+                        <label class="control-label">Description</label>
+                    </div>
+                    <div>
+                        @Html.TextAreaFor(model => model.Description, 5, 80, null)
+                        @Html.ValidationMessageFor(model => model.Description)                    
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="form-group col-xs-8">
+                    <div>
+                        <label class="control-label">Attendees</label>
+                    </div>
+                    <div>
+                        @Html.ValidationMessageFor(model => model.Attendees)
+                    </div>
                 </div>
             </div>
 
@@ -76,6 +88,10 @@
 
     <script>
         $(document).ready(function () {
+
+            $('.input-validation-error').parents('.form-group').addClass('has-error');
+            $('.field-validation-error').addClass('text-danger');
+
             $('.date').datetimepicker(
                 {
                     dateFormat: 'dd-M-yy',

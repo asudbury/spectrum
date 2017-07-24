@@ -121,7 +121,9 @@ function setupBraintree(
     token,
     nodeId,
     url,
-    env) {
+    env,
+    autoAllocate,
+    appointmentId) {
 
     braintree.client.create({
             authorization: token
@@ -236,9 +238,6 @@ function setupBraintree(
                                 return;
                             }
 
-                            var nodeIdString = '"' + nodeId + '"';
-                            var nonceString = '"' + payload.nonce + '"';
-
                             //Validate the amount
                             var amt = $('#amount').val();
                             var pattern = /^\d+(?:\.\d{0,2})$/;
@@ -264,13 +263,20 @@ function setupBraintree(
                                 }
                             }*/
 
+                            var postData = {
+                                currentPageNodeId: nodeId,
+                                emailAddress: email,
+                                nonce: payload.nonce,
+                                amount: amt,
+                                autoAllocate: autoAllocate,
+                                appointmentId: appointmentId
+                            };
+
                             $.ajax({
                                 url: url,
                                 type: 'POST',
                                 dataType: 'json',
-                                data: '{ "currentPageNodeId": ' + nodeIdString +
-                                    ', "emailAddress": "' + email + '", "nonce": ' +
-                                    nonceString + ', "amount": ' + amt + ' }',
+                                data: JSON.stringify(postData),
                                 contentType: 'application/json; charset=utf-8',
                                 success: function (data) {
                                     console.log('Server success ' + data);

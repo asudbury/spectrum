@@ -44,6 +44,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -81,6 +82,12 @@
     <Compile Include="Registration\Providers\RegistrationProvider.cs" />
     <Compile Include="Registration\Repositories\IRegistrationRepository.cs" />
     <Compile Include="Registration\Repositories\RegistrationRepository.cs" />
+    <Compile Include="Services\CacheService.cs" />
+    <Compile Include="Services\CookieService.cs" />
+    <Compile Include="Services\EncryptionService.cs" />
+    <Compile Include="Services\ICacheService.cs" />
+    <Compile Include="Services\ICookieService.cs" />
+    <Compile Include="Services\IEncryptionService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Appointments\Repositories\" />

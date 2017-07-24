@@ -30,7 +30,7 @@
         /// <returns></returns>
         AppointmentViewModel GetAppointment(
             UmbracoContext umbracoContext,
-            int appointmentId);
+            string appointmentId);
         
         /// <summary>
         /// Gets the appointments.
@@ -52,6 +52,6 @@
         /// <returns></returns>
         bool DeleteAppointment(
             UmbracoContext umbracoContext,
-            int appointmentId);
+            string appointmentId);
     }
 }

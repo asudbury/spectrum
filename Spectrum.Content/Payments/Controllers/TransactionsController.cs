@@ -66,14 +66,14 @@
         /// Gets the transactions.
         /// </summary>
         /// <returns></returns>
-        [ChildActionOnly]
-        public ActionResult GetTransactions()
+        [HttpGet]
+        public JsonResult GetTransactions()
         {
             LoggingService.Info(GetType(), string.Empty);
 
             IEnumerable<TransactionViewModel> viewModels = transactionsManager.GetTransactionsViewModel(UmbracoContext);
 
-            return PartialView("Partials/Spectrum/Payments/TransactionList", viewModels);
+            return Json(viewModels, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>

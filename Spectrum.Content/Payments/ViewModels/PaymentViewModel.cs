@@ -30,5 +30,17 @@
         /// </summary>
         [JsonProperty(PropertyName = "amount")]
         public decimal Amount { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [automatic allocate].
+        /// </summary>
+        [JsonProperty(PropertyName = "autoAllocate")]
+        public string AutoAllocate { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the appointment identifier.
+        /// </summary>
+        [JsonProperty(PropertyName = "appointmentId")]
+        public string AppointmentId { get; set; }
     }
 }
