@@ -45,6 +45,18 @@
             DateTime dateRangeEnd);
 
         /// <summary>
+        /// Gets the boot grid appointments.
+        /// </summary>
+        /// <param name="umbracoContext">The umbraco context.</param>
+        /// <param name="dateRangeStart">The date range start.</param>
+        /// <param name="dateRangeEnd">The date range end.</param>
+        /// <returns></returns>
+        BootGridViewModel<AppointmentViewModel> GetBootGridAppointments(
+            UmbracoContext umbracoContext,
+            DateTime dateRangeStart,
+            DateTime dateRangeEnd);
+
+        /// <summary>
         /// Deletes the appointment.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>

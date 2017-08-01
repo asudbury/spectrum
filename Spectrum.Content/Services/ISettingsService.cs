@@ -74,6 +74,16 @@
             int id);
 
         /// <summary>
+        /// Gets the mail template by URL.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="url">The URL.</param>
+        /// <returns></returns>
+        IPublishedContent GetMailTemplateByUrl(
+            UmbracoContext context,
+            string url);
+
+        /// <summary>
         /// Gets the appointments node.
         /// </summary>
         /// <param name="context">The context.</param>

@@ -1,0 +1,55 @@
+﻿@using Spectrum.Content.Correspondence.Controllers
+@model Spectrum.Content.Correspondence.ViewModels.ContactUsViewModel
+@{
+    Html.EnableClientValidation(true);
+    Html.EnableUnobtrusiveJavaScript(true);
+}
+
+@using (Html.BeginUmbracoForm<ContactUsController>("InsertContactUs"))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <div class="container">
+            <div class="row">
+                <div class="form-group col-xs-8">
+                    <div>
+                        <label class="control-label">Name</label>
+                    </div>
+                    <div>
+                        @Html.EditorFor(model => model.Name)
+                        @Html.ValidationMessageFor(model => model.Name)
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-xs-8">
+                    <div>
+                        <label class="control-label">Email Address</label>
+                    </div>
+                    <div>
+                        @Html.EditorFor(model => model.EmailAddress)
+                        @Html.ValidationMessageFor(model => model.EmailAddress)
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-xs-8">
+                    <div>
+                        <label class="control-label">Message</label>
+                    </div>
+                    <div>
+                        @Html.TextAreaFor(model => model.Message, 5, 80, null)
+                        @Html.ValidationMessageFor(model => model.Message)
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="form-group col-xs-8">
+                    <button value="submit" id="submit" class="btn btn-success btn-lg">Submit</button>
+                </div>
+            </div>
+        </div>
+    }

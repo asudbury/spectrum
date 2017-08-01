@@ -37,34 +37,34 @@
         /// Sends the email.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
-        /// <param name="nodeId">The node identifier.</param>
+        /// <param name="emailTemplateUrl">The email template URL.</param>
         /// <param name="to">To.</param>
         /// <returns></returns>
         public MailResponse SendEmail(
             UmbracoContext umbracoContext, 
-            int nodeId, 
+            string emailTemplateUrl, 
             string to)
         {
-            return SendEmail(umbracoContext, nodeId, to, null);
+            return SendEmail(umbracoContext, emailTemplateUrl, to, null);
         }
 
         /// <summary>
         /// Sends the email.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
-        /// <param name="nodeId">The node identifier.</param>
+        /// <param name="emailTemplateUrl">The email template URL.</param>
         /// <param name="to">To.</param>
         /// <param name="replacementTokens">The replacement tokens.</param>
         /// <returns></returns>
         public MailResponse SendEmail(
             UmbracoContext umbracoContext, 
-            int nodeId, 
+            string emailTemplateUrl, 
             string to, 
             Dictionary<string, string> replacementTokens)
         {
-            IPublishedContent content = settingsService.GetMailTemplateById(
+            IPublishedContent content = settingsService.GetMailTemplateByUrl(
                                             umbracoContext, 
-                                            nodeId);
+                                            emailTemplateUrl);
 
             MailTemplateModel model = new MailTemplateModel(content);
 

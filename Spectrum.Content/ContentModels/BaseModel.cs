@@ -15,13 +15,23 @@
         }
 
         /// <summary>
+        /// Gets the published property.
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <returns></returns>
+        public IPublishedProperty GetPublishedProperty(string propertyName)
+        {
+            return GetProperty(propertyName);
+        }
+
+        /// <summary>
         /// Gets the node identifier.
         /// </summary>
         /// <param name="propertyName">Name of the property.</param>
         /// <returns></returns>
         public int? GetNodeId(string propertyName)
         {
-            IPublishedProperty property = GetProperty(propertyName);
+            IPublishedProperty property = GetPublishedProperty(propertyName);
 
             if (property != null &&
                 property.HasValue)

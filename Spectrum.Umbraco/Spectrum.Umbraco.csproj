@@ -347,6 +347,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\jquery-ui-timepicker-addon.css" />
     <Content Include="Content\jquery-ui-timepicker-addon.min.css" />
+    <Content Include="Content\jquery.bootgrid.css" />
+    <Content Include="Content\jquery.bootgrid.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
@@ -394,6 +396,7 @@
     <Content Include="Content\jsgrid-theme.min.css" />
     <Content Include="Content\jsgrid.css" />
     <Content Include="Content\jsgrid.min.css" />
+    <Content Include="css\spectrum\dragon.css" />
     <Content Include="css\spectrum\style.css" />
     <Content Include="default.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -403,6 +406,7 @@
     </Content>
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
+    <None Include="Properties\PublishProfiles\TheDragon.pubxml" />
     <None Include="Properties\PublishProfiles\UmbracoClean.pubxml" />
     <None Include="scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="scripts\i18n\jquery-ui-timepicker-addon-i18n.js" />
@@ -458,6 +462,10 @@
     <Content Include="scripts\jquery-ui-sliderAccess.js" />
     <Content Include="scripts\jquery-ui-timepicker-addon.js" />
     <Content Include="scripts\jquery-ui-timepicker-addon.min.js" />
+    <Content Include="scripts\jquery.bootgrid.fa.js" />
+    <Content Include="scripts\jquery.bootgrid.fa.min.js" />
+    <Content Include="scripts\jquery.bootgrid.js" />
+    <Content Include="scripts\jquery.bootgrid.min.js" />
     <Content Include="scripts\jquery.ui.unobtrusive.js" />
     <Content Include="scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="scripts\jquery.unobtrusive-ajax.min.js" />
@@ -527,6 +535,8 @@
     <Content Include="Views\Partials\Spectrum\Appointments\Appointments.cshtml" />
     <Content Include="Views\Partials\Spectrum\Payments\Transaction.cshtml" />
     <Content Include="Views\Partials\Spectrum\Appointments\Appointment.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Correspondence\GuestBook.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Correspondence\ContactUs.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

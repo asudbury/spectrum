@@ -26,6 +26,13 @@
         public bool iCalIntegration => this.GetPropertyValue<bool>("iCal");
 
         /// <summary>
+        /// Gets the i cal email address.
+        /// </summary>
+
+        // ReSharper disable once InconsistentNaming
+        public string iCalEmailAddress => this.GetPropertyValue<string>("iCalEmailAddress");
+
+        /// <summary>
         /// Gets a value indicating whether [database integration].
         /// </summary>
         public bool DatabaseIntegration => this.GetPropertyValue<bool>("database");

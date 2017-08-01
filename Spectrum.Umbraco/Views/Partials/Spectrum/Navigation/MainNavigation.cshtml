@@ -1,5 +1,6 @@
 ﻿@inherits UmbracoTemplatePage
 @{
+    var home = CurrentPage.Site();
 }
 
 <nav>
@@ -10,3 +11,29 @@
         <h5>Welcome @User.Identity.Name</h5>
     }
 </nav>
+
+<nav class="navbar navbar-default navbar-inverse navbar-static-top" role="navigation">
+    <div class="container-fluid">
+         <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#spectrumNav" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Spectrum</a>
+            <a href="@home.Url">
+                <div class="brand" style="background-image:url('@(home.SiteLogo)?height=65&width=205&bgcolor=000')"></div>
+            </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="spectrumNav">
+            @Html.Action("GetMenu", "MainNavigation")
+        </div>
+    </div>
+</nav>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <h5>Welcome @User.Identity.Name</h5>
+}

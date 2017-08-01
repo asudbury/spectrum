@@ -1,4 +1,5 @@
-using Spectrum.Content.Appointments.Services;
+using System.Linq;
+using Spectrum.Content.Mail.Providers;
 
 namespace Spectrum.Content.Appointments.Managers
 {
@@ -9,6 +10,7 @@ namespace Spectrum.Content.Appointments.Managers
     using Messages;
     using Models;
     using Providers;
+    using Services;
     using System;
     using System.Collections.Generic;
     using Translators;
@@ -64,6 +66,11 @@ namespace Spectrum.Content.Appointments.Managers
         private readonly IEncryptionService encryptionService;
 
         /// <summary>
+        /// The mail provider.
+        /// </summary>
+        private readonly IMailProvider mailProvider;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="AppointmentsManager" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
@@ -75,6 +82,7 @@ namespace Spectrum.Content.Appointments.Managers
         /// <param name="cookieService">The cookie service.</param>
         /// <param name="appointmentTranslator">The appointment translator.</param>
         /// <param name="encryptionService">The encryption service.</param>
+        /// <param name="mailProvider">The email provider.</param>
         public AppointmentsManager(
             ILoggingService loggingService,
             IAppointmentsProvider appointmentsProvider,
@@ -84,7 +92,8 @@ namespace Spectrum.Content.Appointments.Managers
             IEventPublisher eventPublisher,
             ICookieService cookieService,
             IAppointmentTranslator appointmentTranslator,
-            IEncryptionService encryptionService)
+            IEncryptionService encryptionService,
+            IMailProvider mailProvider)
         {
             this.loggingService = loggingService;
             this.appointmentsProvider = appointmentsProvider;
@@ -95,6 +104,7 @@ namespace Spectrum.Content.Appointments.Managers
             this.cookieService = cookieService;
             this.appointmentTranslator = appointmentTranslator;
             this.encryptionService = encryptionService;
+            this.mailProvider = mailProvider;
         }
 
         /// <summary>
@@ -127,7 +137,7 @@ namespace Spectrum.Content.Appointments.Managers
                 loggingService.Info(GetType(), "Error Page Url not set");
             }
 
-            AppointmentSettingsModel model = appointmentsProvider.GetAppointmentsModel(umbracoContext);
+            AppointmentSettingsModel settingsModel = appointmentsProvider.GetAppointmentsModel(umbracoContext);
 
             AppointmentModel appointmentModel = insertAppointmentTranslator.Translate(viewModel);
 
@@ -135,7 +145,7 @@ namespace Spectrum.Content.Appointments.Managers
 
             appointmentModel.CreatedUser = createdUserName;
 
-            if (model.DatabaseIntegration)
+            if (settingsModel.DatabaseIntegration)
             {
                 loggingService.Info(GetType(), "Database Integration");
 
@@ -150,17 +160,23 @@ namespace Spectrum.Content.Appointments.Managers
                 processed = true;
             }
 
-            if (model.GoogleCalendarIntegration)
+            if (settingsModel.GoogleCalendarIntegration)
             {
                 loggingService.Info(GetType(), "Google Calendar Integration");
                 processed = true;    
             }
 
-            if (model.iCalIntegration)
+            if (settingsModel.iCalIntegration)
             {
                 loggingService.Info(GetType(), "iCal Integration");
 
-                ICalAppointmentModel iCalModel = iCalendarService.GetICalAppoinment(appointmentModel);
+                //// try and send the email
+                if (string.IsNullOrEmpty(settingsModel.iCalEmailAddress))
+                {
+                    ICalAppointmentModel iCalModel = iCalendarService.GetICalAppoinment(appointmentModel);
+
+                    ////mailProvider.SendEmail(umbracoContext, 1202, settingsModel.iCalEmailAddress);
+                }
 
                 processed = true;
             }
@@ -237,6 +253,37 @@ namespace Spectrum.Content.Appointments.Managers
             }
 
             return new List<AppointmentViewModel>();
+        }
+
+        /// <summary>
+        /// Gets the boot grid appointments.
+        /// </summary>
+        /// <param name="umbracoContext">The umbraco context.</param>
+        /// <param name="dateRangeStart">The date range start.</param>
+        /// <param name="dateRangeEnd">The date range end.</param>
+        /// <returns></returns>
+        public BootGridViewModel<AppointmentViewModel> GetBootGridAppointments(
+            UmbracoContext umbracoContext, 
+            DateTime dateRangeStart,
+            DateTime dateRangeEnd)
+        {
+            IEnumerable<AppointmentViewModel> viewModels = GetAppointments(
+                umbracoContext,
+                dateRangeStart,
+                dateRangeEnd);
+
+            List<AppointmentViewModel> appointmentList = viewModels.ToList();
+
+            BootGridViewModel<AppointmentViewModel> bootGridViewModel = new BootGridViewModel<AppointmentViewModel>
+            {
+                Rows = appointmentList,
+                Current = 1,
+                RowCount = appointmentList.Count,
+                Total = appointmentList.Count
+
+            };
+
+            return bootGridViewModel;
         }
 
         /// <summary>

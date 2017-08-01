@@ -1,4 +1,7 @@
-﻿namespace Spectrum.Content.Payments.Controllers
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+
+namespace Spectrum.Content.Payments.Controllers
 {
     using Content.Services;
     using Managers;
@@ -73,7 +76,7 @@
 
             IEnumerable<TransactionViewModel> viewModels = transactionsManager.GetTransactionsViewModel(UmbracoContext);
 
-            return Json(viewModels, JsonRequestBehavior.AllowGet);
+             return Json(viewModels, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>

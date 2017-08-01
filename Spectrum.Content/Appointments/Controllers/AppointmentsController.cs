@@ -2,6 +2,8 @@
 {
     using Content.Services;
     using Managers;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Serialization;
     using System;
     using System.Collections.Generic;
     using System.Web.Mvc;
@@ -11,11 +13,6 @@
 
     public class AppointmentsController : BaseController
     {
-        /// <summary>
-        /// The appointments partial.
-        /// </summary>
-        private const string AppointmentsPartial = "Partials/Spectrum/Appointments/AppointmentList";
-
         /// <summary>
         /// The appointments manager.
         /// </summary>
@@ -115,31 +112,38 @@
             DateTime dateRangeStart = DateTime.Now.AddDays(-10000);
             DateTime dateRangeEnd = DateTime.Now.AddDays(10000);
 
-            IEnumerable<AppointmentViewModel> appointments = appointmentsManager.GetAppointments(
+            IEnumerable<AppointmentViewModel> viewModels = appointmentsManager.GetAppointments(
                 UmbracoContext,
                 dateRangeStart,
                 dateRangeEnd);
 
-            return Json(appointments, JsonRequestBehavior.AllowGet);
+            return Json(viewModels, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
-        /// Gets the events.
+        /// Gets the boot grid appointments.
         /// </summary>
-        /// <param name="dateRangeStart">The date range start.</param>
-        /// <param name="dateRangeEnd">The date range end.</param>
         /// <returns></returns>
-        [ChildActionOnly]
-        public ActionResult GetAppointments(
-            DateTime dateRangeStart,
-            DateTime dateRangeEnd)
+        [HttpPost]
+        public ActionResult GetBootGridAppointments()
         {
-            IEnumerable<AppointmentViewModel> appointments = appointmentsManager.GetAppointments(
-                UmbracoContext,
-                dateRangeStart,
-                dateRangeEnd);
+            DateTime dateRangeStart = DateTime.Now.AddDays(-10000);
+            DateTime dateRangeEnd = DateTime.Now.AddDays(10000);
 
-            return PartialView(AppointmentsPartial, appointments);
+            BootGridViewModel<AppointmentViewModel> bootGridViewModel = appointmentsManager.GetBootGridAppointments(
+                                                                            UmbracoContext,
+                                                                            dateRangeStart,
+                                                                            dateRangeEnd);
+
+            string jsonString = JsonConvert.SerializeObject(
+                                    bootGridViewModel,
+                                    new JsonSerializerSettings
+                                    {
+                                        ContractResolver = new CamelCasePropertyNamesContractResolver()
+
+                                    });
+
+            return Content(jsonString, "application/json");
         }
 
         /// <summary>

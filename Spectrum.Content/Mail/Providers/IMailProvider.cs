@@ -10,25 +10,25 @@
         /// Sends the email.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
-        /// <param name="nodeId">The node identifier.</param>
+        /// <param name="emailTemplateUrl">The email template URL.</param>
         /// <param name="to">To.</param>
         /// <returns></returns>
         MailResponse SendEmail(
             UmbracoContext umbracoContext, 
-            int nodeId, 
+            string emailTemplateUrl, 
             string to);
 
         /// <summary>
         /// Sends the email.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
-        /// <param name="nodeId">The node identifier.</param>
+        /// <param name="emailTemplateUrl">The email template URL.</param>
         /// <param name="to">To.</param>
         /// <param name="replacementTokens">The replacement tokens.</param>
         /// <returns></returns>
         MailResponse SendEmail(
             UmbracoContext umbracoContext, 
-            int nodeId, 
+            string emailTemplateUrl, 
             string to, 
             Dictionary<string, string> replacementTokens);
     }

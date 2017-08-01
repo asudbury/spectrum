@@ -1,5 +1,6 @@
 ﻿namespace Spectrum.Content.ContentModels
 {
+    using Mail.Models;
     using Umbraco.Core.Models;
     using Umbraco.Web;
 
@@ -12,7 +13,18 @@
         public MailTemplateModel(IPublishedContent content)
           : base(content)
         {
+            Attachment = new MailAttachmentModel();
         }
+
+        /// <summary>
+        /// Gets from.
+        /// </summary>
+        public string From => this.GetPropertyValue<string>("from");
+
+        /// <summary>
+        /// Gets to.
+        /// </summary>
+        public string To => this.GetPropertyValue<string>("to");
 
         /// <summary>
         /// Gets the blind copy.
@@ -38,5 +50,10 @@
         /// Gets or sets the tokenized text.
         /// </summary>
         public string TokenizedText { get; set; }
+
+        /// <summary>
+        /// Gets or sets the attachment.
+        /// </summary>
+        public MailAttachmentModel Attachment { get; set; }
     }
 }
