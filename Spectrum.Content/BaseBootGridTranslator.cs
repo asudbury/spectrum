@@ -17,7 +17,12 @@
             int rowCount)
         {
             int start = 0;
-            int end = rowCount;
+            int end = objectCount;
+
+            if (objectCount == 0)
+            {
+                return new Tuple<int, int>(-1, -1);
+            }
 
             if (rowCount == -1)
             {

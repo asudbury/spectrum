@@ -138,7 +138,7 @@
             string searchPhrase,
             UmbracoContext umbracoContext)
         {
-            IEnumerable<TransactionViewModel> viewModels = this.GetTransactionsViewModel(umbracoContext);
+            IEnumerable<TransactionViewModel> viewModels = GetTransactionsViewModel(umbracoContext);
 
             return transactionsBootGridTranslator.Translate(viewModels.ToList(), current, rowCount, searchPhrase);
         }

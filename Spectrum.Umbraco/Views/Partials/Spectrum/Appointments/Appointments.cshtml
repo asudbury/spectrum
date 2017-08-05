@@ -20,8 +20,9 @@
         labels: {
             noResults: "No appointments found"
         },
-        templates: {
-            search: "" // todo : reimplement search at some stage!
+        searchSettings: {
+            delay: 100,
+            characters: 1
         },
         ajax: true,
         url: "/umbraco/Surface/Appointments/GetBootGridAppointments",

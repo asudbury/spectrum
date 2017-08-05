@@ -19,8 +19,9 @@
         labels: {
             noResults: "No transactions found"
         },
-        templates: {
-            search: "" // todo : reimplement search at some stage!
+        searchSettings: {
+            delay: 100,
+            characters: 1
         },
         ajax: true,
         url: "/umbraco/Surface/Transactions/GetBootGridTransactions",
