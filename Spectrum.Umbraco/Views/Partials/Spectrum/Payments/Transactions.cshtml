@@ -1,5 +1,4 @@
-﻿<h4>Payments</h4>
-<table id="transactionsGrid" class="table table-condensed table-hover table-striped">
+﻿<table id="transactionsGrid" class="table table-condensed table-hover table-striped">
     <thead>
     <tr>
         <th data-column-id="id" data-type="numeric" data-width="10%" data-header-align="center" data-align="center">Id</th>
@@ -22,6 +21,9 @@
         searchSettings: {
             delay: 100,
             characters: 1
+        },
+        templates: {
+           header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\"><div class=\"row\"><div class=\"col-sm-12 actionBar\"><h4 text-alignment='left'>Payments</h4><p class=\"{{css.search}}\"></p><p class=\"{{css.actions}}\"></p></div></div></div>",
         },
         ajax: true,
         url: "/umbraco/Surface/Transactions/GetBootGridTransactions",

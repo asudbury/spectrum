@@ -1,5 +1,4 @@
-﻿<h4>Appointments</h4>
-<table id="appointmentsGrid" class="table table-condensed table-hover table-striped">
+﻿<table id="appointmentsGrid" class="table table-condensed table-hover table-striped">
     <thead>
         <tr>
             <th data-column-id="id" data-type="numeric" data-width="5%" data-header-align="center" data-align="center">Id</th>
@@ -15,7 +14,7 @@
 </table>
 
 <script>
-    
+
     var appointmentsGrid = $("#appointmentsGrid").bootgrid({
         labels: {
             noResults: "No appointments found"
@@ -23,6 +22,9 @@
         searchSettings: {
             delay: 100,
             characters: 1
+        },
+        templates: {
+            header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\"><div class=\"row\"><div class=\"col-sm-12 actionBar\"><h4>Appointments</h4><p class=\"{{css.search}}\"></p><p class=\"{{css.actions}}\"></p></div></div></div>",
         },
         ajax: true,
         url: "/umbraco/Surface/Appointments/GetBootGridAppointments",
