@@ -47,7 +47,7 @@
                     '&nbsp;|&nbsp;<a href="#" class="link-edit-appointment" data-encrypted-appointment-id=' +
                     row.encryptedId +
                     '>Edit</a>' +
-                    '&nbsp;|&nbsp;<a href="#" class="link-delete-appointment" data-encrypted-appointment-id=' +
+                    '&nbsp;|&nbsp;<a href="#" class="link-delete-appointment" data-appointment-id=' + row.id + ' data-encrypted-appointment-id=' +
                     row.encryptedId +
                     '>Delete</a>';
             }
@@ -84,7 +84,23 @@
                     onEditAppointment(data);
                 }
             });
-        });
+        }).end().find(".link-delete-appointment").on("click", function (e) {
+
+            var appointmentId = $(this).data("appointment-id");
+            var encryptedAppointmentId = $(this).data("encrypted-appointment-id");
+
+            event.preventDefault();
+
+            confirm("Confirm you want to delete apppointment id  " + appointmentId,
+                function() {
+                    $.ajax({
+                        url: '/umbraco/Surface/Appointments/Delete/' + encryptedAppointmentId,
+                        success: function (data) {
+                            appointmentsGrid.bootgrid("reload");
+                        }
+                    });
+                });
+       });
     });
     
  </script>
@@ -132,10 +148,6 @@
             jQuery('#appointment').html(data);
             jQuery('#appointment').dialog({ 'title': 'Edit Appointment', 'width': 400, 'height': 300 });
             jQuery('#appointment').dialog().css("border-color", "blue");
-        }
-
-        function onDeleteAppointment() {
-            location.reload();
         }
 
     </script>
