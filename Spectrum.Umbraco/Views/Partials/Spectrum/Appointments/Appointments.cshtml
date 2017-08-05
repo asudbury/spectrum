@@ -1,155 +1,94 @@
 ﻿<h4>Appointments</h4>
-
-<div id="appoiontmentsGrid"></div>
-
-<div id="appoiontmentsBootGrid"></div>
-
-
-
-<table id="appointmentsBootGrid" class="table table-condensed table-hover table-striped">
+<table id="appointmentsGrid" class="table table-condensed table-hover table-striped">
     <thead>
-    <tr>
-        <th data-column-id="id" data-type="numeric" data-width="5%" data-header-align="center" data-align="center">Id</th>
-        <th data-column-id="startTime" data-formatter="dateTime" data-header-align="center" data-align="center">Start</th>
-        <th data-column-id="endTime" data-formatter="dateTime" data-header-align="center" data-align="center">End</th>
-        <th data-column-id="status" data-header-align="center" data-align="center">Status</th>
-        <th data-column-id="paymentId" data-header-align="center" data-align="center" data-formatter="paymentId">Payment Id</th>
-        <th data-column-id="location" data-header-align="center" data-align="center">Location</th>
-        <th data-column-id="description" data-header-align="center" data-align="center">Description</th>
-        <th data-column-id="actions" data-header-align="center" data-align="center" data-formatter="actions"></th>
-    </tr>
+        <tr>
+            <th data-column-id="id" data-type="numeric" data-width="5%" data-header-align="center" data-align="center">Id</th>
+            <th data-column-id="startTime" data-formatter="startTime" data-header-align="center" data-align="center">Start</th>
+            <th data-column-id="endTime" data-formatter="endTime" data-header-align="center" data-align="center">End</th>
+            <th data-column-id="status" data-header-align="center" data-align="center">Status</th>
+            <th data-column-id="paymentId" data-header-align="center" data-align="center" data-formatter="paymentId">Payment Id</th>
+            <th data-column-id="location" data-header-align="center" data-align="center">Location</th>
+            <th data-column-id="description" data-header-align="center" data-align="center">Description</th>
+            <th data-column-id="actions" data-header-align="center" data-align="center" data-formatter="actions">Commands</th>
+        </tr>
     </thead>
-    <tbody>
-    </tbody>
 </table>
 
-
 <script>
-
     
-    $("#appointmentsBootGrid").bootgrid({
+    var appointmentsGrid = $("#appointmentsGrid").bootgrid({
+        labels: {
+            noResults: "No appointments found"
+        },
+        templates: {
+            search: "" // todo : reimplement search at some stage!
+        },
         ajax: true,
         url: "/umbraco/Surface/Appointments/GetBootGridAppointments",
         formatters: {
-            "dateTime": function(column, row) {
-                return moment.utc(row.startTime).format('ddd DD MMM YYYY HH:mm');
+            "startTime": function(column, row) {
+                return moment.utc(row.startTime).format('ddd DD MMM HH:mm');
+            },
+            "endTime": function (column, row) {
+                return moment.utc(row.endTime).format('ddd DD MMM HH:mm');
             },
             "paymentId": function (column, row) {
                 if (row.paymentId !== "") {
-                    return '<a data-ajax="true" data-ajax-mode="replace" data-ajax-update="#transaction" ' +
-                           'data-ajax-success="onTransaction" href="/umbraco/Surface/Transactions/View/' +
-                            row.paymentId + '">' + row.paymentId + '</a>';
+                    return '<a href="#" class="link-payment" data-payment-id=' + row.paymentId + '>' + row.paymentId + '</a>';
                 }
 
                 return '<a href="' + row.takePaymentUrl + '" style="color: red">Take Payment</a>';
             },
             "actions": function (column, row) {
-                return '<a data-ajax="true"' +
-                    ' data-ajax-mode="replace"' +
-                    ' data-ajax-update="#Appointment"' +
-                    ' data-ajax-success="onAppointmentView"' +
-                    ' href="/umbraco/Surface/Appointments/View/' +
+                return '<a href="#" class="link-view-appointment" data-encrypted-appointment-id=' +
                     row.encryptedId +
-                    '">View</a>' +
-                    ' | ' +
-                    '<a data-ajax="true"' +
-                    ' data-ajax-mode="replace"' +
-                    ' data-ajax-update="#Appointment"' +
-                    ' data-ajax-success="onAppointmentEdit"' +
-                    ' href="/umbraco/Surface/Appointments/Edit/' +
+                    '>View</a>' +
+                    '&nbsp;|&nbsp;<a href="#" class="link-edit-appointment" data-encrypted-appointment-id=' +
                     row.encryptedId +
-                    '">Edit</a>' +
-                    ' | ' +
-                    '<a data-ajax="true"' +
-                    ' data-ajax-mode="replace"' +
-                    ' data-ajax-success="onAppointmentDeleted"' +
-                    ' data-ajax-confirm="Confirm you want to delete appointment' +
-                    row.id +
-                    '"' +
-                    ' href="/umbraco/Surface/Appointments/Delete/' +
+                    '>Edit</a>' +
+                    '&nbsp;|&nbsp;<a href="#" class="link-delete-appointment" data-encrypted-appointment-id=' +
                     row.encryptedId +
-                    '">Delete</a>';
-            },
+                    '>Delete</a>';
+            }
         }
-    });
+    }).on("loaded.rs.jquery.bootgrid", function () {
 
+        appointmentsGrid.find(".link-payment").on("click", function (e) {
+            var transactionsId = $(this).data("payment-id");
+            event.preventDefault();
+
+            $.ajax({
+                url: '/umbraco/Surface/Transactions/View/' + transactionsId,
+                success: function (data) {
+                    onTransaction(data);
+                }
+            });
+        }).end().find(".link-view-appointment").on("click", function (e) {
+            var appointmentId = $(this).data("encrypted-appointment-id");
+            event.preventDefault();
+
+            $.ajax({
+                url: '/umbraco/Surface/Appointments/View/' + appointmentId,
+                success: function (data) {
+                    onViewAppointment(data);
+                }
+            });
+        }).end().find(".link-edit-appointment").on("click", function (e) {
+            var appointmentId = $(this).data("encrypted-appointment-id");
+            event.preventDefault();
+
+            $.ajax({
+                url: '/umbraco/Surface/Appointments/Edit/' + appointmentId,
+                success: function (data) {
+                    onEditAppointment(data);
+                }
+            });
+        });
+    });
     
-    var DateField = function(config) {
-        jsGrid.Field.call(this, config);
-    };
+ </script>
 
-    DateField.prototype = new jsGrid.Field({
-        itemTemplate: function(value) {
-            return moment.utc(value).format('ddd DD MMM YYYY HH:mm');
-        }
-    });
-
-    jsGrid.fields.date = DateField;
-
-    $("#appoiontmentsGrid").jsGrid({
-        width: "100%",
-        //filtering: true,
-        paging: true,
-        pageSize: 10,
-        autoload: true,
-
-        controller: {
-            loadData: function() {
-
-                return $.ajax({
-                    url: "@Url.Action("GetAppointments", "Appointments")",
-                    dataType: "json"
-                });
-            }
-        },
-
-        fields: [
-            { name: "Id", align: "center", type: "text", width: "40" },
-            { name: "StartTime", align:"center", title:"Start", type: "date"},
-            { name: "EndTime", align:"center", title:"End", type: "date" },
-            { name: "Status", align:"center", type: "text", width: "60" },
-            { name: "PaymentId", align: "center", title: "Payment Id", type: "payment",
-                cellRenderer : function(value, item) {
-                    if (value !== '') {
-                        return '<td><a data-ajax="true" data-ajax-mode="replace" data-ajax-update="#transaction" ' +
-                            'data-ajax-success="onTransaction" href="/umbraco/Surface/Transactions/View/' +
-                            value + '">' + value + '</a></td>';
-                    }
-
-                    return '<td><a href="' + item.TakePaymentUrl + '" style="color: red">Take Payment</a></td>';
-                }
-            },
-            { name: "Location", align:"center", type: "text" },
-            { name: "Description", align: "center", type: "text" },
-            { name: "EncryptedId", align: "center", type: "text", title: "",
-                cellRenderer: function (value, item) {
-
-                    return '<td>' +
-                        '<a data-ajax="true"' +
-                        ' data-ajax-mode="replace"' +
-                        ' data-ajax-update="#Appointment"' +
-                        ' data-ajax-success="onAppointmentView"' +
-                        ' href="/umbraco/Surface/Appointments/View/' + value + '">View</a>' +
-                        ' | ' +
-                        '<a data-ajax="true"' +
-                        ' data-ajax-mode="replace"' +
-                        ' data-ajax-update="#Appointment"' +
-                        ' data-ajax-success="onAppointmentEdit"' +
-                        ' href="/umbraco/Surface/Appointments/Edit/' + value + '">Edit</a>' +
-                        ' | ' +
-                        '<a data-ajax="true"' +
-                        ' data-ajax-mode="replace"' +
-                        ' data-ajax-success="onAppointmentDeleted"' +
-                        ' data-ajax-confirm="Confirm you want to delete appointment' + item.Id + '"' +
-                        ' href="/umbraco/Surface/Appointments/Delete/' + value + '">Delete</a>' +
-                        '</td>';
-                }
-            }
-        ]
-    });
-</script>
-
-    <div id="Appoiontment"></div>
+    <div id="appointment"></div>
 
     <script type="text/javascript">
 
@@ -181,17 +120,20 @@
             });
         };
 
-        function onAppointmentView() {
-            jQuery('#Appoiontment').dialog({ 'title': 'Appointment', 'width': 400, 'height': 300 });
-            jQuery('#Appoiontment').dialog().css("border-color", "blue");
+
+        function onViewAppointment(data) {
+            jQuery('#appointment').html(data);
+            jQuery('#appointment').dialog({ 'title': 'View Appointment', 'width': 400, 'height': 300 });
+            jQuery('#appointment').dialog().css("border-color", "blue");
         }
 
-        function onAppointmentEdit() {
-            jQuery('#Appoiontment').dialog({ 'title': 'Appointment', 'width': 400, 'height': 300 });
-            jQuery('#Appoiontment').dialog().css("border-color", "blue");
+        function onEditAppointment(data) {
+            jQuery('#appointment').html(data);
+            jQuery('#appointment').dialog({ 'title': 'Edit Appointment', 'width': 400, 'height': 300 });
+            jQuery('#appointment').dialog().css("border-color", "blue");
         }
 
-        function onAppointmentDeleted() {
+        function onDeleteAppointment() {
             location.reload();
         }
 

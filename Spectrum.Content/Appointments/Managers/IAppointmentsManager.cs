@@ -47,11 +47,17 @@
         /// <summary>
         /// Gets the boot grid appointments.
         /// </summary>
+        /// <param name="current">The current.</param>
+        /// <param name="rowCount">The row count.</param>
+        /// <param name="searchPhrase">The search phrase.</param>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="dateRangeStart">The date range start.</param>
         /// <param name="dateRangeEnd">The date range end.</param>
         /// <returns></returns>
         BootGridViewModel<AppointmentViewModel> GetBootGridAppointments(
+            int current,
+            int rowCount,
+            string searchPhrase,
             UmbracoContext umbracoContext,
             DateTime dateRangeStart,
             DateTime dateRangeEnd);

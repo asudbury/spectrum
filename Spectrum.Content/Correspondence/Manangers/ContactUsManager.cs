@@ -72,7 +72,15 @@ namespace Spectrum.Content.Correspondence.Manangers
             }
             catch (Exception ex)
             {
-                loggingService.Error(GetType(), "Contact Us Error", ex);
+                try
+                {
+                    loggingService.Error(GetType(), "Contact Us Error", ex);
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+
                 return pageModel.ErrorPageUrl;
             }
 

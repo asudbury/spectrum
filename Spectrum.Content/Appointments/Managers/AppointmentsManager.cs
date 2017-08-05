@@ -71,6 +71,11 @@ namespace Spectrum.Content.Appointments.Managers
         private readonly IMailProvider mailProvider;
 
         /// <summary>
+        /// The appointments boot grid translator.
+        /// </summary>
+        private readonly IAppointmentsBootGridTranslator appointmentsBootGridTranslator;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="AppointmentsManager" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
@@ -83,6 +88,7 @@ namespace Spectrum.Content.Appointments.Managers
         /// <param name="appointmentTranslator">The appointment translator.</param>
         /// <param name="encryptionService">The encryption service.</param>
         /// <param name="mailProvider">The email provider.</param>
+        /// <param name="appointmentsBootGridTranslator">The appointments boot grid translator.</param>
         public AppointmentsManager(
             ILoggingService loggingService,
             IAppointmentsProvider appointmentsProvider,
@@ -93,7 +99,8 @@ namespace Spectrum.Content.Appointments.Managers
             ICookieService cookieService,
             IAppointmentTranslator appointmentTranslator,
             IEncryptionService encryptionService,
-            IMailProvider mailProvider)
+            IMailProvider mailProvider,
+            IAppointmentsBootGridTranslator appointmentsBootGridTranslator)
         {
             this.loggingService = loggingService;
             this.appointmentsProvider = appointmentsProvider;
@@ -105,6 +112,7 @@ namespace Spectrum.Content.Appointments.Managers
             this.appointmentTranslator = appointmentTranslator;
             this.encryptionService = encryptionService;
             this.mailProvider = mailProvider;
+            this.appointmentsBootGridTranslator = appointmentsBootGridTranslator;
         }
 
         /// <summary>
@@ -226,8 +234,8 @@ namespace Spectrum.Content.Appointments.Managers
         /// <param name="dateRangeEnd">The date range end.</param>
         /// <returns></returns>
         public IEnumerable<AppointmentViewModel> GetAppointments(
-            UmbracoContext umbracoContext,
-            DateTime dateRangeStart, 
+           UmbracoContext umbracoContext,
+            DateTime dateRangeStart,
             DateTime dateRangeEnd)
         {
             loggingService.Info(GetType());
@@ -258,11 +266,17 @@ namespace Spectrum.Content.Appointments.Managers
         /// <summary>
         /// Gets the boot grid appointments.
         /// </summary>
+        /// <param name="current">The current.</param>
+        /// <param name="rowCount">The row count.</param>
+        /// <param name="searchPhrase">The search phrase.</param>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="dateRangeStart">The date range start.</param>
         /// <param name="dateRangeEnd">The date range end.</param>
         /// <returns></returns>
         public BootGridViewModel<AppointmentViewModel> GetBootGridAppointments(
+            int current,
+            int rowCount,
+            string searchPhrase,
             UmbracoContext umbracoContext, 
             DateTime dateRangeStart,
             DateTime dateRangeEnd)
@@ -272,18 +286,7 @@ namespace Spectrum.Content.Appointments.Managers
                 dateRangeStart,
                 dateRangeEnd);
 
-            List<AppointmentViewModel> appointmentList = viewModels.ToList();
-
-            BootGridViewModel<AppointmentViewModel> bootGridViewModel = new BootGridViewModel<AppointmentViewModel>
-            {
-                Rows = appointmentList,
-                Current = 1,
-                RowCount = appointmentList.Count,
-                Total = appointmentList.Count
-
-            };
-
-            return bootGridViewModel;
+            return appointmentsBootGridTranslator.Translate(viewModels.ToList(), current, rowCount, searchPhrase);
         }
 
         /// <summary>

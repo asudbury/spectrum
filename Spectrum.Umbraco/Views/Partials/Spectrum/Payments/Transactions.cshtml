@@ -1,65 +1,59 @@
 ﻿<h4>Payments</h4>
-<div id="transactionsGrid"></div>
+<table id="transactionsGrid" class="table table-condensed table-hover table-striped">
+    <thead>
+    <tr>
+        <th data-column-id="id" data-type="numeric" data-width="10%" data-header-align="center" data-align="center">Id</th>
+        <th data-column-id="transactionDateTime" data-formatter="dateTime" data-header-align="center" data-align="center">Date</th>
+        <th data-column-id="type" data-header-align="center" data-align="center">Type</th>
+        <th data-column-id="status" data-header-align="center" data-align="center">Status</th>
+        <th data-column-id="paymentInformation" data-formatter="paymentInformation" data-header-align="center" data-align="center">Payment Information</th>
+        <th data-column-id="amount" data-formatter="amount"  data-header-align="center" data-align="center">Amount</th>
+        <th data-column-id="actions" data-header-align="center" data-align="center" data-formatter="actions">Commands</th>
+    </tr>
+    </thead>
+</table>
 
 <script>
 
-    var DateField = function (config) {
-        jsGrid.Field.call(this, config);
-    };
-
-    DateField.prototype = new jsGrid.Field({
-        itemTemplate: function (value) {
-            return moment.utc(value).format('ddd DD MMM YYYY HH:mm');
-        }
-    });
-
-    jsGrid.fields.date = DateField;
-
-    $("#transactionsGrid").jsGrid({
-
-        width: "100%",
-        //filtering: true,
-        paging: true,
-        pageSize: 6,
-        autoload: true,
-
-        controller: {
-            loadData: function() {
-
-                return $.ajax({
-                    url: "@Url.Action("GetTransactions", "Transactions")",
-                    dataType: "json"
-                });
-            }
+    var transactionsGrid = $("#transactionsGrid").bootgrid({
+        labels: {
+            noResults: "No transactions found"
         },
-
-        fields: [
-            { name: "Id", align: "center", type: "text" },
-            { name: "TransactionDateTime", align: "center", title: "Date", type: "date" },
-            { name: "Type", align:"center", type: "text" },
-            { name: "Status", align:"center", type: "text" },
-            { name: "CardType", align: "center", title: "Payment Information", type: "text",
-                cellRenderer : function(value, item) {
-                    return "<td>" + value + " " + item.MaskedNumber + "</td>";
-                }
+        templates: {
+            search: "" // todo : reimplement search at some stage!
+        },
+        ajax: true,
+        url: "/umbraco/Surface/Transactions/GetBootGridTransactions",
+        formatters: {
+            "dateTime": function (column, row) {
+                return moment.utc(row.transactionDateTime).format('ddd DD MMM HH:mm');
             },
-            { name: "Amount", align: "center", type: "text",
-                cellRenderer : function(value, item) {
-                    return "<td>" + parseFloat(Math.round(value * 100) / 100).toFixed(2) + " " + item.CurrencyType + "</td>";
-                }
+            "paymentInformation": function (column, row) {
+                return row.cardType + " " + row.maskedNumber;
             },
-            { name: "CurrencyType", align: "center", type: "text", title: "",
-                cellRenderer: function (value, item) {
-                    return '<td>' + 
-                        '<a data-ajax="true"' +
-                        ' data-ajax-mode="replace"' +  
-                        ' data-ajax-update="#transaction"' +
-                        ' data-ajax-success="onTransaction"' +
-                        ' href="/umbraco/Surface/Transactions/View/' + item.Id + '">View</a>' +
-                        '</td>';
-                }
+            "amount": function (column, row) {
+                return parseFloat(Math.round(row.amount * 100) / 100).toFixed(2) + " " + row.currencyType;
+            },
+            "actions": function (column, row) {
+                return '<a href="#" class="link-view-transaction" data-transaction-id=' +
+                    row.id +
+                    '>View</a>';
+ 
             }
-        ]
+        }
+    }).on("loaded.rs.jquery.bootgrid", function () {
+
+        transactionsGrid.find(".link-view-transaction").on("click", function (e) {
+            var transactionsId = $(this).data("transaction-id");
+            event.preventDefault();
+
+            $.ajax({
+                url: '/umbraco/Surface/Transactions/View/' + transactionsId,
+                success: function (data) {
+                    onTransaction(data);
+                }
+            });
+        });
     });
 </script>
 
@@ -67,7 +61,8 @@
 
 <script type="text/javascript">
     
-    function onTransaction() {
+    function onTransaction(data) {
+        jQuery('#transaction').html(data);
         jQuery('#transaction').dialog({ 'title': 'Payment', 'width': 400, 'height': 300 });
     }
 

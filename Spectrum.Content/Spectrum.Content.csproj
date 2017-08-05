@@ -379,7 +379,9 @@
     <Compile Include="Appointments\Services\IICalendarService.cs" />
     <Compile Include="Appointments\Services\WebAuthorizationCodeFlow.cs" />
     <Compile Include="Appointments\Services\WebAuthorizationBroker.cs" />
+    <Compile Include="Appointments\Translators\AppointmentsBootGridTranslator.cs" />
     <Compile Include="Appointments\Translators\AppointmentTranslator.cs" />
+    <Compile Include="Appointments\Translators\IAppointmentsBootGridTranslator.cs" />
     <Compile Include="Appointments\Translators\IAppointmentTranslator.cs" />
     <Compile Include="Appointments\Translators\InsertAppointmentTranslator.cs" />
     <Compile Include="Appointments\Translators\GoogleEventTranslator.cs" />
@@ -391,6 +393,7 @@
     <Compile Include="Authentication\ViewModels\ForgottenPasswordViewModel.cs" />
     <Compile Include="Authentication\ViewModels\LoginViewModel.cs" />
     <Compile Include="Authentication\ViewModels\ResetPasswordViewModel.cs" />
+    <Compile Include="BaseBootGridTranslator.cs" />
     <Compile Include="BootGridViewModel.cs" />
     <Compile Include="Configuration\Application.cs" />
     <Compile Include="Configuration\IocConfiguration.cs" />
@@ -405,6 +408,7 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Handlers\Error404Handler.cs" />
     <Compile Include="ContentModels\MenuItemModel.cs" />
+    <Compile Include="IBootGridTranslator.cs" />
     <Compile Include="Mail\Models\MailAttachmentModel.cs" />
     <Compile Include="Mail\Models\MailResponse.cs" />
     <Compile Include="Mail\Providers\IMailProvider.cs" />
@@ -432,6 +436,8 @@
     <Compile Include="Payments\Providers\PaymentProvider.cs" />
     <Compile Include="Payments\Services\BraintreeService.cs" />
     <Compile Include="Payments\Services\IBraintreeService.cs" />
+    <Compile Include="Payments\Translators\TransactionsBootGridTranslator.cs" />
+    <Compile Include="Payments\Translators\ITransactionsBootGridTranslator.cs" />
     <Compile Include="Payments\Translators\ITransactionTranslator.cs" />
     <Compile Include="Payments\Translators\TransactionTranslator.cs" />
     <Compile Include="Payments\ViewModels\PaymentViewModel.cs" />

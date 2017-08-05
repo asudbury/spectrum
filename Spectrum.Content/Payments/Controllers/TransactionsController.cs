@@ -1,10 +1,9 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-
-namespace Spectrum.Content.Payments.Controllers
+﻿namespace Spectrum.Content.Payments.Controllers
 {
     using Content.Services;
     using Managers;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Serialization;
     using System.Collections.Generic;
     using System.Web.Mvc;
     using Umbraco.Web;
@@ -77,6 +76,36 @@ namespace Spectrum.Content.Payments.Controllers
             IEnumerable<TransactionViewModel> viewModels = transactionsManager.GetTransactionsViewModel(UmbracoContext);
 
              return Json(viewModels, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// Gets the boot grid transactions.
+        /// </summary>
+        /// <param name="current">The current.</param>
+        /// <param name="rowCount">The row count.</param>
+        /// <param name="searchPhrase">The search phrase.</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult GetBootGridTransactions(
+            int current,
+            int rowCount,
+            string searchPhrase)
+        {
+            BootGridViewModel<TransactionViewModel> bootGridViewModel = transactionsManager.GetBootGridTransactions(
+                current,
+                rowCount,
+                searchPhrase,
+                UmbracoContext);
+
+            string jsonString = JsonConvert.SerializeObject(
+                bootGridViewModel,
+                new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+
+                });
+
+            return Content(jsonString, "application/json");
         }
 
         /// <summary>

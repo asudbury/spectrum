@@ -123,14 +123,23 @@
         /// <summary>
         /// Gets the boot grid appointments.
         /// </summary>
+        /// <param name="current">The current.</param>
+        /// <param name="rowCount">The row count.</param>
+        /// <param name="searchPhrase">The search phrase.</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult GetBootGridAppointments()
+        public ActionResult GetBootGridAppointments(
+            int current,
+            int rowCount,
+            string searchPhrase)
         {
             DateTime dateRangeStart = DateTime.Now.AddDays(-10000);
             DateTime dateRangeEnd = DateTime.Now.AddDays(10000);
 
             BootGridViewModel<AppointmentViewModel> bootGridViewModel = appointmentsManager.GetBootGridAppointments(
+                                                                            current,
+                                                                            rowCount,
+                                                                            searchPhrase,
                                                                             UmbracoContext,
                                                                             dateRangeStart,
                                                                             dateRangeEnd);

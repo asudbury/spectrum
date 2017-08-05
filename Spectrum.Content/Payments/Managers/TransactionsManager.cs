@@ -34,22 +34,30 @@
         private readonly ICacheService cacheService;
 
         /// <summary>
+        /// The transactions boot grid translator.
+        /// </summary>
+        private readonly ITransactionsBootGridTranslator transactionsBootGridTranslator;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TransactionsManager" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="paymentProvider">The payment provider.</param>
         /// <param name="transactionTranslator">The transaction translator.</param>
         /// <param name="cacheService">The cache service.</param>
+        /// <param name="transactionsBootGridTranslator">The transactions boot grid translator.</param>
         public TransactionsManager(
             ILoggingService loggingService,
             IPaymentProvider paymentProvider,
             ITransactionTranslator transactionTranslator,
-            ICacheService cacheService)
+            ICacheService cacheService,
+            ITransactionsBootGridTranslator transactionsBootGridTranslator)
         {
             this.loggingService = loggingService;
             this.paymentProvider = paymentProvider;
             this.transactionTranslator = transactionTranslator;
             this.cacheService = cacheService;
+            this.transactionsBootGridTranslator = transactionsBootGridTranslator;
         }
 
         /// <summary>
@@ -114,6 +122,25 @@
             Transaction transaction = paymentProvider.GetTransaction(model, transactionId);
 
             return transactionTranslator.Translate(transaction);
+        }
+
+        /// <summary>
+        /// Gets the boot grid transactions.
+        /// </summary>
+        /// <param name="current">The current.</param>
+        /// <param name="rowCount">The row count.</param>
+        /// <param name="searchPhrase">The search phrase.</param>
+        /// <param name="umbracoContext">The umbraco context.</param>
+        /// <returns></returns>
+        public BootGridViewModel<TransactionViewModel> GetBootGridTransactions(
+            int current, 
+            int rowCount, 
+            string searchPhrase,
+            UmbracoContext umbracoContext)
+        {
+            IEnumerable<TransactionViewModel> viewModels = this.GetTransactionsViewModel(umbracoContext);
+
+            return transactionsBootGridTranslator.Translate(viewModels.ToList(), current, rowCount, searchPhrase);
         }
     }
 

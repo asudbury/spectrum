@@ -22,5 +22,19 @@
         TransactionViewModel GetTransactionViewModel(
             UmbracoContext umbracoContext,
             string transactionId);
+
+        /// <summary>
+        /// Gets the boot grid transactions.
+        /// </summary>
+        /// <param name="current">The current.</param>
+        /// <param name="rowCount">The row count.</param>
+        /// <param name="searchPhrase">The search phrase.</param>
+        /// <param name="umbracoContext">The umbraco context.</param>
+        /// <returns></returns>
+        BootGridViewModel<TransactionViewModel> GetBootGridTransactions(
+            int current,
+            int rowCount,
+            string searchPhrase,
+            UmbracoContext umbracoContext);
     }
 }
