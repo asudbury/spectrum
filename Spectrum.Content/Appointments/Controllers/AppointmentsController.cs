@@ -182,9 +182,29 @@
 
             AppointmentViewModel viewModel = appointmentsManager.GetAppointment(UmbracoContext, id);
 
-            return PartialView("Partials/Spectrum/Appointments/Appointment", viewModel);
+            return PartialView("Partials/Spectrum/Appointments/EditAppointment", viewModel);
         }
 
+        /// <summary>
+        /// Updates the appointment.
+        /// </summary>
+        /// <param name="viewModel">The view model.</param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateAppointment(AppointmentViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return CurrentUmbracoPage();
+            }
+
+            string nextUrl = appointmentsManager.UpdateAppointment(
+                UmbracoContext,
+                viewModel);
+
+            return Redirect(nextUrl);
+        }
         /// <summary>
         /// Deletes the specified identifier.
         /// </summary>

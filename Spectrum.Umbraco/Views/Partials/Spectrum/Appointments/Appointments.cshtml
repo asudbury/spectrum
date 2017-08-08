@@ -73,7 +73,9 @@
             $.ajax({
                 url: '/umbraco/Surface/Appointments/View/' + appointmentId,
                 success: function (data) {
-                    onViewAppointment(data);
+                    jQuery('#appointment').html(data);
+                    jQuery('#appointment').dialog({ 'title': 'View Appointment', 'width': 400, 'height': 450 });
+                    jQuery('#appointment').dialog().css("border-color", "blue");
                 }
             });
         }).end().find(".link-edit-appointment").on("click", function (e) {
@@ -83,7 +85,8 @@
             $.ajax({
                 url: '/umbraco/Surface/Appointments/Edit/' + appointmentId,
                 success: function (data) {
-                    onEditAppointment(data);
+                    jQuery('#appointment').html(data);
+                    jQuery('#appointment').dialog({ 'title': 'Edit Appointment', 'width': 'auto', 'height': 'auto', modal: true, 'css' : 'border-color:blue'});
                 }
             });
         }).end().find(".link-delete-appointment").on("click", function (e) {
@@ -140,17 +143,6 @@
         };
 
 
-        function onViewAppointment(data) {
-            jQuery('#appointment').html(data);
-            jQuery('#appointment').dialog({ 'title': 'View Appointment', 'width': 400, 'height': 300 });
-            jQuery('#appointment').dialog().css("border-color", "blue");
-        }
-
-        function onEditAppointment(data) {
-            jQuery('#appointment').html(data);
-            jQuery('#appointment').dialog({ 'title': 'Edit Appointment', 'width': 400, 'height': 300 });
-            jQuery('#appointment').dialog().css("border-color", "blue");
-        }
 
     </script>
 

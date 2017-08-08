@@ -8,12 +8,20 @@
             <td>@Model.Id</td>
         </tr>
         <tr>
+            <td>Created Time</td>
+            <td>@Model.CreatedTime.ToString("dd MMM yyyy HH:mm")</td>
+        </tr>
+        <tr>
+            <td>Created By</td>
+            <td>@Model.CreatedUser</td>
+        </tr>
+        <tr>
             <td>Start Time</td>
-            <td>@Model.StartTime.ToString("dd MMM yyyy HH:mm:ss")</td>
+            <td>@Model.StartTime.ToString("dd MMM yyyy HH:mm")</td>
         </tr>
         <tr>
             <td>End Time</td>
-            <td>@Model.EndTime.ToString("dd MMM yyyy HH:mm:ss")</td>
+            <td>@Model.EndTime.ToString("dd MMM yyyy HH:mm")</td>
         </tr>
         <tr>
             <td>Payment Id</td>

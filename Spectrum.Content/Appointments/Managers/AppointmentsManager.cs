@@ -1,18 +1,17 @@
-using System.Linq;
-using Spectrum.Content.Mail.Providers;
-
 namespace Spectrum.Content.Appointments.Managers
 {
     using Application.Services;
     using Autofac.Events;
     using Content.Services;
     using ContentModels;
+    using Mail.Providers;
     using Messages;
     using Models;
     using Providers;
     using Services;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Translators;
     using Umbraco.Core.Models;
     using Umbraco.Web;
@@ -149,15 +148,13 @@ namespace Spectrum.Content.Appointments.Managers
 
             AppointmentModel appointmentModel = insertAppointmentTranslator.Translate(viewModel);
 
-            string appointmentId = string.Empty;
-
             appointmentModel.CreatedUser = createdUserName;
 
             if (settingsModel.DatabaseIntegration)
             {
                 loggingService.Info(GetType(), "Database Integration");
 
-                appointmentId = databaseProvider.InsertAppointment(appointmentModel);
+                string appointmentId = databaseProvider.InsertAppointment(appointmentModel);
 
                 if (string.IsNullOrEmpty(appointmentId) == false)
                 {
@@ -313,6 +310,42 @@ namespace Spectrum.Content.Appointments.Managers
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Inserts the appointment.
+        /// </summary>
+        /// <param name="umbracoContext">The umbraco context.</param>
+        /// <param name="viewModel">The view model.</param>
+        /// <returns></returns>
+        public string UpdateAppointment(
+            UmbracoContext umbracoContext, 
+            AppointmentViewModel viewModel)
+        {
+            loggingService.Info(GetType(), "Start");
+
+            /*AppointmentSettingsModel settingsModel = appointmentsProvider.GetAppointmentsModel(umbracoContext);
+
+            AppointmentModel appointmentModel = insertAppointmentTranslator.Translate(viewModel);
+
+            if (settingsModel.DatabaseIntegration)
+            {
+                loggingService.Info(GetType(), "Database Integration");
+
+                databaseProvider.UpdateAppointment(appointmentModel);
+            }
+
+            if (settingsModel.GoogleCalendarIntegration)
+            {
+                loggingService.Info(GetType(), "Google Calendar Integration");
+            }
+
+            if (settingsModel.iCalIntegration)
+            {
+                loggingService.Info(GetType(), "iCal Integration");
+            }*/
+
+            return string.Empty;
         }
 
         /// <summary>

@@ -34,6 +34,8 @@
             {
                 Id = model.Id,
                 EncryptedId = encryptionService.EncryptString(model.Id.ToString()),
+                CreatedTime = model.CreatedTime,
+                CreatedUser = model.CreatedUser,
                 StartTime = model.StartTime,
                 EndTime = model.EndTime,
                 Status = ((AppointmentStatus)model.Status).ToString(),

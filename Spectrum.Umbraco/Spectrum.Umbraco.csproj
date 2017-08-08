@@ -531,6 +531,7 @@
     <Content Include="Views\Partials\Spectrum\Appointments\Appointment.cshtml" />
     <Content Include="Views\Partials\Spectrum\Correspondence\GuestBook.cshtml" />
     <Content Include="Views\Partials\Spectrum\Correspondence\ContactUs.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Appointments\EditAppointment.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

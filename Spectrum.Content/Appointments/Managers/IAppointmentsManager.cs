@@ -71,5 +71,15 @@
         bool DeleteAppointment(
             UmbracoContext umbracoContext,
             string appointmentId);
+
+        /// <summary>
+        /// Inserts the appointment.
+        /// </summary>
+        /// <param name="umbracoContext">The umbraco context.</param>
+        /// <param name="viewModel">The view model.</param>
+        /// <returns></returns>
+        string UpdateAppointment(
+            UmbracoContext umbracoContext,
+            AppointmentViewModel viewModel);
     }
 }

@@ -15,6 +15,16 @@
         public string EncryptedId { get; set; }
 
         /// <summary>
+        /// Gets or sets the created time.
+        /// </summary>
+        public DateTime CreatedTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the created user.
+        /// </summary>
+        public string CreatedUser { get; set; }
+
+        /// <summary>
         /// Gets or sets the start time.
         /// </summary>
         public DateTime StartTime { get; set; }
