@@ -10,25 +10,25 @@
         /// Sends the email.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
-        /// <param name="emailTemplateUrl">The email template URL.</param>
+        /// <param name="emailTemplateNAme">The email template n ame.</param>
         /// <param name="to">To.</param>
         /// <returns></returns>
         MailResponse SendEmail(
             UmbracoContext umbracoContext, 
-            string emailTemplateUrl, 
+            string emailTemplateNAme, 
             string to);
 
         /// <summary>
         /// Sends the email.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
-        /// <param name="emailTemplateUrl">The email template URL.</param>
+        /// <param name="emailTemplateName">Name of the email template.</param>
         /// <param name="to">To.</param>
         /// <param name="replacementTokens">The replacement tokens.</param>
         /// <returns></returns>
         MailResponse SendEmail(
             UmbracoContext umbracoContext, 
-            string emailTemplateUrl, 
+            string emailTemplateName, 
             string to, 
             Dictionary<string, string> replacementTokens);
     }

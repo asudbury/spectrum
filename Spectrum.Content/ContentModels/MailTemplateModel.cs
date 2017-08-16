@@ -13,7 +13,7 @@
         public MailTemplateModel(IPublishedContent content)
           : base(content)
         {
-            Attachment = new MailAttachmentModel();
+            ////Attachment = new MailAttachmentModel();
         }
 
         /// <summary>

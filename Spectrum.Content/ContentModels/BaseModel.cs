@@ -1,5 +1,7 @@
 ﻿namespace Spectrum.Content.ContentModels
 {
+    using System;
+    using Umbraco.Core;
     using Umbraco.Core.Models;
     using Umbraco.Core.Models.PublishedContent;
 
@@ -43,17 +45,30 @@
 
                 if (isNumeric)
                 {
-                    nodeId = (int)property.DataValue;
+                    nodeId = value;
                 }
 
                 else
                 {
-                    IPublishedContent content = (IPublishedContent)property.Value;
+                    string propertyValue = property.Value.ToString();
 
-                    if (content != null)
+                    isNumeric = int.TryParse(propertyValue, out value);
+
+                    if (isNumeric)
                     {
-                        nodeId = content.Id;
+                        nodeId = value;
                     }
+
+                    else
+                    {
+                        Type type = property.Value.GetType();
+
+                        if (type == typeof(GuidUdi))
+                        {
+                            GuidUdi guid = property.Value as GuidUdi;
+
+                        }
+                    } 
                 }
 
                 return nodeId;

@@ -12,7 +12,9 @@
         /// <returns></returns>
         public IPublishedContent GetSettingsNode(UmbracoContext context)
         {
-            return GetHelper(context).TypedContentAtRoot().FirstOrDefault(x => x.DocumentTypeAlias == "settings");
+            IPublishedContent node = GetHelper(context).TypedContentAtRoot().FirstOrDefault(x => x.DocumentTypeAlias == "settings");
+
+            return node ?? GetHelper(context).TypedContentAtRoot().FirstOrDefault(x => x.Name == "Settings");
         }
 
         /// <summary>
@@ -23,7 +25,14 @@
         {
             IPublishedContent settingsNode = GetSettingsNode(context);
 
-            return settingsNode?.Children.FirstOrDefault(x => x.DocumentTypeAlias == "menus");
+            if (settingsNode != null)
+            {
+                IPublishedContent node = settingsNode.Children.FirstOrDefault(x => x.DocumentTypeAlias == "menus");
+
+                return node ?? settingsNode.Children.FirstOrDefault(x => x.Name == "Menus");
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -50,7 +59,14 @@
         {
             IPublishedContent settingsNode = GetSettingsNode(context);
 
-            return settingsNode?.Children.FirstOrDefault(x => x.DocumentTypeAlias == "payments");
+            if (settingsNode != null)
+            {
+                IPublishedContent node = settingsNode.Children.FirstOrDefault(x => x.DocumentTypeAlias == "payments");
+
+                return node ?? settingsNode.Children.FirstOrDefault(x => x.Name == "Payments");
+            }
+
+            return null;
         }
         
         /// <summary>
@@ -62,7 +78,14 @@
         {
             IPublishedContent settingsNode = GetSettingsNode(context);
 
-            return settingsNode?.Children.FirstOrDefault(x => x.Name == "Mail");
+            if (settingsNode != null)
+            {
+                IPublishedContent node = settingsNode.Children.FirstOrDefault(x => x.DocumentTypeAlias == "mail");
+
+                return node ?? settingsNode.Children.FirstOrDefault(x => x.Name == "Mail");
+            }
+
+            return null;
         }
         
         /// <summary>
@@ -72,9 +95,32 @@
         /// <returns></returns>
         public IPublishedContent GetMailTemplatesFolderNode(UmbracoContext context)
         {
-            IPublishedContent templatesNode = GetMailNode(context);
+            IPublishedContent mailNode = GetMailNode(context);
 
-            return templatesNode?.Children.FirstOrDefault(x => x.Name == "Mail Templates");
+            if (mailNode != null)
+            {
+                IPublishedContent node = mailNode.Children.FirstOrDefault(x => x.DocumentTypeAlias == "mailTemplates");
+
+                return node ?? mailNode.Children.FirstOrDefault(x => x.Name == "Mail Templates");
+            }
+
+            return null;
+
+        }
+
+        /// <summary>
+        /// Gets the mail template.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="templateName">Name of the template.</param>
+        /// <returns></returns>
+        public IPublishedContent GetMailTemplate(
+            UmbracoContext context, 
+            string templateName)
+        {
+            IPublishedContent folderNode = GetMailTemplatesFolderNode(context);
+
+            return folderNode?.Children.FirstOrDefault(x => x.Name == templateName);
         }
 
         /// <summary>
@@ -133,7 +179,14 @@
         {
             IPublishedContent settingsNode = GetSettingsNode(context);
 
-            return settingsNode?.Children.FirstOrDefault(x => x.DocumentTypeAlias == "appointments");
+            if (settingsNode != null)
+            {
+                IPublishedContent node = settingsNode.Children.FirstOrDefault(x => x.DocumentTypeAlias == "appointments");
+
+                return node ?? settingsNode.Children.FirstOrDefault(x => x.Name == "Appointments");
+            }
+
+            return null;
         }
 
         /// <summary>

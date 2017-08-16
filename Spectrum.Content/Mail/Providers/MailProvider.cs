@@ -37,34 +37,34 @@
         /// Sends the email.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
-        /// <param name="emailTemplateUrl">The email template URL.</param>
+        /// <param name="emailTemplateName">Name of the email template.</param>
         /// <param name="to">To.</param>
         /// <returns></returns>
         public MailResponse SendEmail(
             UmbracoContext umbracoContext, 
-            string emailTemplateUrl, 
+            string emailTemplateName, 
             string to)
         {
-            return SendEmail(umbracoContext, emailTemplateUrl, to, null);
+            return SendEmail(umbracoContext, emailTemplateName, to, null);
         }
 
         /// <summary>
         /// Sends the email.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
-        /// <param name="emailTemplateUrl">The email template URL.</param>
+        /// <param name="emailTemplateName">Name of the email template.</param>
         /// <param name="to">To.</param>
         /// <param name="replacementTokens">The replacement tokens.</param>
         /// <returns></returns>
         public MailResponse SendEmail(
             UmbracoContext umbracoContext, 
-            string emailTemplateUrl, 
+            string emailTemplateName, 
             string to, 
             Dictionary<string, string> replacementTokens)
         {
-            IPublishedContent content = settingsService.GetMailTemplateByUrl(
+            IPublishedContent content = settingsService.GetMailTemplate(
                                             umbracoContext, 
-                                            emailTemplateUrl);
+                                            emailTemplateName);
 
             MailTemplateModel model = new MailTemplateModel(content);
 

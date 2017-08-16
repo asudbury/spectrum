@@ -40,10 +40,14 @@
                 {
                     To = { mailTo },
                     From = new MailAddress(model.From),
-                    Bcc = { model.BlindCopy },
                     Subject = model.Subject,
                     Body = model.TokenizedText
                 };
+
+                if (string.IsNullOrEmpty(model.BlindCopy) == false)
+                {
+                    mailMessage.Bcc.Add(new MailAddress(model.BlindCopy));
+                }
 
                 if (model.Attachment != null)
                 {
