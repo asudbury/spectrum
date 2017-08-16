@@ -243,3 +243,8 @@ ModelManifest.xml
 
 TestApplications/Spectrum.ShowCase/App_Data
 Spectrum.Umbraco/App_Data/
+/Spectrum.Umbraco/App_Plugins/uSync
+/Spectrum.Umbraco/App_Plugins/uSync.Content
+/Spectrum.Umbraco/Config/uSyncBackOffice.Config
+/Spectrum.Umbraco/Config/uSyncCore.Config
+/Spectrum.Umbraco/Properties/PublishProfiles/UmbracoDeploy.pubxml
