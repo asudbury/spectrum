@@ -132,7 +132,7 @@ namespace Spectrum.Content.Payments.Managers
                                             viewModel.AutoAllocate, 
                                             viewModel.AppointmentId));
                 
-                if (string.IsNullOrEmpty(pageModel.EmailTemplateUrl) == false)
+                if (string.IsNullOrEmpty(pageModel.EmailTemplateName) == false)
                 {
                     //// TODO : not currently implemented.
 

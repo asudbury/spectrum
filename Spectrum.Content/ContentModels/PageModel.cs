@@ -1,6 +1,7 @@
 ﻿namespace Spectrum.Content.ContentModels
 {
     using Umbraco.Core.Models;
+    using Umbraco.Web;
 
     public class PageModel : BaseModel
     {
@@ -23,8 +24,10 @@
         public string ErrorPageUrl => GetNiceUrl(GetNodeId("errorPage"));
 
         /// <summary>
-        /// Gets the email template URL.
+        /// Gets the name of the email template.
         /// </summary>
-        public string EmailTemplateUrl => GetNiceUrl(GetNodeId("emailTemplate"));
+        public string EmailTemplateName => this.GetPropertyValue<string>("emailTemplateName");
     }
 }
+
+

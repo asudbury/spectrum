@@ -50,7 +50,17 @@
         /// <param name="context">The context.</param>
         /// <returns></returns>
         IPublishedContent GetMailTemplatesFolderNode(UmbracoContext context);
-        
+
+        /// <summary>
+        /// Gets the mail template.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="templateName">Name of the template.</param>
+        /// <returns></returns>
+        IPublishedContent GetMailTemplate(
+            UmbracoContext context,
+            string templateName);
+
         /// <summary>
         /// Gets the mail template.
         /// </summary>

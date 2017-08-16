@@ -74,7 +74,7 @@
             }
 
             IPublishedContent publishedContent = GetContentById(CurrentPage.Id.ToString());
-            
+           
             string nextUrl = contactUsManager.InsertContactUs(
                 UmbracoContext,
                 publishedContent,

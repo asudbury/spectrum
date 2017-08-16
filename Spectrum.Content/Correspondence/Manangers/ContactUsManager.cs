@@ -1,10 +1,9 @@
-﻿using System;
-
-namespace Spectrum.Content.Correspondence.Manangers
+﻿namespace Spectrum.Content.Correspondence.Manangers
 {
     using ContentModels;
     using Mail.Providers;
     using Services;
+    using System;
     using System.Collections.Generic;
     using ViewModels;
     using Umbraco.Core.Models;
@@ -53,9 +52,7 @@ namespace Spectrum.Content.Correspondence.Manangers
 
             try
             {
-                string x = pageModel.NextPageUrl;
-                string y = pageModel.ErrorPageUrl;
-                string emailTemplate = pageModel.EmailTemplateUrl;
+                string emailTemplate = pageModel.EmailTemplateName;
 
                 if (string.IsNullOrEmpty(emailTemplate) == false)
                 {
