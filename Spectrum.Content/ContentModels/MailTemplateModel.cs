@@ -1,4 +1,6 @@
-﻿namespace Spectrum.Content.ContentModels
+﻿using System;
+
+namespace Spectrum.Content.ContentModels
 {
     using Mail.Models;
     using Umbraco.Core.Models;
@@ -13,7 +15,6 @@
         public MailTemplateModel(IPublishedContent content)
           : base(content)
         {
-            ////Attachment = new MailAttachmentModel();
         }
 
         /// <summary>
@@ -45,6 +46,11 @@
         /// Gets the text.
         /// </summary>
         public string Text => this.GetPropertyValue<string>("text");
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is HTML.
+        /// </summary>
+        public bool IsHtml => this.GetPropertyValue<bool>("isHtml");
 
         /// <summary>
         /// Gets or sets the tokenized text.

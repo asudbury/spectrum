@@ -56,9 +56,13 @@
 
                 if (string.IsNullOrEmpty(emailTemplate) == false)
                 {
-                    string emailText = $"Name {viewModel.Name} EmailAddress {viewModel.EmailAddress} Message {viewModel.Message}";
+                     Dictionary<string, string> dictionairy = new Dictionary<string, string>
+                        {
+                            {"Name", viewModel.Name},
+                            {"EmailAddress", viewModel.EmailAddress},
+                            {"Message", viewModel.Message}
+                        };
 
-                    Dictionary<string, string> dictionairy = new Dictionary<string, string> { { "emailText", emailText } };
 
                     mailProvider.SendEmail(
                         umbracoContext,

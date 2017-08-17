@@ -74,7 +74,7 @@
             {
                 foreach (KeyValuePair<string, string> token in replacementTokens)
                 {
-                    newText = newText.Replace(token.Key, token.Value);
+                    newText = newText.Replace("$" + token.Key, token.Value);
                 }
             }
 

@@ -41,7 +41,8 @@
                     To = { mailTo },
                     From = new MailAddress(model.From),
                     Subject = model.Subject,
-                    Body = model.TokenizedText
+                    Body = model.TokenizedText,
+                    IsBodyHtml = model.IsHtml
                 };
 
                 if (string.IsNullOrEmpty(model.BlindCopy) == false)
