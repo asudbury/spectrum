@@ -46,7 +46,7 @@
             IPublishedContent publishedContent, 
             ContactUsViewModel viewModel)
         {
-            loggingService.Info(GetType(), "Start");
+            ////loggingService.Info(GetType(), "Start");
 
             PageModel pageModel = new PageModel(publishedContent);
 

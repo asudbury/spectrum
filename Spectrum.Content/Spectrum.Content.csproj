@@ -408,7 +408,6 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Handlers\Error404Handler.cs" />
     <Compile Include="ContentModels\MenuItemModel.cs" />
-    <Compile Include="IBootGridTranslator.cs" />
     <Compile Include="Mail\Models\MailAttachmentModel.cs" />
     <Compile Include="Mail\Models\MailResponse.cs" />
     <Compile Include="Mail\Providers\IMailProvider.cs" />

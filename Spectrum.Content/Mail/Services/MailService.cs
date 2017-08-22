@@ -26,7 +26,7 @@
             {
                 mailTo = to;
             }
-
+          
             MailResponse response = new MailResponse
             {
                 Contents = model.TokenizedText,
@@ -38,16 +38,33 @@
             {
                 MailMessage mailMessage = new MailMessage
                 {
-                    To = { mailTo },
                     From = new MailAddress(model.From),
                     Subject = model.Subject,
                     Body = model.TokenizedText,
                     IsBodyHtml = model.IsHtml
                 };
 
-                if (string.IsNullOrEmpty(model.BlindCopy) == false)
+                string[] emailto = mailTo.Split(';');
+
+                foreach (string mail in emailto)
                 {
-                    mailMessage.Bcc.Add(new MailAddress(model.BlindCopy));
+                    if (mail != string.Empty)
+                    {
+                        mailMessage.To.Add(mail);
+                    }
+                }
+
+                if (string.IsNullOrEmpty(model.BlindCopy) == false)
+                { 
+                    string[] emailBcc = model.BlindCopy.Split(';');
+
+                    foreach (string mail in emailBcc)
+                    {
+                        if (mail != string.Empty)
+                        {
+                            mailMessage.Bcc.Add(mail);
+                        }
+                    }
                 }
 
                 if (model.Attachment != null)
