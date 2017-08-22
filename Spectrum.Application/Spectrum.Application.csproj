@@ -66,12 +66,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Spectrum.Core\Spectrum.Core.csproj">
-      <Project>{cbb9ba2e-d456-4995-bab3-66eda0afc5c4}</Project>
-      <Name>Spectrum.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
