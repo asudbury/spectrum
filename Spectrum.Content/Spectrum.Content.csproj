@@ -462,20 +462,16 @@
     <Folder Include="Authentication\Models\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Spectrum.Application\Spectrum.Application.csproj">
-      <Project>{b4f98fc2-0fce-40f3-8090-7d656cf482dd}</Project>
-      <Name>Spectrum.Application</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Spectrum.Model\Spectrum.Model.csproj">
-      <Project>{d431878d-5874-4ac6-a28f-c87d835e7eb3}</Project>
-      <Name>Spectrum.Model</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Spectrum.Application\Spectrum.Application.csproj">
+      <Project>{b4f98fc2-0fce-40f3-8090-7d656cf482dd}</Project>
+      <Name>Spectrum.Application</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets')" />
