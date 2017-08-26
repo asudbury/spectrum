@@ -21,6 +21,7 @@
             this.settingsService = settingsService;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the appointments node.
         /// </summary>
@@ -31,6 +32,7 @@
             return settingsService.GetAppointmentsNode(umbracoContext);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the appointments model.
         /// </summary>

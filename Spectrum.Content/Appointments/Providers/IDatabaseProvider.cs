@@ -11,7 +11,7 @@
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns>The appointmentId</returns>
-        string InsertAppointment(AppointmentModel model);
+        int InsertAppointment(AppointmentModel model);
 
         /// <summary>
         /// Gets the appointments.
@@ -35,5 +35,12 @@
         /// </summary>
         /// <param name="model">The model.</param>
         void UpdateAppointment(AppointmentModel model);
+
+        /// <summary>
+        /// Insertis the cal appointment.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        void InsertiCalAppointment(ICalAppointmentModel model);
+
     }
 }

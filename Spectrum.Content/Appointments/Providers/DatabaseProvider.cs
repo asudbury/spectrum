@@ -8,20 +8,22 @@
 
     public class DatabaseProvider : IDatabaseProvider
     {
+        /// <inheritdoc />
         /// <summary>
         /// Inserts the appointment.
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns>The appointmentId</returns>
-        public string InsertAppointment(AppointmentModel model)
+        public int InsertAppointment(AppointmentModel model)
         {
             DatabaseContext context = ApplicationContext.Current.DatabaseContext;
 
             object appointmentId = context.Database.Insert(model);
 
-            return appointmentId.ToString();
+            return Convert.ToInt32(appointmentId);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the appointments.
         /// </summary>
@@ -50,6 +52,7 @@
             return context.Database.Fetch<AppointmentModel>(sql);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the appointment.
         /// </summary>
@@ -62,6 +65,7 @@
             return context.Database.SingleOrDefault<AppointmentModel>(id);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Updates the appointment.
         /// </summary>
@@ -71,6 +75,18 @@
             DatabaseContext context = ApplicationContext.Current.DatabaseContext;
 
             context.Database.Update(model);
+        }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// Insertis the cal appointment.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        public void InsertiCalAppointment(ICalAppointmentModel model)
+        {
+            DatabaseContext context = ApplicationContext.Current.DatabaseContext;
+
+            context.Database.Insert(model);
         }
     }
 }

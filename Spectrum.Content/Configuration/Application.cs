@@ -50,6 +50,11 @@
             {
                 db.CreateTable<AppointmentAttendeeModel>(false);
             }
+
+            if (!db.TableExist(AppointmentConstants.iCalAppointmentTableName))
+            {
+                db.CreateTable<ICalAppointmentModel>(false);
+            }
         }
     }
 }

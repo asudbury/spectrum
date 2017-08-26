@@ -152,13 +152,15 @@ namespace Spectrum.Content.Appointments.Managers
 
             appointmentModel.CreatedUser = createdUserName;
 
+            int appointmentId = 0;
+
             if (settingsModel.DatabaseIntegration)
             {
                 loggingService.Info(GetType(), "Database Integration");
 
-                string appointmentId = databaseProvider.InsertAppointment(appointmentModel);
+                appointmentId = databaseProvider.InsertAppointment(appointmentModel);
 
-                if (string.IsNullOrEmpty(appointmentId) == false)
+                if (appointmentId > 0)
                 {
                     cookieService.SetValue(AppointmentConstants.LastAppointmentIdCookie, appointmentId);
                     eventPublisher.Publish(new AppointmentMadeMessage(appointmentId));
@@ -189,6 +191,14 @@ namespace Spectrum.Content.Appointments.Managers
                         settingsModel.iCalEmailTemplate, 
                         settingsModel.iCalEmailAddress, 
                         attachment);
+
+                    //// now update the database 
+                    if (appointmentId > 0)
+                    {
+                        iCalModel.AppointmentId = appointmentId;
+
+                        databaseProvider.InsertiCalAppointment(iCalModel);
+                    }
                 }
 
                 processed = true;
