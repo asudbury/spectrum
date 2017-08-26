@@ -5,6 +5,7 @@
 
     public class AppointmentSettingsModel : BaseModel
     {
+        /// <inheritdoc />
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Umbraco.Core.Models.PublishedContent.PublishedContentModel" /> class with
         /// an original <see cref="T:Umbraco.Core.Models.IPublishedContent" /> instance.
@@ -26,11 +27,17 @@
         public bool iCalIntegration => this.GetPropertyValue<bool>("iCal");
 
         /// <summary>
-        /// Gets the i cal email address.
+        /// Gets the ical email address.
         /// </summary>
 
         // ReSharper disable once InconsistentNaming
         public string iCalEmailAddress => this.GetPropertyValue<string>("iCalEmailAddress");
+
+        /// <summary>
+        /// Gets the i cal email template.
+        /// </summary>
+        // ReSharper disable once InconsistentNaming
+        public string iCalEmailTemplate => this.GetPropertyValue<string>("iCalEmailTemplate");
 
         /// <summary>
         /// Gets a value indicating whether [database integration].
@@ -66,7 +73,5 @@
         /// Gets the redirect URL.
         /// </summary>
         public string RedirectUrl => this.GetPropertyValue<string>("RedirectUrl");
-
-
     }
 }

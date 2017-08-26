@@ -68,7 +68,8 @@
                         umbracoContext,
                         emailTemplate,
                         viewModel.EmailAddress,
-                        dictionairy);
+                        dictionairy,
+                        null);
                 }
             }
             catch (Exception ex)

@@ -12,6 +12,7 @@
     // ReSharper disable once InconsistentNaming
     public class ICalendarService : IICalendarService
     {
+        /// <inheritdoc />
         /// <summary>
         /// Gets the ical appoinment.
         /// </summary>
@@ -24,6 +25,8 @@
                 DtStart = new CalDateTime(model.StartTime),
                 DtEnd = new CalDateTime(model.EndTime),
                 Description = model.Description,
+                Summary = model.Description,
+                Organizer = new Organizer(model.CreatedUser),
                 Location = model.Location//,
                 ////Attendees = GetAttendees(model.Attendees)
             };
@@ -37,7 +40,8 @@
             return new ICalAppointmentModel
             {
                 Guid = calendarEvent.Uid,
-                SerializedString = serializedCalendar
+                SerializedString = serializedCalendar,
+                ContentType = new System.Net.Mime.ContentType("text/calendar")
             };
         }
 

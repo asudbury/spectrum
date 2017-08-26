@@ -12,6 +12,7 @@ namespace Spectrum.Content.Appointments.Managers
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net.Mail;
     using Translators;
     using Umbraco.Core.Models;
     using Umbraco.Web;
@@ -114,6 +115,7 @@ namespace Spectrum.Content.Appointments.Managers
             this.appointmentsBootGridTranslator = appointmentsBootGridTranslator;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Inserts the appointment.
         /// </summary>
@@ -176,11 +178,17 @@ namespace Spectrum.Content.Appointments.Managers
                 loggingService.Info(GetType(), "iCal Integration");
 
                 //// try and send the email
-                if (string.IsNullOrEmpty(settingsModel.iCalEmailAddress))
+                if (string.IsNullOrEmpty(settingsModel.iCalEmailAddress) == false)
                 {
                     ICalAppointmentModel iCalModel = iCalendarService.GetICalAppoinment(appointmentModel);
 
-                    ////mailProvider.SendEmail(umbracoContext, 1202, settingsModel.iCalEmailAddress);
+                    Attachment attachment = Attachment.CreateAttachmentFromString(iCalModel.SerializedString, iCalModel.ContentType);
+
+                    mailProvider.SendEmail(
+                        umbracoContext, 
+                        settingsModel.iCalEmailTemplate, 
+                        settingsModel.iCalEmailAddress, 
+                        attachment);
                 }
 
                 processed = true;
@@ -197,6 +205,7 @@ namespace Spectrum.Content.Appointments.Managers
             return pageModel.NextPageUrl;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the appointment.
         /// </summary>
@@ -223,6 +232,7 @@ namespace Spectrum.Content.Appointments.Managers
             return new AppointmentViewModel();
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the appointments.
         /// </summary>
@@ -260,6 +270,7 @@ namespace Spectrum.Content.Appointments.Managers
             return new List<AppointmentViewModel>();
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the boot grid appointments.
         /// </summary>
@@ -286,6 +297,7 @@ namespace Spectrum.Content.Appointments.Managers
             return appointmentsBootGridTranslator.Translate(viewModels.ToList(), current, rowCount, searchPhrase);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Deletes the appointment.
         /// </summary>
@@ -312,6 +324,7 @@ namespace Spectrum.Content.Appointments.Managers
             return true;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Inserts the appointment.
         /// </summary>

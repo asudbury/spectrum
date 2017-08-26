@@ -1,15 +1,12 @@
 ﻿namespace Spectrum.Content.Mail.Services
 {
     using ContentModels;
-    using Ical.Net.Serialization;
-    using Ical.Net.Serialization.iCalendar.Serializers;
     using Models;
-    using System.IO;
     using System.Net.Mail;
-    using System.Text;
 
     public class MailService : IMailService
     {
+        /// <inheritdoc />
         /// <summary>
         /// Sends the email.
         /// </summary>
@@ -67,14 +64,12 @@
                     }
                 }
 
-                if (model.Attachment != null)
+                if (model.Attachments != null)
                 {
-                    CalendarSerializer serializer = new CalendarSerializer(new SerializationContext());
-                    string serializedAttachment = serializer.SerializeToString(model.Attachment.Data);
-                    byte[] bytesAttachment = Encoding.UTF8.GetBytes(serializedAttachment);
-
-                    MemoryStream ms = new MemoryStream(bytesAttachment);
-                    mailMessage.Attachments.Add(new Attachment(ms, model.Attachment.FileName, model.Attachment.MimeType));
+                    foreach (Attachment attachment in model.Attachments)
+                    {
+                        mailMessage.Attachments.Add(attachment);
+                    }    
                 }
 
                 SmtpClient smtpClient = new SmtpClient();

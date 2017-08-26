@@ -6,6 +6,7 @@
 
     public class InsertAppointmentTranslator : IInsertAppointmentTranslator
     {
+        /// <inheritdoc />
         /// <summary>
         /// Translates the specified view model.
         /// </summary>

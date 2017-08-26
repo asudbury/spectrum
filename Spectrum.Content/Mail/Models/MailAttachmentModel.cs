@@ -1,5 +1,7 @@
 ﻿namespace Spectrum.Content.Mail.Models
 {
+    using System.Net.Mime;
+
     public class MailAttachmentModel
     {
         /// <summary>
@@ -9,7 +11,7 @@
         {
             //// setup for ical by default!
             FileName = "event.ics";
-            MimeType = "text/calendar";
+            MimeType = new System.Net.Mime.ContentType("text/calendar");
         }
 
         /// <summary>
@@ -26,6 +28,6 @@
         /// <summary>
         /// Gets or sets the type of the MIME.
         /// </summary>
-        public string MimeType { get; set; }
+        public ContentType MimeType { get; set; }
     }
 }
