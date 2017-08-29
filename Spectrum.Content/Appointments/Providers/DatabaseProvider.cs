@@ -3,6 +3,7 @@
     using Models;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Umbraco.Core;
     using Umbraco.Core.Persistence;
 
@@ -82,11 +83,29 @@
         /// Insertis the cal appointment.
         /// </summary>
         /// <param name="model">The model.</param>
-        public void InsertiCalAppointment(ICalAppointmentModel model)
+        public void InsertIcalAppointment(ICalAppointmentModel model)
         {
             DatabaseContext context = ApplicationContext.Current.DatabaseContext;
 
             context.Database.Insert(model);
+        }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// Get the icalAppointment.
+        /// </summary>
+        /// <param name="appointmentId">The appointment identifier.</param>
+        /// <returns></returns>
+        public ICalAppointmentModel GetIcalAppointment(int appointmentId)
+        {
+            DatabaseContext context = ApplicationContext.Current.DatabaseContext;
+
+            Sql sql = new Sql()
+                .Select("*")
+                .From(AppointmentConstants.IcalAppointmentTableName)
+                .Where("AppointmentId = " + appointmentId);
+
+            return context.Database.Fetch<ICalAppointmentModel>(sql).FirstOrDefault();
         }
     }
 }

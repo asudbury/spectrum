@@ -20,8 +20,7 @@
         /// <summary>
         /// The ical appointment table name
         /// </summary>
-        // ReSharper disable once InconsistentNaming
-        public const string iCalAppointmentTableName = "spectrumiCalAppointment";
+        public const string IcalAppointmentTableName = "spectrumIcalAppointment";
 
         /// <summary>
         /// The last appointment identifier cookie.

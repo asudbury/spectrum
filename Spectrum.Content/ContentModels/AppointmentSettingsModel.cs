@@ -23,21 +23,32 @@
         /// <summary>
         /// Gets a value indicating whether [i cal integration].
         /// </summary>
-        // ReSharper disable once InconsistentNaming
-        public bool iCalIntegration => this.GetPropertyValue<bool>("iCal");
+        public bool IcalIntegration => this.GetPropertyValue<bool>("iCal");
 
         /// <summary>
         /// Gets the ical email address.
         /// </summary>
-
-        // ReSharper disable once InconsistentNaming
-        public string iCalEmailAddress => this.GetPropertyValue<string>("iCalEmailAddress");
+        public string IcalEmailAddress => this.GetPropertyValue<string>("iCalEmailAddress");
 
         /// <summary>
-        /// Gets the i cal email template.
+        /// Gets the ical create email template.
         /// </summary>
-        // ReSharper disable once InconsistentNaming
-        public string iCalEmailTemplate => this.GetPropertyValue<string>("iCalEmailTemplate");
+        public string IcalCreateEmailTemplate => this.GetPropertyValue<string>("iCalCreateEmailTemplate");
+
+        /// <summary>
+        /// Gets the ical delete email template.
+        /// </summary>
+        public string IcalDeleteEmailTemplate => this.GetPropertyValue<string>("iCalDeleteEmailTemplate");
+
+        /// <summary>
+        /// Gets the ical update email template.
+        /// </summary>
+        public string IcalUpdateEmailTemplate => this.GetPropertyValue<string>("iCalUpdateEmailTemplate");
+
+        /// <summary>
+        /// Gets a value indicating whether [ical send to attendees].
+        /// </summary>
+        public bool IcalSendToAttendees => this.GetPropertyValue<bool>("iCalSendToAttendees");
 
         /// <summary>
         /// Gets a value indicating whether [database integration].

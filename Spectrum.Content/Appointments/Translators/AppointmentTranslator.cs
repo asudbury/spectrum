@@ -2,6 +2,7 @@
 {
     using Application.Services;
     using Models;
+    using System;
     using ViewModels;
 
     public class AppointmentTranslator : IAppointmentTranslator
@@ -20,6 +21,7 @@
             this.encryptionService = encryptionService;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Translates the specified view model.
         /// </summary>
@@ -34,10 +36,10 @@
             {
                 Id = model.Id,
                 EncryptedId = encryptionService.EncryptString(model.Id.ToString()),
-                CreatedTime = model.CreatedTime,
+                CreatedTime = TimeZone.CurrentTimeZone.ToLocalTime(model.CreatedTime),
                 CreatedUser = model.CreatedUser,
-                StartTime = model.StartTime,
-                EndTime = model.EndTime,
+                StartTime = TimeZone.CurrentTimeZone.ToLocalTime(model.StartTime),
+                EndTime = TimeZone.CurrentTimeZone.ToLocalTime(model.EndTime),
                 Status = ((AppointmentStatus)model.Status).ToString(),
                 PaymentId = model.PaymentId,
                 Location = model.Location,

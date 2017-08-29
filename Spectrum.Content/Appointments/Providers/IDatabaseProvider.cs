@@ -40,7 +40,14 @@
         /// Insertis the cal appointment.
         /// </summary>
         /// <param name="model">The model.</param>
-        void InsertiCalAppointment(ICalAppointmentModel model);
+        void InsertIcalAppointment(ICalAppointmentModel model);
+
+        /// <summary>
+        /// Getis the cal appointment.
+        /// </summary>
+        /// <param name="appointmentId">The appointment identifier.</param>
+        /// <returns></returns>
+        ICalAppointmentModel GetIcalAppointment(int appointmentId);
 
     }
 }

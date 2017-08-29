@@ -16,9 +16,9 @@
         {
             AppointmentModel model = new AppointmentModel
             {
-                CreatedTime = DateTime.Now,
-                StartTime = viewModel.StartTime,
-                EndTime = viewModel.EndTime,
+                CreatedTime = DateTime.Now.ToUniversalTime(),
+                StartTime = viewModel.StartTime.ToUniversalTime(),
+                EndTime = viewModel.EndTime.ToUniversalTime(),
                 Description = viewModel.Description,
                 Location = viewModel.Location,
                 PaymentId = string.Empty,

@@ -175,12 +175,13 @@ namespace Spectrum.Content.Appointments.Managers
                 processed = true;    
             }
 
-            if (settingsModel.iCalIntegration)
+            if (settingsModel.IcalIntegration &&
+                string.IsNullOrEmpty(settingsModel.IcalCreateEmailTemplate) == false)
             {
                 loggingService.Info(GetType(), "iCal Integration");
 
                 //// try and send the email
-                if (string.IsNullOrEmpty(settingsModel.iCalEmailAddress) == false)
+                if (string.IsNullOrEmpty(settingsModel.IcalEmailAddress) == false)
                 {
                     ICalAppointmentModel iCalModel = iCalendarService.GetICalAppoinment(appointmentModel);
 
@@ -188,8 +189,8 @@ namespace Spectrum.Content.Appointments.Managers
 
                     mailProvider.SendEmail(
                         umbracoContext, 
-                        settingsModel.iCalEmailTemplate, 
-                        settingsModel.iCalEmailAddress, 
+                        settingsModel.IcalCreateEmailTemplate, 
+                        settingsModel.IcalEmailAddress, 
                         attachment);
 
                     //// now update the database 
@@ -197,7 +198,7 @@ namespace Spectrum.Content.Appointments.Managers
                     {
                         iCalModel.AppointmentId = appointmentId;
 
-                        databaseProvider.InsertiCalAppointment(iCalModel);
+                        databaseProvider.InsertIcalAppointment(iCalModel);
                     }
                 }
 
@@ -318,17 +319,44 @@ namespace Spectrum.Content.Appointments.Managers
             UmbracoContext umbracoContext, 
             string appointmentId)
         {
-            AppointmentSettingsModel appointmentsModel = appointmentsProvider.GetAppointmentsModel(umbracoContext);
+            AppointmentSettingsModel settingsModel = appointmentsProvider.GetAppointmentsModel(umbracoContext);
 
-            if (appointmentsModel.DatabaseIntegration)
+            string id = encryptionService.DecryptString(appointmentId);
+
+            int appId = Convert.ToInt32(id);
+
+            AppointmentModel model = databaseProvider.GetAppointment(appId);
+
+            if (settingsModel.DatabaseIntegration)
             {
-                string id = encryptionService.DecryptString(appointmentId);
-
-                AppointmentModel model = databaseProvider.GetAppointment(Convert.ToInt32(id));
-
                 model.Status = (int)AppointmentStatus.Deleted;
 
                 databaseProvider.UpdateAppointment(model);
+            }
+
+            if (settingsModel.IcalIntegration &&
+                string.IsNullOrEmpty(settingsModel.IcalDeleteEmailTemplate) == false)
+            {
+                //// now send the delete ical email
+
+                ICalAppointmentModel iCalModel = databaseProvider.GetIcalAppointment(appId);
+
+                ICalAppointmentModel appointmentModel = iCalendarService.GetICalAppoinment(
+                                                            model, 
+                                                            iCalModel.Guid, 
+                                                            iCalModel.Sequence + 1);
+
+                Attachment attachment = Attachment.CreateAttachmentFromString(appointmentModel.SerializedString, appointmentModel.ContentType);
+
+                mailProvider.SendEmail(
+                    umbracoContext,
+                    settingsModel.IcalDeleteEmailTemplate,
+                    settingsModel.IcalEmailAddress,
+                    attachment);
+            }
+
+            if (settingsModel.GoogleCalendarIntegration)
+            {
             }
 
             return true;

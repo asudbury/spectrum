@@ -5,7 +5,7 @@
     using Umbraco.Core.Persistence.DatabaseAnnotations;
     
     // ReSharper disable once InconsistentNaming
-    [TableName(AppointmentConstants.iCalAppointmentTableName)]
+    [TableName(AppointmentConstants.IcalAppointmentTableName)]
     [PrimaryKey("Id", autoIncrement = true)]
     public class ICalAppointmentModel
     {
@@ -25,6 +25,11 @@
         /// Gets or sets the unique identifier.
         /// </summary>
         public string Guid { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sequence.
+        /// </summary>
+        public int Sequence { get; set; }
 
         /// <summary>
         /// Gets or sets the serialized string.
