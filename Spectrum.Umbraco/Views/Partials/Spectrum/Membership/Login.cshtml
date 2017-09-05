@@ -11,44 +11,33 @@
 
     @Html.ValidationSummary(true)
 
+    <div class="container">
+        <div class="row login">
+            <div class="col-sm-6 col-md-4 col-md-offset-4">
 
-    <div class="panel panel-default bootstrap-basic">
-        <div class="panel-heading">
-            <h3 class="panel-title">Login</h3>
-        </div>
-    <div class="panel-body">
-        <div class="row">
-            <div class="form-group col-xs-8">
-                <label class="control-label">Email Address</label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-xs-8">
-                @Html.EditorFor(model => model.EmailAddress)
-                @Html.ValidationMessageFor(model => model.EmailAddress)
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-xs-8">
-                <label class="control-label">Password</label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-xs-8">
-                @Html.EditorFor(model => model.Password)
-                @Html.ValidationMessageFor(model => model.Password)
-            </div>
-        </div>
-        
-        <button value="submit" id="submit" class="btn btn-success btn-lg">Login</button>
-        
-        <div class="row">
-            <div class="form-group col-xs-8">
-                <p>@TempData["Status"]</p>
-            </div>
-        </div>
+                <div class="account-wall">
 
-    </div>
+                    <h1 class="login-title">Login</h1>
+                    <input type="text" class="form-control" id="EmailAddress" name="EmailAddress" placeholder="Email" required autofocus>
+                    @Html.ValidationMessageFor(model => model.EmailAddress)
+                    <input type="password" class="form-control" placeholder="Password" id="Password" name="Password" required>
+                    @Html.ValidationMessageFor(model => model.Password)
+                    <button value="submit" id="submit" class="btn btn-lg btn-primary btn-block">Login</button>
+
+                    <div class="row">
+                        <div class="form-group col-xs-8">
+                            <p>@TempData["Status"]</p>
+                        </div>
+                    </div>
+
+                    <label class="checkbox text-center">
+                        <input type="checkbox" value="remember-me">
+                        Remember me
+                    </label>
+
+                </div>
+                <a href="#" class="text-center new-account">Create an account </a>
+            </div>
+        </div>
     </div>
 }
-

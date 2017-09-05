@@ -10,10 +10,9 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-
     <div class="panel panel-default bootstrap-basic">
         <div class="panel-heading">
-            <h3 class="panel-title">Make an Appointment</h3>
+            <h4 class="panel-title">Make an Appointment</h4>
         </div>
         <div class="panel-body">
             <div class="row">
@@ -76,12 +75,21 @@
                         <label class="control-label">Attendees</label>
                     </div>
                     <div>
-                        @Html.ValidationMessageFor(model => model.Attendees)
+                        <input class="text-box single-line" id="attendeeInput" placeholder="Enter email address" data-val="true" data-val-required="Please enter a valid Email Address">
+                        <span class="btn" style="cursor: pointer;">
+                            <span class="glyphicon glyphicon-plus" id="addAttendee"></span>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="field-validation-valid" data-valmsg-for="attendeeInput" data-valmsg-replace="true"></span>
+                    </div>
+                    <div>
+                        <ul id="list"></ul>
                     </div>
                 </div>
             </div>
 
-            <button value="submit" id="submit" class="btn btn-success btn-lg">Save Appointment</button>
+            <button value="submit" id="submit" class="btn btn-primary">Save Appointment</button>
 
         </div>
     </div>
@@ -104,6 +112,25 @@
 
             $('.btn').click(function() {
                 $(".date", $(this).closest(".form-group")).focus();
+            });
+
+            $('#addAttendee').click(function () {
+
+                event.preventDefault(); 
+                var inputValue = $('#attendeeInput').val();
+                var filter = /^([a-zA-Z0-9_\.\-])+\@@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+                if (!filter.test(inputValue)) {
+                    $('#attendeeInput').parents(".form-group").addClass('has-error');
+                    $('#attendeeInput').addClass('text-danger');
+                    $('span[data-valmsg-for="attendeeInput"]').text('Please enter a valid Email Address');
+                    $('span[data-valmsg-for="attendeeInput"]').addClass('text-danger');
+                } else {
+                        
+                    $('#list').prepend('<li>' + inputValue + '</li>');
+                    $('#attendeeInput').val('');
+                    $('span[data-valmsg-for="attendeeInput"]').text('');
+                }
             });
         });
 

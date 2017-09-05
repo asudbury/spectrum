@@ -394,6 +394,8 @@
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="css\spectrum\dragon.css" />
     <Content Include="css\spectrum\landingPage.css" />
+    <Content Include="css\spectrum\mainFooter.css" />
+    <Content Include="css\spectrum\mainNavigation.css" />
     <Content Include="css\spectrum\style.css" />
     <Content Include="default.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -533,6 +535,7 @@
     <Content Include="Views\Partials\Spectrum\Correspondence\GuestBook.cshtml" />
     <Content Include="Views\Partials\Spectrum\Correspondence\ContactUs.cshtml" />
     <Content Include="Views\Partials\Spectrum\Appointments\EditAppointment.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Navigation\Footer.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

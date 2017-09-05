@@ -21,7 +21,27 @@
 
             object appointmentId = context.Database.Insert(model);
 
-            return Convert.ToInt32(appointmentId);
+            int id = Convert.ToInt32(appointmentId);
+
+            foreach (AppointmentAttendeeModel appointmentAttendeeModel in model.Attendees)
+            {
+                appointmentAttendeeModel.Id = id;
+                InsertAppointmentAttendee(appointmentAttendeeModel);
+            }
+
+            return id;
+        }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// Inters the appointment attendee.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        public void InsertAppointmentAttendee(AppointmentAttendeeModel model)
+        {
+            DatabaseContext context = ApplicationContext.Current.DatabaseContext;
+
+            context.Database.Insert(model);
         }
 
         /// <inheritdoc />
@@ -53,17 +73,39 @@
             return context.Database.Fetch<AppointmentModel>(sql);
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Gets the appointment.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="appointmentId">The appointment identifier.</param>
         /// <returns></returns>
-        public AppointmentModel GetAppointment(int id)
+        /// <inheritdoc />
+        public AppointmentModel GetAppointment(int appointmentId)
         {
             DatabaseContext context = ApplicationContext.Current.DatabaseContext;
 
-            return context.Database.SingleOrDefault<AppointmentModel>(id);
+            AppointmentModel model = context.Database.SingleOrDefault<AppointmentModel>(appointmentId);
+
+            model.Attendees = GetAppointmentAttendees(appointmentId);
+
+            return model;
+        }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// Gets the appointment attendees.
+        /// </summary>
+        /// <param name="appointmentId">The appointment identifier.</param>
+        /// <returns></returns>
+        public List<AppointmentAttendeeModel> GetAppointmentAttendees(int appointmentId)
+        {
+            DatabaseContext context = ApplicationContext.Current.DatabaseContext;
+
+            Sql sql = new Sql()
+                .Select("*")
+                .From(AppointmentConstants.AppointmentAttendeeTableName)
+                .Where("AppointmentId = " + appointmentId);
+
+            return context.Database.Fetch<AppointmentAttendeeModel>(sql);
         }
 
         /// <inheritdoc />

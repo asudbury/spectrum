@@ -34,8 +34,8 @@
                 Summary = model.Description,
                 Organizer = new Organizer(model.CreatedUser),
                 Status = GetStatus(model.Status),
-                Location = model.Location//,
-                ////Attendees = GetAttendees(model.Attendees)
+                Location = model.Location,
+                Attendees = GetAttendees(model.Attendees)
             };
 
             if (guid != null)
@@ -70,11 +70,11 @@
         /// </summary>
         /// <param name="attendees">The attendees.</param>
         /// <returns></returns>
-        IList<IAttendee> GetAttendees(IList<string> attendees)
+        IList<IAttendee> GetAttendees(IList<AppointmentAttendeeModel> attendees)
         {
             IList<IAttendee> attendeeList = new List<IAttendee>();
 
-            foreach (string attendee in attendees)
+            foreach (AppointmentAttendeeModel attendee in attendees)
             {
                 attendeeList.Add(new Attendee { Value = new Uri("mailto:" + attendee) });
             }

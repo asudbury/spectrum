@@ -12,6 +12,12 @@
         /// <param name="model">The model.</param>
         /// <returns>The appointmentId</returns>
         int InsertAppointment(AppointmentModel model);
+        
+        /// <summary>
+        /// Inserts the appointment attendee.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        void InsertAppointmentAttendee(AppointmentAttendeeModel model);
 
         /// <summary>
         /// Gets the appointments.
@@ -26,9 +32,16 @@
         /// <summary>
         /// Gets the appointment.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="appointmentId">The appointment identifier.</param>
         /// <returns></returns>
-        AppointmentModel GetAppointment(int id);
+        AppointmentModel GetAppointment(int appointmentId);
+
+        /// <summary>
+        /// Gets the appointment attendees.
+        /// </summary>
+        /// <param name="appointmentId">The appointment identifier.</param>
+        /// <returns></returns>
+        List<AppointmentAttendeeModel> GetAppointmentAttendees(int appointmentId);
 
         /// <summary>
         /// Updates the appointment.
