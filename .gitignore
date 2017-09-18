@@ -248,3 +248,4 @@ Spectrum.Umbraco/App_Data/
 /Spectrum.Umbraco/Config/uSyncBackOffice.Config
 /Spectrum.Umbraco/Config/uSyncCore.Config
 /Spectrum.Umbraco/Properties/PublishProfiles/UmbracoDeploy.pubxml
+/Spectrum.Umbraco/Properties/PublishProfiles/MyWatchWorld.pubxml

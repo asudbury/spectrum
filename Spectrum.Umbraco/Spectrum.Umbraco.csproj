@@ -430,6 +430,7 @@
     <Content Include="Config\uSyncBackOffice.Config" />
     <Content Include="App_Plugins\uSync\package.manifest" />
     <Content Include="App_Plugins\uSync.Content\package.manifest" />
+    <None Include="Properties\PublishProfiles\MyWatchWorld.pubxml" />
     <None Include="Properties\PublishProfiles\TheDragon.pubxml" />
     <None Include="Properties\PublishProfiles\UmbracoClean.pubxml" />
     <None Include="Properties\PublishProfiles\UmbracoDeploy.pubxml" />
