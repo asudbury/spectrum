@@ -5,6 +5,7 @@
 
     public class AppointmentSettingsModel : BaseModel
     {
+        /// <inheritdoc />
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Umbraco.Core.Models.PublishedContent.PublishedContentModel" /> class with
         /// an original <see cref="T:Umbraco.Core.Models.IPublishedContent" /> instance.
@@ -22,15 +23,32 @@
         /// <summary>
         /// Gets a value indicating whether [i cal integration].
         /// </summary>
-        // ReSharper disable once InconsistentNaming
-        public bool iCalIntegration => this.GetPropertyValue<bool>("iCal");
+        public bool IcalIntegration => this.GetPropertyValue<bool>("iCal");
 
         /// <summary>
-        /// Gets the i cal email address.
+        /// Gets the ical email address.
         /// </summary>
+        public string IcalEmailAddress => this.GetPropertyValue<string>("iCalEmailAddress");
 
-        // ReSharper disable once InconsistentNaming
-        public string iCalEmailAddress => this.GetPropertyValue<string>("iCalEmailAddress");
+        /// <summary>
+        /// Gets the ical create email template.
+        /// </summary>
+        public string IcalCreateEmailTemplate => this.GetPropertyValue<string>("iCalCreateEmailTemplate");
+
+        /// <summary>
+        /// Gets the ical delete email template.
+        /// </summary>
+        public string IcalDeleteEmailTemplate => this.GetPropertyValue<string>("iCalDeleteEmailTemplate");
+
+        /// <summary>
+        /// Gets the ical update email template.
+        /// </summary>
+        public string IcalUpdateEmailTemplate => this.GetPropertyValue<string>("iCalUpdateEmailTemplate");
+
+        /// <summary>
+        /// Gets a value indicating whether [ical send to attendees].
+        /// </summary>
+        public bool IcalSendToAttendees => this.GetPropertyValue<bool>("iCalSendToAttendees");
 
         /// <summary>
         /// Gets a value indicating whether [database integration].
@@ -66,7 +84,5 @@
         /// Gets the redirect URL.
         /// </summary>
         public string RedirectUrl => this.GetPropertyValue<string>("RedirectUrl");
-
-
     }
 }

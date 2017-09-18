@@ -1,19 +1,21 @@
 ﻿namespace Spectrum.Content.ContentModels
 {
-    using Mail.Models;
+    using System.Collections.Generic;
+    using System.Net.Mail;
     using Umbraco.Core.Models;
     using Umbraco.Web;
 
     public class MailTemplateModel : BaseModel
     {
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="MailTemplateModel"/> class.
+        /// Initializes a new instance of the <see cref="T:Spectrum.Content.ContentModels.MailTemplateModel" /> class.
         /// </summary>
         /// <param name="content">The original content.</param>
         public MailTemplateModel(IPublishedContent content)
           : base(content)
         {
-            ////Attachment = new MailAttachmentModel();
+            Attachments = new List<Attachment>();
         }
 
         /// <summary>
@@ -47,13 +49,18 @@
         public string Text => this.GetPropertyValue<string>("text");
 
         /// <summary>
+        /// Gets a value indicating whether this instance is HTML.
+        /// </summary>
+        public bool IsHtml => this.GetPropertyValue<bool>("isHtml");
+
+        /// <summary>
         /// Gets or sets the tokenized text.
         /// </summary>
         public string TokenizedText { get; set; }
 
         /// <summary>
-        /// Gets or sets the attachment.
+        /// Gets or sets the attachments.
         /// </summary>
-        public MailAttachmentModel Attachment { get; set; }
-    }
+        public List<Attachment> Attachments { get; set; }
+    } 
 }

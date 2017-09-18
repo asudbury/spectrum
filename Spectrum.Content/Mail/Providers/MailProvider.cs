@@ -1,10 +1,13 @@
-﻿namespace Spectrum.Content.Mail.Providers
+﻿using System;
+
+namespace Spectrum.Content.Mail.Providers
 {
     using Content.Services;
     using ContentModels;
     using Models;
     using Services;
     using System.Collections.Generic;
+    using System.Net.Mail;
     using Umbraco.Core.Models;
     using Umbraco.Web;
 
@@ -39,13 +42,16 @@
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="emailTemplateName">Name of the email template.</param>
         /// <param name="to">To.</param>
+        /// <param name="attachment">The attachment.</param>
         /// <returns></returns>
+        /// <inheritdoc />
         public MailResponse SendEmail(
             UmbracoContext umbracoContext, 
             string emailTemplateName, 
-            string to)
+            string to,
+            Attachment attachment)
         {
-            return SendEmail(umbracoContext, emailTemplateName, to, null);
+            return SendEmail(umbracoContext, emailTemplateName, to, null, attachment);
         }
 
         /// <summary>
@@ -55,16 +61,23 @@
         /// <param name="emailTemplateName">Name of the email template.</param>
         /// <param name="to">To.</param>
         /// <param name="replacementTokens">The replacement tokens.</param>
+        /// <param name="attachment">The attachment.</param>
         /// <returns></returns>
+        /// <inheritdoc />
         public MailResponse SendEmail(
             UmbracoContext umbracoContext, 
             string emailTemplateName, 
             string to, 
-            Dictionary<string, string> replacementTokens)
+            Dictionary<string, string> replacementTokens,
+            Attachment attachment)
         {
             IPublishedContent content = settingsService.GetMailTemplate(
                                             umbracoContext, 
                                             emailTemplateName);
+            if (content == null)
+            {
+                throw new ApplicationException("Mail Template " + emailTemplateName + " not defined");
+            }
 
             MailTemplateModel model = new MailTemplateModel(content);
 
@@ -74,11 +87,16 @@
             {
                 foreach (KeyValuePair<string, string> token in replacementTokens)
                 {
-                    newText = newText.Replace(token.Key, token.Value);
+                    newText = newText.Replace("$" + token.Key, token.Value);
                 }
             }
 
             model.TokenizedText = newText;
+
+            if (attachment != null)
+            {
+                model.Attachments.Add(attachment);    
+            }
 
             return mailService.SendEmail(to, model);
         }

@@ -30,10 +30,10 @@
         url: "/umbraco/Surface/Appointments/GetBootGridAppointments",
         formatters: {
             "startTime": function(column, row) {
-                return moment.utc(row.startTime).format('ddd DD MMM HH:mm');
+                return moment(row.startTime).format('ddd DD MMM HH:mm');
             },
             "endTime": function (column, row) {
-                return moment.utc(row.endTime).format('ddd DD MMM HH:mm');
+                return moment(row.endTime).format('ddd DD MMM HH:mm');
             },
             "paymentId": function (column, row) {
                 if (row.paymentId !== "") {
@@ -141,8 +141,6 @@
                 width: 'auto'
             });
         };
-
-
 
     </script>
 

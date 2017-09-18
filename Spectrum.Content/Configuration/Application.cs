@@ -28,7 +28,7 @@
                 databaseContext.SqlSyntax);
 
             //// TODO : maybe only create tables if appointments are supported??
-             
+
             if (!db.TableExist(AppointmentConstants.AppointmentStatusTableName))
             {
                 //// create look up table for the appointment status
@@ -49,6 +49,11 @@
             if (!db.TableExist(AppointmentConstants.AppointmentAttendeeTableName))
             {
                 db.CreateTable<AppointmentAttendeeModel>(false);
+            }
+
+            if (!db.TableExist(AppointmentConstants.IcalAppointmentTableName))
+            {
+                db.CreateTable<ICalAppointmentModel>(false);
             }
         }
     }

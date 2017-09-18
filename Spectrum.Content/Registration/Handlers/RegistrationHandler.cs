@@ -1,7 +1,7 @@
 ﻿namespace Spectrum.Content.Registration.Handlers
 {
-    using Application.Registration.Controllers;
-    using Models;
+    ////using Application.Registration.Controllers;
+    ////using Models;
 
     /// <summary>
     /// Handler for UserRegisterd.

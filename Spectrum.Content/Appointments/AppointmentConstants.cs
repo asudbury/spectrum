@@ -18,6 +18,11 @@
         public const string AppointmentStatusTableName = "spectrumAppointmentStatus";
 
         /// <summary>
+        /// The ical appointment table name
+        /// </summary>
+        public const string IcalAppointmentTableName = "spectrumIcalAppointment";
+
+        /// <summary>
         /// The last appointment identifier cookie.
         /// </summary>
         public const string LastAppointmentIdCookie = "lastAppointmentId";

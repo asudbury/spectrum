@@ -97,3 +97,22 @@ body {
   }
 }
 
+/* Login form remove yellow background fron input fields */
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:active,
+input:-webkit-autofill:focus {
+    background-color: #FFFFFF !important;
+    color: #555 !important;
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
+    -webkit-text-fill-color: #555555 !important;
+    }
+
+
+/* Adds some white space after the last element on the login page */
+.row.login {
+	margin-bottom: 100px;
+}
+
+

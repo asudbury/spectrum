@@ -46,7 +46,7 @@
             IPublishedContent publishedContent, 
             ContactUsViewModel viewModel)
         {
-            loggingService.Info(GetType(), "Start");
+            ////loggingService.Info(GetType(), "Start");
 
             PageModel pageModel = new PageModel(publishedContent);
 
@@ -56,15 +56,20 @@
 
                 if (string.IsNullOrEmpty(emailTemplate) == false)
                 {
-                    string emailText = $"Name {viewModel.Name} EmailAddress {viewModel.EmailAddress} Message {viewModel.Message}";
+                     Dictionary<string, string> dictionairy = new Dictionary<string, string>
+                        {
+                            {"Name", viewModel.Name},
+                            {"EmailAddress", viewModel.EmailAddress},
+                            {"Message", viewModel.Message}
+                        };
 
-                    Dictionary<string, string> dictionairy = new Dictionary<string, string> { { "emailText", emailText } };
 
                     mailProvider.SendEmail(
                         umbracoContext,
                         emailTemplate,
                         viewModel.EmailAddress,
-                        dictionairy);
+                        dictionairy,
+                        null);
                 }
             }
             catch (Exception ex)

@@ -1,0 +1,78 @@
+﻿/* Spectrum Navigation Styling */
+
+/* Center NAV */
+@media (min-width: 768px) {
+	
+    .nav.navbar-nav {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+	
+    .navbar-nav {
+        float: none;
+    }
+}
+
+/* General Nav */
+
+.spectrum-nav {
+    font-size: 16px;
+}
+
+.navbar-brand {
+    font-size: 16px;
+    color: #9d9d9d;
+}
+
+/*.spectrum-nav.home .navbar-brand {
+	color: #9d9d9d;
+}*/
+
+.spectrum-nav.home .navbar-nav>li>a {
+    color: #9d9d9d;
+}
+
+.spectrum-nav.home .navbar-nav>li>a:hover,
+.spectrum-nav.home .navbar-nav>li>a:active {
+    color: #fff;
+}
+
+/* Home page nav background */
+.spectrum-nav.home,
+.spectrum-nav.home .collapsed{
+    background-color: transparent;
+    border-color: transparent;
+    /*padding-right: 150px;*/
+}
+
+/*.spectrum-nav .collapsed{
+	border-color: transparent;
+}*/
+
+.navbar-default {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+@media only screen and (max-width: 767px) {
+    
+    .spectrum-nav .navbar-toggle {
+        border-color: transparent;
+    }
+
+    .spectrum-nav.home .navbar-toggle{
+        background-color: transparent;
+    }
+	
+    .navbar-default.spectrum-nav.home .navbar-collapse, 
+    .navbar-default.spectrum-nav.home .navbar-form {
+        border-color: transparent;
+    }
+	
+    .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
+        background-color: transparent;
+    }
+}
+
+

@@ -1,15 +1,12 @@
 ﻿namespace Spectrum.Content.Mail.Services
 {
     using ContentModels;
-    using Ical.Net.Serialization;
-    using Ical.Net.Serialization.iCalendar.Serializers;
     using Models;
-    using System.IO;
     using System.Net.Mail;
-    using System.Text;
 
     public class MailService : IMailService
     {
+        /// <inheritdoc />
         /// <summary>
         /// Sends the email.
         /// </summary>
@@ -26,7 +23,7 @@
             {
                 mailTo = to;
             }
-
+          
             MailResponse response = new MailResponse
             {
                 Contents = model.TokenizedText,
@@ -38,25 +35,41 @@
             {
                 MailMessage mailMessage = new MailMessage
                 {
-                    To = { mailTo },
                     From = new MailAddress(model.From),
                     Subject = model.Subject,
-                    Body = model.TokenizedText
+                    Body = model.TokenizedText,
+                    IsBodyHtml = model.IsHtml
                 };
 
-                if (string.IsNullOrEmpty(model.BlindCopy) == false)
+                string[] emailto = mailTo.Split(';');
+
+                foreach (string mail in emailto)
                 {
-                    mailMessage.Bcc.Add(new MailAddress(model.BlindCopy));
+                    if (mail != string.Empty)
+                    {
+                        mailMessage.To.Add(mail);
+                    }
                 }
 
-                if (model.Attachment != null)
-                {
-                    CalendarSerializer serializer = new CalendarSerializer(new SerializationContext());
-                    string serializedAttachment = serializer.SerializeToString(model.Attachment.Data);
-                    byte[] bytesAttachment = Encoding.UTF8.GetBytes(serializedAttachment);
+                if (string.IsNullOrEmpty(model.BlindCopy) == false)
+                { 
+                    string[] emailBcc = model.BlindCopy.Split(';');
 
-                    MemoryStream ms = new MemoryStream(bytesAttachment);
-                    mailMessage.Attachments.Add(new Attachment(ms, model.Attachment.FileName, model.Attachment.MimeType));
+                    foreach (string mail in emailBcc)
+                    {
+                        if (mail != string.Empty)
+                        {
+                            mailMessage.Bcc.Add(mail);
+                        }
+                    }
+                }
+
+                if (model.Attachments != null)
+                {
+                    foreach (Attachment attachment in model.Attachments)
+                    {
+                        mailMessage.Attachments.Add(attachment);
+                    }    
                 }
 
                 SmtpClient smtpClient = new SmtpClient();

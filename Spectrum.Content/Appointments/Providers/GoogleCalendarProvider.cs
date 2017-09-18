@@ -54,6 +54,7 @@
             return model.GoogleCalendarUrl;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Inserts the event.
         /// </summary>
@@ -70,6 +71,7 @@
             Event insertedEvent = googleCalendarServices.InsertEvent(calendarService, googleEvent);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the events.
         /// </summary>
@@ -81,6 +83,7 @@
             googleCalendarServices.GetEvents(calendarService);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the event.
         /// </summary>

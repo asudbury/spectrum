@@ -1,6 +1,7 @@
 ﻿namespace Spectrum.Content.Appointments.Models
 {
     using System;
+    using System.Collections.Generic;
     using Umbraco.Core.Persistence;
     using Umbraco.Core.Persistence.DatabaseAnnotations;
 
@@ -55,5 +56,11 @@
         /// Gets or sets the status.
         /// </summary>
         public int Status { get; set; }
+
+        /// <summary>
+        /// Gets or sets the attendees.
+        /// </summary>
+        [Ignore]
+        public List<AppointmentAttendeeModel> Attendees { get; set; }
     }
 }

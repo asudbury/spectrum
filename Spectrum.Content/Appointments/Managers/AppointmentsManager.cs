@@ -12,6 +12,7 @@ namespace Spectrum.Content.Appointments.Managers
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net.Mail;
     using Translators;
     using Umbraco.Core.Models;
     using Umbraco.Web;
@@ -114,6 +115,7 @@ namespace Spectrum.Content.Appointments.Managers
             this.appointmentsBootGridTranslator = appointmentsBootGridTranslator;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Inserts the appointment.
         /// </summary>
@@ -150,13 +152,15 @@ namespace Spectrum.Content.Appointments.Managers
 
             appointmentModel.CreatedUser = createdUserName;
 
+            int appointmentId = 0;
+
             if (settingsModel.DatabaseIntegration)
             {
                 loggingService.Info(GetType(), "Database Integration");
 
-                string appointmentId = databaseProvider.InsertAppointment(appointmentModel);
+                appointmentId = databaseProvider.InsertAppointment(appointmentModel);
 
-                if (string.IsNullOrEmpty(appointmentId) == false)
+                if (appointmentId > 0)
                 {
                     cookieService.SetValue(AppointmentConstants.LastAppointmentIdCookie, appointmentId);
                     eventPublisher.Publish(new AppointmentMadeMessage(appointmentId));
@@ -171,16 +175,31 @@ namespace Spectrum.Content.Appointments.Managers
                 processed = true;    
             }
 
-            if (settingsModel.iCalIntegration)
+            if (settingsModel.IcalIntegration &&
+                string.IsNullOrEmpty(settingsModel.IcalCreateEmailTemplate) == false)
             {
                 loggingService.Info(GetType(), "iCal Integration");
 
                 //// try and send the email
-                if (string.IsNullOrEmpty(settingsModel.iCalEmailAddress))
+                if (string.IsNullOrEmpty(settingsModel.IcalEmailAddress) == false)
                 {
                     ICalAppointmentModel iCalModel = iCalendarService.GetICalAppoinment(appointmentModel);
 
-                    ////mailProvider.SendEmail(umbracoContext, 1202, settingsModel.iCalEmailAddress);
+                    Attachment attachment = Attachment.CreateAttachmentFromString(iCalModel.SerializedString, iCalModel.ContentType);
+
+                    mailProvider.SendEmail(
+                        umbracoContext, 
+                        settingsModel.IcalCreateEmailTemplate, 
+                        settingsModel.IcalEmailAddress, 
+                        attachment);
+
+                    //// now update the database 
+                    if (appointmentId > 0)
+                    {
+                        iCalModel.AppointmentId = appointmentId;
+
+                        databaseProvider.InsertIcalAppointment(iCalModel);
+                    }
                 }
 
                 processed = true;
@@ -197,6 +216,7 @@ namespace Spectrum.Content.Appointments.Managers
             return pageModel.NextPageUrl;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the appointment.
         /// </summary>
@@ -223,6 +243,7 @@ namespace Spectrum.Content.Appointments.Managers
             return new AppointmentViewModel();
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the appointments.
         /// </summary>
@@ -260,6 +281,7 @@ namespace Spectrum.Content.Appointments.Managers
             return new List<AppointmentViewModel>();
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the boot grid appointments.
         /// </summary>
@@ -286,6 +308,7 @@ namespace Spectrum.Content.Appointments.Managers
             return appointmentsBootGridTranslator.Translate(viewModels.ToList(), current, rowCount, searchPhrase);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Deletes the appointment.
         /// </summary>
@@ -296,22 +319,50 @@ namespace Spectrum.Content.Appointments.Managers
             UmbracoContext umbracoContext, 
             string appointmentId)
         {
-            AppointmentSettingsModel appointmentsModel = appointmentsProvider.GetAppointmentsModel(umbracoContext);
+            AppointmentSettingsModel settingsModel = appointmentsProvider.GetAppointmentsModel(umbracoContext);
 
-            if (appointmentsModel.DatabaseIntegration)
+            string id = encryptionService.DecryptString(appointmentId);
+
+            int appId = Convert.ToInt32(id);
+
+            AppointmentModel model = databaseProvider.GetAppointment(appId);
+
+            if (settingsModel.DatabaseIntegration)
             {
-                string id = encryptionService.DecryptString(appointmentId);
-
-                AppointmentModel model = databaseProvider.GetAppointment(Convert.ToInt32(id));
-
                 model.Status = (int)AppointmentStatus.Deleted;
 
                 databaseProvider.UpdateAppointment(model);
             }
 
+            if (settingsModel.IcalIntegration &&
+                string.IsNullOrEmpty(settingsModel.IcalDeleteEmailTemplate) == false)
+            {
+                //// now send the delete ical email
+
+                ICalAppointmentModel iCalModel = databaseProvider.GetIcalAppointment(appId);
+
+                ICalAppointmentModel appointmentModel = iCalendarService.GetICalAppoinment(
+                                                            model, 
+                                                            iCalModel.Guid, 
+                                                            iCalModel.Sequence + 1);
+
+                Attachment attachment = Attachment.CreateAttachmentFromString(appointmentModel.SerializedString, appointmentModel.ContentType);
+
+                mailProvider.SendEmail(
+                    umbracoContext,
+                    settingsModel.IcalDeleteEmailTemplate,
+                    settingsModel.IcalEmailAddress,
+                    attachment);
+            }
+
+            if (settingsModel.GoogleCalendarIntegration)
+            {
+            }
+
             return true;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Inserts the appointment.
         /// </summary>
