@@ -84,7 +84,7 @@
                         <span class="field-validation-valid" data-valmsg-for="attendeeInput" data-valmsg-replace="true"></span>
                     </div>
                     <div>
-                        <ul id="list"></ul>
+                        <ul id="attendeeList" style="list-style-type: none;"></ul>
                     </div>
                 </div>
             </div>
@@ -95,6 +95,20 @@
     </div>
 
     <script>
+        
+        function updateAttendees() {
+
+            var items = document.getElementById("attendeeList").getElementsByTagName("li");
+
+            for (var i = 0; i < items.length; i++) {
+                var span = items[i].getElementsByTagName("span")[0];
+
+                span.id = "Attendees_" + i;
+                span.name = "Attendees[" + i + "]";
+
+            }
+        }
+
         $(document).ready(function () {
 
             $('.input-validation-error').parents('.form-group').addClass('has-error');
@@ -126,8 +140,17 @@
                     $('span[data-valmsg-for="attendeeInput"]').text('Please enter a valid Email Address');
                     $('span[data-valmsg-for="attendeeInput"]').addClass('text-danger');
                 } else {
-                        
-                    $('#list').prepend('<li>' + inputValue + '</li>');
+
+                    var items = document.getElementById("attendeeList").getElementsByTagName("li");
+                    var index = items.length;
+
+                    $('#attendeeList').prepend('<li style="padding-top:10px">' +
+                        '<span id="Attendees_' + index + '" name="Attendees[' + index + ']" value=' + inputValue + '>' +
+                        inputValue +
+                        '</span>&nbsp;&nbsp;' +
+                        '<a href="#" onclick="$(this).parent().remove();updateAttendees();"><span class="glyphicon glyphicon-remove"></span></a>' +
+                        '</li>');
+
                     $('#attendeeInput').val('');
                     $('span[data-valmsg-for="attendeeInput"]').text('');
                 }
@@ -136,6 +159,3 @@
 
     </script>
 }
-
-
-

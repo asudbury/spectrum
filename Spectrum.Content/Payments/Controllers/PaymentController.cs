@@ -15,8 +15,9 @@
         /// </summary>
         private readonly IPaymentManager paymentManager;
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="PaymentController"/> class.
+        /// Initializes a new instance of the <see cref="T:Spectrum.Content.Payments.Controllers.PaymentController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="paymentManager">The payment manager.</param>
@@ -28,8 +29,9 @@
             this.paymentManager = paymentManager;
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="PaymentController" /> class.
+        /// Initializes a new instance of the <see cref="T:Spectrum.Content.Payments.Controllers.PaymentController" /> class.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="loggingService">The logging service.</param>
@@ -43,8 +45,9 @@
             this.paymentManager = paymentManager;
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="PaymentController"/> class.
+        /// Initializes a new instance of the <see cref="T:Spectrum.Content.Payments.Controllers.PaymentController" /> class.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="umbracoHelper">The umbraco helper.</param>

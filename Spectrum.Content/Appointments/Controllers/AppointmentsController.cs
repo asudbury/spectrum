@@ -18,8 +18,9 @@
         /// </summary>
         private readonly IAppointmentsManager appointmentsManager;
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="AppointmentsController" /> class.
+        /// Initializes a new instance of the <see cref="T:Spectrum.Content.Appointments.Controllers.AppointmentsController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="appointmentsManager">The appointments manager.</param>
@@ -31,8 +32,9 @@
             this.appointmentsManager = appointmentsManager;
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="AppointmentsController"/> class.
+        /// Initializes a new instance of the <see cref="T:Spectrum.Content.Appointments.Controllers.AppointmentsController" /> class.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="loggingService">The logging service.</param>
@@ -46,8 +48,9 @@
             this.appointmentsManager = appointmentsManager;
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="AppointmentsController"/> class.
+        /// Initializes a new instance of the <see cref="T:Spectrum.Content.Appointments.Controllers.AppointmentsController" /> class.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="umbracoHelper">The umbraco helper.</param>
@@ -97,6 +100,8 @@
         [ChildActionOnly]
         public void GetAppointment(string appointmentId)
         {
+            LoggingService.Info(GetType());
+
             appointmentsManager.GetAppointment(
                 UmbracoContext,
                 appointmentId);
@@ -109,6 +114,8 @@
         [HttpGet]
         public JsonResult GetAppointments()
         {
+            LoggingService.Info(GetType());
+
             DateTime dateRangeStart = DateTime.Now.AddDays(-10000);
             DateTime dateRangeEnd = DateTime.Now.AddDays(10000);
 
@@ -133,6 +140,8 @@
             int rowCount,
             string searchPhrase)
         {
+            LoggingService.Info(GetType());
+
             DateTime dateRangeStart = DateTime.Now.AddDays(-10000);
             DateTime dateRangeEnd = DateTime.Now.AddDays(10000);
 
@@ -194,6 +203,8 @@
         [ValidateAntiForgeryToken]
         public ActionResult UpdateAppointment(AppointmentViewModel viewModel)
         {
+            LoggingService.Info(GetType());
+
             if (!ModelState.IsValid)
             {
                 return CurrentUmbracoPage();
