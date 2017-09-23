@@ -1,4 +1,5 @@
-﻿@using Spectrum.Content.Appointments.ViewModels
+﻿@using System.Activities.Statements
+@using Spectrum.Content.Appointments.ViewModels
 @model AppointmentViewModel
 
 <table class="table table-striped">
@@ -35,6 +36,16 @@
             <td>Description</td>
             <td>@Model.Description</td>
         </tr>
+    
+    <tr>
+        <td colspan='2'>Attendees</td>
+    </tr>
+        
+    @foreach (var item in Model.Attendees)
+    {
+        <tr><td>@item</td></tr>
+    }
+
     </tbody>
 </table>
 

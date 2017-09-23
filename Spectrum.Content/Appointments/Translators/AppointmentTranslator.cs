@@ -3,6 +3,7 @@
     using Application.Services;
     using Models;
     using System;
+    using System.Collections.Generic;
     using ViewModels;
 
     public class AppointmentTranslator : IAppointmentTranslator
@@ -44,12 +45,13 @@
                 PaymentId = model.PaymentId,
                 Location = model.Location,
                 Description = model.Description,
-                TakePaymentUrl = BuildPaymentsUrl(paymentsPage, model.Id)
+                TakePaymentUrl = BuildPaymentsUrl(paymentsPage, model.Id),
+                Attendees = GetAttendees(model.Attendees)
             };
 
             return viewModel;
         }
-
+        
         /// <summary>
         /// Builds the payments URL.
         /// </summary>
@@ -68,7 +70,26 @@
             }
 
             return url;
+        }
 
+        /// <summary>
+        /// Gets the attendees.
+        /// </summary>
+        /// <param name="attendeeModels">The attendee models.</param>
+        /// <returns></returns>
+        internal IEnumerable<string> GetAttendees(IEnumerable<AppointmentAttendeeModel> attendeeModels)
+        {
+            List<string> attendees = new List<string>();
+
+            if (attendeeModels != null)
+            {
+                foreach (AppointmentAttendeeModel attendeeModel in attendeeModels)
+                {
+                    attendees.Add(attendeeModel.EmailAddress);
+                }
+            }
+
+            return attendees;
         }
     }
 }

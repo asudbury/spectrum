@@ -409,6 +409,10 @@
     <None Include="Properties\PublishProfiles\TheDragon.pubxml" />
     <None Include="Properties\PublishProfiles\UmbracoClean.pubxml" />
     <None Include="Properties\PublishProfiles\UmbracoDeploy.pubxml" />
+    <None Include="scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="scripts\jquery-1.10.2.js" />
+    <Content Include="scripts\jquery-1.10.2.min.js" />
+    <Content Include="scripts\jquery-1.10.2.min.map" />
     <None Include="scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="scripts\i18n\jquery-ui-timepicker-addon-i18n.js" />
     <Content Include="scripts\i18n\jquery-ui-timepicker-addon-i18n.min.js" />
@@ -540,6 +544,8 @@
     <Content Include="Views\Partials\Spectrum\Correspondence\ContactUs.cshtml" />
     <Content Include="Views\Partials\Spectrum\Appointments\EditAppointment.cshtml" />
     <Content Include="Views\Partials\Spectrum\Navigation\Footer.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

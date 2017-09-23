@@ -41,7 +41,8 @@
 
             foreach (string attendee in attendees)
             {
-                models.Add(new AppointmentAttendeeModel { EmailAddress = attendee });
+                //// For now put name as Unknown
+                models.Add(new AppointmentAttendeeModel { Name = "Unknown", EmailAddress = attendee });
             }
 
             return models;

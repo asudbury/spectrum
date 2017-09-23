@@ -3,16 +3,51 @@
 /* Center NAV */
 @media (min-width: 768px) {
 	
-    .nav.navbar-nav {
+    .navbar-brand {
+        display: none;
+        font-size: 16px;
+    }
+	
+    .nav.navbar-nav,
+    .user-id {
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
     }
 	
-    .navbar-nav {
+    .navbar-nav,
+    .user-id {
         float: none;
     }
+	
+    /* allows logged in user to sit closer to nav bar */
+    .navbar {
+        margin-bottom: 0px;
+    }
+	
+    .user-id {
+        color: #777;
+        font-size: 16px;
+        /* The margin the nav would have had */
+        margin-bottom: 20p;
+    }
+	
+    .user-id.home {
+        color: #9d9d9d; 
+    }
 }
+
+/* Turn off centered login name when hamburger menu displayed */
+@media (max-width: 768px) {
+    .user-id {
+        display: none;
+    }
+	
+    .navbar-brand {
+        font-size: 13px;
+    }
+}
+
 
 /* General Nav */
 
@@ -21,7 +56,6 @@
 }
 
 .navbar-brand {
-    font-size: 16px;
     color: #9d9d9d;
 }
 

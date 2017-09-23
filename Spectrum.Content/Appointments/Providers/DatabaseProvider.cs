@@ -25,7 +25,7 @@
 
             foreach (AppointmentAttendeeModel appointmentAttendeeModel in model.Attendees)
             {
-                appointmentAttendeeModel.Id = id;
+                appointmentAttendeeModel.AppointmentId = id;
                 InsertAppointmentAttendee(appointmentAttendeeModel);
             }
 

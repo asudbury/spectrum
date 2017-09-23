@@ -84,7 +84,20 @@
                         <span class="field-validation-valid" data-valmsg-for="attendeeInput" data-valmsg-replace="true"></span>
                     </div>
                     <div>
-                        <ul id="attendeeList" style="list-style-type: none;"></ul>
+                        <ul id="attendeeList" class="list-group" style="list-style-type: none;">
+                            @Html.DisplayFor(model => model.Attendees)
+
+                            @if (Model.Attendees != null) {
+                                foreach (string attendee in Model.Attendees) {
+                                    <li style="padding-top:10px">
+                                        <input id="Attendees_' + index + '" name="Attendees[' + index + ']" value='" + attendee "'/>
+                                        &nbsp;&nbsp;&nbsp;
+                                        <a href="#" onclick="$(this).parent().remove();updateAttendees();"><span class="glyphicon glyphicon-remove"></span></a>' +
+                                    </li>
+                                }
+                            }
+
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -101,11 +114,10 @@
             var items = document.getElementById("attendeeList").getElementsByTagName("li");
 
             for (var i = 0; i < items.length; i++) {
-                var span = items[i].getElementsByTagName("span")[0];
+                var input = items[i].getElementsByTagName("input")[0];
 
-                span.id = "Attendees_" + i;
-                span.name = "Attendees[" + i + "]";
-
+                input.id = "Attendees_" + i;
+                input.name = "Attendees[" + i + "]";
             }
         }
 
@@ -145,15 +157,18 @@
                     var index = items.length;
 
                     $('#attendeeList').prepend('<li style="padding-top:10px">' +
-                        '<span id="Attendees_' + index + '" name="Attendees[' + index + ']" value=' + inputValue + '>' +
-                        inputValue +
-                        '</span>&nbsp;&nbsp;' +
+                        '<input id="Attendees_' + index + '" name="Attendees[' + index + ']" value=' + inputValue + '>' +
+                        '</input>&nbsp;&nbsp;&nbsp;' +
                         '<a href="#" onclick="$(this).parent().remove();updateAttendees();"><span class="glyphicon glyphicon-remove"></span></a>' +
                         '</li>');
 
                     $('#attendeeInput').val('');
                     $('span[data-valmsg-for="attendeeInput"]').text('');
                 }
+            });
+
+            $('form').submit(function(event) {
+                $('#submit').prop('disabled', true);
             });
         });
 

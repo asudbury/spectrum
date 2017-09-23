@@ -115,6 +115,10 @@ input:-webkit-autofill:focus {
 	margin-bottom: 100px;
 }
 
+.row.login input {
+	margin-bottom: 15px;
+}
+
 .row.login button {
 	margin-top: 20px;
 }

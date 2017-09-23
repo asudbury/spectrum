@@ -175,18 +175,17 @@ namespace Spectrum.Content.Appointments.Managers
                 processed = true;    
             }
 
-            if (settingsModel.IcalIntegration &&
-                string.IsNullOrEmpty(settingsModel.IcalCreateEmailTemplate) == false)
+            if (settingsModel.IcalIntegration)
             {
                 loggingService.Info(GetType(), "iCal Integration");
+
+                ICalAppointmentModel iCalModel = iCalendarService.GetICalAppoinment(appointmentModel);
+
+                Attachment attachment = Attachment.CreateAttachmentFromString(iCalModel.SerializedString, iCalModel.ContentType);
 
                 //// try and send the email
                 if (string.IsNullOrEmpty(settingsModel.IcalEmailAddress) == false)
                 {
-                    ICalAppointmentModel iCalModel = iCalendarService.GetICalAppoinment(appointmentModel);
-
-                    Attachment attachment = Attachment.CreateAttachmentFromString(iCalModel.SerializedString, iCalModel.ContentType);
-
                     mailProvider.SendEmail(
                         umbracoContext, 
                         settingsModel.IcalCreateEmailTemplate, 
@@ -199,6 +198,18 @@ namespace Spectrum.Content.Appointments.Managers
                         iCalModel.AppointmentId = appointmentId;
 
                         databaseProvider.InsertIcalAppointment(iCalModel);
+                    }
+                }
+
+                if (settingsModel.IcalSendToAttendees)
+                {
+                    foreach (AppointmentAttendeeModel attendeeModel in appointmentModel.Attendees)
+                    {
+                        mailProvider.SendEmail(
+                            umbracoContext,
+                            settingsModel.IcalCreateEmailTemplate,
+                            attendeeModel.EmailAddress,
+                            attachment);
                     }
                 }
 

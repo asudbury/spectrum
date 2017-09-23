@@ -13,6 +13,11 @@
         public const string AppointmentAttendeeTableName = "spectrumAppointmentAttendee";
 
         /// <summary>
+        /// The appointment attendee join statement.
+        /// </summary>
+        public const string AppointmentAttendeeJoinStatement = AppointmentTableName + ".Id = " + AppointmentAttendeeTableName + ".AppointmentId";
+
+        /// <summary>
         /// The appointment status table name.
         /// </summary>
         public const string AppointmentStatusTableName = "spectrumAppointmentStatus";

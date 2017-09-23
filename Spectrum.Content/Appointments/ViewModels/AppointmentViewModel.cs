@@ -1,4 +1,7 @@
-﻿namespace Spectrum.Content.Appointments.ViewModels
+﻿using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
+
+namespace Spectrum.Content.Appointments.ViewModels
 {
     using System;
 
@@ -58,5 +61,10 @@
         /// Gets or sets the take payment URL.
         /// </summary>
         public string TakePaymentUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets the attendees.
+        /// </summary>
+        public IEnumerable<string> Attendees { get; set; }
     }
 }
