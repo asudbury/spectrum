@@ -33,14 +33,17 @@
             string paymentsPage,
             AppointmentModel model)
         {
+            DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(model.StartTime);
+            DateTime endTime = TimeZone.CurrentTimeZone.ToLocalTime(model.EndTime);
+
             AppointmentViewModel viewModel = new AppointmentViewModel
             {
                 Id = model.Id,
                 EncryptedId = encryptionService.EncryptString(model.Id.ToString()),
                 CreatedTime = TimeZone.CurrentTimeZone.ToLocalTime(model.CreatedTime),
                 CreatedUser = model.CreatedUser,
-                StartTime = TimeZone.CurrentTimeZone.ToLocalTime(model.StartTime),
-                EndTime = TimeZone.CurrentTimeZone.ToLocalTime(model.EndTime),
+                StartTime = startTime,
+                Duration = (endTime - startTime).Minutes,
                 Status = ((AppointmentStatus)model.Status).ToString(),
                 PaymentId = model.PaymentId,
                 Location = model.Location,

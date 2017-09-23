@@ -19,7 +19,7 @@
             {
                 CreatedTime = DateTime.Now.ToUniversalTime(),
                 StartTime = viewModel.StartTime.ToUniversalTime(),
-                EndTime = viewModel.EndTime.ToUniversalTime(),
+                EndTime = viewModel.StartTime.AddMinutes(viewModel.Duration).ToUniversalTime(),
                 Description = viewModel.Description,
                 Location = viewModel.Location,
                 PaymentId = string.Empty,

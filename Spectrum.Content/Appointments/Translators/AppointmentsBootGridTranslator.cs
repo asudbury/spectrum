@@ -66,7 +66,7 @@
                 {
                     if (appointmentViewModel.Id.ToString().ToLower().Contains(searchString) ||
                         appointmentViewModel.StartTime.ToString("ddd dd MMM HH:mm").ToLower().Contains(searchString) ||
-                        appointmentViewModel.EndTime.ToString("ddd dd MMM HH:mm").ToLower().Contains(searchString) ||
+                        appointmentViewModel.Duration.ToString().Contains(searchString) ||
                         appointmentViewModel.Status.ToLower().Contains(searchString) ||
                         appointmentViewModel.PaymentId.ToLower().Contains(searchString) ||
                         appointmentViewModel.Location.ToLower().Contains(searchString) ||

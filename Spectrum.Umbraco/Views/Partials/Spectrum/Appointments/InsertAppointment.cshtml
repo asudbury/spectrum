@@ -33,14 +33,11 @@
             <div class="row">
                 <div class="form-group col-xs-8">
                     <div>
-                        <label class="control-label">End Time</label>
+                        <label class="control-label">Duration (In minutes)</label>
                     </div>
                     <div>
-                        @Html.TextBoxFor(model => model.EndTime, "{0:dd-MMM-yyyy HH:mm}", new {@class = "date"})
-                        <span class="btn" style="cursor: pointer;">
-                            <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
-                        @Html.ValidationMessageFor(model => model.EndTime)                       
+                        @Html.EditorFor(model => model.Duration)
+                        @Html.ValidationMessageFor(model => model.Duration)
                     </div>
                 </div>
             </div>

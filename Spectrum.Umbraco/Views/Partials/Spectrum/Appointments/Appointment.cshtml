@@ -1,5 +1,4 @@
-﻿@using System.Activities.Statements
-@using Spectrum.Content.Appointments.ViewModels
+﻿@using Spectrum.Content.Appointments.ViewModels
 @model AppointmentViewModel
 
 <table class="table table-striped">
@@ -21,8 +20,8 @@
             <td>@Model.StartTime.ToString("ddd dd MMM HH:mm")</td>
         </tr>
         <tr>
-            <td>End Time</td>
-            <td>@Model.EndTime.ToString("ddd dd MMM HH:mm")</td>
+            <td>Duration (In Minutes)</td>
+            <td>@Model.Duration</td>
         </tr>
         <tr>
             <td>Payment Id</td>

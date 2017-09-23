@@ -33,9 +33,9 @@ namespace Spectrum.Content.Appointments.ViewModels
         public DateTime StartTime { get; set; }
 
         /// <summary>
-        /// Gets or sets the end time.
+        /// Gets or sets the duration.
         /// </summary>
-        public DateTime EndTime { get; set; }
+        public int Duration { get; set; }
 
         /// <summary>
         /// Gets or sets the status.

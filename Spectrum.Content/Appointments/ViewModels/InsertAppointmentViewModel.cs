@@ -14,8 +14,7 @@
             //// we need to set some default dates
             //// other wise we get the DateTime default date
             StartTime = DateTime.Now;
-            EndTime = DateTime.Now.AddHours(1);  
-            Attendees = new List<string>();  
+            Attendees = new List<string>();
         }
 
         /// <summary>
@@ -26,12 +25,12 @@
         public DateTime StartTime { get; set; }
         
         /// <summary>
-        /// Gets or sets the end date time.
+        /// Gets or sets the duration.
         /// </summary>
-        [Required(ErrorMessage = "Please enter an End Time")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dddd dd-MMM-yyyy HH:mm}")]
-        public DateTime EndTime { get; set; }
-        
+        [Required(ErrorMessage = "Please enter a Duration")]
+        [Range(0, int.MaxValue, ErrorMessage = "Please enter valid Duration")]
+        public int Duration { get; set; }
+
         /// <summary>
         /// Gets or sets the location.
         /// </summary>
