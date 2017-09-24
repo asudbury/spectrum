@@ -1,4 +1,6 @@
-﻿namespace Spectrum.Content.Authentication.Controllers
+﻿using System.Web.Security;
+
+namespace Spectrum.Content.Authentication.Controllers
 {
     using ContentModels;
     using Services;
@@ -81,10 +83,7 @@
                 {
                     LoggingService.Info(GetType(), "Successful Log In");
 
-                    if (viewModel.RememberMe)
-                    {
-                          
-                    }
+                    FormsAuthentication.SetAuthCookie(viewModel.EmailAddress, viewModel.RememberMe);
 
                     IMember member = userService.GetUser(viewModel.EmailAddress);
 

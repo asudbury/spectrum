@@ -24,6 +24,7 @@
         /// <summary>
         /// Gets or sets a value indicating whether [remember me].
         /// </summary>
+        [DisplayName("Remember me")]
         public bool RememberMe { get; set; }
 
         /// <summary>
