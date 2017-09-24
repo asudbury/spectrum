@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using Spectrum.Application.Services;
+using Spectrum.Content.Mail.Models;
 
 namespace Spectrum.Content.Payments.Managers
 {
@@ -146,12 +147,14 @@ namespace Spectrum.Content.Payments.Managers
                         {"PaymentAmount", viewModel.Amount.ToString(CultureInfo.InvariantCulture)},
                     };
                     
-                    /*loggingService.Info(GetType(), "Sending Email");
+                    loggingService.Info(GetType(), "Sending Email");
 
                     MailResponse mailResponse = mailProvider.SendEmail(
                                                     umbracoContext,
-                                                    pageModel.EmailTemplateNodeId.Value,
-                                                    viewModel.EmailAddress);*/
+                                                    pageModel.EmailTemplateName,
+                                                    viewModel.EmailAddress,
+                                                    null,
+                                                    dictionary);
 
                     //// TODO : we need to log the mail response!
                 }

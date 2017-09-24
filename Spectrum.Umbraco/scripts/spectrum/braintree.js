@@ -249,9 +249,8 @@ function setupBraintree(
                             }
 
                             //Validate the email address
-                            var email = '';
-                            /*var email = $('#emailAddress').val();
-        
+                            var email = $('#emailAddress').val();
+
                             if (email) {
                                 //Email validation regex
                                 var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
@@ -259,9 +258,9 @@ function setupBraintree(
                                 if (!filter.test(email)) {
                                     displayError = 'Your email address must be valid';
                                     manageError(displayError);
-                                    return;;
+                                    return;
                                 }
-                            }*/
+                            }
 
                             var postData = {
                                 currentPageNodeId: nodeId,
