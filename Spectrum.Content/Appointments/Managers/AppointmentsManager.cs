@@ -183,6 +183,15 @@ namespace Spectrum.Content.Appointments.Managers
 
                 Attachment attachment = Attachment.CreateAttachmentFromString(iCalModel.SerializedString, iCalModel.ContentType);
 
+                Dictionary<string, string> dictionary = new Dictionary<string, string>
+                {
+                    {"AppointmentId", appointmentId.ToString()},
+                    {"AppointmentStartTime", viewModel.StartTime.ToLongTimeString()},
+                    {"AppointmentDuration", viewModel.Duration.ToString()},
+                    {"AppointmentLocation", viewModel.Location},
+                    {"AppointmentDescription", viewModel.Description}
+                };
+
                 //// try and send the email
                 if (string.IsNullOrEmpty(settingsModel.IcalEmailAddress) == false)
                 {
@@ -190,7 +199,8 @@ namespace Spectrum.Content.Appointments.Managers
                         umbracoContext, 
                         settingsModel.IcalCreateEmailTemplate, 
                         settingsModel.IcalEmailAddress, 
-                        attachment);
+                        attachment,
+                        dictionary);
 
                     //// now update the database 
                     if (appointmentId > 0)
@@ -209,7 +219,8 @@ namespace Spectrum.Content.Appointments.Managers
                             umbracoContext,
                             settingsModel.IcalCreateEmailTemplate,
                             attendeeModel.EmailAddress,
-                            attachment);
+                            attachment,
+                            dictionary);
                     }
                 }
 

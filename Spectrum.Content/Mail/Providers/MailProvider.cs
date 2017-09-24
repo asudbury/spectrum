@@ -51,7 +51,7 @@ namespace Spectrum.Content.Mail.Providers
             string to,
             Attachment attachment)
         {
-            return SendEmail(umbracoContext, emailTemplateName, to, null, attachment);
+            return SendEmail(umbracoContext, emailTemplateName, to, attachment, null);
         }
 
         /// <summary>
@@ -60,16 +60,16 @@ namespace Spectrum.Content.Mail.Providers
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="emailTemplateName">Name of the email template.</param>
         /// <param name="to">To.</param>
-        /// <param name="replacementTokens">The replacement tokens.</param>
         /// <param name="attachment">The attachment.</param>
+        /// <param name="replacementTokens">The replacement tokens.</param>
         /// <returns></returns>
         /// <inheritdoc />
         public MailResponse SendEmail(
             UmbracoContext umbracoContext, 
             string emailTemplateName, 
             string to, 
-            Dictionary<string, string> replacementTokens,
-            Attachment attachment)
+            Attachment attachment,
+            Dictionary<string, string> replacementTokens)
         {
             IPublishedContent content = settingsService.GetMailTemplate(
                                             umbracoContext, 

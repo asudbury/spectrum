@@ -63,13 +63,12 @@
                             {"Message", viewModel.Message}
                         };
 
-
                     mailProvider.SendEmail(
                         umbracoContext,
                         emailTemplate,
                         viewModel.EmailAddress,
-                        dictionairy,
-                        null);
+                        null,
+                        dictionairy);
                 }
             }
             catch (Exception ex)

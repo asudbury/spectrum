@@ -1,4 +1,6 @@
-﻿using Spectrum.Application.Services;
+﻿using System.Collections.Generic;
+using System.Globalization;
+using Spectrum.Application.Services;
 
 namespace Spectrum.Content.Payments.Managers
 {
@@ -132,10 +134,18 @@ namespace Spectrum.Content.Payments.Managers
                                             viewModel.AutoAllocate, 
                                             viewModel.AppointmentId));
                 
-                if (string.IsNullOrEmpty(pageModel.EmailTemplateName) == false)
+                if (string.IsNullOrEmpty(pageModel.EmailTemplateName) == false &&
+                    string.IsNullOrEmpty(viewModel.EmailAddress) == false)
                 {
                     //// TODO : not currently implemented.
 
+                    Dictionary<string, string> dictionary = new Dictionary<string, string>
+                    {
+                        {"PaymentId", paymentId},
+                        {"AppointmentId", viewModel.AppointmentId},
+                        {"PaymentAmount", viewModel.Amount.ToString(CultureInfo.InvariantCulture)},
+                    };
+                    
                     /*loggingService.Info(GetType(), "Sending Email");
 
                     MailResponse mailResponse = mailProvider.SendEmail(

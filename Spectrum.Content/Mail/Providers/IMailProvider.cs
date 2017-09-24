@@ -27,14 +27,14 @@
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="emailTemplateName">Name of the email template.</param>
         /// <param name="to">To.</param>
-        /// <param name="replacementTokens">The replacement tokens.</param>
         /// <param name="attachment">The attachment.</param>
+        /// <param name="replacementTokens">The replacement tokens.</param>
         /// <returns></returns>
         MailResponse SendEmail(
             UmbracoContext umbracoContext, 
             string emailTemplateName, 
             string to, 
-            Dictionary<string, string> replacementTokens,
-            Attachment attachment);
+            Attachment attachment,
+            Dictionary<string, string> replacementTokens);
     }
 }
