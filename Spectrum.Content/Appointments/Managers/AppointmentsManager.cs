@@ -222,6 +222,8 @@ namespace Spectrum.Content.Appointments.Managers
                 return pageModel.ErrorPageUrl;
             }
 
+            cookieService.SetValue(AppointmentConstants.LastAppointmentDuration, viewModel.Duration);
+
             loggingService.Info(GetType(), "End");
 
             return pageModel.NextPageUrl;

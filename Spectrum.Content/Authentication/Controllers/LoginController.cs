@@ -20,8 +20,9 @@
         /// </summary>
         private readonly ISettingsService settingsService;
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="LoginController" /> class.
+        /// Initializes a new instance of the <see cref="T:Spectrum.Content.Authentication.Controllers.LoginController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="settingsService">The settings service.</param>
@@ -37,8 +38,9 @@
             this.settingsService = settingsService;
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="LoginController"/> class.
+        /// Initializes a new instance of the <see cref="T:Spectrum.Content.Authentication.Controllers.LoginController" /> class.
         /// </summary>
         public LoginController() : 
             this(new LoggingService(), 
@@ -78,6 +80,11 @@
                 if (result)
                 {
                     LoggingService.Info(GetType(), "Successful Log In");
+
+                    if (viewModel.RememberMe)
+                    {
+                          
+                    }
 
                     IMember member = userService.GetUser(viewModel.EmailAddress);
 

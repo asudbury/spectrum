@@ -13,11 +13,6 @@
         public const string AppointmentAttendeeTableName = "spectrumAppointmentAttendee";
 
         /// <summary>
-        /// The appointment attendee join statement.
-        /// </summary>
-        public const string AppointmentAttendeeJoinStatement = AppointmentTableName + ".Id = " + AppointmentAttendeeTableName + ".AppointmentId";
-
-        /// <summary>
         /// The appointment status table name.
         /// </summary>
         public const string AppointmentStatusTableName = "spectrumAppointmentStatus";
@@ -31,5 +26,10 @@
         /// The last appointment identifier cookie.
         /// </summary>
         public const string LastAppointmentIdCookie = "lastAppointmentId";
+
+        /// <summary>
+        /// The last appointment duration.
+        /// </summary>
+        public const string LastAppointmentDuration = "lastAppointmentDuration";
     }
 }

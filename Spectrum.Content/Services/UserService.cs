@@ -19,11 +19,13 @@
         /// </summary>
         private MembershipHelper membershipHelper;
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets or sets the member service.
         /// </summary>
         public IMemberService MemberService { get; set; }
 
+        /// <inheritdoc />
         /// <summary>
         /// Creates the user.
         /// </summary>
@@ -77,6 +79,7 @@
             return member;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Determines whether [is user logged in].
         /// </summary>
@@ -88,6 +91,7 @@
             return GetMembershipHelper().IsLoggedIn();
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Logins the specified user name.
         /// </summary>
@@ -111,6 +115,7 @@
             return GetMembershipHelper().Login(userName, password);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Logouts this instance.
         /// </summary>
@@ -119,6 +124,7 @@
             GetMembershipHelper().Logout();
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the user.
         /// </summary>
@@ -139,6 +145,7 @@
             return MemberService.GetByUsername(userName);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Updates the login status.
         /// </summary>
@@ -166,6 +173,7 @@
             MemberService.Save(member);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the user unique identifier.
         /// </summary>
@@ -181,6 +189,7 @@
             return member.Key;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the default role.
         /// </summary>

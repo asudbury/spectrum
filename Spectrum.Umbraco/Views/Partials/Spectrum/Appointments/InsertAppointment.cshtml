@@ -1,8 +1,21 @@
-﻿@using Spectrum.Content.Appointments.Controllers
+﻿@using Spectrum.Content.Appointments
+@using Spectrum.Content.Appointments.Controllers
 @model Spectrum.Content.Appointments.ViewModels.InsertAppointmentViewModel
 @{
     Html.EnableClientValidation(true);
     Html.EnableUnobtrusiveJavaScript(true);
+
+    if (Model.Duration == 0)
+    {
+        int duration = 60;
+
+        if (Request.Cookies[AppointmentConstants.LastAppointmentDuration] != null)
+        {
+            duration = Convert.ToInt32(Request.Cookies[AppointmentConstants.LastAppointmentDuration].Value);
+        }
+
+        Model.Duration = duration;
+    }
 }
 
 @using (Html.BeginUmbracoForm<AppointmentsController>("InsertAppointment"))

@@ -1,4 +1,6 @@
-﻿namespace Spectrum.Content.Appointments.ViewModels
+﻿using Braintree;
+
+namespace Spectrum.Content.Appointments.ViewModels
 {
     using System;
     using System.Collections.Generic;
@@ -12,9 +14,11 @@
         public InsertAppointmentViewModel()
         {
             //// we need to set some default dates
-            //// other wise we get the DateTime default date
-            StartTime = DateTime.Now;
+            //// other wise we get the DateTime default date round upto text hour
+            DateTime now = DateTime.Now;
+            StartTime = new DateTime(now.Year, now.Month, now.Day, now.Hour +1, 0,0);
             Attendees = new List<string>();
+            Duration = 0;
         }
 
         /// <summary>

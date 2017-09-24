@@ -43,7 +43,7 @@
                     '>View</a>' +
                     '&nbsp;|&nbsp;<a href="#" class="link-edit-appointment" data-encrypted-appointment-id=' +
                     row.encryptedId +
-                    '>Edit</a>' +
+                    '>Update</a>' +
                     '&nbsp;|&nbsp;<a href="#" class="link-delete-appointment" data-appointment-id=' + row.id + ' data-encrypted-appointment-id=' +
                     row.encryptedId +
                     '>Delete</a>';
@@ -81,7 +81,7 @@
                 url: '/umbraco/Surface/Appointments/Edit/' + appointmentId,
                 success: function (data) {
                     jQuery('#appointment').html(data);
-                    jQuery('#appointment').dialog({ 'title': 'Edit Appointment', 'width': 'auto', 'height': 'auto', modal: true, 'css' : 'border-color:blue'});
+                    jQuery('#appointment').dialog({ 'title': 'Update Appointment', 'width': 'auto', 'height': 'auto', modal: true, 'css' : 'border-color:blue'});
                 }
             });
         }).end().find(".link-delete-appointment").on("click", function (e) {
