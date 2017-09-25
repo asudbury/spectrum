@@ -123,4 +123,28 @@ input:-webkit-autofill:focus {
 	margin-top: 20px;
 }
 
+/* Table styling */
+
+/* Makes the table header row higher and adds a nice linear gradient */
+#appointmentsGrid thead th,
+#transactionsGrid thead th {
+	padding-top: 10px !important;
+	padding-bottom: 10px !important;
+	background: linear-gradient(rgb(238, 238, 238), rgb(224, 224, 224));
+}
+
+/* Adds an outer border to tables but removes inner borders */
+#appointmentsGrid.table,
+#transactionsGrid.table {
+	border:1px solid #000
+}
+
+#appointmentsGrid td,
+#appointmentsGrid th,
+#transactionsGrid td,
+#transactionsGrid th {
+	border:none
+}
+
+
 
