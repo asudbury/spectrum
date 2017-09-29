@@ -15,11 +15,14 @@
         /// <returns></returns>
         public AppointmentModel Translate(InsertAppointmentViewModel viewModel)
         {
+            DateTime startTime = viewModel.StartTime.ToUniversalTime();
+            DateTime endTime = viewModel.StartTime.AddMinutes(viewModel.Duration).ToUniversalTime();
+
             AppointmentModel model = new AppointmentModel
             {
                 CreatedTime = DateTime.Now.ToUniversalTime(),
-                StartTime = viewModel.StartTime.ToUniversalTime(),
-                EndTime = viewModel.StartTime.AddMinutes(viewModel.Duration).ToUniversalTime(),
+                StartTime = startTime,
+                EndTime = endTime,
                 Description = viewModel.Description,
                 Location = viewModel.Location,
                 PaymentId = string.Empty,

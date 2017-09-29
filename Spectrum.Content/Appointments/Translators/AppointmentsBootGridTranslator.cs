@@ -1,4 +1,6 @@
-﻿namespace Spectrum.Content.Appointments.Translators
+﻿using System.Globalization;
+
+namespace Spectrum.Content.Appointments.Translators
 {
     using System;
     using System.Collections.Generic;
@@ -6,6 +8,7 @@
 
     public class AppointmentsBootGridTranslator : BaseBootGridTranslator, IAppointmentsBootGridTranslator
     {
+        /// <inheritdoc />
         /// <summary>
         /// Translates the specified view models.
         /// </summary>
@@ -64,9 +67,15 @@
             {
                 foreach (AppointmentViewModel appointmentViewModel in originalViewModels)
                 {
-                    if (appointmentViewModel.Id.ToString().ToLower().Contains(searchString) ||
+                    if (searchString.ToLower() == "late" && 
+                        string.IsNullOrEmpty(appointmentViewModel.PaymentId))
+                    {
+                        viewModels.Add(appointmentViewModel);
+                    }
+
+                    else if (appointmentViewModel.Id.ToString().ToLower().Contains(searchString) ||
                         appointmentViewModel.StartTime.ToString("ddd dd MMM HH:mm").ToLower().Contains(searchString) ||
-                        appointmentViewModel.Duration.ToString().Contains(searchString) ||
+                        appointmentViewModel.Duration.ToString(CultureInfo.InvariantCulture).Contains(searchString) ||
                         appointmentViewModel.Status.ToLower().Contains(searchString) ||
                         appointmentViewModel.PaymentId.ToLower().Contains(searchString) ||
                         appointmentViewModel.Location.ToLower().Contains(searchString) ||

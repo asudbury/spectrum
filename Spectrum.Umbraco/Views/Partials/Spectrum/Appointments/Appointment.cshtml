@@ -1,7 +1,7 @@
 ﻿@using Spectrum.Content.Appointments.ViewModels
 @model AppointmentViewModel
 
-<table class="table table-striped">
+<table class="table table-striped table-bordered">
     <tbody>
         <tr>
             <td>Appointment Id</td>
@@ -18,6 +18,10 @@
         <tr>
             <td>Start Time</td>
             <td>@Model.StartTime.ToString("ddd dd MMM HH:mm")</td>
+        </tr>
+        <tr>
+            <td>End Time</td>
+            <td>@Model.EndTime.ToString("ddd dd MMM HH:mm")</td>
         </tr>
         <tr>
             <td>Duration (In Minutes)</td>

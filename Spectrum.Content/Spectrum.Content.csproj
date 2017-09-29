@@ -87,6 +87,10 @@
       <HintPath>..\packages\xmlrpcnet.2.5.0\lib\net20\CookComputing.XmlRpcV2.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.2.16.3.0\lib\net45\CsvHelper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="DataAnnotationsExtensions, Version=5.0.1.16, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DataAnnotationsExtensions.5.0.1.16\lib\NETFramework40\DataAnnotationsExtensions.dll</HintPath>
       <Private>True</Private>
@@ -401,9 +405,13 @@
     <Compile Include="ContentModels\MailTemplateModel.cs" />
     <Compile Include="ContentModels\MenuModel.cs" />
     <Compile Include="Correspondence\Controllers\ContactUsController.cs" />
+    <Compile Include="Correspondence\Controllers\ForumController.cs" />
+    <Compile Include="Correspondence\Manangers\ForumManager.cs" />
     <Compile Include="Correspondence\Manangers\IContactUsManager.cs" />
     <Compile Include="Correspondence\Manangers\ContactUsManager.cs" />
+    <Compile Include="Correspondence\Manangers\IForumManager.cs" />
     <Compile Include="Correspondence\ViewModels\ContactUsViewModel.cs" />
+    <Compile Include="Correspondence\ViewModels\ForumPostViewModel.cs" />
     <Compile Include="Extensions\MemberExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Handlers\Error404Handler.cs" />

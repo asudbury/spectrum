@@ -14,8 +14,9 @@
         /// </summary>
         private readonly IContactUsManager contactUsManager;
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="ContactUsController" /> class.
+        /// Initializes a new instance of the <see cref="T:Spectrum.Content.Correspondence.Controllers.ContactUsController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="contactUsManager">The contact us manager.</param>
@@ -27,8 +28,9 @@
             this.contactUsManager = contactUsManager;
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="ContactUsController" /> class.
+        /// Initializes a new instance of the <see cref="T:Spectrum.Content.Correspondence.Controllers.ContactUsController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="umbracoContext">The umbraco context.</param>
@@ -42,8 +44,9 @@
             this.contactUsManager = contactUsManager;
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="ContactUsController" /> class.
+        /// Initializes a new instance of the <see cref="T:Spectrum.Content.Correspondence.Controllers.ContactUsController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="umbracoContext">The umbraco context.</param>

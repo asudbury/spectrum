@@ -70,7 +70,7 @@
                 url: '/umbraco/Surface/Appointments/View/' + appointmentId,
                 success: function (data) {
                     jQuery('#appointment').html(data);
-                    jQuery('#appointment').dialog({ 'title': 'View Appointment', 'width': 400, 'height': 450 });
+                    jQuery('#appointment').dialog({ 'title': 'View Appointment', 'width': 'auto', 'height': 'auto' });
                     jQuery('#appointment').dialog().css("border-color", "blue");
                 }
             });
