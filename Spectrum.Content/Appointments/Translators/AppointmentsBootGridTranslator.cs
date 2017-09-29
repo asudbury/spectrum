@@ -1,9 +1,8 @@
-﻿using System.Globalization;
-
-namespace Spectrum.Content.Appointments.Translators
+﻿namespace Spectrum.Content.Appointments.Translators
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using ViewModels;
 
     public class AppointmentsBootGridTranslator : BaseBootGridTranslator, IAppointmentsBootGridTranslator
@@ -67,9 +66,16 @@ namespace Spectrum.Content.Appointments.Translators
             {
                 foreach (AppointmentViewModel appointmentViewModel in originalViewModels)
                 {
-                    if (searchString.ToLower() == "late" && 
+                    if (searchString.ToLower() == "unpaid" &&
                         string.IsNullOrEmpty(appointmentViewModel.PaymentId))
                     {
+                        viewModels.Add(appointmentViewModel);
+                    }
+
+                    else if (IsDateCheckKeywordSearch(
+                             searchString, 
+                             appointmentViewModel.StartTime))
+                    { 
                         viewModels.Add(appointmentViewModel);
                     }
 

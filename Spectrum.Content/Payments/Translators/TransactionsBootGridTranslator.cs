@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace Spectrum.Content.Payments.Translators
+﻿namespace Spectrum.Content.Payments.Translators
 {
     using System;
     using System.Collections.Generic;
@@ -8,6 +6,7 @@ namespace Spectrum.Content.Payments.Translators
 
     public class TransactionsBootGridTranslator : BaseBootGridTranslator, ITransactionsBootGridTranslator
     {
+        /// <inheritdoc />
         /// <summary>
         /// Translates the specified view models.
         /// </summary>
@@ -64,17 +63,24 @@ namespace Spectrum.Content.Payments.Translators
 
             if (string.IsNullOrEmpty(searchString) == false)
             {
-                foreach (TransactionViewModel appointmentViewModel in originalViewModels)
+                foreach (TransactionViewModel transactionViewModel in originalViewModels)
                 {
-                    if (appointmentViewModel.Id.ToLower().Contains(searchString) ||
-                        appointmentViewModel.TransactionDateTime.Value.ToString("ddd dd MMM HH:mm").ToLower().Contains(searchString) ||
-                        appointmentViewModel.Type.ToLower().Contains(searchString) ||
-                        appointmentViewModel.Status.ToLower().Contains(searchString) ||
-                        appointmentViewModel.CardType.ToLower().Contains(searchString) ||
-                        appointmentViewModel.MaskedNumber.ToLower().Contains(searchString) ||
-                        appointmentViewModel.Amount.Value.ToString("F").Contains(searchString))
+                    if (IsDateCheckKeywordSearch(
+                        searchString, 
+                        transactionViewModel.TransactionDateTime.Value))
                     {
-                        viewModels.Add(appointmentViewModel);
+                        viewModels.Add(transactionViewModel);
+                    }
+
+                    else if (transactionViewModel.Id.ToLower().Contains(searchString) ||
+                             transactionViewModel.TransactionDateTime.Value.ToString("ddd dd MMM HH:mm").ToLower().Contains(searchString) ||
+                             transactionViewModel.Type.ToLower().Contains(searchString) ||
+                             transactionViewModel.Status.ToLower().Contains(searchString) ||
+                             transactionViewModel.CardType.ToLower().Contains(searchString) ||
+                             transactionViewModel.MaskedNumber.ToLower().Contains(searchString) ||
+                             transactionViewModel.Amount.Value.ToString("F").Contains(searchString))
+                    {
+                        viewModels.Add(transactionViewModel);
                     }
                 }
             }

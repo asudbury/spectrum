@@ -33,7 +33,7 @@
             },
             "paymentId": function (column, row) {
                 if (row.paymentId !== "") {
-                    return '<a href="#" class="link-payment" data-payment-id=' + row.paymentId + '>' + row.paymentId + '</a>';
+                    return '<a href="#" class="link-payment" data-payment-id=' + row.paymentId + '>Paid</a>';
                 }
 
                 return '<a href="' + row.takePaymentUrl + '" style="color: red">Take Payment</a>';

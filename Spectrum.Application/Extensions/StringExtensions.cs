@@ -1,4 +1,4 @@
-﻿namespace Spectrum.Content.Extensions
+﻿namespace Spectrum.Application.Extensions
 {
     public static class StringExtensions
     {

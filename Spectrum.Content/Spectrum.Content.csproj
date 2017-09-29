@@ -413,7 +413,6 @@
     <Compile Include="Correspondence\ViewModels\ContactUsViewModel.cs" />
     <Compile Include="Correspondence\ViewModels\ForumPostViewModel.cs" />
     <Compile Include="Extensions\MemberExtensions.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Handlers\Error404Handler.cs" />
     <Compile Include="ContentModels\MenuItemModel.cs" />
     <Compile Include="Mail\Models\MailAttachmentModel.cs" />

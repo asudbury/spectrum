@@ -1,12 +1,12 @@
-﻿using Spectrum.Content.Extensions;
-
-namespace Spectrum.Content.Payments.Translators
+﻿namespace Spectrum.Content.Payments.Translators
 {
+    using Application.Extensions;
     using Braintree;
     using ViewModels;
 
     public class TransactionTranslator : ITransactionTranslator
     {
+        /// <inheritdoc />
         /// <summary>
         /// Translates the specified transaction.
         /// </summary>

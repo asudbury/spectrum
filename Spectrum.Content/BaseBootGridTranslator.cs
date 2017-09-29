@@ -1,5 +1,6 @@
 ﻿namespace Spectrum.Content
 {
+    using Application.Extensions;
     using System;
 
     public abstract class BaseBootGridTranslator
@@ -45,6 +46,36 @@
             }
             
             return new Tuple<int, int>(start, end);
+        }
+
+        /// <summary>
+        /// Determines whether [is date check keyword search] [the specified search string].
+        /// </summary>
+        /// <param name="searchString">The search string.</param>
+        /// <param name="dateTime">The date time.</param>
+        protected bool IsDateCheckKeywordSearch(
+            string searchString,
+            DateTime dateTime)
+        {
+            if (searchString.ToLower() == "yesterday" &&
+                dateTime.IsYesterday())
+            {
+                return true;
+            }
+
+            if (searchString.ToLower() == "today" &&
+                dateTime.IsToday())
+            {
+                return true;
+            }
+
+            if (searchString.ToLower() == "tomorrow" &&
+                dateTime.IsTomorrow())
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
