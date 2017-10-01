@@ -1,4 +1,7 @@
-﻿namespace Spectrum.Content.Payments.Managers
+﻿using Spectrum.Content.Appointments.Models;
+using Spectrum.Content.Models;
+
+namespace Spectrum.Content.Payments.Managers
 {
     using System.Collections.Generic;
     using Umbraco.Web;
@@ -35,6 +38,7 @@
             int current,
             int rowCount,
             string searchPhrase,
+            IEnumerable<SortData> sortItems,
             UmbracoContext umbracoContext);
     }
 }

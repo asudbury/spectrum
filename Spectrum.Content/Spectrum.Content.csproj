@@ -371,6 +371,8 @@
     <Compile Include="Appointments\Models\AppointmentStatusModel.cs" />
     <Compile Include="Appointments\Models\AppointmentModel.cs" />
     <Compile Include="Appointments\Models\ICalAppointmentModel.cs" />
+    <Compile Include="Models\SortData.cs" />
+    <Compile Include="Models\SortOrder.cs" />
     <Compile Include="Appointments\Providers\AppointmentsProvider.cs" />
     <Compile Include="Appointments\Providers\DatabaseProvider.cs" />
     <Compile Include="Appointments\Providers\GoogleCalendarProvider.cs" />

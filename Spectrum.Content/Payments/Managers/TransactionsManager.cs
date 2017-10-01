@@ -4,6 +4,7 @@
     using Braintree;
     using Content.Services;
     using ContentModels;
+    using Models;
     using Providers;
     using System.Collections.Generic;
     using System.Linq;
@@ -60,6 +61,7 @@
             this.transactionsBootGridTranslator = transactionsBootGridTranslator;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the transactions view model.
         /// </summary>
@@ -91,6 +93,7 @@
             return viewModels;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the transaction.
         /// </summary>
@@ -124,23 +127,31 @@
             return transactionTranslator.Translate(transaction);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the boot grid transactions.
         /// </summary>
         /// <param name="current">The current.</param>
         /// <param name="rowCount">The row count.</param>
         /// <param name="searchPhrase">The search phrase.</param>
+        /// <param name="sortItems"></param>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <returns></returns>
         public BootGridViewModel<TransactionViewModel> GetBootGridTransactions(
             int current, 
             int rowCount, 
             string searchPhrase,
+            IEnumerable<SortData> sortItems,
             UmbracoContext umbracoContext)
         {
             IEnumerable<TransactionViewModel> viewModels = GetTransactionsViewModel(umbracoContext);
 
-            return transactionsBootGridTranslator.Translate(viewModels.ToList(), current, rowCount, searchPhrase);
+            return transactionsBootGridTranslator.Translate(
+                viewModels.ToList(), 
+                current, 
+                rowCount, 
+                searchPhrase, 
+                sortItems);
         }
     }
 

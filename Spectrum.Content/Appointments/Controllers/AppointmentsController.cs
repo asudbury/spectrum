@@ -1,5 +1,6 @@
 ﻿namespace Spectrum.Content.Appointments.Controllers
 {
+    using Content.Models;
     using Content.Services;
     using Managers;
     using Newtonsoft.Json;
@@ -133,12 +134,14 @@
         /// <param name="current">The current.</param>
         /// <param name="rowCount">The row count.</param>
         /// <param name="searchPhrase">The search phrase.</param>
+        /// <param name="sortItems">The sort items.</param>
         /// <returns></returns>
         [HttpPost]
         public ActionResult GetBootGridAppointments(
             int current,
             int rowCount,
-            string searchPhrase)
+            string searchPhrase,
+            IEnumerable<SortData> sortItems)
         {
             LoggingService.Info(GetType());
 
@@ -149,6 +152,7 @@
                                                                             current,
                                                                             rowCount,
                                                                             searchPhrase,
+                                                                            sortItems,
                                                                             UmbracoContext,
                                                                             dateRangeStart,
                                                                             dateRangeEnd);

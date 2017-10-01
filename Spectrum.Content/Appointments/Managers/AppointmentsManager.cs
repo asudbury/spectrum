@@ -2,6 +2,7 @@ namespace Spectrum.Content.Appointments.Managers
 {
     using Application.Services;
     using Autofac.Events;
+    using Content.Models;
     using Content.Services;
     using ContentModels;
     using Mail.Providers;
@@ -305,21 +306,23 @@ namespace Spectrum.Content.Appointments.Managers
             return new List<AppointmentViewModel>();
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Gets the boot grid appointments.
         /// </summary>
         /// <param name="current">The current.</param>
         /// <param name="rowCount">The row count.</param>
         /// <param name="searchPhrase">The search phrase.</param>
+        /// <param name="sortItems">The sort items.</param>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="dateRangeStart">The date range start.</param>
         /// <param name="dateRangeEnd">The date range end.</param>
         /// <returns></returns>
+        /// <inheritdoc />
         public BootGridViewModel<AppointmentViewModel> GetBootGridAppointments(
             int current,
             int rowCount,
             string searchPhrase,
+            IEnumerable<SortData> sortItems,
             UmbracoContext umbracoContext, 
             DateTime dateRangeStart,
             DateTime dateRangeEnd)
@@ -329,7 +332,12 @@ namespace Spectrum.Content.Appointments.Managers
                 dateRangeStart,
                 dateRangeEnd);
 
-            return appointmentsBootGridTranslator.Translate(viewModels.ToList(), current, rowCount, searchPhrase);
+            return appointmentsBootGridTranslator.Translate(
+                viewModels.ToList(), 
+                current, 
+                rowCount, 
+                searchPhrase,
+                sortItems);
         }
 
         /// <inheritdoc />
