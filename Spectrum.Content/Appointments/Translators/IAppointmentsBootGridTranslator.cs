@@ -1,5 +1,8 @@
-﻿namespace Spectrum.Content.Appointments.Translators
+﻿using Spectrum.Content.Models;
+
+namespace Spectrum.Content.Appointments.Translators
 {
+    using Models;
     using System.Collections.Generic;
     using ViewModels;
 
@@ -12,11 +15,13 @@
         /// <param name="current">The current.</param>
         /// <param name="rowCount">The row count.</param>
         /// <param name="searchString">The search string.</param>
+        /// <param name="sortItems">The sort items.</param>
         /// <returns></returns>
         BootGridViewModel<AppointmentViewModel> Translate(
             List<AppointmentViewModel> viewModels,
             int current,
             int rowCount,
-            string searchString);
+            string searchString,
+            IEnumerable<SortData> sortItems);
     }
 }

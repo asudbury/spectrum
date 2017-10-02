@@ -2,6 +2,7 @@
 {
     using Content.Services;
     using Managers;
+    using Models;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
     using System.Collections.Generic;
@@ -16,8 +17,9 @@
         /// </summary>
         private readonly ITransactionsManager transactionsManager;
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseController" /> class.
+        /// Initializes a new instance of the <see cref="T:Spectrum.Content.BaseController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="transactionsManager">The transactions manager.</param>
@@ -29,8 +31,9 @@
             this.transactionsManager = transactionsManager;
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="TransactionsController" /> class.
+        /// Initializes a new instance of the <see cref="T:Spectrum.Content.Payments.Controllers.TransactionsController" /> class.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="loggingService">The logging service.</param>
@@ -45,8 +48,9 @@
             this.transactionsManager = transactionsManager;
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="TransactionsController"/> class.
+        /// Initializes a new instance of the <see cref="T:Spectrum.Content.Payments.Controllers.TransactionsController" /> class.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="umbracoHelper">The umbraco helper.</param>
@@ -84,17 +88,20 @@
         /// <param name="current">The current.</param>
         /// <param name="rowCount">The row count.</param>
         /// <param name="searchPhrase">The search phrase.</param>
+        /// <param name="sortItems">The sort items.</param>
         /// <returns></returns>
         [HttpPost]
         public ActionResult GetBootGridTransactions(
             int current,
             int rowCount,
-            string searchPhrase)
+            string searchPhrase,
+            IEnumerable<SortData> sortItems)
         {
             BootGridViewModel<TransactionViewModel> bootGridViewModel = transactionsManager.GetBootGridTransactions(
                 current,
                 rowCount,
                 searchPhrase,
+                sortItems,
                 UmbracoContext);
 
             string jsonString = JsonConvert.SerializeObject(

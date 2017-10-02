@@ -1,5 +1,6 @@
 ﻿namespace Spectrum.Content.Appointments.Managers
 {
+    using Content.Models;
     using System;
     using System.Collections.Generic;
     using Umbraco.Core.Models;
@@ -50,6 +51,7 @@
         /// <param name="current">The current.</param>
         /// <param name="rowCount">The row count.</param>
         /// <param name="searchPhrase">The search phrase.</param>
+        /// <param name="sortItems">The sort items.</param>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="dateRangeStart">The date range start.</param>
         /// <param name="dateRangeEnd">The date range end.</param>
@@ -58,6 +60,7 @@
             int current,
             int rowCount,
             string searchPhrase,
+            IEnumerable<SortData> sortItems,
             UmbracoContext umbracoContext,
             DateTime dateRangeStart,
             DateTime dateRangeEnd);

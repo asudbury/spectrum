@@ -25,6 +25,17 @@
            header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\"><div class=\"row\"><div class=\"col-sm-12 actionBar\"><h4 text-alignment='left'>Payments</h4><p class=\"{{css.search}}\"></p><p class=\"{{css.actions}}\"></p></div></div></div>",
         },
         ajax: true,
+        requestHandler: function (request) {
+            request.sortItems = [];
+            if (request.sort == null)
+                return request;
+            for (var property in request.sort) {
+                if (request.sort.hasOwnProperty(property)) {
+                    request.sortItems.push({ Field: property, Type: request.sort[property] });
+                }
+            }
+            return request;
+        },
         url: "/umbraco/Surface/Transactions/GetBootGridTransactions",
         formatters: {
             "dateTime": function (column, row) {

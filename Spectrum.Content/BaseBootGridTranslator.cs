@@ -1,4 +1,6 @@
-﻿namespace Spectrum.Content
+﻿using Spectrum.Content.Models;
+
+namespace Spectrum.Content
 {
     using Application.Extensions;
     using System;
@@ -46,6 +48,15 @@
             }
             
             return new Tuple<int, int>(start, end);
+        }
+
+        /// <summary>
+        /// Determines whether [is sort order ascending] [the specified sort type].
+        /// </summary>
+        /// <param name="sortType">Type of the sort.</param>
+        protected bool IsSortOrderAscending(string sortType)
+        {
+            return sortType == SortOrder.asc.ToString();
         }
 
         /// <summary>
