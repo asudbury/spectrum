@@ -23,102 +23,69 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-    <div class="panel panel-default bootstrap-basic">
-        <div class="panel-heading">
-            <h4 class="panel-title">Make an Appointment</h4>
-        </div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="form-group col-xs-8">
-                    <div>
-                        <label class="control-label">Start Time</label>
-                    </div>
-                    <div>
-                        @Html.TextBoxFor(model => model.StartTime, "{0:dd-MMM-yyyy HH:mm}", new {@class = "date"})
+    <div class="center-content">
+        <div class="row">
+            <div class="col-sm-6 col-md-4 col-md-offset-4">
+                <div class="account-wall">
+
+                    <h2 class="partial-title">Make an Appointment</h2>
+
+                    <div class="calendar-position form-group">
+                        <input type="text" class="form-control date" id="StartTime" name="StartTime" placeholder="Start Time" required>
                         <span class="btn" style="cursor: pointer;">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
-                        @Html.ValidationMessageFor(model => model.StartTime)
                     </div>
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="form-group col-xs-8">
-                    <div>
-                        <label class="control-label">Duration (In minutes)</label>
-                    </div>
-                    <div>
-                        @Html.EditorFor(model => model.Duration)
-                        @Html.ValidationMessageFor(model => model.Duration)
-                    </div>
-                </div>
-            </div>
+                    @Html.ValidationMessageFor(model => model.StartTime)
 
-            <div class="row">
-                <div class="form-group col-xs-8">
-                    <div>
-                        <label class="control-label">Location</label>
-                    </div>
-                    <div>
-                        @Html.EditorFor(model => model.Location)
-                        @Html.ValidationMessageFor(model => model.Location)                        
-                    </div>
-                </div>
-            </div>
+                    <input type="text" class="form-control" id="Duration" name="Duration" placeholder="Duration (In minutes)" required>
+                    @Html.ValidationMessageFor(model => model.Duration)
 
-            <div class="row">
-                <div class="form-group col-xs-8">
-                    <div>
-                        <label class="control-label">Description</label>
-                    </div>
-                    <div>
-                        @Html.TextAreaFor(model => model.Description, 5, 80, null)
-                        @Html.ValidationMessageFor(model => model.Description)                    
-                    </div>
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="form-group col-xs-8">
+                    <input type="text" class="form-control" id="Location" name="Location" placeholder="Location" required>
+                    @Html.ValidationMessageFor(model => model.Location)
+
+                    <textarea rows="5" class="form-control" id="Description" name="Description" placeholder="Description"></textarea>
+                    @Html.ValidationMessageFor(model => model.Description)
+
                     <div>
                         <label class="control-label">Attendees</label>
                     </div>
-                    <div>
-                        <input class="text-box single-line" id="attendeeInput" placeholder="Enter email address" data-val="true" data-val-required="Please enter a valid Email Address">
-                        <span class="btn" style="cursor: pointer;">
-                            <span class="glyphicon glyphicon-plus" id="addAttendee"></span>
-                        </span>
-                    </div>
+                    <input class="text-box single-line" id="attendeeInput" placeholder="Enter email address" data-val="true" data-val-required="Please enter a valid Email Address">
+                    <span class="btn" style="cursor: pointer;">
+                        <span class="glyphicon glyphicon-plus" id="addAttendee"></span>
+                    </span>
                     <div>
                         <span class="field-validation-valid" data-valmsg-for="attendeeInput" data-valmsg-replace="true"></span>
                     </div>
-                    <div>
-                        <ul id="attendeeList" class="list-group" style="list-style-type: none;">
-                            @Html.DisplayFor(model => model.Attendees)
 
-                            @if (Model.Attendees != null) {
-                                foreach (string attendee in Model.Attendees) {
-                                    <li style="padding-top:10px">
-                                        <input id="Attendees_' + index + '" name="Attendees[' + index + ']" value='" + attendee "'/>
-                                        &nbsp;&nbsp;&nbsp;
-                                        <a href="#" onclick="$(this).parent().remove();updateAttendees();"><span class="glyphicon glyphicon-remove"></span></a>' +
-                                    </li>
-                                }
+                    <ul id="attendeeList" class="list-group" style="list-style-type: none;">
+                        @Html.DisplayFor(model => model.Attendees)
+
+                        @if (Model.Attendees != null)
+                        {
+                            foreach (string attendee in Model.Attendees)
+                            {
+                                <li style="padding-top:10px">
+                                    <input id="Attendees_' + index + '" name="Attendees[' + index + ']" value='" + attendee "' />
+                                    &nbsp;&nbsp;&nbsp;
+                                    <a href="#" onclick="$(this).parent().remove();updateAttendees();"><span class="glyphicon glyphicon-remove"></span></a>' +
+                                </li>
                             }
+                        }
 
-                        </ul>
-                    </div>
+                    </ul>
+
+                    <button value="submit" id="submit" class="btn btn-lg btn-primary btn-block">Save Appointment</button>
+
                 </div>
             </div>
-
-            <button value="submit" id="submit" class="btn btn-primary">Save Appointment</button>
-
         </div>
     </div>
 
+
     <script>
-        
+
         function updateAttendees() {
 
             var items = document.getElementById("attendeeList").getElementsByTagName("li");
@@ -131,6 +98,21 @@
             }
         }
 
+        function convert_date () {
+          now = new Date();
+          year = "" + now.getFullYear();
+          month = "" + monthNames[now.getMonth()]
+          day = "" + now.getDate(); if (day.length == 1) { day = "0" + day; }
+          hour = "" + now.getHours(); if (hour.length == 1) { hour = "0" + hour; }
+          minute = "" + now.getMinutes(); if (minute.length == 1) { minute = "0" + minute; }
+          second = "" + now.getSeconds(); if (second.length == 1) { second = "0" + second; }
+          return day + "-" + month + "-" + year + " " + hour + ":" + minute ;
+        }
+
+        var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+        ];
+
         $(document).ready(function () {
 
             $('.input-validation-error').parents('.form-group').addClass('has-error');
@@ -142,9 +124,12 @@
                     controlType: 'select',
                     hourMin: 8,
                     hourMax: 20,
-                    stepMinute: 5, 
+                    stepMinute: 5,
                     oneLine: true
                 });
+
+
+            $("#StartTime").val(convert_date());
 
             $('.btn').click(function() {
                 $(".date", $(this).closest(".form-group")).focus();
@@ -152,7 +137,7 @@
 
             $('#addAttendee').click(function () {
 
-                event.preventDefault(); 
+                event.preventDefault();
                 var inputValue = $('#attendeeInput').val();
                 var filter = /^([a-zA-Z0-9_\.\-])+\@@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 

@@ -136,42 +136,61 @@ input:-webkit-autofill:focus {
 	border:none;
 }
 
-/* Ensures main partial ignoring nav and footer use the full canvas. */
+/**************************************************/
+/* Main partial styling */
+/**************************************************/
+
+/* Ensures main partial use the full canvas excluding the footer. */
 .content-container {
 	min-height: 100%;
 	min-height: 100vh;
 }
 
+.center-content {
+	margin-bottom: 20px;
+}
 
-/**************************************************/
+/* Moves the partial content down giving it proprtion to the viewport */
+@media (min-width: 768px) {
+	.center-content {margin-top: 8%;}
+}
+
 /* Partial Form field spacing */
-/**************************************************/
-.account-wall input {
-	margin-bottom: 15px;
+.account-wall input,
+.account-wall textarea {
+	margin-bottom: 10px;
+}
+
+.account-wall .list-group {
+	margin-bottom: 0px;
 }
 
 .account-wall button {
 	margin-top: 20px;
 }
 
-/**************************************************/
-/* Contact us styling */
-/**************************************************/
-
-/* A nice ligh weight heading */
-h2.contact-title {
+/* A nice ligh weight heading for the patial title */
+h2.partial-title {
 	font-family: 'Lato','Arial', sans-serif;
 	font-weight: 100;
 	padding-bottom: 10px;
 }
 
-/* Moves the partial content down to the center of the browser for desktop */
-@media (min-width: 768px) {
-	
-	.center-content {
-		margin-top: 50px;
-	}
+.calendar-position input {
+	float: left;
 }
 
+@media (min-width: 768px) {
+	.calendar-position input.form-control {width: 92%;}
+	.calendar-position .btn {width: 8%;}
+}
 
+@media (min-width: 991px) {
+	.calendar-position input.form-control {width: 88%;}
+	.calendar-position .btn {width: 10%;}
+}
 
+@media (max-width: 767px) {
+	.calendar-position input.form-control {width: 90%;}
+	.calendar-position .btn {width: 10%;}
+}
