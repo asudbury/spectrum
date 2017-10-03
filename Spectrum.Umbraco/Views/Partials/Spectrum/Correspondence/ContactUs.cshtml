@@ -18,9 +18,15 @@
 
                     <h2 class="partial-title">Contact us today</h2>
 
-                    <input type="text" class="form-control" id="Name" name="Name" placeholder="Name" required autofocus>
-                    <input type="text" class="form-control" id="EmailAddress" name="EmailAddress" placeholder="Email" required>
-                    <textarea rows="5" class="form-control" id="Message" name="Message" placeholder="Message"></textarea>
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Name" } })
+                    @Html.ValidationMessageFor(model => model.Name)
+
+                    @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email" } })
+                    @Html.ValidationMessageFor(model => model.EmailAddress)
+
+                    @Html.TextAreaFor(model => model.Message, new { @class = "form-control", @placeholder = "Message", @rows = "5" })
+                    @Html.ValidationMessageFor(model => model.Message)
+
                     <button value="submit" id="submit" class="btn btn-lg btn-primary btn-block">Send message</button>
 
                 </div>
@@ -28,4 +34,3 @@
         </div>
     </div>
 }
-

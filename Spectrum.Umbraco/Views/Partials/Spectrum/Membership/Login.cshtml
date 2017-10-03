@@ -18,10 +18,13 @@
                 <div class="account-wall">
 
                     <h2 class="partial-title">Login</h2>
-                    <input type="text" class="form-control" id="EmailAddress" name="EmailAddress" placeholder="Email" required autofocus>
+
+                    @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email" } })
                     @Html.ValidationMessageFor(model => model.EmailAddress)
-                    <input type="password" class="form-control" placeholder="Password" id="Password" name="Password" required>
+
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @placeholder = "Password" } })
                     @Html.ValidationMessageFor(model => model.Password)
+
                     <button value="submit" id="submit" class="btn btn-lg btn-primary btn-block">Login</button>
 
                     <div class="row">
