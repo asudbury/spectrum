@@ -50,12 +50,14 @@
                     <div>
                         <label class="control-label">Attendees</label>
                     </div>
-                    <input class="text-box single-line" id="attendeeInput" placeholder="Enter email address" data-val="true" data-val-required="Please enter a valid Email Address">
-                    <span class="btn" style="cursor: pointer;">
-                        <span class="glyphicon glyphicon-plus" id="addAttendee"></span>
-                    </span>
-                    <div>
-                        <span class="field-validation-valid" data-valmsg-for="attendeeInput" data-valmsg-replace="true"></span>
+                    <div class="calendar-position form-group">
+                        <input class="form-control" id="attendeeInput" placeholder="Enter email address" data-val="true" data-val-required="Please enter a valid Email Address">
+                        <span class="btn" style="cursor: pointer;">
+                            <span class="glyphicon glyphicon-plus" id="addAttendee"></span>
+                        </span>
+                        <div>
+                            <span class="field-validation-valid" data-valmsg-for="attendeeInput" data-valmsg-replace="true"></span>
+                        </div>
                     </div>
 
                     <ul id="attendeeList" class="list-group" style="list-style-type: none;">
@@ -66,7 +68,7 @@
                             foreach (string attendee in Model.Attendees)
                             {
                                 <li style="padding-top:10px">
-                                    <input id="Attendees_' + index + '" name="Attendees[' + index + ']" value='" + attendee "' />
+                                    <input class="form-control" id="Attendees_' + index + '" name="Attendees[' + index + ']" value='" + attendee "'>
                                     &nbsp;&nbsp;&nbsp;
                                     <a href="#" onclick="$(this).parent().remove();updateAttendees();"><span class="glyphicon glyphicon-remove"></span></a>' +
                                 </li>
@@ -132,11 +134,15 @@
                     var items = document.getElementById("attendeeList").getElementsByTagName("li");
                     var index = items.length;
 
-                    $('#attendeeList').prepend('<li style="padding-top:10px">' +
-                        '<input id="Attendees_' + index + '" name="Attendees[' + index + ']" value=' + inputValue + '>' +
+                    $('#attendeeList').prepend(
+                        '<div class="calendar-position form-group">' +
+                        '<li style="padding-top:10px">' +
+                        '<input class="form-control" id="Attendees_' + index + '" name="Attendees[' + index + ']" value=' + inputValue + '>' +
                         '</input>&nbsp;&nbsp;&nbsp;' +
                         '<a href="#" onclick="$(this).parent().remove();updateAttendees();"><span class="glyphicon glyphicon-remove"></span></a>' +
-                        '</li>');
+                        '</li>' +
+                        '</div>'
+                        );
 
                     $('#attendeeInput').val('');
                     $('span[data-valmsg-for="attendeeInput"]').text('');
