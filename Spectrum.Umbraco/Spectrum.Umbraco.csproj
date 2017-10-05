@@ -396,6 +396,7 @@
     <Content Include="css\spectrum\landingPage.css" />
     <Content Include="css\spectrum\mainFooter.css" />
     <Content Include="css\spectrum\mainNavigation.css" />
+    <Content Include="css\spectrum\paymentPage.css" />
     <Content Include="css\spectrum\style.css" />
     <Content Include="default.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

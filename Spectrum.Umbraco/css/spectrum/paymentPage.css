@@ -1,0 +1,17 @@
+﻿/*********************************************************/
+/* Styling for the payment page                          */
+/*********************************************************/
+
+.left-field {
+	padding-left: 0;
+}
+
+.right-field {
+	padding-right: 0;
+}
+
+@media (max-width: 541px) {
+	.right-field {padding-left: 0;}
+	.left-field {padding-right: 0;}
+	
+}
