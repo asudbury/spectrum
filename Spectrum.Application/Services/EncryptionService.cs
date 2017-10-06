@@ -40,6 +40,7 @@ namespace Spectrum.Application.Services
             encryptionKey = Convert.FromBase64String("ABCD+123456+qsw987+0987654321+Abd+s234+1q93=");
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Encrypts the string.
         /// </summary>
@@ -53,6 +54,7 @@ namespace Spectrum.Application.Services
             return UrlSafeConvertToBase64String(cryptogram.ToArray());
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Encrypts the string.
         /// </summary>
@@ -67,12 +69,13 @@ namespace Spectrum.Application.Services
             return EncryptString(textToEncrypt);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Decrypts the string.
         /// </summary>
         /// <param name="textToDecrypt">The text to decrypt.</param>
         /// <returns></returns>
-        /// <exception cref="ArgumentException">Not a valid encrypted string;encrypted</exception>
+        /// <exception cref="T:System.ArgumentException">Not a valid encrypted string;encrypted</exception>
         public string DecryptString(string textToDecrypt)
         {
             byte[] cryptogram = UrlSafeConvertFromBase64String(textToDecrypt);
@@ -87,6 +90,7 @@ namespace Spectrum.Application.Services
             return encoder.GetString(Decrypt(buffer, vector));
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Decrypts the string.
         /// </summary>

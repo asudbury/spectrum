@@ -1,11 +1,22 @@
 ﻿namespace Spectrum.Content.Payments.Managers
 {
+    using System.Collections.Specialized;
     using Umbraco.Core.Models;
     using Umbraco.Web;
     using ViewModels;
 
     public interface IPaymentManager
     {
+        /// <summary>
+        /// Gets the take payment view model.
+        /// </summary>
+        /// <param name="umbracoContext">The umbraco context.</param>
+        /// <param name="queryStringParameters">The query string parameters.</param>
+        /// <returns></returns>
+        TakePaymentViewModel GetTakePaymentViewModel(
+            UmbracoContext umbracoContext,
+            NameValueCollection queryStringParameters);
+        
         /// <summary>
         /// Gets the authentication token.
         /// </summary>

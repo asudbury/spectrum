@@ -1,4 +1,6 @@
-﻿namespace Spectrum.Content.Appointments.Translators
+﻿using Spectrum.Content.Payments;
+
+namespace Spectrum.Content.Appointments.Translators
 {
     using Application.Services;
     using Models;
@@ -70,7 +72,7 @@
 
             if (string.IsNullOrEmpty(paymentsPage) == false)
             {
-                url = paymentsPage + "?appointmentId=" + encryptionService.EncryptString(appointmentId.ToString());
+                url = paymentsPage + "?" + PaymentsQueryStringConstants.AppointmentId + "=" + encryptionService.EncryptString(appointmentId.ToString());
             }
 
             return url;

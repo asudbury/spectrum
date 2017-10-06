@@ -2,6 +2,8 @@
 {
     using Content.Services;
     using Managers;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Serialization;
     using System;
     using System.Web.Mvc;
     using Umbraco.Core.Models;
@@ -62,7 +64,27 @@
         {
             this.paymentManager = paymentManager;
         }
-        
+
+        /// <summary>
+        /// Gets the take payment view model.
+        /// </summary>
+        /// <returns></returns>
+        [ChildActionOnly]
+        public ActionResult GetTakePaymentViewModel()
+        {
+            LoggingService.Info(GetType());
+
+            string jsonString = JsonConvert.SerializeObject(
+                paymentManager.GetTakePaymentViewModel(UmbracoContext, Request.QueryString),
+                new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+
+                });
+
+            return Content(jsonString, "application/json");
+        }
+
         /// <summary>
         /// Gets the authentication token.
         /// </summary>
@@ -110,7 +132,7 @@
         {
             LoggingService.Info(GetType());
 
-            string appointmentId = Request.QueryString["appointmentId"];
+            string appointmentId = Request.QueryString[PaymentsQueryStringConstants.AppointmentId];
 
             return Content(appointmentId);
         }

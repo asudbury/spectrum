@@ -1,17 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
-using Spectrum.Application.Services;
-using Spectrum.Content.Mail.Models;
-
-namespace Spectrum.Content.Payments.Managers
+﻿namespace Spectrum.Content.Payments.Managers
 {
+    using Appointments;
+    using Application.Services;
     using Autofac.Events;
     using Content.Services;
-    using Messages;
     using ContentModels;
+    using Mail.Models;
     using Mail.Providers;
+    using Messages;
     using Providers;
     using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Collections.Specialized;
     using Umbraco.Core.Models;
     using Umbraco.Web;
     using ViewModels;
@@ -66,6 +67,35 @@ namespace Spectrum.Content.Payments.Managers
         }
 
         /// <summary>
+        /// Gets the take payment view model.
+        /// </summary>
+        /// <param name="umbracoContext">The umbraco context.</param>
+        /// <param name="queryStringParameters">The query string parameters.</param>
+        /// <returns></returns>
+        /// <inheritdoc />
+        public TakePaymentViewModel GetTakePaymentViewModel(
+            UmbracoContext umbracoContext,
+            NameValueCollection queryStringParameters)
+        {
+            TakePaymentViewModel viewModel = new TakePaymentViewModel();
+
+            BraintreeSettingsModel model = paymentProvider.GetBraintreeModel(umbracoContext);
+
+            viewModel.AuthToken = paymentProvider.GetAuthToken(model);
+            viewModel.Environment = model.Environment;
+
+            viewModel.NodeId = string.Empty;
+            viewModel.Url = string.Empty;
+
+            viewModel.AppointmentId = queryStringParameters[PaymentsQueryStringConstants.AppointmentId];
+            viewModel.Amount = queryStringParameters[PaymentsQueryStringConstants.Amount]; 
+            viewModel.EmailAddress = queryStringParameters[PaymentsQueryStringConstants.EmailAddress]; 
+
+            return viewModel;
+        }
+
+        /// <inheritdoc />
+        /// <summary>
         /// Gets the authentication token.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
@@ -76,6 +106,7 @@ namespace Spectrum.Content.Payments.Managers
             return paymentProvider.GetAuthToken(model);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the environment.
         /// </summary>
@@ -87,6 +118,7 @@ namespace Spectrum.Content.Payments.Managers
             return model.Environment;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Handles the payment.
         /// </summary>
@@ -94,7 +126,7 @@ namespace Spectrum.Content.Payments.Managers
         /// <param name="publishedContent">Content of the published.</param>
         /// <param name="viewModel">The view model.</param>
         /// <returns></returns>
-        /// <exception cref="System.ApplicationException">
+        /// <exception cref="T:System.ApplicationException">
         /// Current Page Id Not Set
         /// Next Page Url Not Set
         /// Error Page Url Not Set
@@ -138,8 +170,6 @@ namespace Spectrum.Content.Payments.Managers
                 if (string.IsNullOrEmpty(pageModel.EmailTemplateName) == false &&
                     string.IsNullOrEmpty(viewModel.EmailAddress) == false)
                 {
-                    //// TODO : not currently implemented.
-
                     Dictionary<string, string> dictionary = new Dictionary<string, string>
                     {
                         {"PaymentId", paymentId},
