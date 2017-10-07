@@ -12,7 +12,6 @@
     using System;
     using System.Collections.Generic;
     using System.Globalization;
-    using System.Collections.Specialized;
     using Umbraco.Core.Models;
     using Umbraco.Web;
     using ViewModels;
@@ -64,34 +63,6 @@
             this.eventPublisher = eventPublisher;
             this.cacheService = cacheService;
             this.mailProvider = mailProvider;
-        }
-
-        /// <summary>
-        /// Gets the take payment view model.
-        /// </summary>
-        /// <param name="umbracoContext">The umbraco context.</param>
-        /// <param name="queryStringParameters">The query string parameters.</param>
-        /// <returns></returns>
-        /// <inheritdoc />
-        public TakePaymentViewModel GetTakePaymentViewModel(
-            UmbracoContext umbracoContext,
-            NameValueCollection queryStringParameters)
-        {
-            TakePaymentViewModel viewModel = new TakePaymentViewModel();
-
-            BraintreeSettingsModel model = paymentProvider.GetBraintreeModel(umbracoContext);
-
-            viewModel.AuthToken = paymentProvider.GetAuthToken(model);
-            viewModel.Environment = model.Environment;
-
-            viewModel.NodeId = string.Empty;
-            viewModel.Url = string.Empty;
-
-            viewModel.AppointmentId = queryStringParameters[PaymentsQueryStringConstants.AppointmentId];
-            viewModel.Amount = queryStringParameters[PaymentsQueryStringConstants.Amount]; 
-            viewModel.EmailAddress = queryStringParameters[PaymentsQueryStringConstants.EmailAddress]; 
-
-            return viewModel;
         }
 
         /// <inheritdoc />

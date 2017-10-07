@@ -2,8 +2,6 @@
 {
     using Content.Services;
     using Managers;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Serialization;
     using System;
     using System.Web.Mvc;
     using Umbraco.Core.Models;
@@ -65,77 +63,6 @@
             this.paymentManager = paymentManager;
         }
 
-        /// <summary>
-        /// Gets the take payment view model.
-        /// </summary>
-        /// <returns></returns>
-        [ChildActionOnly]
-        public ActionResult GetTakePaymentViewModel()
-        {
-            LoggingService.Info(GetType());
-
-            string jsonString = JsonConvert.SerializeObject(
-                paymentManager.GetTakePaymentViewModel(UmbracoContext, Request.QueryString),
-                new JsonSerializerSettings
-                {
-                    ContractResolver = new CamelCasePropertyNamesContractResolver()
-
-                });
-
-            return Content(jsonString, "application/json");
-        }
-
-        /// <summary>
-        /// Gets the authentication token.
-        /// </summary>
-        /// <returns></returns>
-        [ChildActionOnly]
-        public ActionResult GetAuthToken()
-        {
-            LoggingService.Info(GetType());
-
-            return Content(paymentManager.GetAuthToken(UmbracoContext));
-        }
-
-        /// <summary>
-        /// Gets the environment.
-        /// </summary>
-        /// <returns></returns>
-        [ChildActionOnly]
-        public ActionResult GetEnvironment()
-        {
-            LoggingService.Info(GetType());
-
-            return Content(paymentManager.GetEnvironment(UmbracoContext));
-        }
-
-        /// <summary>
-        /// Gets the automatic allocate.
-        /// </summary>
-        /// <returns></returns>
-        [ChildActionOnly]
-        public ActionResult GetAutoAllocate()
-        {
-            LoggingService.Info(GetType());
-
-            string autoallocate = Request.QueryString["autoAllocate"];
-
-            return Content(autoallocate);
-        }
-
-        /// <summary>
-        /// Gets the appointment identifier.
-        /// </summary>
-        /// <returns></returns>
-        [ChildActionOnly]
-        public ActionResult GetAppointmentId()
-        {
-            LoggingService.Info(GetType());
-
-            string appointmentId = Request.QueryString[PaymentsQueryStringConstants.AppointmentId];
-
-            return Content(appointmentId);
-        }
 
         /// <summary>
         /// Handles the payment.

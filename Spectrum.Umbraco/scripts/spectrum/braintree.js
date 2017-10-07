@@ -123,7 +123,19 @@ function setupBraintree(
     url,
     env,
     autoAllocate,
-    appointmentId) {
+    appointmentId,
+    paymentAmount,
+    emailAddress) {
+
+    if (paymentAmount !== "") {
+        $('#amount').prop("readonly", true);
+        $('#amount').val(paymentAmount);
+    }
+
+    if (emailAddress !== "") {
+        $('#emailAddress').prop("readonly", true);
+        $('#emailAddress').val(emailAddress);
+    }
 
     braintree.client.create({
             authorization: token
@@ -131,7 +143,6 @@ function setupBraintree(
         function (err, clientInstance) {
 
             if (env !== 'production') {
-                console.log('starting the js code. The env is ' + env);
                 $('#sandboxRibbon').text(env);
                 $('#sandboxRibbon').show();
             }

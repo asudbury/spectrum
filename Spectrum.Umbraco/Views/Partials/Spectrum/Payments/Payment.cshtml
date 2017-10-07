@@ -68,14 +68,16 @@
                     <script src="https://js.braintreegateway.com/web/3.17.0/js/hosted-fields.min.js"></script>
                     <script src="../../../../scripts/spectrum/braintree.js"></script>
                     <script>
-                        var token = '@Html.Action("GetAuthToken", "Payment")';
-                        var nodeId = '@Html.Action("GetNodeId", "Payment")';
                         var url = '@Url.Action("HandlePayment", "Payment")';
-                        var env = '@Html.Action("GetEnvironment", "Payment")';
-                        var autoAllocate = '@Html.Action("GetAutoAllocate", "Payment")';
-                        var appointmentId = '@Html.Action("GetAppointmentId", "Payment")';
-
-                        setupBraintree(token, nodeId, url, env, autoAllocate, appointmentId);
+                        var token = '@Html.Action("GetAuthToken", "PaymentParameters")';
+                        var nodeId = '@Html.Action("GetNodeId", "PaymentParameters")';
+                        var env = '@Html.Action("GetEnvironment", "PaymentParameters")';
+                        var autoAllocate = '@Html.Action("GetAutoAllocate", "PaymentParameters")';
+                        var appointmentId = '@Html.Action("GetAppointmentId", "PaymentParameters")';
+                        var paymentAmount = '@Html.Action("GetPaymentAmount", "PaymentParameters")';
+                        var emailAddress = '@Html.Action("GetEmailAddress", "PaymentParameters")';
+                        
+                        setupBraintree(token, nodeId, url, env, autoAllocate, appointmentId, paymentAmount, emailAddress);
                     </script>
 
                 </div>

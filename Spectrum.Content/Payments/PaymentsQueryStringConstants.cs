@@ -8,9 +8,9 @@
         public const string AppointmentId = "beeswwr";
 
         /// <summary>
-        /// The amount.
+        /// The payment amount.
         /// </summary>
-        public const string Amount = "cuiuuwq";
+        public const string PaymenyAmount = "cuiuuwq";
 
         /// <summary>
         /// The email address.
