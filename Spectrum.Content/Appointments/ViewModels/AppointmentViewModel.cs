@@ -63,6 +63,11 @@ namespace Spectrum.Content.Appointments.ViewModels
         public string Description { get; set; }
 
         /// <summary>
+        /// Gets or sets the update appointment URL.
+        /// </summary>
+        public string UpdateAppointmentUrl { get; set; }
+
+        /// <summary>
         /// Gets or sets the take payment URL.
         /// </summary>
         public string TakePaymentUrl { get; set; }

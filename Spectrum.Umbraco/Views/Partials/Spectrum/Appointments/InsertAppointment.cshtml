@@ -5,17 +5,17 @@
     Html.EnableClientValidation(true);
     Html.EnableUnobtrusiveJavaScript(true);
 
-    @*if (Model.Duration == 0)
+    if (Model.Duration == 0)
+    {
+        int duration = 60;
+
+        if (Request.Cookies[AppointmentConstants.LastAppointmentDuration] != null)
         {
-            int duration = 60;
+            duration = Convert.ToInt32(Request.Cookies[AppointmentConstants.LastAppointmentDuration].Value);
+        }
 
-            if (Request.Cookies[AppointmentConstants.LastAppointmentDuration] != null)
-            {
-                duration = Convert.ToInt32(Request.Cookies[AppointmentConstants.LastAppointmentDuration].Value);
-            }
-
-            Model.Duration = duration;
-        }*@
+        Model.Duration = duration;
+   }
 }
 
 @using (Html.BeginUmbracoForm<AppointmentsController>("InsertAppointment"))

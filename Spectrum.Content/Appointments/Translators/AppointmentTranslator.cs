@@ -51,13 +51,35 @@ namespace Spectrum.Content.Appointments.Translators
                 PaymentId = model.PaymentId,
                 Location = model.Location,
                 Description = model.Description,
+                UpdateAppointmentUrl = BuildUpdateAppointmentUrl(paymentsPage, model.Id),
                 TakePaymentUrl = BuildPaymentsUrl(paymentsPage, model.Id),
                 Attendees = GetAttendees(model.Attendees)
             };
 
             return viewModel;
         }
-        
+
+        /// <summary>
+        /// Builds the update appointment URL.
+        /// </summary>
+        /// <param name="paymentsPage">The payments page.</param>
+        /// <param name="appointmentId">The appointment identifier.</param>
+        /// <returns></returns>
+        internal string BuildUpdateAppointmentUrl(
+            string paymentsPage,
+            int appointmentId)
+        {
+            string url = string.Empty;
+
+            if (string.IsNullOrEmpty(paymentsPage) == false)
+            {
+                //// TODO : this is really lame but it will do for now :-)
+                url = paymentsPage.Replace("payment", "appointment") + "?" + PaymentsQueryStringConstants.AppointmentId + "=" + encryptionService.EncryptString(appointmentId.ToString());
+            }
+
+            return url;
+        }
+
         /// <summary>
         /// Builds the payments URL.
         /// </summary>
