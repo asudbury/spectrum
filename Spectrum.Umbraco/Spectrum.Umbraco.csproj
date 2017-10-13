@@ -480,6 +480,7 @@
     <Content Include="scripts\moment-with-locales.min.js" />
     <Content Include="scripts\moment.js" />
     <Content Include="scripts\moment.min.js" />
+    <Content Include="scripts\spectrum\appointment.js" />
     <Content Include="scripts\spectrum\braintree.js" />
     <Content Include="scripts\init.js" />
     <Content Include="scripts\jquery.min.js" />

@@ -38,8 +38,35 @@
   -webkit-transform: rotate(45deg);
 }
 
+/* Corner and mobile ribbon must be display: none by default so they don't appear
+ the javascript makes them appear if the environment is sandbox
+ The viewport size then controls the visibility property to switch between them */
+
 .corner-ribbon.red{background: #e43;}
 
+.mobile-sandbox {display: none;}
+
+@media (min-width: 769px) {
+	.mobile-sandbox {visibility: hidden;}
+}
+
+/* Mobile corner ribbon */
+@media (max-width: 768px) {
+	
+	.corner-ribbon {visibility: hidden; }
+	
+	.mobile-sandbox {
+		width: 100%;
+		height: 30px;
+		background: #e43;
+		padding-top: 5px;
+		padding-bottom: 5px;
+  		letter-spacing: 1px;
+  		color: #f0f0f0;
+		text-align: center;
+		visibility: visible;
+	}
+}
 
 
 /*********************************************************/
@@ -182,6 +209,11 @@ h2.partial-title {
 	float: left;	
 }
 
+.calendar-position span.field-validation-valid {
+	clear: both;
+	display: block;
+}
+
 @media (min-width: 768px) {
 	.calendar-position input.form-control {width: 92%;}
 	.calendar-position .btn {width: 8%;}
@@ -197,4 +229,37 @@ h2.partial-title {
 	.calendar-position .btn {width: 10%;}
 }
 
+/* Dashboard appointments mobile display */
+@media (max-width: 768px) {
 	
+	#appointmentsGrid-header {margin-top: 0; margin-bottom: 5px;}
+	
+	/*- turn off columns not required */
+	/* nth child starts from 1 for column 1 */
+	#appointmentsGrid thead tr th:nth-child(1),
+	#appointmentsGrid thead tr th:nth-child(3),
+	#appointmentsGrid thead tr th:nth-child(4),
+	#appointmentsGrid thead tr th:nth-child(6),
+	#appointmentsGrid thead tr th:nth-child(7){display: none;}
+
+	#appointmentsGrid tr td:nth-child(1),
+	#appointmentsGrid tr td:nth-child(3),
+	#appointmentsGrid tr td:nth-child(4),
+	#appointmentsGrid tr td:nth-child(6),
+	#appointmentsGrid tr td:nth-child(7){display: none;}	
+	
+	/* A litte re-arranging for mobile */
+	.bootgrid-header .search {display: block; margin-bottom: 10px; width: 100%;}
+	.bootgrid-header .actionBar {text-align: left;}
+	.col-sm-12.actionBar {padding-left: 0; padding-right: 0;}
+	#appointmentsGrid tr td:nth-child(5) {text-align: left;}
+	
+	/* If actions buttons re-required un-comment the below. Currently switched off */
+	/*.actionBar {padding-left: 0;}
+	.actions.btn-group {display: block;}*/
+	
+	/* Switch off button bar */
+	.actions.btn-group {display: none;}
+	
+	.bootgrid-footer .infoBar {text-align: left; padding-left: 0; margin-top: 10px;}
+}

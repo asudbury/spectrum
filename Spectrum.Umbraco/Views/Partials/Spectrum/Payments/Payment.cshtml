@@ -14,6 +14,7 @@
     @Html.ValidationSummary(true)
 
     <div id="sandboxRibbon" class="corner-ribbon top-right sticky red"></div>
+    <div id="mobileSandboxRibbon" class="mobile-sandbox"></div>
 
     <div class="center-content">
         <div class="row">
@@ -76,7 +77,7 @@
                         var appointmentId = '@Html.Action("GetAppointmentId", "PaymentParameters")';
                         var paymentAmount = '@Html.Action("GetPaymentAmount", "PaymentParameters")';
                         var emailAddress = '@Html.Action("GetEmailAddress", "PaymentParameters")';
-                        
+
                         setupBraintree(token, nodeId, url, env, autoAllocate, appointmentId, paymentAmount, emailAddress);
                     </script>
 

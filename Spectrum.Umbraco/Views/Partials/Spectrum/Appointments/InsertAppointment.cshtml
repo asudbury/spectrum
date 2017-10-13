@@ -15,7 +15,7 @@
         }
 
         Model.Duration = duration;
-   }
+    }
 }
 
 @using (Html.BeginUmbracoForm<AppointmentsController>("InsertAppointment"))
@@ -77,6 +77,8 @@
 
                     </ul>
 
+                    <script src="../../../../scripts/spectrum/appointment.js"></script>
+
                     <button value="submit" id="submit" class="btn btn-lg btn-primary btn-block">Save Appointment</button>
 
                 </div>
@@ -87,32 +89,12 @@
 
     <script>
 
-        function updateAttendees() {
-
-            var items = document.getElementById("attendeeList").getElementsByTagName("li");
-
-            for (var i = 0; i < items.length; i++) {
-                var input = items[i].getElementsByTagName("input")[0];
-
-                input.id = "Attendees_" + i;
-                input.name = "Attendees[" + i + "]";
-            }
-        }
-
         $(document).ready(function () {
 
             $('.input-validation-error').parents('.form-group').addClass('has-error');
             $('.field-validation-error').addClass('text-danger');
 
-            $('.date').datetimepicker(
-                {
-                    dateFormat: 'dd-M-yy',
-                    controlType: 'select',
-                    hourMin: 8,
-                    hourMax: 20,
-                    stepMinute: 5,
-                    oneLine: true
-                });
+            initialiseDatePicker();
 
             $('.btn').click(function() {
                 $(".date", $(this).closest(".form-group")).focus();
@@ -125,24 +107,13 @@
                 var filter = /^([a-zA-Z0-9_\.\-])+\@@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
                 if (!filter.test(inputValue)) {
-                    $('#attendeeInput').parents(".form-group").addClass('has-error');
-                    $('#attendeeInput').addClass('text-danger');
-                    $('span[data-valmsg-for="attendeeInput"]').text('Please enter a valid Email Address');
-                    $('span[data-valmsg-for="attendeeInput"]').addClass('text-danger');
+                    addErrorFields();
                 } else {
 
                     var items = document.getElementById("attendeeList").getElementsByTagName("li");
                     var index = items.length;
 
-                    $('#attendeeList').prepend(
-                        '<div class="calendar-position form-group">' +
-                        '<li style="padding-top:10px">' +
-                        '<input class="form-control" id="Attendees_' + index + '" name="Attendees[' + index + ']" value=' + inputValue + '>' +
-                        '</input>&nbsp;&nbsp;&nbsp;' +
-                        '<a href="#" onclick="$(this).parent().remove();updateAttendees();"><span class="glyphicon glyphicon-remove"></span></a>' +
-                        '</li>' +
-                        '</div>'
-                        );
+                    $('#attendeeList').prepend(prependAttendee(index, inputValue));
 
                     $('#attendeeInput').val('');
                     $('span[data-valmsg-for="attendeeInput"]').text('');

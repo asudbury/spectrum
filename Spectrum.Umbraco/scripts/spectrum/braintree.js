@@ -138,13 +138,15 @@ function setupBraintree(
     }
 
     braintree.client.create({
-            authorization: token
-        },
+        authorization: token
+    },
         function (err, clientInstance) {
 
             if (env !== 'production') {
                 $('#sandboxRibbon').text(env);
                 $('#sandboxRibbon').show();
+                $('#mobileSandboxRibbon').text(env);
+                $('#mobileSandboxRibbon').show();
             }
 
             if (err) {
@@ -153,36 +155,36 @@ function setupBraintree(
             }
 
             braintree.hostedFields.create({
-                    client: clientInstance,
-                    styles: {
-                        'input': {
-                            'font-size': '14px',
-                            'font-family': 'helvetica, tahoma, calibri, sans-serif',
-                            'color': '#3a3a3a'
-                        },
-                        ':focus': {
-                            'color': 'black'
-                        }
+                client: clientInstance,
+                styles: {
+                    'input': {
+                        'font-size': '14px',
+                        'font-family': 'helvetica, tahoma, calibri, sans-serif',
+                        'color': '#3a3a3a'
                     },
-                    fields: {
-                        number: {
-                            selector: '#card-number',
-                            placeholder: '4111 1111 1111 1111'
-                        },
-                        cvv: {
-                            selector: '#cvv',
-                            placeholder: '123'
-                        },
-                        expirationMonth: {
-                            selector: '#expiration-month',
-                            placeholder: 'MM'
-                        },
-                        expirationYear: {
-                            selector: '#expiration-year',
-                            placeholder: 'YY'
-                        }
+                    ':focus': {
+                        'color': 'black'
                     }
                 },
+                fields: {
+                    number: {
+                        selector: '#card-number',
+                        placeholder: '4111 1111 1111 1111'
+                    },
+                    cvv: {
+                        selector: '#cvv',
+                        placeholder: '123'
+                    },
+                    expirationMonth: {
+                        selector: '#expiration-month',
+                        placeholder: 'MM'
+                    },
+                    expirationYear: {
+                        selector: '#expiration-year',
+                        placeholder: 'YY'
+                    }
+                }
+            },
                 function (err, hostedFieldsInstance) {
                     if (err) {
                         console.error(err);
@@ -265,7 +267,7 @@ function setupBraintree(
                             if (email) {
                                 //Email validation regex
                                 var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-        
+
                                 if (!filter.test(email)) {
                                     displayError = 'Your email address must be valid';
                                     manageError(displayError);
