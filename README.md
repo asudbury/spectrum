@@ -1,3 +1,7 @@
+<a href="http://13.93.95.86:888/viewType.html?buildTypeId=Spectrum_Build&guest=1">
+	<img src="http://13.93.95.86:888/app/rest/builds/buildType:(id:YSpectrum_Build)/statusIcon"/>
+</a>
+
 # spectrum
 Umbraco Project
 
