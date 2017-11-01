@@ -17,6 +17,11 @@ namespace Spectrum.Content.Appointments.ViewModels
         public string EncryptedId { get; set; }
 
         /// <summary>
+        /// Gets or sets the encrypted customer identifier.
+        /// </summary>
+        public string EncryptedCustomerId { get; set; }
+
+        /// <summary>
         /// Gets or sets the created time.
         /// </summary>
         public DateTime CreatedTime { get; set; }

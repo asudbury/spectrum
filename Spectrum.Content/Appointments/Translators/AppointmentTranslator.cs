@@ -61,7 +61,32 @@
 
             return viewModel;
         }
-        
+
+        /// <inheritdoc />
+        /// <summary>
+        /// Translates the specified view model.
+        /// </summary>
+        /// <param name="viewModel">The view model.</param>
+        /// <returns></returns>
+        public AppointmentModel Translate(AppointmentViewModel viewModel)
+        {
+            AppointmentModel model = new AppointmentModel
+            {
+                Id = viewModel.Id,
+                CreatedTime = viewModel.CreatedTime,
+                CreatedUser = viewModel.CreatedUser,
+                LasteUpdatedTime = viewModel.LastUpdatedTime,
+                LastedUpdatedUser = viewModel.LastedUpdatedUser,
+                StartTime = viewModel.StartTime,
+                EndTime = viewModel.EndTime,
+                Location = viewModel.Location,
+                Description = viewModel.Description,
+                ////CustomerId = viewModel
+                PaymentId = viewModel.PaymentId
+            };
+
+            return model;
+        }
 
         /// <summary>
         /// Builds the appointment URL.

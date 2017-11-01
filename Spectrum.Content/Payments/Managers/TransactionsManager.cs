@@ -114,6 +114,8 @@
 
             PaymentSettingsModel model = paymentProvider.GetBraintreeModel(umbracoContext);
 
+            transactionsRepository.SetKey(umbracoContext);
+
             bool exists = transactionsRepository.Exists();
 
             if (exists)

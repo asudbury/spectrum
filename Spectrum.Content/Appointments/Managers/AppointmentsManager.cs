@@ -1,5 +1,3 @@
-using umbraco;
-
 namespace Spectrum.Content.Appointments.Managers
 {
     using Application.Services;
@@ -425,13 +423,13 @@ namespace Spectrum.Content.Appointments.Managers
 
             ////PageModel pageModel = new PageModel(umbracoContext);
 
-            ////AppointmentModel appointmentModel = insertAppointmentTranslator.Translate(viewModel);
+            AppointmentModel appointmentModel = appointmentTranslator.Translate(viewModel);
 
             if (settingsModel.DatabaseIntegration)
             {
                 loggingService.Info(GetType(), "Database Integration");
 
-                ////databaseProvider.UpdateAppointment(appointmentModel);
+                databaseProvider.UpdateAppointment(appointmentModel);
             }
 
             if (settingsModel.GoogleCalendarIntegration)
@@ -444,7 +442,8 @@ namespace Spectrum.Content.Appointments.Managers
                 loggingService.Info(GetType(), "iCal Integration");
             }
 
-            return string.Empty;
+            //// TODO : this needs changing!!
+            return "/customer/dashboard";
         }
 
         /// <summary>
@@ -474,9 +473,12 @@ namespace Spectrum.Content.Appointments.Managers
 
             AppointmentSettingsModel appointmentsModel = appointmentsProvider.GetAppointmentsModel(paymentMadeMessage.UmbracoContext);
 
+            CustomerModel customerModel = appointmentsProvider.GetCustomerModel(paymentMadeMessage.UmbracoContext);
+            int customerId = customerModel.Id;
+
             if (appointmentsModel.DatabaseIntegration)
             {
-                UpdateAppointment(id.Value, paymentId);
+                UpdateAppointment(id.Value, customerId, paymentId);
             }
         }
 
@@ -515,12 +517,14 @@ namespace Spectrum.Content.Appointments.Managers
         /// Updates the appointment.
         /// </summary>
         /// <param name="id">The identifier.</param>
+        /// <param name="customerId">The customer identifier.</param>
         /// <param name="paymentId">The payment identifier.</param>
         internal void UpdateAppointment(
             int id, 
+            int customerId,
             string paymentId)
         {
-            /*AppointmentModel model = databaseProvider.GetAppointment(id);
+            AppointmentModel model = databaseProvider.GetAppointment(id, customerId);
 
             if (model != null)
             {
@@ -531,7 +535,7 @@ namespace Spectrum.Content.Appointments.Managers
                 databaseProvider.UpdateAppointment(model);
 
                 loggingService.Info(GetType(), "Appointment updated with PaymentId=" + paymentId);
-            }*/
+            }
         }
 
         /// <summary>
