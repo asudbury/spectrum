@@ -5,6 +5,7 @@
 
     public class CacheService : ICacheService
     {
+        /// <inheritdoc />
         /// <summary>
         /// Adds the specified o.
         /// </summary>
@@ -39,6 +40,7 @@
             }
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Clears the specified key.
         /// </summary>
@@ -48,6 +50,7 @@
             HttpContext.Current.Cache.Remove(key);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Existses the specified key.
         /// </summary>

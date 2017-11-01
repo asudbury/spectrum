@@ -3,16 +3,22 @@
     using Umbraco.Core.Models;
     using Umbraco.Web;
 
-    public class BraintreeSettingsModel : BaseModel
+    public class PaymentSettingsModel : BaseModel
     {
+        /// <inheritdoc />
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Umbraco.Core.Models.PublishedContent.PublishedContentModel" /> class with
         /// an original <see cref="T:Umbraco.Core.Models.IPublishedContent" /> instance.
         /// </summary>
         /// <param name="content">The original content.</param>
-        public BraintreeSettingsModel(IPublishedContent content) : base(content)
+        public PaymentSettingsModel(IPublishedContent content) : base(content)
         {
         }
+
+        /// <summary>
+        /// Gets the payments enabled.
+        /// </summary>
+        public bool PaymentsEnabled => this.GetPropertyValue<bool>("paymentsEnabled");
 
         /// <summary>
         /// Gets the environment.

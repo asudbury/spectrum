@@ -8,10 +8,11 @@
     using Umbraco.Core.Services;
     using Umbraco.Web.Security;
 
+    /// <inheritdoc />
     /// <summary>
     /// The UserService class.
     /// </summary>
-    /// <seealso cref="Spectrum.Content.Services.IUserService" />
+    /// <seealso cref="T:Spectrum.Content.Services.IUserService" />
     public class UserService : IUserService
     {
         /// <summary>
@@ -68,10 +69,6 @@
             IMember member = MemberService.CreateMemberWithIdentity(emailAddress, emailAddress, name, memberType);
 
             member.IsApproved = false;
-
-            ////member.SetValueIfHasProperty(UserConstants.HasVerifiedEmail, false);
-            ////member.SetValueIfHasProperty(UserConstants.ProfileUrl, member.Id);
-            ////member.SetValueIfHasProperty(UserConstants.RegistrationDate, DateTime.Now);
 
             MemberService.Save(member);
             MemberService.SavePassword(member, password);
@@ -157,19 +154,6 @@
                 throw new ArgumentException("Member not supplied");
             }
 
-            /*string hostName = Dns.GetHostName();
-            string ipAddress = Dns.GetHostAddresses(hostName).GetValue(0).ToString();
-
-            if (member.HasProperty(UserConstants.NumberOfLogins))
-            {
-                int noLogins = member.GetValue<int>(UserConstants.NumberOfLogins);
-                member.SetValueIfHasProperty(UserConstants.NumberOfLogins, noLogins + 1);
-            }
-            */
-            ////member.SetValueIfHasProperty(UserConstants.LastLoggedInDateTime, DateTime.Now);
-            ////member.SetValueIfHasProperty(UserConstants.HostNameOfLastLogin, hostName);
-            ////member.SetValueIfHasProperty(UserConstants.IpAddressOfLastLogin, ipAddress);
-
             MemberService.Save(member);
         }
 
@@ -201,6 +185,7 @@
             return roles.Length > 0 ? roles[0] : string.Empty;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the default role.
         /// </summary>
@@ -216,6 +201,16 @@
             }
 
             return string.Empty;
+        }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// Gets the name of the current user.
+        /// </summary>
+        /// <returns></returns>
+        public string GetCurrentUserName()
+        {
+            return membershipHelper.CurrentUserName;
         }
 
         /// <summary>

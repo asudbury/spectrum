@@ -1,15 +1,16 @@
 ﻿namespace Spectrum.Content.Configuration
 {
-    using Appointments;
     using Appointments.Models;
+    using Extensions;
     using System;
     using Umbraco.Core;
     using Umbraco.Core.Persistence;
+    using Umbraco.Core.Logging;
 
     /// <summary>
     /// 
     /// </summary>
-    public static class Application
+    public static class ApplicationConfiguration
     {
         /// <summary>
         /// Setups this instance.
@@ -20,6 +21,8 @@
             UmbracoApplicationBase umbracoApplication,
             ApplicationContext applicationContext)
         {
+            LogHelper.Info(typeof(ApplicationConfiguration), "ApplicationStarted");
+
             DatabaseContext databaseContext = applicationContext.DatabaseContext;
 
             DatabaseSchemaHelper db = new DatabaseSchemaHelper(
@@ -27,34 +30,19 @@
                 applicationContext.ProfilingLogger.Logger,
                 databaseContext.SqlSyntax);
 
-            //// TODO : maybe only create tables if appointments are supported??
+            bool created = db.CreateTableIfNotExist<AppointmentStatusModel>(Content.Constants.Database.AppointmentStatusTableName);
 
-            if (!db.TableExist(AppointmentConstants.AppointmentStatusTableName))
+            if (created)
             {
-                //// create look up table for the appointment status
-
-                db.CreateTable<AppointmentStatusModel>(false);
-
                 foreach(AppointmentStatus status in Enum.GetValues(typeof(AppointmentStatus)))
                 {
                     databaseContext.Database.Insert(new AppointmentStatusModel { Id = (int)status, Description = status.ToString() });
                 }
             }
 
-            if (!db.TableExist(AppointmentConstants.AppointmentTableName))
-            {
-                db.CreateTable<AppointmentModel>(false);
-            }
-
-            if (!db.TableExist(AppointmentConstants.AppointmentAttendeeTableName))
-            {
-                db.CreateTable<AppointmentAttendeeModel>(false);
-            }
-
-            if (!db.TableExist(AppointmentConstants.IcalAppointmentTableName))
-            {
-                db.CreateTable<ICalAppointmentModel>(false);
-            }
+            db.CreateTableIfNotExist<AppointmentModel>(Content.Constants.Database.AppointmentTableName);
+            db.CreateTableIfNotExist<AppointmentAttendeeModel>(Content.Constants.Database.AppointmentAttendeeTableName);
+            db.CreateTableIfNotExist<ICalAppointmentModel>(Content.Constants.Database.IcalAppointmentTableName);
         }
     }
 }

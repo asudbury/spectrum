@@ -5,7 +5,7 @@
     using Umbraco.Core.Persistence.DatabaseAnnotations;
     
     // ReSharper disable once InconsistentNaming
-    [TableName(AppointmentConstants.IcalAppointmentTableName)]
+    [TableName(Constants.Database.IcalAppointmentTableName)]
     [PrimaryKey("Id", autoIncrement = true)]
     public class ICalAppointmentModel
     {

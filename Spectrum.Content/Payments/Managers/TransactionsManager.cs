@@ -1,11 +1,11 @@
 ﻿namespace Spectrum.Content.Payments.Managers
 {
-    using Application.Services;
     using Braintree;
     using Content.Services;
     using ContentModels;
     using Models;
     using Providers;
+    using Repositories;
     using System.Collections.Generic;
     using System.Linq;
     using Translators;
@@ -30,9 +30,9 @@
         private readonly ITransactionTranslator transactionTranslator;
 
         /// <summary>
-        /// The cache service.
+        /// The transactions repository.
         /// </summary>
-        private readonly ICacheService cacheService;
+        private readonly ITransactionsRepository transactionsRepository;
 
         /// <summary>
         /// The transactions boot grid translator.
@@ -45,19 +45,19 @@
         /// <param name="loggingService">The logging service.</param>
         /// <param name="paymentProvider">The payment provider.</param>
         /// <param name="transactionTranslator">The transaction translator.</param>
-        /// <param name="cacheService">The cache service.</param>
+        /// <param name="transactionsRepository">The transactions repository.</param>
         /// <param name="transactionsBootGridTranslator">The transactions boot grid translator.</param>
         public TransactionsManager(
             ILoggingService loggingService,
             IPaymentProvider paymentProvider,
             ITransactionTranslator transactionTranslator,
-            ICacheService cacheService,
+            ITransactionsRepository transactionsRepository,
             ITransactionsBootGridTranslator transactionsBootGridTranslator)
         {
             this.loggingService = loggingService;
             this.paymentProvider = paymentProvider;
             this.transactionTranslator = transactionTranslator;
-            this.cacheService = cacheService;
+            this.transactionsRepository = transactionsRepository;
             this.transactionsBootGridTranslator = transactionsBootGridTranslator;
         }
 
@@ -71,24 +71,30 @@
         {
             loggingService.Info(GetType());
 
-            bool exists = cacheService.Exists("Transactions");
+            List<TransactionViewModel> viewModels = new List<TransactionViewModel>();
 
-            if (exists)
+            PaymentSettingsModel model = paymentProvider.GetBraintreeModel(umbracoContext);
+
+            if (model.PaymentsEnabled)
             {
-                return cacheService.Get<IEnumerable<TransactionViewModel>>("Transactions");
+                transactionsRepository.SetKey(umbracoContext);
+
+                bool exists = transactionsRepository.Exists();
+
+                if (exists)
+                {
+                    return transactionsRepository.Get<IEnumerable<TransactionViewModel>>();
+                }
+
+                ResourceCollection<Transaction> transactions = paymentProvider.GetTransactions(model);
+
+                viewModels = (from Transaction transaction
+                            in transactions
+                            select transactionTranslator.Translate(transaction))
+                            .ToList();
+
+                transactionsRepository.Add(viewModels);
             }
-
-            BraintreeSettingsModel model = paymentProvider.GetBraintreeModel(umbracoContext);
-
-
-            ResourceCollection<Transaction> transactions = paymentProvider.GetTransactions(model);
-
-            List <TransactionViewModel> viewModels = (from Transaction transaction 
-                                                      in transactions
-                                                      select transactionTranslator.Translate(transaction))
-                                                      .ToList();
-
-            cacheService.Add(viewModels, "Transactions");
 
             return viewModels;
         }
@@ -106,13 +112,13 @@
         {
             loggingService.Info(GetType(), "EncryptedTransactionId=" + transactionId);
 
-            BraintreeSettingsModel model = paymentProvider.GetBraintreeModel(umbracoContext);
+            PaymentSettingsModel model = paymentProvider.GetBraintreeModel(umbracoContext);
 
-            bool exists = cacheService.Exists("Transactions");
+            bool exists = transactionsRepository.Exists();
 
             if (exists)
             {
-                IEnumerable<TransactionViewModel> viewModels = cacheService.Get<IEnumerable<TransactionViewModel>>("Transactions");
+                IEnumerable<TransactionViewModel> viewModels = transactionsRepository.Get<IEnumerable<TransactionViewModel>>();
 
                 TransactionViewModel viewModel = viewModels.FirstOrDefault(x => x.Id == transactionId);
 
@@ -154,5 +160,4 @@
                 sortItems);
         }
     }
-
 }

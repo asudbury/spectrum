@@ -44,15 +44,18 @@
             context.Database.Insert(model);
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Gets the appointments.
         /// </summary>
         /// <param name="dateRangeStart">The date range start.</param>
         /// <param name="dateRangeEnd">The date range end.</param>
+        /// <param name="customerId">The customer identifier.</param>
+        /// <returns></returns>
+        /// <inheritdoc />
         public IEnumerable<AppointmentModel> GetAppointments(
             DateTime dateRangeStart, 
-            DateTime dateRangeEnd)
+            DateTime dateRangeEnd,
+            int customerId)
         {
             DatabaseContext context = ApplicationContext.Current.DatabaseContext;
 
@@ -66,9 +69,9 @@
 
             Sql sql = new Sql()
                 .Select("*")
-                .From(AppointmentConstants.AppointmentTableName)
-                .Where("Status != " + deleted)
-                .OrderBy("StartTime desc");
+                .From(Content.Constants.Database.AppointmentTableName)
+                .Where("Status != " + deleted + " and CustomerId=" + customerId)
+                .OrderByDescending("StartTime");
 
             return context.Database.Fetch<AppointmentModel>(sql);
         }
@@ -77,13 +80,21 @@
         /// Gets the appointment.
         /// </summary>
         /// <param name="appointmentId">The appointment identifier.</param>
+        /// <param name="customerId">The customer identifier.</param>
         /// <returns></returns>
         /// <inheritdoc />
-        public AppointmentModel GetAppointment(int appointmentId)
+        public AppointmentModel GetAppointment(
+            int appointmentId,
+            int customerId)
         {
             DatabaseContext context = ApplicationContext.Current.DatabaseContext;
 
-            AppointmentModel model = context.Database.SingleOrDefault<AppointmentModel>(appointmentId);
+            Sql sql = new Sql()
+                .Select("*")
+                .From(Content.Constants.Database.AppointmentTableName)
+                .Where("Id = " + appointmentId + " and CustomerId= " + customerId) ;
+
+            AppointmentModel model = context.Database.FirstOrDefault<AppointmentModel>(sql);
 
             model.Attendees = GetAppointmentAttendees(appointmentId);
 
@@ -102,7 +113,7 @@
 
             Sql sql = new Sql()
                 .Select("*")
-                .From(AppointmentConstants.AppointmentAttendeeTableName)
+                .From(Content.Constants.Database.AppointmentAttendeeTableName)
                 .Where("AppointmentId = " + appointmentId);
 
             return context.Database.Fetch<AppointmentAttendeeModel>(sql);
@@ -144,7 +155,7 @@
 
             Sql sql = new Sql()
                 .Select("*")
-                .From(AppointmentConstants.IcalAppointmentTableName)
+                .From(Content.Constants.Database.IcalAppointmentTableName)
                 .Where("AppointmentId = " + appointmentId);
 
             return context.Database.Fetch<ICalAppointmentModel>(sql).FirstOrDefault();

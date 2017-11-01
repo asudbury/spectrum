@@ -1,3 +1,5 @@
+using umbraco;
+
 namespace Spectrum.Content.Appointments.Managers
 {
     using Application.Services;
@@ -116,20 +118,20 @@ namespace Spectrum.Content.Appointments.Managers
             this.appointmentsBootGridTranslator = appointmentsBootGridTranslator;
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Inserts the appointment.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="publishedContent">Content of the published.</param>
-        /// <param name="createdUserName">Name of the created user.</param>
         /// <param name="viewModel">The view model.</param>
+        /// <param name="createdUser">The created user.</param>
         /// <returns></returns>
+        /// <inheritdoc />
         public string InsertAppointment(
             UmbracoContext umbracoContext,
             IPublishedContent publishedContent,
-            string createdUserName,
-            InsertAppointmentViewModel viewModel)
+            InsertAppointmentViewModel viewModel,
+            string createdUser)
         {
             loggingService.Info(GetType(), "Start");
 
@@ -149,10 +151,13 @@ namespace Spectrum.Content.Appointments.Managers
 
             AppointmentSettingsModel settingsModel = appointmentsProvider.GetAppointmentsModel(umbracoContext);
 
+            CustomerModel customerModel = appointmentsProvider.GetCustomerModel(umbracoContext);
+
             AppointmentModel appointmentModel = insertAppointmentTranslator.Translate(viewModel);
-
-            appointmentModel.CreatedUser = createdUserName;
-
+            appointmentModel.CustomerId = customerModel.Id;
+            appointmentModel.CreatedUser = createdUser;
+            appointmentModel.LastedUpdatedUser = createdUser;
+            
             int appointmentId = 0;
 
             if (settingsModel.DatabaseIntegration)
@@ -260,7 +265,10 @@ namespace Spectrum.Content.Appointments.Managers
             {
                 string id = encryptionService.DecryptString(appointmentId);
 
-                AppointmentModel model = databaseProvider.GetAppointment(Convert.ToInt32(id));
+                CustomerModel customerModel = appointmentsProvider.GetCustomerModel(umbracoContext);
+                int customerId = customerModel.Id;
+
+                AppointmentModel model = databaseProvider.GetAppointment(Convert.ToInt32(id), customerId);
 
                 return appointmentTranslator.Translate(settingsModel.PaymentsPage, model);
             }
@@ -283,17 +291,20 @@ namespace Spectrum.Content.Appointments.Managers
         {
             loggingService.Info(GetType());
 
-            AppointmentSettingsModel model = appointmentsProvider.GetAppointmentsModel(umbracoContext);
+            AppointmentSettingsModel appointmentSettingsModel = appointmentsProvider.GetAppointmentsModel(umbracoContext);
 
-            if (model.DatabaseIntegration)
+            int customerId = GetCustomerId(umbracoContext);
+            
+            if (appointmentSettingsModel.DatabaseIntegration)
             {
                 IEnumerable<AppointmentModel> models = databaseProvider.GetAppointments(
                                                             dateRangeStart,
-                                                            dateRangeEnd);
+                                                            dateRangeEnd,
+                                                            customerId);
 
                 List<AppointmentViewModel> viewModels = new List<AppointmentViewModel>();
 
-                string paymentsPage = model.PaymentsPage;
+                string paymentsPage = appointmentSettingsModel.PaymentsPage;
 
                 foreach (AppointmentModel appointmentModel in models)
                 {
@@ -347,7 +358,7 @@ namespace Spectrum.Content.Appointments.Managers
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="appointmentId">The appointment identifier.</param>
         /// <returns></returns>
-        public bool DeleteAppointment(
+        public string DeleteAppointment(
             UmbracoContext umbracoContext, 
             string appointmentId)
         {
@@ -356,8 +367,10 @@ namespace Spectrum.Content.Appointments.Managers
             string id = encryptionService.DecryptString(appointmentId);
 
             int appId = Convert.ToInt32(id);
+            
+            int customerId = GetCustomerId(umbracoContext);
 
-            AppointmentModel model = databaseProvider.GetAppointment(appId);
+            AppointmentModel model = databaseProvider.GetAppointment(appId, customerId);
 
             if (settingsModel.DatabaseIntegration)
             {
@@ -391,7 +404,8 @@ namespace Spectrum.Content.Appointments.Managers
             {
             }
 
-            return true;
+            //// TODO : this needs changing!!
+            return "/customer/dashboard";
         }
 
         /// <inheritdoc />
@@ -407,15 +421,17 @@ namespace Spectrum.Content.Appointments.Managers
         {
             loggingService.Info(GetType(), "Start");
 
-            /*AppointmentSettingsModel settingsModel = appointmentsProvider.GetAppointmentsModel(umbracoContext);
+            AppointmentSettingsModel settingsModel = appointmentsProvider.GetAppointmentsModel(umbracoContext);
 
-            AppointmentModel appointmentModel = insertAppointmentTranslator.Translate(viewModel);
+            ////PageModel pageModel = new PageModel(umbracoContext);
+
+            ////AppointmentModel appointmentModel = insertAppointmentTranslator.Translate(viewModel);
 
             if (settingsModel.DatabaseIntegration)
             {
                 loggingService.Info(GetType(), "Database Integration");
 
-                databaseProvider.UpdateAppointment(appointmentModel);
+                ////databaseProvider.UpdateAppointment(appointmentModel);
             }
 
             if (settingsModel.GoogleCalendarIntegration)
@@ -423,10 +439,10 @@ namespace Spectrum.Content.Appointments.Managers
                 loggingService.Info(GetType(), "Google Calendar Integration");
             }
 
-            if (settingsModel.iCalIntegration)
+            if (settingsModel.IcalIntegration)
             {
                 loggingService.Info(GetType(), "iCal Integration");
-            }*/
+            }
 
             return string.Empty;
         }
@@ -504,7 +520,7 @@ namespace Spectrum.Content.Appointments.Managers
             int id, 
             string paymentId)
         {
-            AppointmentModel model = databaseProvider.GetAppointment(id);
+            /*AppointmentModel model = databaseProvider.GetAppointment(id);
 
             if (model != null)
             {
@@ -515,7 +531,18 @@ namespace Spectrum.Content.Appointments.Managers
                 databaseProvider.UpdateAppointment(model);
 
                 loggingService.Info(GetType(), "Appointment updated with PaymentId=" + paymentId);
-            }
+            }*/
+        }
+
+        /// <summary>
+        /// Gets the customer identifier.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        internal int GetCustomerId(UmbracoContext context)
+        {
+            CustomerModel customerModel = appointmentsProvider.GetCustomerModel(context);
+            return customerModel.Id;
         }
     }
 }

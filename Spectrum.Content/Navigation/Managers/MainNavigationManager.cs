@@ -1,11 +1,13 @@
 ﻿namespace Spectrum.Content.Navigation.Managers
 {
+    using System.Collections.Generic;
+    using ContentModels;
     using Providers;
     using Services;
     using Umbraco.Core.Models;
     using Umbraco.Web;
     using ViewModels;
-    
+
     public class MainNavigationManager : IMainNavigationManager
     {
         /// <summary>
@@ -24,21 +26,30 @@
         private readonly IMainNavigationProvider mainNavigationProvider;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MainNavigationManager"/> class.
+        /// The rules engine service.
+        /// </summary>
+        private readonly IRulesEngineService rulesEngineService;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainNavigationManager" /> class.
         /// </summary>
         /// <param name="mainNavigationProvider">The main navigation provider.</param>
         /// <param name="userService">The user service.</param>
         /// <param name="settingsService">The settings service.</param>
+        /// <param name="rulesEngineService">The rules engine service.</param>
         public MainNavigationManager(
-            IMainNavigationProvider mainNavigationProvider, 
-            IUserService userService, 
-            ISettingsService settingsService)
+            IMainNavigationProvider mainNavigationProvider,
+            IUserService userService,
+            ISettingsService settingsService,
+            IRulesEngineService rulesEngineService)
         {
             this.mainNavigationProvider = mainNavigationProvider;
             this.userService = userService;
             this.settingsService = settingsService;
+            this.rulesEngineService = rulesEngineService;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the menu view model.
         /// </summary>
@@ -50,7 +61,7 @@
             if (userService.IsUserLoggedIn())
             {
                 //// use the name of the role to be the lookup of the menu in umbraco
-                //// OfficeAdmin is the one we have started with.
+                //// CustomerAdmin is the one we have started with.
 
                 menu = userService.GetDefaultRole();
 
@@ -64,9 +75,33 @@
 
             if (menuNode != null)
             {
+                IEnumerable<MenuItemModel> menuItems = mainNavigationProvider.GetMenu(menuNode);
+
+                List<MenuItemModel> allowedMenuItems = new List<MenuItemModel>();
+
+                foreach (MenuItemModel menuItemModel in menuItems)
+                {
+                    if (string.IsNullOrEmpty(menuItemModel.DisplayRule) == false)
+                    {
+                        bool result = rulesEngineService.Execute(
+                                            UmbracoContext.Current, 
+                                            menuItemModel.DisplayRule);
+
+                        if (result)
+                        {
+                            allowedMenuItems.Add(menuItemModel);
+                        }
+                    }
+
+                    else
+                    {
+                        allowedMenuItems.Add(menuItemModel);
+                    }
+                }
+
                 MenuViewModel viewModel = new MenuViewModel
                 {
-                    MenuItems = mainNavigationProvider.GetMenu(menuNode)
+                    MenuItems = allowedMenuItems
                 };
 
                 return viewModel;

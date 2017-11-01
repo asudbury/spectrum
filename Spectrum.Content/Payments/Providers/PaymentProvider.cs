@@ -33,28 +33,31 @@
             this.braintreeService = braintreeService;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the braintree model.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <returns></returns>
-        public BraintreeSettingsModel GetBraintreeModel(UmbracoContext umbracoContext)
+        public PaymentSettingsModel GetBraintreeModel(UmbracoContext umbracoContext)
         {
             IPublishedContent content = settingsService.GetPaymentsNode(umbracoContext);
 
-            return new BraintreeSettingsModel(content);
+            return content != null ? new PaymentSettingsModel(content) : null;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the authentication token.
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        public string GetAuthToken(BraintreeSettingsModel model)
+        public string GetAuthToken(PaymentSettingsModel model)
         {
             return braintreeService.GetAuthToken(model);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Makes the payment.
         /// </summary>
@@ -62,22 +65,24 @@
         /// <param name="viewModel">The view model.</param>
         /// <returns>Payment Id</returns>
         public string MakePayment(
-            BraintreeSettingsModel model,
+            PaymentSettingsModel model,
             PaymentViewModel viewModel)
         {
             return braintreeService.MakePayment(model, viewModel);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the transactions.
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        public ResourceCollection<Transaction> GetTransactions(BraintreeSettingsModel model)
+        public ResourceCollection<Transaction> GetTransactions(PaymentSettingsModel model)
         {
             return braintreeService.GetTransactions(model);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the transaction.
         /// </summary>
@@ -85,7 +90,7 @@
         /// <param name="transactionId">The transaction identifier.</param>
         /// <returns></returns>
         public Transaction GetTransaction(
-            BraintreeSettingsModel model,
+            PaymentSettingsModel model,
             string transactionId)
         {
             return braintreeService.GetTransaction(model, transactionId);

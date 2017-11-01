@@ -12,8 +12,9 @@
         /// </summary>
         private readonly IAppointmentsProvider appointmentsProvider;
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="GoogleCalendarController" /> class.
+        /// Initializes a new instance of the <see cref="T:Spectrum.Content.Appointments.Controllers.GoogleCalendarController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="appointmentsProvider">The appointments provider.</param>
@@ -34,7 +35,16 @@
         {
             AppointmentSettingsModel model = appointmentsProvider.GetAppointmentsModel(UmbracoContext);
 
-            return Content(model.GoogleCalendarUrl);
+            if (model != null)
+            {
+                if (model.GoogleCalendarEnabled && 
+                    string.IsNullOrEmpty(model.GoogleCalendarUrl) == false)
+                {
+                    return Content(model.GoogleCalendarUrl);
+                }
+            }
+
+            return Content("");
         }
     }
 }

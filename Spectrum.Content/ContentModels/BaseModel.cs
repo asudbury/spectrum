@@ -7,6 +7,7 @@
 
     public class BaseModel : PublishedContentModel
     {
+        /// <inheritdoc />
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Umbraco.Core.Models.PublishedContent.PublishedContentModel" /> class with
         /// an original <see cref="T:Umbraco.Core.Models.IPublishedContent" /> instance.

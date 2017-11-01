@@ -5,7 +5,7 @@
     using Umbraco.Core.Persistence;
     using Umbraco.Core.Persistence.DatabaseAnnotations;
 
-    [TableName(AppointmentConstants.AppointmentTableName)]
+    [TableName(Constants.Database.AppointmentTableName)]
     [PrimaryKey("Id", autoIncrement = true)]
     public class AppointmentModel
     {
@@ -20,6 +20,16 @@
         /// Gets or sets the created time.
         /// </summary>
         public DateTime CreatedTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the created user.
+        /// </summary>
+        public string LastedUpdatedUser { get; set; }
+
+        /// <summary>
+        /// Gets or sets the created time.
+        /// </summary>
+        public DateTime LasteUpdatedTime { get; set; }
 
         /// <summary>
         /// Gets or sets the created user.
@@ -56,6 +66,16 @@
         /// Gets or sets the status.
         /// </summary>
         public int Status { get; set; }
+
+        /// <summary>
+        /// Gets or sets the customer identifier.
+        /// </summary>
+        public int CustomerId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the service provider identifier.
+        /// </summary>
+        public int ServiceProviderId { get; set; }
 
         /// <summary>
         /// Gets or sets the attendees.

@@ -1,9 +1,8 @@
-﻿using Spectrum.Content.Payments;
-
-namespace Spectrum.Content.Appointments.Translators
+﻿namespace Spectrum.Content.Appointments.Translators
 {
     using Application.Services;
     using Models;
+    using Payments;
     using System;
     using System.Collections.Generic;
     using ViewModels;
@@ -44,6 +43,8 @@ namespace Spectrum.Content.Appointments.Translators
                 EncryptedId = encryptionService.EncryptString(model.Id.ToString()),
                 CreatedTime = TimeZone.CurrentTimeZone.ToLocalTime(model.CreatedTime),
                 CreatedUser = model.CreatedUser,
+                LastUpdatedTime = TimeZone.CurrentTimeZone.ToLocalTime(model.LasteUpdatedTime),
+                LastedUpdatedUser = model.LastedUpdatedUser,
                 StartTime = startTime,
                 EndTime = endTime,
                 Duration = (endTime - startTime).TotalMinutes,
@@ -51,30 +52,35 @@ namespace Spectrum.Content.Appointments.Translators
                 PaymentId = model.PaymentId,
                 Location = model.Location,
                 Description = model.Description,
-                UpdateAppointmentUrl = BuildUpdateAppointmentUrl(paymentsPage, model.Id),
+                ViewAppointmentUrl = BuildAppointmentUrl(paymentsPage, model.Id, "viewappointment"),
+                UpdateAppointmentUrl = BuildAppointmentUrl(paymentsPage, model.Id, "updateappointment"),
+                DeleteAppointmentUrl = "/umbraco/Surface/Appointments/Delete/" + encryptionService.EncryptString(model.Id.ToString()),
                 TakePaymentUrl = BuildPaymentsUrl(paymentsPage, model.Id),
                 Attendees = GetAttendees(model.Attendees)
             };
 
             return viewModel;
         }
+        
 
         /// <summary>
-        /// Builds the update appointment URL.
+        /// Builds the appointment URL.
         /// </summary>
         /// <param name="paymentsPage">The payments page.</param>
         /// <param name="appointmentId">The appointment identifier.</param>
+        /// <param name="page">The page.</param>
         /// <returns></returns>
-        internal string BuildUpdateAppointmentUrl(
+        internal string BuildAppointmentUrl(
             string paymentsPage,
-            int appointmentId)
+            int appointmentId,
+            string page)
         {
             string url = string.Empty;
 
             if (string.IsNullOrEmpty(paymentsPage) == false)
             {
-                //// TODO : this is really lame but it will do for now :-)
-                url = paymentsPage.Replace("payment", "appointment") + "?" + PaymentsQueryStringConstants.AppointmentId + "=" + encryptionService.EncryptString(appointmentId.ToString());
+                //// TODO : this is rubbish but will do for now!
+                url = paymentsPage.Replace("payment", page) + "?" + PaymentsQueryStringConstants.AppointmentId + "=" + encryptionService.EncryptString(appointmentId.ToString());
             }
 
             return url;

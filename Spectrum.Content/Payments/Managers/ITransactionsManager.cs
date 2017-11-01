@@ -32,6 +32,7 @@ namespace Spectrum.Content.Payments.Managers
         /// <param name="current">The current.</param>
         /// <param name="rowCount">The row count.</param>
         /// <param name="searchPhrase">The search phrase.</param>
+        /// <param name="sortItems">The sort items.</param>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <returns></returns>
         BootGridViewModel<TransactionViewModel> GetBootGridTransactions(

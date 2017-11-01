@@ -5,6 +5,7 @@
 
     public class MenuItemModel : BaseModel
     {
+        /// <inheritdoc />
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Umbraco.Core.Models.PublishedContent.PublishedContentModel" /> class with
         /// an original <see cref="T:Umbraco.Core.Models.IPublishedContent" /> instance.
@@ -29,5 +30,10 @@
         /// Gets the link.
         /// </summary>
         public string Link => GetNiceUrl(this.GetPropertyValue<int>("link"));
+        
+        /// <summary>
+        /// Gets the display rule.
+        /// </summary>
+        public string DisplayRule => this.GetPropertyValue<string>("displayRule");
     }
 }

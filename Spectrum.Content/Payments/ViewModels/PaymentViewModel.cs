@@ -5,7 +5,7 @@
     /// <summary>
     /// The PaymentViewModel class.
     /// </summary>
-    public class PaymentViewModel
+    public class PaymentViewModel 
     {
         /// <summary>
         /// Gets or sets the current page node identifier.

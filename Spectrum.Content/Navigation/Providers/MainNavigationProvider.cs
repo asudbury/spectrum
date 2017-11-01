@@ -6,6 +6,7 @@
 
     public class MainNavigationProvider : IMainNavigationProvider
     {
+        /// <inheritdoc />
         /// <summary>
         /// Gets the menu.
         /// </summary>

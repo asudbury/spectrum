@@ -5,8 +5,9 @@
 
     public class PageModel : BaseModel
     {
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="PageModel"/> class.
+        /// Initializes a new instance of the <see cref="T:Spectrum.Content.ContentModels.PageModel" /> class.
         /// </summary>
         /// <param name="content">The original content.</param>
         public PageModel(IPublishedContent content) : base(content)

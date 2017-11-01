@@ -71,9 +71,9 @@ namespace Spectrum.Content.Appointments.Services
             
             return new UserCredential(flow, "me", tokenResponse);
 
-            return await new AuthorizationCodeInstalledApp(flow,
+            /*return await new AuthorizationCodeInstalledApp(flow,
                 new LocalServerCodeReceiver())
-                .AuthorizeAsync(user, taskCancellationToken).ConfigureAwait(false);
+                .AuthorizeAsync(user, taskCancellationToken).ConfigureAwait(false);*/
         }
 
     }

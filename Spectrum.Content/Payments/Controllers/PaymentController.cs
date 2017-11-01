@@ -15,37 +15,47 @@
         /// </summary>
         private readonly IPaymentManager paymentManager;
 
-        /// <inheritdoc />
+        /// <summary>
+        /// The rules engine service.
+        /// </summary>
+        private readonly IRulesEngineService rulesEngineService;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Spectrum.Content.Payments.Controllers.PaymentController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="paymentManager">The payment manager.</param>
+        /// <param name="rulesEngineService">The rules engine service.</param>
+        /// <inheritdoc />
         public PaymentController(
             ILoggingService loggingService,
-            IPaymentManager paymentManager)
+            IPaymentManager paymentManager,
+            IRulesEngineService rulesEngineService)
             : base(loggingService)
         {
             this.paymentManager = paymentManager;
+            this.rulesEngineService = rulesEngineService;
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Spectrum.Content.Payments.Controllers.PaymentController" /> class.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="paymentManager">The payment manager.</param>
+        /// <param name="rulesEngineService">The rules engine service.</param>
+        /// <inheritdoc />
         public PaymentController(
             UmbracoContext umbracoContext,
             ILoggingService loggingService,
-            IPaymentManager paymentManager)
+            IPaymentManager paymentManager,
+            IRulesEngineService rulesEngineService)
             : base(loggingService)
         {
             this.paymentManager = paymentManager;
+            this.rulesEngineService = rulesEngineService;
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Spectrum.Content.Payments.Controllers.PaymentController" /> class.
         /// </summary>
@@ -53,17 +63,37 @@
         /// <param name="umbracoHelper">The umbraco helper.</param>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="paymentManager">The payment manager.</param>
+        /// <param name="rulesEngineService">The rules engine service.</param>
+        /// <inheritdoc />
         public PaymentController(
             UmbracoContext umbracoContext,
             UmbracoHelper umbracoHelper,
             ILoggingService loggingService,
-            IPaymentManager paymentManager)
+            IPaymentManager paymentManager,
+            IRulesEngineService rulesEngineService)
             : base(loggingService)
         {
             this.paymentManager = paymentManager;
+            this.rulesEngineService = rulesEngineService;
         }
 
+        /// <summary>
+        /// Payments this instance.
+        /// </summary>
+        /// <returns></returns>
+        [ChildActionOnly]
+        public PartialViewResult Payment()
+        {
+            LoggingService.Info(GetType());
 
+            if (rulesEngineService.IsCustomerPaymentsEnabled(UmbracoContext))
+            {
+                return PartialView("", new PaymentViewModel());
+            }
+
+            return default(PartialViewResult);
+        }
+        
         /// <summary>
         /// Handles the payment.
         /// </summary>

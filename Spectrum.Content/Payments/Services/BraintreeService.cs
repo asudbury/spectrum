@@ -11,7 +11,7 @@
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        public IBraintreeGateway GetGateway(BraintreeSettingsModel model)
+        public IBraintreeGateway GetGateway(PaymentSettingsModel model)
         {
             return new BraintreeGateway(
                 model.Environment,
@@ -27,7 +27,7 @@
         /// <returns>
         /// The token.
         /// </returns>
-        public string GetAuthToken(BraintreeSettingsModel model)
+        public string GetAuthToken(PaymentSettingsModel model)
         {
             return GetGateway(model).ClientToken.generate();
         }
@@ -39,7 +39,7 @@
         /// <param name="viewModel">The view model.</param>
         /// <returns>Payment Id</returns>
         public string MakePayment(
-            BraintreeSettingsModel model,
+            PaymentSettingsModel model,
             PaymentViewModel viewModel)
         {
             TransactionRequest request = new TransactionRequest
@@ -68,7 +68,7 @@
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        public ResourceCollection<Transaction> GetTransactions(BraintreeSettingsModel model)
+        public ResourceCollection<Transaction> GetTransactions(PaymentSettingsModel model)
         {
             TransactionSearchRequest request = new TransactionSearchRequest();
 
@@ -82,7 +82,7 @@
         /// <param name="transactionId">The transaction identifier.</param>
         /// <returns></returns>
         public Transaction GetTransaction(
-            BraintreeSettingsModel model,
+            PaymentSettingsModel model,
             string transactionId)
         {
             return GetGateway(model).Transaction.Find(transactionId);

@@ -1,11 +1,15 @@
 ﻿namespace Spectrum.Content.Services
 {
+    using ContentModels;
+    using System.Collections.Generic;
     using System.Linq;
     using Umbraco.Core.Models;
     using Umbraco.Web;
+    using Umbraco.Web.Security;
 
     public class SettingsService : ISettingsService
     {
+        /// <inheritdoc />
         /// <summary>
         /// Gets the settings node.
         /// </summary>
@@ -17,6 +21,39 @@
             return node ?? GetHelper(context).TypedContentAtRoot().FirstOrDefault(x => x.Name == "Settings");
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Gets the customer node.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        public IPublishedContent GetCustomerNode(UmbracoContext context)
+        {
+            IPublishedContent settingsNode = GetSettingsNode(context);
+        
+            if (settingsNode != null)
+            {
+                MembershipHelper membershipHelper = new MembershipHelper(context);
+
+                string currentUserName = membershipHelper.GetCurrentMember().Name;
+
+                IEnumerable<IPublishedContent> customerNodes = settingsNode.Children.Where(x => x.DocumentTypeAlias == "customer");
+
+                foreach (IPublishedContent customerNode in customerNodes)
+                {
+                    CustomerModel customerModel = new CustomerModel(customerNode);
+
+                    if (customerModel.Users.Contains(currentUserName))
+                    {
+                        return customerNode;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <inheritdoc />
         /// <summary>
         /// Gets the menus node.
         /// </summary>
@@ -35,6 +72,7 @@
             return null;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the menu.
         /// </summary>
@@ -50,6 +88,7 @@
             return menusNode?.Children.FirstOrDefault(x => x.Name == name);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the payments node.
         /// </summary>
@@ -57,18 +96,19 @@
         /// <returns></returns>
         public IPublishedContent GetPaymentsNode(UmbracoContext context)
         {
-            IPublishedContent settingsNode = GetSettingsNode(context);
+            IPublishedContent customerNode = GetCustomerNode(context);
 
-            if (settingsNode != null)
+            if (customerNode != null)
             {
-                IPublishedContent node = settingsNode.Children.FirstOrDefault(x => x.DocumentTypeAlias == "payments");
+                IPublishedContent node = customerNode.Children.FirstOrDefault(x => x.DocumentTypeAlias == "payments");
 
-                return node ?? settingsNode.Children.FirstOrDefault(x => x.Name == "Payments");
+                return node ?? customerNode.Children.FirstOrDefault(x => x.Name == "Payments");
             }
 
             return null;
         }
         
+        /// <inheritdoc />
         /// <summary>
         /// Gets the maile node.
         /// </summary>
@@ -76,18 +116,19 @@
         /// <returns></returns>
         public IPublishedContent GetMailNode(UmbracoContext context)
         {
-            IPublishedContent settingsNode = GetSettingsNode(context);
+            IPublishedContent customerNode = GetCustomerNode(context);
 
-            if (settingsNode != null)
+            if (customerNode != null)
             {
-                IPublishedContent node = settingsNode.Children.FirstOrDefault(x => x.DocumentTypeAlias == "mail");
+                IPublishedContent node = customerNode.Children.FirstOrDefault(x => x.DocumentTypeAlias == "mail");
 
-                return node ?? settingsNode.Children.FirstOrDefault(x => x.Name == "Mail");
+                return node ?? customerNode.Children.FirstOrDefault(x => x.Name == "Mail");
             }
 
             return null;
         }
         
+        /// <inheritdoc />
         /// <summary>
         /// Gets the mail templates folder node.
         /// </summary>
@@ -97,17 +138,10 @@
         {
             IPublishedContent mailNode = GetMailNode(context);
 
-            if (mailNode != null)
-            {
-                IPublishedContent node = mailNode.Children.FirstOrDefault(x => x.DocumentTypeAlias == "mailTemplates");
-
-                return node ?? mailNode.Children.FirstOrDefault(x => x.Name == "Mail Templates");
-            }
-
-            return null;
-
+            return mailNode?.Children.FirstOrDefault();
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the mail template.
         /// </summary>
@@ -123,6 +157,7 @@
             return folderNode?.Children.FirstOrDefault(x => x.Name == templateName);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the mail template.
         /// </summary>
@@ -140,6 +175,7 @@
             return folderNode?.Children.FirstOrDefault(x => x.Name == templateName);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the mail template by identifier.
         /// </summary>
@@ -155,6 +191,7 @@
             return folderNode?.Children.FirstOrDefault(x => x.Id == id);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the mail template by URL.
         /// </summary>
@@ -170,6 +207,7 @@
             return mailTemplatesNode?.Children.FirstOrDefault(x => x.Url == url);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the appointments node.
         /// </summary>
@@ -177,13 +215,13 @@
         /// <returns></returns>
         public IPublishedContent GetAppointmentsNode(UmbracoContext context)
         {
-            IPublishedContent settingsNode = GetSettingsNode(context);
+            IPublishedContent customerNode = GetCustomerNode(context);
 
-            if (settingsNode != null)
+            if (customerNode != null)
             {
-                IPublishedContent node = settingsNode.Children.FirstOrDefault(x => x.DocumentTypeAlias == "appointments");
+                IPublishedContent node = customerNode.Children.FirstOrDefault(x => x.DocumentTypeAlias == "appointments");
 
-                return node ?? settingsNode.Children.FirstOrDefault(x => x.Name == "Appointments");
+                return node ?? customerNode.Children.FirstOrDefault(x => x.Name == "Appointments");
             }
 
             return null;

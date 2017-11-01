@@ -50,92 +50,23 @@
                 return '<a href="' + row.takePaymentUrl + '" style="color: red">Take Payment</a>';
             },
             "actions": function (column, row) {
-                return '<a href="#" class="link-view-appointment" data-encrypted-appointment-id=' +
-                    row.encryptedId +
-                    '>View</a>' +
-                    '&nbsp;|&nbsp;<a href="' + row.updateAppointmentUrl + '">Update</a>' +
-                    '&nbsp;|&nbsp;<a href="#" class="link-delete-appointment" data-appointment-id=' + row.id + ' data-encrypted-appointment-id=' +
-                    row.encryptedId +
-                    '>Delete</a>';
+                return '<a href="' + row.viewAppointmentUrl + '"class="link-view-appointment">View</a>';
             }
         }
     }).on("loaded.rs.jquery.bootgrid", function () {
 
-        appointmentsGrid.find(".link-payment").on("click", function (e) {
-            var transactionsId = $(this).data("payment-id");
-            event.preventDefault();
+        appointmentsGrid.find(".link-payment").on("click",
+            function(e) {
+                var transactionsId = $(this).data("payment-id");
+                event.preventDefault();
 
-            $.ajax({
-                url: '/umbraco/Surface/Transactions/View/' + transactionsId,
-                success: function (data) {
-                    onTransaction(data);
-                }
-            });
-        }).end().find(".link-view-appointment").on("click", function (e) {
-            var appointmentId = $(this).data("encrypted-appointment-id");
-            event.preventDefault();
-
-            $.ajax({
-                url: '/umbraco/Surface/Appointments/View/' + appointmentId,
-                success: function (data) {
-                    jQuery('#appointment').html(data);
-                    jQuery('#appointment').dialog({ 'title': 'View Appointment', 'width': 'auto', 'height': 'auto' });
-                    jQuery('#appointment').dialog().css("border-color", "blue");
-                }
-            });
-        }).end().find(".link-delete-appointment").on("click", function (e) {
-
-            var appointmentId = $(this).data("appointment-id");
-            var encryptedAppointmentId = $(this).data("encrypted-appointment-id");
-
-            event.preventDefault();
-
-            confirm("Confirm you want to delete apppointment id  " + appointmentId,
-                function() {
-                    $.ajax({
-                        url: '/umbraco/Surface/Appointments/Delete/' + encryptedAppointmentId,
-                        success: function (data) {
-                            appointmentsGrid.bootgrid("reload");
-                        }
-                    });
+                $.ajax({
+                    url: '/umbraco/Surface/Transactions/View/' + transactionsId,
+                    success: function(data) {
+                        onTransaction(data);
+                    }
                 });
-       });
+            });
     });
     
  </script>
-
-    <div id="appointment"></div>
-
-    <script type="text/javascript">
-
-        window.confirm = function (message, callback, caption) {
-            caption = caption || 'Confirmation';
-            $(document.createElement('div')).attr({
-                title: caption,
-                'class': 'dialog'
-            }).html(message).dialog({
-                dialogClass: 'fixed',
-                buttons: {
-                    "OK": function () {
-                        $(this).dialog('close');
-                        callback();
-                        return true;
-                    },
-                    "Cancel": function () {
-                        $(this).dialog('close');
-                        return false;
-                    }
-                },
-                close: function () {
-                    $(this).remove();
-                },
-                draggable: false,
-                modal: true,
-                resizable: false,
-                width: 'auto'
-            });
-        };
-
-    </script>
-
-

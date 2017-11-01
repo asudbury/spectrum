@@ -1,7 +1,5 @@
 ﻿namespace Spectrum.Content.Payments.Managers
 {
-    using Appointments;
-    using Application.Services;
     using Autofac.Events;
     using Content.Services;
     using ContentModels;
@@ -9,6 +7,7 @@
     using Mail.Providers;
     using Messages;
     using Providers;
+    using Repositories;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -34,9 +33,9 @@
         private readonly IEventPublisher eventPublisher;
 
         /// <summary>
-        /// The cache service.
+        /// The transactions repository.
         /// </summary>
-        private readonly ICacheService cacheService;
+        private readonly ITransactionsRepository transactionsRepository;
 
         /// <summary>
         /// The mail provider.
@@ -49,19 +48,19 @@
         /// <param name="loggingService">The logging service.</param>
         /// <param name="paymentProvider">The payment provider.</param>
         /// <param name="eventPublisher">The event publisher.</param>
-        /// <param name="cacheService">The cache service.</param>
+        /// <param name="transactionsRepository">The transactions repository.</param>
         /// <param name="mailProvider">The mail provider.</param>
         public PaymentManager(
             ILoggingService loggingService,
             IPaymentProvider paymentProvider,
             IEventPublisher eventPublisher,
-            ICacheService cacheService,
+            ITransactionsRepository transactionsRepository,
             IMailProvider mailProvider)
         {
             this.loggingService = loggingService;
             this.paymentProvider = paymentProvider;
             this.eventPublisher = eventPublisher;
-            this.cacheService = cacheService;
+            this.transactionsRepository = transactionsRepository;
             this.mailProvider = mailProvider;
         }
 
@@ -73,8 +72,9 @@
         /// <returns></returns>
         public string GetAuthToken(UmbracoContext umbracoContext)
         {
-            BraintreeSettingsModel model = paymentProvider.GetBraintreeModel(umbracoContext);
-            return paymentProvider.GetAuthToken(model);
+            PaymentSettingsModel model = paymentProvider.GetBraintreeModel(umbracoContext);
+
+            return model != null ? paymentProvider.GetAuthToken(model) : string.Empty;
         }
 
         /// <inheritdoc />
@@ -85,8 +85,9 @@
         /// <returns></returns>
         public string GetEnvironment(UmbracoContext umbracoContext)
         {
-            BraintreeSettingsModel model = paymentProvider.GetBraintreeModel(umbracoContext);
-            return model.Environment;
+            PaymentSettingsModel model = paymentProvider.GetBraintreeModel(umbracoContext);
+
+            return model?.Environment;
         }
 
         /// <inheritdoc />
@@ -119,7 +120,7 @@
                 throw new ApplicationException("Error Page Url Not Set");
             }
 
-            BraintreeSettingsModel model = paymentProvider.GetBraintreeModel(umbracoContext);
+            PaymentSettingsModel model = paymentProvider.GetBraintreeModel(umbracoContext);
 
             loggingService.Info(GetType(), "HandlePayment MakePayment");
 
@@ -128,7 +129,8 @@
             if (string.IsNullOrEmpty(paymentId) == false)
             {
                 //// make sure we clear the cache!
-                cacheService.Clear("Transactions");
+                transactionsRepository.SetKey(umbracoContext);
+                transactionsRepository.Clear();
 
                 loggingService.Info(GetType(), "Payment Succesful Id=" + paymentId);
 

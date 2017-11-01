@@ -87,5 +87,11 @@ namespace Spectrum.Content.Services
         /// <param name="member">The member.</param>
         /// <returns></returns>
         string GetDefaultRole(string member);
+
+        /// <summary>
+        /// Gets the name of the current user.
+        /// </summary>
+        /// <returns></returns>
+        string GetCurrentUserName();
     }
 }

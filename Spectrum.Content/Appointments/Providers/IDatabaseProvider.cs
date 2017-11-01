@@ -24,17 +24,22 @@
         /// </summary>
         /// <param name="dateRangeStart">The date range start.</param>
         /// <param name="dateRangeEnd">The date range end.</param>
+        /// <param name="customerId">The customer identifier.</param>
         /// <returns></returns>
         IEnumerable<AppointmentModel> GetAppointments(
             DateTime dateRangeStart,
-            DateTime dateRangeEnd);
+            DateTime dateRangeEnd,
+            int customerId);
 
         /// <summary>
         /// Gets the appointment.
         /// </summary>
         /// <param name="appointmentId">The appointment identifier.</param>
+        /// <param name="customerId">The customer identifier.</param>
         /// <returns></returns>
-        AppointmentModel GetAppointment(int appointmentId);
+        AppointmentModel GetAppointment(
+            int appointmentId,
+            int customerId);
 
         /// <summary>
         /// Gets the appointment attendees.
@@ -61,6 +66,5 @@
         /// <param name="appointmentId">The appointment identifier.</param>
         /// <returns></returns>
         ICalAppointmentModel GetIcalAppointment(int appointmentId);
-
     }
 }

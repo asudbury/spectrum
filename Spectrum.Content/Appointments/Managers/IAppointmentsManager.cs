@@ -14,14 +14,14 @@
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="publishedContent">Content of the published.</param>
-        /// <param name="createdUerName">Name of the created uer.</param>
         /// <param name="viewModel">The view model.</param>
+        /// <param name="createdUser">The created user.</param>
         /// <returns></returns>
         string InsertAppointment(
             UmbracoContext umbracoContext,
             IPublishedContent publishedContent,
-            string createdUerName,
-            InsertAppointmentViewModel viewModel);
+            InsertAppointmentViewModel viewModel,
+            string createdUser);
 
         /// <summary>
         /// Gets the appointment.
@@ -71,7 +71,7 @@
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="appointmentId">The appointment identifier.</param>
         /// <returns></returns>
-        bool DeleteAppointment(
+        string DeleteAppointment(
             UmbracoContext umbracoContext,
             string appointmentId);
 

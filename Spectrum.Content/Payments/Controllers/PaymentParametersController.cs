@@ -12,12 +12,12 @@
         /// </summary>
         private readonly IPaymentManager paymentManager;
 
-        /// <inheritdoc />
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Spectrum.Content.BaseController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
-        /// <param name="paymentManager"></param>
+        /// <param name="paymentManager">The payment manager.</param>
+        /// <inheritdoc />
         public PaymentParametersController(
             ILoggingService loggingService,
             IPaymentManager paymentManager) 

@@ -19,5 +19,12 @@
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <returns></returns>
         AppointmentSettingsModel GetAppointmentsModel(UmbracoContext umbracoContext);
+
+        /// <summary>
+        /// Gets the customer model.
+        /// </summary>
+        /// <param name="umbracoContext">The umbraco context.</param>
+        /// <returns></returns>
+        CustomerModel GetCustomerModel(UmbracoContext umbracoContext);
     }
 }

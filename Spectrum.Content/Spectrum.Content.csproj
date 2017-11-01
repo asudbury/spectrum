@@ -371,6 +371,11 @@
     <Compile Include="Appointments\Models\AppointmentStatusModel.cs" />
     <Compile Include="Appointments\Models\AppointmentModel.cs" />
     <Compile Include="Appointments\Models\ICalAppointmentModel.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="ContentModels\CustomerModel.cs" />
+    <Compile Include="ContentModels\MailSettingsModel.cs" />
+    <Compile Include="ContentModels\SettingsModel.cs" />
+    <Compile Include="Extensions\DatabaseSchemaHelperExtensions.cs" />
     <Compile Include="Models\SortData.cs" />
     <Compile Include="Models\SortOrder.cs" />
     <Compile Include="Appointments\Providers\AppointmentsProvider.cs" />
@@ -401,7 +406,7 @@
     <Compile Include="Authentication\ViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="BaseBootGridTranslator.cs" />
     <Compile Include="BootGridViewModel.cs" />
-    <Compile Include="Configuration\Application.cs" />
+    <Compile Include="Configuration\ApplicationConfiguration.cs" />
     <Compile Include="Configuration\IocConfiguration.cs" />
     <Compile Include="ContentModels\AppointmentSettingsModel.cs" />
     <Compile Include="ContentModels\MailTemplateModel.cs" />
@@ -434,7 +439,7 @@
     <Compile Include="ContentModels\BaseModel.cs" />
     <Compile Include="ContentModels\PageModel.cs" />
     <Compile Include="Payments\Controllers\PaymentController.cs" />
-    <Compile Include="ContentModels\BraintreeSettingsModel.cs" />
+    <Compile Include="ContentModels\PaymentSettingsModel.cs" />
     <Compile Include="Payments\Controllers\PaymentParametersController.cs" />
     <Compile Include="Payments\Controllers\TransactionsController.cs" />
     <Compile Include="Payments\Managers\IPaymentManager.cs" />
@@ -461,11 +466,17 @@
     <Compile Include="Registration\Providers\IRegistrationProvider.cs" />
     <Compile Include="Registration\ViewModels\VerifyUserViewModel.cs" />
     <Compile Include="Registration\ViewModels\RegisterViewModel.cs" />
+    <Compile Include="Repositories\BaseRepository.cs" />
+    <Compile Include="Repositories\IBaseRepository.cs" />
     <Compile Include="Services\ILoggingService.cs" />
+    <Compile Include="Services\IRulesEngineService.cs" />
     <Compile Include="Services\ISettingsService.cs" />
+    <Compile Include="Repositories\ITransactionsRepository.cs" />
     <Compile Include="Services\IUserService.cs" />
     <Compile Include="Services\LoggingService.cs" />
+    <Compile Include="Services\RulesEngineService.cs" />
     <Compile Include="Services\SettingsService.cs" />
+    <Compile Include="Repositories\TransactionsRepository.cs" />
     <Compile Include="Services\UserConstants.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>

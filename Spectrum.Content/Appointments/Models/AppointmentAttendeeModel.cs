@@ -3,7 +3,7 @@
     using Umbraco.Core.Persistence;
     using Umbraco.Core.Persistence.DatabaseAnnotations;
 
-    [TableName(AppointmentConstants.AppointmentAttendeeTableName)]
+    [TableName(Constants.Database.AppointmentAttendeeTableName)]
     [PrimaryKey("Id")]
     public class AppointmentAttendeeModel
     {

@@ -172,9 +172,13 @@ namespace Spectrum.Application.Services
         /// </returns>
         private byte[] UrlSafeConvertFromBase64String(string safeBase64)
         {
-            string base64 = safeBase64.Replace("_", "/").Replace("-", "+");
-            return Convert.FromBase64String(base64);
-        }
+            if (safeBase64 != null)
+            {
+                string base64 = safeBase64.Replace("_", "/").Replace("-", "+");
+                return Convert.FromBase64String(base64);
+            }
 
+            return null;
+        }
     }
 }

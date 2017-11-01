@@ -16,6 +16,11 @@
         }
 
         /// <summary>
+        /// Gets a value indicating whether [appointments enabled].
+        /// </summary>
+        public bool AppointmentsEnabled => this.GetPropertyValue<bool>("appointmentsEnabled");
+
+        /// <summary>
         /// Gets the google calendar integration.
         /// </summary>
         public bool GoogleCalendarIntegration => this.GetPropertyValue<bool>("googleCalendar");
@@ -59,6 +64,11 @@
         /// Gets the payments page.
         /// </summary>
         public string PaymentsPage => GetNiceUrl(this.GetPropertyValue<int>("paymentsPage"));
+
+        /// <summary>
+        /// Gets a value indicating whether [google calendar enabled].
+        /// </summary>
+        public bool GoogleCalendarEnabled => this.GetPropertyValue<bool>("googleCalendarEnabled");
 
         /// <summary>
         /// Gets the google calendar URL.

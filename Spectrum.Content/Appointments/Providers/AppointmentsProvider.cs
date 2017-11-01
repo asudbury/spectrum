@@ -40,7 +40,24 @@
         /// <returns></returns>
         public AppointmentSettingsModel GetAppointmentsModel(UmbracoContext umbracoContext)
         {
-            return new AppointmentSettingsModel(GetAppointmentsNode(umbracoContext));
+            IPublishedContent appointmentsNode =  GetAppointmentsNode(umbracoContext);
+
+            return appointmentsNode != null ? 
+                new AppointmentSettingsModel(GetAppointmentsNode(umbracoContext)) : 
+                null;
+        }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// Gets the customer identifier.
+        /// </summary>
+        /// <param name="umbracoContext">The umbraco context.</param>
+        /// <returns></returns>
+        public CustomerModel GetCustomerModel(UmbracoContext umbracoContext)
+        {
+            IPublishedContent customerNode = settingsService.GetCustomerNode(umbracoContext);
+
+            return  new CustomerModel(customerNode);
         }
     }
 }

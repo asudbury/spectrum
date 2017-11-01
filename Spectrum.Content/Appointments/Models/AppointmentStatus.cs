@@ -25,6 +25,11 @@
         /// <summary>
         /// deleted
         /// </summary>
-        Deleted = 5
+        Deleted = 5,
+
+        /// <summary>
+        /// archived
+        /// </summary>
+        Archived = 6
     }
 }

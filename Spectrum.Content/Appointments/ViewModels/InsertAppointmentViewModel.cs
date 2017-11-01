@@ -1,10 +1,9 @@
-﻿using Braintree;
-
-namespace Spectrum.Content.Appointments.ViewModels
+﻿namespace Spectrum.Content.Appointments.ViewModels
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Web.Mvc;
 
     public class InsertAppointmentViewModel
     {
@@ -19,6 +18,9 @@ namespace Spectrum.Content.Appointments.ViewModels
             StartTime = new DateTime(now.Year, now.Month, now.Day, now.Hour +1, 0,0);
             Attendees = new List<string>();
             Duration = 0;
+
+            //// for now use dummy values for service provider id
+            ServiceProviderId = Constants.DefaultServiceProviderId;
         }
 
         /// <summary>
@@ -52,5 +54,11 @@ namespace Spectrum.Content.Appointments.ViewModels
         /// Gets or sets the attendees.
         /// </summary>
         public List<string> Attendees { get; set; }
+
+        /// <summary>
+        /// Gets or sets the service provider identifier.
+        /// </summary>
+        [HiddenInput(DisplayValue = false)]
+        public int ServiceProviderId { get; set; }
     }
 }

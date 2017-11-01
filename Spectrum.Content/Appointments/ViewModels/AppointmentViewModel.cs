@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
 
 namespace Spectrum.Content.Appointments.ViewModels
 {
@@ -21,6 +20,16 @@ namespace Spectrum.Content.Appointments.ViewModels
         /// Gets or sets the created time.
         /// </summary>
         public DateTime CreatedTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the lasted updated user.
+        /// </summary>
+        public string LastedUpdatedUser { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the last updated time.
+        /// </summary>
+        public DateTime LastUpdatedTime { get; set; }
 
         /// <summary>
         /// Gets or sets the created user.
@@ -63,9 +72,19 @@ namespace Spectrum.Content.Appointments.ViewModels
         public string Description { get; set; }
 
         /// <summary>
+        /// Gets or sets the view appointment URL.
+        /// </summary>
+        public string ViewAppointmentUrl { get; set; }
+
+        /// <summary>
         /// Gets or sets the update appointment URL.
         /// </summary>
         public string UpdateAppointmentUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets the delete appointment URL.
+        /// </summary>
+        public string DeleteAppointmentUrl { get; set; }
 
         /// <summary>
         /// Gets or sets the take payment URL.

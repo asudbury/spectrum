@@ -1,5 +1,4 @@
-﻿using Autofac.Events;
-using Spectrum.Application.Services;
+﻿using Spectrum.Application.Services;
 
 namespace Spectrum.Content.Configuration
 {

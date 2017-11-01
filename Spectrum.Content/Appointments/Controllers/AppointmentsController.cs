@@ -19,37 +19,47 @@
         /// </summary>
         private readonly IAppointmentsManager appointmentsManager;
 
-        /// <inheritdoc />
+        /// <summary>
+        /// The rules engine service.
+        /// </summary>
+        private readonly IRulesEngineService rulesEngineService;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Spectrum.Content.Appointments.Controllers.AppointmentsController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="appointmentsManager">The appointments manager.</param>
+        /// <param name="rulesEngineService">The rules engine service.</param>
+        /// <inheritdoc />
         public AppointmentsController(
             ILoggingService loggingService,
-            IAppointmentsManager appointmentsManager) 
+            IAppointmentsManager appointmentsManager,
+            IRulesEngineService rulesEngineService) 
             : base(loggingService)
         {
             this.appointmentsManager = appointmentsManager;
+            this.rulesEngineService = rulesEngineService;
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Spectrum.Content.Appointments.Controllers.AppointmentsController" /> class.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="appointmentsManager">The appointments manager.</param>
+        /// <param name="rulesEngineService">The rules engine service.</param>
+        /// <inheritdoc />
         public AppointmentsController(
             UmbracoContext umbracoContext,
             ILoggingService loggingService,
-            IAppointmentsManager appointmentsManager)
+            IAppointmentsManager appointmentsManager,
+            IRulesEngineService rulesEngineService)
             : base(loggingService)
         {
             this.appointmentsManager = appointmentsManager;
+            this.rulesEngineService = rulesEngineService;
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Spectrum.Content.Appointments.Controllers.AppointmentsController" /> class.
         /// </summary>
@@ -57,14 +67,52 @@
         /// <param name="umbracoHelper">The umbraco helper.</param>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="appointmentsManager">The appointments manager.</param>
+        /// <param name="rulesEngineService">The rules engine service.</param>
+        /// <inheritdoc />
         public AppointmentsController(
             UmbracoContext umbracoContext,
             UmbracoHelper umbracoHelper,
             ILoggingService loggingService,
-            IAppointmentsManager appointmentsManager)
+            IAppointmentsManager appointmentsManager,
+            IRulesEngineService rulesEngineService)
             : base(loggingService)
         {
             this.appointmentsManager = appointmentsManager;
+            this.rulesEngineService = rulesEngineService;
+        }
+
+        /// <summary>
+        /// Appointmentses this instance.
+        /// </summary>
+        /// <returns></returns>
+        [ChildActionOnly]
+        public PartialViewResult Appointments()
+        {
+            LoggingService.Info(GetType());
+
+            if (rulesEngineService.IsCustomerAppointmentsEnabled(UmbracoContext))
+            {
+                return PartialView("");
+            }
+
+            return default(PartialViewResult);
+        }
+
+        /// <summary>
+        /// Appointments the specified view model.
+        /// </summary>
+        /// <returns></returns>
+        [ChildActionOnly]
+        public PartialViewResult InsertAppointment()
+        {
+            LoggingService.Info(GetType());
+
+            if (rulesEngineService.IsCustomerAppointmentsEnabled(UmbracoContext))
+            {
+                return PartialView("", new InsertAppointmentViewModel());
+            }
+
+            return default(PartialViewResult);
         }
         
         /// <summary>
@@ -82,20 +130,18 @@
             }
 
             IPublishedContent publishedContent = GetContentById(CurrentPage.Id.ToString());
-
-            string currentUserName = Members.CurrentUserName;
-
+          
             string nextUrl = appointmentsManager.InsertAppointment(
                                          UmbracoContext,
                                          publishedContent,
-                                         currentUserName,
-                                         viewModel);
+                                         viewModel,
+                                         Members.CurrentUserName);
             
             return Redirect(nextUrl);
         }
 
         /// <summary>
-        /// Gets the event.
+        /// Gets the appointment.
         /// </summary>
         /// <param name="appointmentId">The appointment identifier.</param>
         [ChildActionOnly]
@@ -169,33 +215,33 @@
         }
 
         /// <summary>
-        /// Views the specified identifier.
+        /// Views the appointment.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="beeswwr">The beeswwr. (the appoinment id!!!)</param>
         /// <returns></returns>
         [HttpGet]
-        public PartialViewResult View(string id)
+        public PartialViewResult ViewAppointment(string beeswwr)
         {
-            LoggingService.Info(GetType(), "Id=" + id);
+            LoggingService.Info(GetType(), "beeswwr=" + beeswwr);
 
-            AppointmentViewModel viewModel = appointmentsManager.GetAppointment(UmbracoContext, id);
+            AppointmentViewModel viewModel = appointmentsManager.GetAppointment(UmbracoContext, beeswwr);
 
             return PartialView("Partials/Spectrum/Appointments/Appointment", viewModel);
         }
 
         /// <summary>
-        /// Edits the specified identifier.
+        /// Gets the updated appointment.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="beeswwr">The beeswwr.</param>
         /// <returns></returns>
         [HttpGet]
-        public PartialViewResult Edit(string id)
+        public PartialViewResult GetUpdatedAppointment(string beeswwr)
         {
-            LoggingService.Info(GetType(), "Id=" + id);
+            LoggingService.Info(GetType(), "Id=" + beeswwr);
 
-            AppointmentViewModel viewModel = appointmentsManager.GetAppointment(UmbracoContext, id);
+            AppointmentViewModel viewModel = appointmentsManager.GetAppointment(UmbracoContext, beeswwr);
 
-            return PartialView("Partials/Spectrum/Appointments/EditAppointment", viewModel);
+            return PartialView("Partials/Spectrum/Appointments/UpdateAppointment", viewModel);
         }
 
         /// <summary>
@@ -220,6 +266,7 @@
 
             return Redirect(nextUrl);
         }
+
         /// <summary>
         /// Deletes the specified identifier.
         /// </summary>
@@ -230,9 +277,9 @@
         {
             LoggingService.Info(GetType(), "Id=" + id);
 
-            appointmentsManager.DeleteAppointment(UmbracoContext, id);
+            string url = appointmentsManager.DeleteAppointment(UmbracoContext, id);
 
-            return Content("appointment deleted");
+            return Content(url);
         }
     }
 }

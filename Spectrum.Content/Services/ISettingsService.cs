@@ -13,6 +13,13 @@
         IPublishedContent GetSettingsNode(UmbracoContext context);
 
         /// <summary>
+        /// Gets the customer node.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        IPublishedContent GetCustomerNode(UmbracoContext context);
+
+        /// <summary>
         /// Gets the menus node.
         /// </summary>
         /// <param name="context">The context.</param>
@@ -99,6 +106,5 @@
         /// <param name="context">The context.</param>
         /// <returns></returns>
         IPublishedContent GetAppointmentsNode(UmbracoContext context);
-
     }
 }
