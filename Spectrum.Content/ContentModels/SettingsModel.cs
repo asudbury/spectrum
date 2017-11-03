@@ -19,5 +19,10 @@
         /// Gets a value indicating whether [site enabled].
         /// </summary>
         public bool SiteEnabled => this.GetPropertyValue<bool>("siteEnabled");
+
+        /// <summary>
+        /// Gets the offline URL.
+        /// </summary>
+        public string OfflineUrl => GetNiceUrl(this.GetPropertyValue<int>("offlineUrl"));
     }
 }

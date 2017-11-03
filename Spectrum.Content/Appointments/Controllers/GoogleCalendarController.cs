@@ -33,6 +33,8 @@
         [ChildActionOnly]
         public ActionResult GetCalendarUrl()
         {
+            LoggingService.Info(GetType());
+
             AppointmentSettingsModel model = appointmentsProvider.GetAppointmentsModel(UmbracoContext);
 
             if (model != null)

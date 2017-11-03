@@ -124,6 +124,8 @@
         [ValidateAntiForgeryToken]
         public ActionResult InsertAppointment(InsertAppointmentViewModel viewModel)
         {
+            LoggingService.Info(GetType());
+
             if (!ModelState.IsValid)
             {
                 return CurrentUmbracoPage();
