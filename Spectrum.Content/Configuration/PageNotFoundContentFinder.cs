@@ -20,7 +20,7 @@
         /// <remarks>Optionally, can also assign the template or anything else on the document request, although that is not required.</remarks>
         public bool TryFindContent(PublishedContentRequest contentRequest)
         {
-            LogHelper.Info(GetType(), "404 Finder triggered");
+            LogHelper.Info(GetType(), "TryFindContent Started");
 
             bool isBackOfficeUserLoggedin = ConfigurationHelper.IsBackOfficeUserLoggedIn();
 
@@ -64,6 +64,8 @@
                 contentRequest.PublishedContent = new UmbracoHelper(UmbracoContext.Current).TypedContent(settingsModel.PageNotFoundNodeId);
                 return true;
             }
+
+            LogHelper.Info(GetType(), "TryFindContent Ended");
 
             return false;
         }

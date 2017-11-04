@@ -23,7 +23,7 @@
             UmbracoApplicationBase umbracoApplication,
             ApplicationContext applicationContext)
         {
-            LogHelper.Info(typeof(ApplicationConfiguration), "ApplicationStarted");
+            LogHelper.Info(typeof(ApplicationConfiguration), "ApplicationStarted Started");
 
             DatabaseContext databaseContext = applicationContext.DatabaseContext;
 
@@ -51,6 +51,8 @@
             db.CreateTableIfNotExist<ICalAppointmentModel>(Content.Constants.Database.IcalAppointmentTableName);
 
             PublishedContentRequest.Prepared += PublishedContentRequestPrepared;
+
+            LogHelper.Info(typeof(ApplicationConfiguration), "ApplicationStarted Ended");
         }
 
         /// <summary>
@@ -62,6 +64,8 @@
             object sender,
             EventArgs e)
         {
+            LogHelper.Info(typeof(ApplicationConfiguration), "PublishedContentRequestPrepared Started");
+
             PublishedContentRequest request = (PublishedContentRequest) sender;
 
             //// Check to make sure the request is valid
@@ -98,8 +102,10 @@
         /// <returns></returns>
         private static string GetRedirectUrl(PublishedContentRequest request)
         {
+            LogHelper.Info(typeof(ApplicationConfiguration), "GetRedirectUrl Started");
+
             //// check if the whole site is offline
-            
+
             SettingsModel settingsModel = ConfigurationHelper.GetSettingsModel();
 
             string offlineUrl = settingsModel.OfflineUrl;
@@ -142,6 +148,8 @@
             {
                 return pageModel.RedirectUrl;
             }
+
+            LogHelper.Info(typeof(ApplicationConfiguration), "GetRedirectUrl Ended");
 
             return string.Empty;
         }
