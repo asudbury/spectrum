@@ -24,5 +24,15 @@
         /// Gets the offline URL.
         /// </summary>
         public string OfflineUrl => GetNiceUrl(this.GetPropertyValue<int>("offlineUrl"));
+
+        /// <summary>
+        /// Gets the page not found node identifier.
+        /// </summary>
+        public int PageNotFoundNodeId => this.GetPropertyValue<int>("pageNotFoundUrl");
+
+        /// <summary>
+        /// Gets the page not found URL.
+        /// </summary>
+        public string PageNotFoundUrl => GetNiceUrl(this.GetPropertyValue<int>("pageNotFoundUrl"));
     }
 }

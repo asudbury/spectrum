@@ -21,6 +21,11 @@
         public bool CustomerEnabled => this.GetPropertyValue<bool>("customerEnabled");
 
         /// <summary>
+        /// Gets the home page URL.
+        /// </summary>
+        public string HomePageUrl => this.GetPropertyValue<string>("homepageUrl");
+
+        /// <summary>
         /// Gets the name of the customer.
         /// </summary>
         public string CustomerName => this.GetPropertyValue<string>("customerName");

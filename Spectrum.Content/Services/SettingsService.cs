@@ -35,17 +35,22 @@
             {
                 MembershipHelper membershipHelper = new MembershipHelper(context);
 
-                string currentUserName = membershipHelper.GetCurrentMember().Name;
+                IPublishedContent currentMember = membershipHelper.GetCurrentMember();
 
-                IEnumerable<IPublishedContent> customerNodes = settingsNode.Children.Where(x => x.DocumentTypeAlias == "customer");
-
-                foreach (IPublishedContent customerNode in customerNodes)
+                if (currentMember != null)
                 {
-                    CustomerModel customerModel = new CustomerModel(customerNode);
+                    string currentUserName = currentMember.Name;
 
-                    if (customerModel.Users.Contains(currentUserName))
+                    IEnumerable<IPublishedContent> customerNodes = settingsNode.Children.Where(x => x.DocumentTypeAlias == "customer");
+
+                    foreach (IPublishedContent customerNode in customerNodes)
                     {
-                        return customerNode;
+                        CustomerModel customerModel = new CustomerModel(customerNode);
+
+                        if (customerModel.Users.Contains(currentUserName))
+                        {
+                            return customerNode;
+                        }
                     }
                 }
             }

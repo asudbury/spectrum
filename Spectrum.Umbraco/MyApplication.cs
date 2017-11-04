@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using Umbraco.Core;
 using Umbraco.Core.Logging;
+using Umbraco.Web.Routing;
 
 namespace Spectrum.Umbraco
 {
@@ -24,6 +25,14 @@ namespace Spectrum.Umbraco
             IocConfiguration.Setup();
 
             base.ApplicationStarting(umbracoApplication, applicationContext);
+
+            //// add our 404 resolver
+
+            ContentFinderResolver.Current.InsertTypeBefore<ContentFinderByNiceUrl, PageNotFoundContentFinder>();
+
+            // Remove ContentFinderByNiceUrl
+
+            ContentFinderResolver.Current.RemoveType<ContentFinderByNiceUrl>();
 
             RazorViewEngine razorEngine = ViewEngines.Engines.OfType<RazorViewEngine>().FirstOrDefault();
 
