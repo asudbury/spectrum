@@ -1,10 +1,4 @@
-﻿using System.Web.Security;
-using Spectrum.Content.Services;
-using Umbraco.Core.Models;
-using Umbraco.Core.Models.Membership;
-using Umbraco.Web;
-
-namespace Spectrum.Content.Configuration
+﻿namespace Spectrum.Content.Configuration
 {
     using Appointments.Models;
     using ContentModels;
@@ -16,6 +10,11 @@ namespace Spectrum.Content.Configuration
     using Umbraco.Core.Logging;
     using Umbraco.Core.Security;
     using Umbraco.Web.Routing;
+    using System.Web.Security;
+    using Services;
+    using Umbraco.Core.Models;
+    using Umbraco.Core.Models.Membership;
+    using Umbraco.Web;
 
     /// <summary>
     /// 
@@ -40,7 +39,7 @@ namespace Spectrum.Content.Configuration
                 applicationContext.ProfilingLogger.Logger,
                 databaseContext.SqlSyntax);
 
-            bool created = db.CreateTableIfNotExist<AppointmentStatusModel>(Content.Constants.Database.AppointmentStatusTableName);
+            bool created = db.CreateTableIfNotExist<AppointmentStatusModel>(Spectrum.Content.Constants.Database.AppointmentStatusTableName);
 
             if (created)
             {
@@ -54,9 +53,9 @@ namespace Spectrum.Content.Configuration
                 }
             }
 
-            db.CreateTableIfNotExist<AppointmentModel>(Content.Constants.Database.AppointmentTableName);
-            db.CreateTableIfNotExist<AppointmentAttendeeModel>(Content.Constants.Database.AppointmentAttendeeTableName);
-            db.CreateTableIfNotExist<ICalAppointmentModel>(Content.Constants.Database.IcalAppointmentTableName);
+            db.CreateTableIfNotExist<AppointmentModel>(Spectrum.Content.Constants.Database.AppointmentTableName);
+            db.CreateTableIfNotExist<AppointmentAttendeeModel>(Spectrum.Content.Constants.Database.AppointmentAttendeeTableName);
+            db.CreateTableIfNotExist<ICalAppointmentModel>(Spectrum.Content.Constants.Database.IcalAppointmentTableName);
 
             PublishedContentRequest.Prepared += PublishedContentRequestPrepared;
         }
@@ -86,43 +85,74 @@ namespace Spectrum.Content.Configuration
             
             try
             {
-                SettingsService settingsService = new SettingsService();
+                string url = GetRedirectUrl(request);
 
-                IPublishedContent settingsNode = settingsService.GetSettingsNode(UmbracoContext.Current);
-
-                if (settingsNode == null)
+                if (string.IsNullOrEmpty(url) == false)
                 {
-                    return;
-                }
-
-                SettingsModel settingsModel = new SettingsModel(settingsNode);
-
-                if (settingsModel.SiteEnabled == false)
-                {
-                    LogHelper.Info(typeof(ApplicationConfiguration), "SiteEnabled=false");
-
-                    string offlineUrl = settingsModel.OfflineUrl;
-
-                    LogHelper.Info(typeof(ApplicationConfiguration), "OfflineUrl=" + offlineUrl);
-
-                    string compareOfflineUrl = offlineUrl.Replace("/", string.Empty);
-
-                    if (request.Uri.ToString().Contains(compareOfflineUrl))
-                    {
-                        return;
-                    }
-
-                    if (string.IsNullOrEmpty(offlineUrl) == false &&
-                        offlineUrl != "#")
-                    {
-                        request.SetRedirect(offlineUrl);
-                    }
+                    request.SetRedirect(url);
                 }
             }
             catch (Exception exception)
             {
                 LogHelper.Error(typeof(ApplicationConfiguration), "ApplicationConfiguration PublishedContentRequestPrepared", exception);
             }
+        }
+
+        /// <summary>
+        /// Gets the redirect URL.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns></returns>
+        private static string GetRedirectUrl(PublishedContentRequest request)
+        {
+            //// check if the whole site is offline
+            
+            SettingsModel settingsModel = GetSettingsModel();
+
+            string offlineUrl = settingsModel.OfflineUrl;
+
+            LogHelper.Info(typeof(ApplicationConfiguration), "OfflineUrl=" + offlineUrl);
+
+            if (string.IsNullOrEmpty(offlineUrl))
+            {
+                return string.Empty;
+            }
+
+            string compareOfflineUrl = offlineUrl.Replace("/", string.Empty);
+
+            if (request.Uri.ToString().Contains(compareOfflineUrl))
+            {
+                return string.Empty;
+            }
+
+            if (settingsModel.SiteEnabled == false)
+            {
+                LogHelper.Info(typeof(ApplicationConfiguration), "SiteEnabled=false");
+                return offlineUrl;
+            }
+
+            //// now we need to check that customer is enabled!
+
+            CustomerModel customerModel = GetCustomerModel();
+
+            if (customerModel?.CustomerEnabled == false)
+            {
+                LogHelper.Info(typeof(ApplicationConfiguration), "CustomerEnabled=false");
+                return offlineUrl;
+            }
+
+            //// now check if we are the customer virtual home page
+           
+            //// now check if the page has a redirect setup
+
+            PageModel pageModel = GetPageModel(request);
+
+            if (string.IsNullOrEmpty(pageModel.RedirectUrl) == false)
+            {
+                return pageModel.RedirectUrl;
+            }
+
+            return string.Empty;
         }
 
         /// <summary>
@@ -147,6 +177,49 @@ namespace Spectrum.Content.Configuration
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Gets the settings model.
+        /// </summary>
+        /// <returns></returns>
+        private static SettingsModel GetSettingsModel()
+        {
+            SettingsService settingsService = new SettingsService();
+
+            IPublishedContent settingsNode = settingsService.GetSettingsNode(UmbracoContext.Current);
+
+            SettingsModel settingsModel = new SettingsModel(settingsNode);
+
+            return settingsModel;
+        }
+
+        /// <summary>
+        /// Gets the customer enabled.
+        /// </summary>
+        /// <returns></returns>
+        private static CustomerModel GetCustomerModel()
+        {
+            SettingsService settingsService = new SettingsService();
+
+            IPublishedContent customerNode = settingsService.GetCustomerNode(UmbracoContext.Current);
+
+            if (customerNode != null)
+            {
+                CustomerModel customerModel = new CustomerModel(customerNode);
+                return customerModel;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the page model.
+        /// </summary>
+        /// <returns></returns>
+        private static PageModel GetPageModel(PublishedContentRequest request)
+        {
+            return new PageModel(request.PublishedContent);
         }
     }
 }

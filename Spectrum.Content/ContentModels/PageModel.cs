@@ -28,6 +28,16 @@
         /// Gets the name of the email template.
         /// </summary>
         public string EmailTemplateName => this.GetPropertyValue<string>("emailTemplateName");
+
+        /// <summary>
+        /// Gets the redirect URL.
+        /// </summary>
+        public string RedirectUrl => GetNiceUrl(GetNodeId("redirectUrl"));
+
+        /// <summary>
+        /// Gets the banner.
+        /// </summary>
+        public string Banner => GetNiceUrl(GetNodeId("banner"));
     }
 }
 
