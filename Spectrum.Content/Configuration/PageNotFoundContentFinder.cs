@@ -22,13 +22,6 @@
         {
             LogHelper.Info(GetType(), "TryFindContent Started");
 
-            bool isBackOfficeUserLoggedin = ConfigurationHelper.IsBackOfficeUserLoggedIn();
-
-            if (isBackOfficeUserLoggedin)
-            {
-                return true;
-            }
-
             //// lets looks for the virtual customer homepage!
 
             IPublishedContent settingsNode =  ConfigurationHelper.GetSettingsNode();
@@ -53,6 +46,7 @@
 
             if (node != null)
             {
+                contentRequest.PublishedContent = node;
                 return true;
             }
 

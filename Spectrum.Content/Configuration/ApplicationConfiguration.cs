@@ -82,11 +82,14 @@
             
             try
             {
-                string url = GetRedirectUrl(request);
-
-                if (string.IsNullOrEmpty(url) == false)
+                if (request.PublishedContent != null)
                 {
-                    request.SetRedirect(url);
+                    string url = GetRedirectUrl(request);
+
+                    if (string.IsNullOrEmpty(url) == false)
+                    {
+                        request.SetRedirect(url);
+                    }
                 }
             }
             catch (Exception exception)
