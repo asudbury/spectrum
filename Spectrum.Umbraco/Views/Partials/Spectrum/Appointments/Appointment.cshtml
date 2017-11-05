@@ -1,71 +1,89 @@
 ﻿@using Spectrum.Content.Appointments.ViewModels
 @model AppointmentViewModel
 
-<table class="table table-striped table-bordered">
-    <tbody>
-    <tr>
-        <td>Appointment Id</td>
-        <td>@Model.Id</td>
-    </tr>
-    <tr>
-        <td>Created Time</td>
-        <td>@Model.CreatedTime.ToString("ddd dd MMM HH:mm")</td>
-    </tr>
-    <tr>
-        <td>Created By</td>
-        <td>@Model.CreatedUser</td>
-    </tr>
-    <tr>
-        <td>Last Updated Time</td>
-        <td>@Model.LastUpdatedTime.ToString("ddd dd MMM HH:mm")</td>
-    </tr>
-    <tr>
-        <td>Last Updated By</td>
-        <td>@Model.LastedUpdatedUser</td>
-    </tr>
-    <tr>
-        <td>Start Time</td>
-        <td>@Model.StartTime.ToString("ddd dd MMM HH:mm")</td>
-    </tr>
-    <tr>
-        <td>End Time</td>
-        <td>@Model.EndTime.ToString("ddd dd MMM HH:mm")</td>
-    </tr>
-    <tr>
-        <td>Duration (In Minutes)</td>
-        <td>@Model.Duration</td>
-    </tr>
-    <tr>
-        <td>Payment Id</td>
-        <td>@Model.PaymentId</td>
-    </tr>
-    <tr>
-        <td>Location</td>
-        <td>@Model.Location</td>
-    </tr>
-    <tr>
-        <td>Description</td>
-        <td>@Model.Description</td>
-    </tr>
-    
-    <tr>
-        <td colspan='2'>Attendees</td>
-    </tr>
-        
-    @foreach (var item in Model.Attendees)
-    {
-        <tr><td>@item</td></tr>
-    }
+<div class="center-content">
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-md-offset-4">
+            <div class="account-wall">
 
-    <tr align="center">
-        <td colspan='2'>
-            <a href="@Model.UpdateAppointmentUrl">Update Appointment</a> |
-            <a href="@Model.DeleteAppointmentUrl" id="deleteAppointment">Delete Appointment</a>
-        </td>
-    </tr>
+                <h2 class="partial-title">Appointment</h2>
 
-    </tbody>
-</table>
+                <table class="table-responsive table table-striped table-bordered">
+                    <tbody>
+                        <tr>
+                            <td>Appointment Id</td>
+                            <td>@Model.Id</td>
+                        </tr>
+                        <tr>
+                            <td>Created Time</td>
+                            <td>@Model.CreatedTime.ToString("ddd dd MMM HH:mm")</td>
+                        </tr>
+                        <tr>
+                            <td>Created By</td>
+                            <td>@Model.CreatedUser</td>
+                        </tr>
+                        <tr>
+                            <td>Last Updated Time</td>
+                            <td>@Model.LastUpdatedTime.ToString("ddd dd MMM HH:mm")</td>
+                        </tr>
+                        <tr>
+                            <td>Last Updated By</td>
+                            <td>@Model.LastedUpdatedUser</td>
+                        </tr>
+                        <tr>
+                            <td>Start Time</td>
+                            <td>@Model.StartTime.ToString("ddd dd MMM HH:mm")</td>
+                        </tr>
+                        <tr>
+                            <td>End Time</td>
+                            <td>@Model.EndTime.ToString("ddd dd MMM HH:mm")</td>
+                        </tr>
+                        <tr>
+                            <td>Duration (In Minutes)</td>
+                            <td>@Model.Duration</td>
+                        </tr>
+                        <tr>
+                            <td>Payment Id</td>
+                            <td>@Model.PaymentId</td>
+                        </tr>
+                        <tr>
+                            <td>Location</td>
+                            <td>@Model.Location</td>
+                        </tr>
+                        <tr>
+                            <td>Description</td>
+                            <td>@Model.Description</td>
+                        </tr>
+
+                        <tr>
+                            <td class="attendees-list" colspan='2'>Attendees</td>
+                        </tr>
+
+                        @foreach (var item in Model.Attendees)
+                        {
+                            <tr><td colspan='2'>@item</td></tr>
+                        }
+
+                        <tr align="center">
+                            <td colspan='2'>
+                                <a class="btn btn-lg btn-primary btn-block" role-"button" href="@Model.UpdateAppointmentUrl">Modify Appointment</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan='2'>
+                                <a class="btn btn-lg btn-primary btn-block" role-"button" href="@Model.DeleteAppointmentUrl" id="deleteAppointment">Delete Appointment</a>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 <script type="text/javascript">
 

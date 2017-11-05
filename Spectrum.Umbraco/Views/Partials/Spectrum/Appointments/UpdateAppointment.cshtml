@@ -35,13 +35,10 @@
                     @Html.ValidationMessageFor(model => model.Description)
 
                     <div>
-                        <label class="control-label">Attendees</label>
+                        <label class="control-label">Add Attendees</label>
                     </div>
-                    <div class="calendar-position form-group">
+                    <div class="form-group">
                         <input class="form-control" id="attendeeInput" placeholder="Enter email address" data-val="true" data-val-required="Please enter a valid Email Address">
-                        <span class="btn" style="cursor: pointer;">
-                            <span class="glyphicon glyphicon-plus" id="addAttendee"></span>
-                        </span>
                         <div>
                             <span class="field-validation-valid" data-valmsg-for="attendeeInput" data-valmsg-replace="true"></span>
                         </div>
@@ -55,9 +52,10 @@
                             foreach (string attendee in Model.Attendees)
                             {
                                 <li style="padding-top:10px">
-                                    <input class="form-control" id="Attendees_' + index + '" name="Attendees[' + index + ']" value='" + attendee "'>
+                                    @*<input class="form-control" id="Attendees_' + index + '" name="Attendees[' + index + ']" value=' + inputValue + '>' +*@
+                                    <input class="form-control" id="Attendees_' + index + '" name="Attendees[' + index + ']" value=attendee>
                                     &nbsp;&nbsp;&nbsp;
-                                    <a href="#" onclick="$(this).parent().remove();updateAttendees();"><span class="glyphicon glyphicon-remove"></span></a>' +
+                                    @*<a href="#" onclick="$(this).parent().remove();updateAttendees();"><span class="glyphicon glyphicon-remove"></span></a>' +*@
                                 </li>
                             }
                         }
@@ -83,7 +81,7 @@
 
             initialiseDatePicker();
 
-            $('.btn').click(function() {
+            $('.btn').click(function () {
                 $(".date", $(this).closest(".form-group")).focus();
             });
 
@@ -94,7 +92,7 @@
                 }
             });
 
-            $('form').submit(function(event) {
+            $('form').submit(function (event) {
                 $('#submit').prop('disabled', true);
             });
         });
