@@ -76,13 +76,15 @@
             string appointmentId);
 
         /// <summary>
-        /// Inserts the appointment.
+        /// Updates the appointment.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="viewModel">The view model.</param>
+        /// <param name="lastUpdatedUser">The last updated user.</param>
         /// <returns></returns>
         string UpdateAppointment(
             UmbracoContext umbracoContext,
-            AppointmentViewModel viewModel);
+            AppointmentViewModel viewModel,
+            string lastUpdatedUser);
     }
 }

@@ -74,9 +74,12 @@
         {
             IList<IAttendee> attendeeList = new List<IAttendee>();
 
-            foreach (AppointmentAttendeeModel attendee in attendees)
+            if (attendees != null)
             {
-                attendeeList.Add(new Attendee { Value = new Uri("mailto:" + attendee) });
+                foreach (AppointmentAttendeeModel attendee in attendees)
+                {
+                    attendeeList.Add(new Attendee {Value = new Uri("mailto:" + attendee)});
+                }
             }
 
             return attendeeList;

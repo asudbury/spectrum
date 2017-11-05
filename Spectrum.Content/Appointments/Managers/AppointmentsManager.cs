@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace Spectrum.Content.Appointments.Managers
 {
     using Application.Services;
@@ -360,7 +362,7 @@ namespace Spectrum.Content.Appointments.Managers
             UmbracoContext umbracoContext, 
             string appointmentId)
         {
-            AppointmentSettingsModel settingsModel = appointmentsProvider.GetAppointmentsModel(umbracoContext);
+            AppointmentSettingsModel appointmentSettingsModel = appointmentsProvider.GetAppointmentsModel(umbracoContext);
 
             string id = encryptionService.DecryptString(appointmentId);
 
@@ -368,37 +370,60 @@ namespace Spectrum.Content.Appointments.Managers
             
             int customerId = GetCustomerId(umbracoContext);
 
-            AppointmentModel model = databaseProvider.GetAppointment(appId, customerId);
+            AppointmentModel appointmentModel = databaseProvider.GetAppointment(appId, customerId);
 
-            if (settingsModel.DatabaseIntegration)
+            if (appointmentSettingsModel.DatabaseIntegration)
             {
-                model.Status = (int)AppointmentStatus.Deleted;
+                appointmentModel.Status = (int)AppointmentStatus.Deleted;
 
-                databaseProvider.UpdateAppointment(model);
+                databaseProvider.UpdateAppointment(appointmentModel);
             }
 
-            if (settingsModel.IcalIntegration &&
-                string.IsNullOrEmpty(settingsModel.IcalDeleteEmailTemplate) == false)
+            if (appointmentSettingsModel.IcalIntegration &&
+                string.IsNullOrEmpty(appointmentSettingsModel.IcalDeleteEmailTemplate) == false)
             {
                 //// now send the delete ical email
 
                 ICalAppointmentModel iCalModel = databaseProvider.GetIcalAppointment(appId);
 
-                ICalAppointmentModel appointmentModel = iCalendarService.GetICalAppoinment(
-                                                            model, 
+                ICalAppointmentModel icalAppointmentModel = iCalendarService.GetICalAppoinment(
+                                                            appointmentModel, 
                                                             iCalModel.Guid, 
                                                             iCalModel.Sequence + 1);
 
-                Attachment attachment = Attachment.CreateAttachmentFromString(appointmentModel.SerializedString, appointmentModel.ContentType);
+                Attachment attachment = Attachment.CreateAttachmentFromString(
+                    icalAppointmentModel.SerializedString, 
+                    icalAppointmentModel.ContentType);
+
+                Dictionary<string, string> dictionary = new Dictionary<string, string>
+                {
+                    {"AppointmentId", appointmentId}
+                };
 
                 mailProvider.SendEmail(
                     umbracoContext,
-                    settingsModel.IcalDeleteEmailTemplate,
-                    settingsModel.IcalEmailAddress,
+                    appointmentSettingsModel.IcalDeleteEmailTemplate,
+                    appointmentSettingsModel.IcalEmailAddress,
                     attachment);
+
+                if (appointmentSettingsModel.IcalSendToAttendees)
+                {
+                    if (appointmentModel.Attendees != null)
+                    {
+                        foreach (AppointmentAttendeeModel attendeeModel in appointmentModel.Attendees)
+                        {
+                            mailProvider.SendEmail(
+                                umbracoContext,
+                                appointmentSettingsModel.IcalDeleteEmailTemplate,
+                                attendeeModel.EmailAddress,
+                                attachment,
+                                dictionary);
+                        }
+                    }
+                }
             }
 
-            if (settingsModel.GoogleCalendarIntegration)
+            if (appointmentSettingsModel.GoogleCalendarIntegration)
             {
             }
 
@@ -406,40 +431,85 @@ namespace Spectrum.Content.Appointments.Managers
             return "/customer/dashboard";
         }
 
-        /// <inheritdoc />
         /// <summary>
-        /// Inserts the appointment.
+        /// Updates the appointment.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="viewModel">The view model.</param>
+        /// <param name="lastUpdatedUser">The last updated user.</param>
         /// <returns></returns>
+        /// <inheritdoc />
         public string UpdateAppointment(
-            UmbracoContext umbracoContext, 
-            AppointmentViewModel viewModel)
+            UmbracoContext umbracoContext,
+            AppointmentViewModel viewModel,
+            string lastUpdatedUser)
         {
             loggingService.Info(GetType(), "Start");
 
-            AppointmentSettingsModel settingsModel = appointmentsProvider.GetAppointmentsModel(umbracoContext);
+            AppointmentSettingsModel appointmentSettingsModel = appointmentsProvider.GetAppointmentsModel(umbracoContext);
 
-            ////PageModel pageModel = new PageModel(umbracoContext);
+            AppointmentModel originalModel = databaseProvider.GetAppointment(Convert.ToInt32(viewModel.Id), GetCustomerId(umbracoContext));
 
-            AppointmentModel appointmentModel = appointmentTranslator.Translate(viewModel);
+            AppointmentModel appointmentModel = appointmentTranslator.Translate(originalModel, viewModel);
+            appointmentModel.LastedUpdatedUser = lastUpdatedUser;
 
-            if (settingsModel.DatabaseIntegration)
+            if (appointmentSettingsModel.DatabaseIntegration)
             {
                 loggingService.Info(GetType(), "Database Integration");
 
                 databaseProvider.UpdateAppointment(appointmentModel);
             }
 
-            if (settingsModel.GoogleCalendarIntegration)
+            if (appointmentSettingsModel.GoogleCalendarIntegration)
             {
                 loggingService.Info(GetType(), "Google Calendar Integration");
             }
 
-            if (settingsModel.IcalIntegration)
+            if (appointmentSettingsModel.IcalIntegration &&
+                string.IsNullOrEmpty(appointmentSettingsModel.IcalUpdateEmailTemplate) == false)
             {
-                loggingService.Info(GetType(), "iCal Integration");
+                Dictionary<string, string> dictionary = new Dictionary<string, string>
+                {
+                    {"AppointmentId", viewModel.Id.ToString()},
+                    {"AppointmentStartTime", viewModel.StartTime.ToLongTimeString()},
+                    {"AppointmentDuration", viewModel.Duration.ToString(CultureInfo.InvariantCulture)},
+                    {"AppointmentLocation", viewModel.Location},
+                    {"AppointmentDescription", viewModel.Description}
+                };
+
+                ICalAppointmentModel iCalModel = databaseProvider.GetIcalAppointment(viewModel.Id);
+
+                ICalAppointmentModel iCalAppointmentModel = iCalendarService.GetICalAppoinment(
+                    appointmentModel,
+                    iCalModel.Guid,
+                    iCalModel.Sequence + 1);
+
+                Attachment attachment = Attachment.CreateAttachmentFromString(
+                    iCalAppointmentModel.SerializedString,
+                    iCalAppointmentModel.ContentType);
+
+                mailProvider.SendEmail(
+                    umbracoContext,
+                    appointmentSettingsModel.IcalUpdateEmailTemplate,
+                    appointmentSettingsModel.IcalEmailAddress,
+                    attachment,
+                    dictionary);
+
+                if (appointmentSettingsModel.IcalSendToAttendees)
+                {
+                    if (appointmentModel.Attendees != null)
+                    {
+                        foreach (AppointmentAttendeeModel attendeeModel in appointmentModel.Attendees)
+                        {
+                            mailProvider.SendEmail(
+                                umbracoContext,
+                                appointmentSettingsModel.IcalUpdateEmailTemplate,
+                                attendeeModel.EmailAddress,
+                                attachment,
+                                dictionary);
+                        }
+                    }
+                }
             }
 
             //// TODO : this needs changing!!

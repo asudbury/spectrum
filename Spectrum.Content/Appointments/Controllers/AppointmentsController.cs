@@ -264,7 +264,8 @@
 
             string nextUrl = appointmentsManager.UpdateAppointment(
                 UmbracoContext,
-                viewModel);
+                viewModel,
+                Members.CurrentUserName);
 
             return Redirect(nextUrl);
         }

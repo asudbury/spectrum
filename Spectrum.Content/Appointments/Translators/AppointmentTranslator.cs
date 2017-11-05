@@ -81,7 +81,40 @@
                 EndTime = viewModel.EndTime,
                 Location = viewModel.Location,
                 Description = viewModel.Description,
-                ////CustomerId = viewModel
+                PaymentId = viewModel.PaymentId
+            };
+
+            return model;
+        }
+
+        /// <summary>
+        /// Translates the specified original model.
+        /// </summary>
+        /// <param name="originalModel">The original model.</param>
+        /// <param name="viewModel">The view model.</param>
+        /// <returns></returns>
+        /// <inheritdoc />
+        public AppointmentModel Translate(
+            AppointmentModel originalModel,
+            AppointmentViewModel viewModel)
+        {
+            DateTime now = TimeZone.CurrentTimeZone.ToLocalTime(DateTime.Now);
+
+            DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(viewModel.StartTime);
+            DateTime endTime = startTime.AddMinutes(viewModel.Duration);
+            
+            AppointmentModel model = new AppointmentModel
+            {
+                Id = originalModel.Id,
+                CustomerId = originalModel.CustomerId,
+                ServiceProviderId = originalModel.ServiceProviderId,
+                CreatedTime = originalModel.CreatedTime,
+                CreatedUser = originalModel.CreatedUser,
+                LasteUpdatedTime = now,
+                StartTime = startTime,
+                EndTime = endTime,
+                Location = viewModel.Location,
+                Description = viewModel.Description,
                 PaymentId = viewModel.PaymentId
             };
 
