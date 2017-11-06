@@ -6,6 +6,7 @@
 
     public class Error404Handler : IContentFinder
     {
+        /// <inheritdoc />
         /// <summary>
         /// Tries to find and assign an Umbraco document to a <c>PublishedContentRequest</c>.
         /// </summary>

@@ -61,12 +61,6 @@
 
             int deleted = (int)AppointmentStatus.Deleted;
 
-            /*Sql sql = new Sql()
-                .Select("*")
-                .From(AppointmentConstants.AppointmentTableName)
-                .Where("Status != " + deleted + " and StartTime >= '" + dateRangeStart + "' and EndTime <= '" + dateRangeEnd + "'")
-                .OrderBy("StartTime desc");*/
-
             Sql sql = new Sql()
                 .Select("*")
                 .From(Content.Constants.Database.AppointmentTableName)

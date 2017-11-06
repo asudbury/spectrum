@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace Spectrum.Content.Appointments.ViewModels
+﻿namespace Spectrum.Content.Appointments.ViewModels
 {
     using System;
+    using System.Collections.Generic;
 
     public class AppointmentViewModel
     {
@@ -47,14 +46,9 @@ namespace Spectrum.Content.Appointments.ViewModels
         public DateTime StartTime { get; set; }
 
         /// <summary>
-        /// Gets or sets the end time.
-        /// </summary>
-        public DateTime EndTime { get; set; }
-
-        /// <summary>
         /// Gets or sets the duration.
         /// </summary>
-        public double Duration { get; set; }
+        public int Duration { get; set; }
 
         /// <summary>
         /// Gets or sets the status.

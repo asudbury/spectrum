@@ -364,8 +364,11 @@
     <Compile Include="Appointments\AppointmentConstants.cs" />
     <Compile Include="Appointments\Controllers\AppointmentsController.cs" />
     <Compile Include="Appointments\Controllers\GoogleCalendarController.cs" />
+    <Compile Include="Appointments\Handlers\PaymentMadeHandler.cs" />
     <Compile Include="Appointments\Managers\AppointmentsManager.cs" />
     <Compile Include="Appointments\Managers\IAppointmentsManager.cs" />
+    <Compile Include="Appointments\Managers\IPaymentMadeManager.cs" />
+    <Compile Include="Appointments\Managers\PaymentMadeManager.cs" />
     <Compile Include="Appointments\Models\AppointmentStatus.cs" />
     <Compile Include="Appointments\Models\AppointmentAttendeeModel.cs" />
     <Compile Include="Appointments\Models\AppointmentStatusModel.cs" />

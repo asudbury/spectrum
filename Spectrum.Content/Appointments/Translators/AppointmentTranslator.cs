@@ -35,7 +35,6 @@
             AppointmentModel model)
         {
             DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(model.StartTime);
-            DateTime endTime = TimeZone.CurrentTimeZone.ToLocalTime(model.EndTime);
 
             AppointmentViewModel viewModel = new AppointmentViewModel
             {
@@ -46,8 +45,7 @@
                 LastUpdatedTime = TimeZone.CurrentTimeZone.ToLocalTime(model.LasteUpdatedTime),
                 LastedUpdatedUser = model.LastedUpdatedUser,
                 StartTime = startTime,
-                EndTime = endTime,
-                Duration = (endTime - startTime).TotalMinutes,
+                Duration = model.Duration,
                 Status = ((AppointmentStatus)model.Status).ToString(),
                 PaymentId = model.PaymentId,
                 Location = model.Location,
@@ -78,7 +76,7 @@
                 LasteUpdatedTime = viewModel.LastUpdatedTime,
                 LastedUpdatedUser = viewModel.LastedUpdatedUser,
                 StartTime = viewModel.StartTime,
-                EndTime = viewModel.EndTime,
+                Duration = viewModel.Duration,
                 Location = viewModel.Location,
                 Description = viewModel.Description,
                 PaymentId = viewModel.PaymentId
@@ -101,7 +99,6 @@
             DateTime now = TimeZone.CurrentTimeZone.ToLocalTime(DateTime.Now);
 
             DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(viewModel.StartTime);
-            DateTime endTime = startTime.AddMinutes(viewModel.Duration);
             
             AppointmentModel model = new AppointmentModel
             {
@@ -112,7 +109,7 @@
                 CreatedUser = originalModel.CreatedUser,
                 LasteUpdatedTime = now,
                 StartTime = startTime,
-                EndTime = endTime,
+                Duration = viewModel.Duration,
                 Location = viewModel.Location,
                 Description = viewModel.Description,
                 PaymentId = viewModel.PaymentId

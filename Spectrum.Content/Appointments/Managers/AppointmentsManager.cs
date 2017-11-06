@@ -1,5 +1,3 @@
-using System.Globalization;
-
 namespace Spectrum.Content.Appointments.Managers
 {
     using Application.Services;
@@ -14,6 +12,7 @@ namespace Spectrum.Content.Appointments.Managers
     using Services;
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Net.Mail;
     using Translators;
@@ -21,7 +20,7 @@ namespace Spectrum.Content.Appointments.Managers
     using Umbraco.Web;
     using ViewModels;
 
-    public class AppointmentsManager : IAppointmentsManager, IHandleEvent<PaymentMadeMessage>
+    public class AppointmentsManager : IAppointmentsManager
     {
         /// <summary>
         /// The logging service.
@@ -514,98 +513,6 @@ namespace Spectrum.Content.Appointments.Managers
 
             //// TODO : this needs changing!!
             return "/customer/dashboard";
-        }
-
-        /// <summary>
-        /// Handles the specified payment made message.
-        /// </summary>
-        /// <param name="paymentMadeMessage">The payment made message.</param>
-        public void Handle(PaymentMadeMessage paymentMadeMessage)
-        {
-            string paymentId = paymentMadeMessage.PaymentId;
-            string autoAllocate = paymentMadeMessage.AutoAllocate;
-            string appointmentId = paymentMadeMessage.AppointmentId;
-
-            string message = "PaymentMadeMessage " + 
-                             "PaymentId=" + paymentId + " " +
-                             "AutoAllocate=" + autoAllocate + " " + 
-                             "AppointmentId=" + appointmentId;
-
-            loggingService.Info(GetType(), message);
-
-            int? id = GetAppointmentId(autoAllocate, appointmentId);
-
-            if (id.HasValue == false)
-            {
-                loggingService.Info(GetType(), "Payment not handled");
-                return;
-            }
-
-            AppointmentSettingsModel appointmentsModel = appointmentsProvider.GetAppointmentsModel(paymentMadeMessage.UmbracoContext);
-
-            CustomerModel customerModel = appointmentsProvider.GetCustomerModel(paymentMadeMessage.UmbracoContext);
-            int customerId = customerModel.Id;
-
-            if (appointmentsModel.DatabaseIntegration)
-            {
-                UpdateAppointment(id.Value, customerId, paymentId);
-            }
-        }
-
-        /// <summary>
-        /// Gets the appointment identifier.
-        /// </summary>
-        /// <param name="autoAllocate">The automatic allocate.</param>
-        /// <param name="appointmentId">The appointment identifier.</param>
-        /// <returns></returns>
-        internal int? GetAppointmentId(
-            string autoAllocate,
-            string appointmentId)
-        {
-            int? id = null;
-
-            if (string.IsNullOrEmpty(appointmentId) == false)
-            {
-                string appId = encryptionService.DecryptString(appointmentId);
-
-                id = Convert.ToInt32(appId);
-            }
-
-            else if (string.IsNullOrEmpty(autoAllocate) == false &&
-                     autoAllocate.ToLower() == "y")
-            {
-                id = cookieService.GetValue<int>(AppointmentConstants.LastAppointmentIdCookie);
-            }
-
-            //// remove the cookie so it doesnt get allocated to the next payment.
-            cookieService.Expire(AppointmentConstants.LastAppointmentIdCookie);
-
-            return id;
-        }
-
-        /// <summary>
-        /// Updates the appointment.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <param name="customerId">The customer identifier.</param>
-        /// <param name="paymentId">The payment identifier.</param>
-        internal void UpdateAppointment(
-            int id, 
-            int customerId,
-            string paymentId)
-        {
-            AppointmentModel model = databaseProvider.GetAppointment(id, customerId);
-
-            if (model != null)
-            {
-                loggingService.Info(GetType(), "Appointment Found");
-
-                model.PaymentId = paymentId;
-
-                databaseProvider.UpdateAppointment(model);
-
-                loggingService.Info(GetType(), "Appointment updated with PaymentId=" + paymentId);
-            }
         }
 
         /// <summary>

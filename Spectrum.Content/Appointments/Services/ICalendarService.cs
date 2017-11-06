@@ -29,7 +29,7 @@
             Event calendarEvent = new Event
             {
                 DtStart = new CalDateTime(model.StartTime),
-                DtEnd = new CalDateTime(model.EndTime),
+                DtEnd = new CalDateTime(model.StartTime.AddMinutes(model.Duration)),
                 Description = model.Description,
                 Summary = model.Description,
                 Organizer = new Organizer(model.CreatedUser),
