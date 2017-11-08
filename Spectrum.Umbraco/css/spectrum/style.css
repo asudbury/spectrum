@@ -219,6 +219,10 @@ h2.partial-title {
 	display: block;
 }
 
+.button-stack {
+	margin-bottom: 20px;
+}
+
 @media (min-width: 768px) {
 	.calendar-position input.form-control {width: 92%;}
 	.calendar-position .btn {width: 8%;}

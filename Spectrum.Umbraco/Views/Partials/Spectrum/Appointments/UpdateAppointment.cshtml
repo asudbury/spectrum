@@ -16,7 +16,7 @@
                 <div class="account-wall">
 
                     <h2 class="partial-title">Update Appointment</h2>
-                    
+
                     @Html.HiddenFor(model => model.Id)
 
                     <div class="calendar-position form-group">
@@ -47,26 +47,50 @@
                     </div>
 
                     <ul id="attendeeList" class="list-group" style="list-style-type: none;">
-                        @Html.DisplayFor(model => model.Attendees)
+
+                        @*@Html.DisplayFor(model => model.Attendees)*@
 
                         @if (Model.Attendees != null)
                         {
-                            foreach (string attendee in Model.Attendees)
+                            int counter = 1;
+                            foreach (var item in Model.Attendees)
                             {
-                                <li style="padding-top:10px">
-                                    @*<input class="form-control" id="Attendees_' + index + '" name="Attendees[' + index + ']" value=' + inputValue + '>' +*@
-                                    <input class="form-control" id="Attendees_' + index + '" name="Attendees[' + index + ']" value=attendee>
-                                    &nbsp;&nbsp;&nbsp;
-                                    @*<a href="#" onclick="$(this).parent().remove();updateAttendees();"><span class="glyphicon glyphicon-remove"></span></a>' +*@
-                                </li>
+                                <div class="calendar-position form-group">
+                                    <li style="padding-top:10px">
+                                        <input class="form-control" id="Attendees_' + counter + '" name="Attendees[' + counter + ']" value=@item>
+                                        </input>&nbsp;&nbsp;&nbsp;
+                                        <a href="#" onclick="$(this).parent().remove();updateAttendees();"><span class="glyphicon glyphicon-remove"></span></a>
+                                    </li>
+                                </div>
+
+                                counter = counter + 1;
                             }
                         }
 
                     </ul>
 
+                    @* or this can be put in the JS below as an alternative *@
+                    @*@Html.EditorFor(model => model.ServiceProviderId)*@
+
+                    @*
+                        //Run for each attendee added.
+                        //var myArray = [];
+
+                        //console.log('about to load up the array with email addresses');
+                        //@foreach (var d in Model.Attendees)
+                        //{
+                        //    @:myArray.push("@d");
+                        //}
+
+                        //console.log('about to add email addresses to dom. Array length is ' + myArray.length);
+                        //for (var i=0; i<myArray.length; i++) {
+                            //console.log('adding email ' + myArray[i] + ' to dom');
+                        //    $('#attendeeList').prepend(prependAttendee(i+1, myArray[i]));
+                        //}*@
+
                     <script src="../../../../scripts/spectrum/appointment.js"></script>
 
-                    <button value="submit" id="submit" class="btn btn-lg btn-primary btn-block">Update Appointment</button>
+                    <button value="submit" id="submit" onclick="checkAttendees();" class="btn btn-lg btn-primary btn-block">Update Appointment</button>
 
                 </div>
             </div>
@@ -80,6 +104,9 @@
 
             $('.input-validation-error').parents('.form-group').addClass('has-error');
             $('.field-validation-error').addClass('text-danger');
+
+
+
 
             initialiseDatePicker();
 

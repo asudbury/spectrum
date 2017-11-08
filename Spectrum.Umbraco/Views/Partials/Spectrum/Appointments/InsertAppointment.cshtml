@@ -61,19 +61,19 @@
                     </div>
 
                     <ul id="attendeeList" class="list-group" style="list-style-type: none;">
-                        @Html.DisplayFor(model => model.Attendees)
+                        @*@Html.DisplayFor(model => model.Attendees)
 
-                        @if (Model.Attendees != null)
-                        {
-                            foreach (string attendee in Model.Attendees)
+                            @if (Model.Attendees != null)
                             {
-                                <li style="padding-top:10px">
-                                    <input class="form-control" id="Attendees_' + index + '" name="Attendees[' + index + ']" value='" + attendee "'>
-                                    &nbsp;&nbsp;&nbsp;
-                                    <a href="#" onclick="$(this).parent().remove();updateAttendees();"><span class="glyphicon glyphicon-remove"></span></a>' +
-                                </li>
-                            }
-                        }
+                                foreach (string attendee in Model.Attendees)
+                                {
+                                    <li style="padding-top:10px">
+                                        <input class="form-control" id="Attendees_' + index + '" name="Attendees[' + index + ']" value='" + attendee "'>
+                                        &nbsp;&nbsp;&nbsp;
+                                        <a href="#" onclick="$(this).parent().remove();updateAttendees();"><span class="glyphicon glyphicon-remove"></span></a>' +
+                                    </li>
+                                }
+                            }*@
 
                     </ul>
 
