@@ -440,7 +440,7 @@ namespace Spectrum.Content.Appointments.Managers
         /// <inheritdoc />
         public string UpdateAppointment(
             UmbracoContext umbracoContext,
-            AppointmentViewModel viewModel,
+            UpdateAppointmentViewModel viewModel,
             string lastUpdatedUser)
         {
             loggingService.Info(GetType(), "Start");
@@ -457,6 +457,12 @@ namespace Spectrum.Content.Appointments.Managers
                 loggingService.Info(GetType(), "Database Integration");
 
                 databaseProvider.UpdateAppointment(appointmentModel);
+
+                //// now update the attendees
+                if (viewModel.Attendees != null)
+                {
+                    UpdateAppointmentAttendees(appointmentModel.Id, viewModel.Attendees);
+                }
             }
 
             if (appointmentSettingsModel.GoogleCalendarIntegration)
@@ -524,6 +530,44 @@ namespace Spectrum.Content.Appointments.Managers
         {
             CustomerModel customerModel = appointmentsProvider.GetCustomerModel(context);
             return customerModel.Id;
+        }
+
+        /// <summary>
+        /// Updates the appointment attendees.
+        /// </summary>
+        /// <param name="appointmentId">The appointment identifier.</param>
+        /// <param name="attendees">The attendees.</param>
+        internal void UpdateAppointmentAttendees(
+            int appointmentId,
+            IEnumerable<string> attendees)
+        {
+            List<AppointmentAttendeeModel> attendeeeModels = databaseProvider.GetAppointmentAttendees(appointmentId);
+
+            string[] emailAddresses = attendees as string[] ?? attendees.ToArray();
+
+            foreach (AppointmentAttendeeModel appointmentAttendeeModel in attendeeeModels)
+            {
+                //// if the current atteendee not in the viewModel attendees then remove from the database
+
+                if (emailAddresses.Contains(appointmentAttendeeModel.Name) == false)
+                {
+                    databaseProvider.DeleteAppointmentAttendee(appointmentAttendeeModel);
+                }
+            }
+
+            //// now add any additional attendees
+
+            foreach (string emailAddress in emailAddresses)
+            {
+                if (attendeeeModels.FirstOrDefault(m => m.Name == emailAddress) == null)
+                {
+                    databaseProvider.InsertAppointmentAttendee(new AppointmentAttendeeModel
+                    {
+                        AppointmentId = appointmentId,
+                        EmailAddress = emailAddress
+                    });
+                }
+            }
         }
     }
 }

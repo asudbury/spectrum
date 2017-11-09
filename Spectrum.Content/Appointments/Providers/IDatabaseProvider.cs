@@ -49,6 +49,12 @@
         List<AppointmentAttendeeModel> GetAppointmentAttendees(int appointmentId);
 
         /// <summary>
+        /// Deletes the appointment attendee.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        void DeleteAppointmentAttendee(AppointmentAttendeeModel model);
+
+        /// <summary>
         /// Updates the appointment.
         /// </summary>
         /// <param name="model">The model.</param>

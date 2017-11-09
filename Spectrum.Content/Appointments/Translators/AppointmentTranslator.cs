@@ -85,6 +85,7 @@
             return model;
         }
 
+
         /// <summary>
         /// Translates the specified original model.
         /// </summary>
@@ -94,7 +95,7 @@
         /// <inheritdoc />
         public AppointmentModel Translate(
             AppointmentModel originalModel,
-            AppointmentViewModel viewModel)
+            UpdateAppointmentViewModel viewModel)
         {
             DateTime now = TimeZone.CurrentTimeZone.ToLocalTime(DateTime.Now);
 
@@ -112,7 +113,7 @@
                 Duration = viewModel.Duration,
                 Location = viewModel.Location,
                 Description = viewModel.Description,
-                PaymentId = viewModel.PaymentId
+                PaymentId = originalModel.PaymentId
             };
 
             return model;

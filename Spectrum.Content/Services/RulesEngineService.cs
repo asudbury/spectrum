@@ -60,6 +60,32 @@
             return model != null && model.GoogleCalendarEnabled;
         }
 
+        /// <summary>
+        /// Determines whether [is customer quotes enabled] [the specified umbraco context].
+        /// </summary>
+        /// <param name="umbracoContext">The umbraco context.</param>
+        public bool IsCustomerQuotesEnabled(UmbracoContext umbracoContext)
+        {
+            return false;
+
+            PaymentSettingsModel model = GetPaymentsSettingsModel(umbracoContext);
+
+            return model != null && model.PaymentsEnabled;
+        }
+
+        /// <summary>
+        /// Determines whether [is customer invoices enabled] [the specified umbraco context].
+        /// </summary>
+        /// <param name="umbracoContext">The umbraco context.</param>
+        public bool IsCustomerInvoicesEnabled(UmbracoContext umbracoContext)
+        {
+            return false;
+
+            PaymentSettingsModel model = GetPaymentsSettingsModel(umbracoContext);
+
+            return model != null && model.PaymentsEnabled;
+        }
+
         /// <inheritdoc />
         /// <summary>
         /// Executes the specified query.
@@ -73,6 +99,12 @@
         {
             switch (query)
             {
+                case Constants.Rules.IsCustomerQuotesEnabled:
+                    return IsCustomerQuotesEnabled(umbracoContext);
+
+                case Constants.Rules.IsCustomerInvoicesEnabled:
+                    return IsCustomerInvoicesEnabled(umbracoContext);
+
                 case Constants.Rules.IsCustomerAppointmentsEnabled:
                     return IsCustomerAppointmentsEnabled(umbracoContext);
 
@@ -84,9 +116,10 @@
 
                 case Constants.Rules.IsCustomerGoogleCalendarEnabled:
                     return IsCustomerGoogleCalendarEnabled(umbracoContext);
-            }
 
-            return false;
+                default:
+                    return false;
+            }
         }
 
         /// <summary>

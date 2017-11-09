@@ -252,8 +252,7 @@
         /// <param name="viewModel">The view model.</param>
         /// <returns></returns>
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult UpdateAppointment(AppointmentViewModel viewModel)
+        public ActionResult UpdateAppointment(UpdateAppointmentViewModel viewModel)
         {
             LoggingService.Info(GetType());
 
@@ -267,7 +266,7 @@
                 viewModel,
                 Members.CurrentUserName);
 
-            return Redirect(nextUrl);
+            return Json(nextUrl);
         }
 
         /// <summary>

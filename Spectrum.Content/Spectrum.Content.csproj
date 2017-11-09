@@ -374,6 +374,7 @@
     <Compile Include="Appointments\Models\AppointmentStatusModel.cs" />
     <Compile Include="Appointments\Models\AppointmentModel.cs" />
     <Compile Include="Appointments\Models\ICalAppointmentModel.cs" />
+    <Compile Include="Appointments\ViewModels\UpdateAppointmentViewModel.cs" />
     <Compile Include="Configuration\ConfigurationHelper.cs" />
     <Compile Include="Configuration\PageNotFoundContentFinder.cs" />
     <Compile Include="Constants.cs" />

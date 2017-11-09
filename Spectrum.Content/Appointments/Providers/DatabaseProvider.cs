@@ -115,6 +115,17 @@
 
         /// <inheritdoc />
         /// <summary>
+        /// Deletes the appointment attendee.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        public void DeleteAppointmentAttendee(AppointmentAttendeeModel model)
+        {
+            DatabaseContext context = ApplicationContext.Current.DatabaseContext;
+            context.Database.Delete(model);
+        }
+
+        /// <inheritdoc />
+        /// <summary>
         /// Updates the appointment.
         /// </summary>
         /// <param name="model">The model.</param>

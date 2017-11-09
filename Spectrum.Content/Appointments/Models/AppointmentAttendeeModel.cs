@@ -7,6 +7,13 @@
     [PrimaryKey("Id")]
     public class AppointmentAttendeeModel
     {
+        public AppointmentAttendeeModel()
+        {
+            //// we arent currently supporting names of attendees 
+            //// so just default to unknown for now!
+            Name = "Unknown";
+        }
+
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>

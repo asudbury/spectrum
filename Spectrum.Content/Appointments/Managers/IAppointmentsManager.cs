@@ -84,7 +84,7 @@
         /// <returns></returns>
         string UpdateAppointment(
             UmbracoContext umbracoContext,
-            AppointmentViewModel viewModel,
+            UpdateAppointmentViewModel viewModel,
             string lastUpdatedUser);
     }
 }

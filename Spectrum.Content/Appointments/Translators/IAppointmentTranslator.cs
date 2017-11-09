@@ -30,6 +30,6 @@
         /// <returns></returns>
         AppointmentModel Translate(
             AppointmentModel originalModel,
-            AppointmentViewModel viewModel);
+            UpdateAppointmentViewModel viewModel);
     }
 }

@@ -27,13 +27,13 @@
                     </div>
                     @Html.ValidationMessageFor(model => model.StartTime)
 
-                    @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control", @placeholder = "Duration (In minutes)" } })
+                    @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control", placeholder = "Duration (In minutes)" } })
                     @Html.ValidationMessageFor(model => model.Duration)
 
-                    @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", @placeholder = "Location" } })
+                    @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", placeholder = "Location" } })
                     @Html.ValidationMessageFor(model => model.Location)
 
-                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @placeholder = "Description", @rows = "5" })
+                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control", placeholder = "Description", @rows = "5" })
                     @Html.ValidationMessageFor(model => model.Description)
 
                     <div>
@@ -47,46 +47,7 @@
                     </div>
 
                     <ul id="attendeeList" class="list-group" style="list-style-type: none;">
-
-                        @*@Html.DisplayFor(model => model.Attendees)*@
-
-                        @if (Model.Attendees != null)
-                        {
-                            int counter = 1;
-                            foreach (var item in Model.Attendees)
-                            {
-                                <div class="calendar-position form-group">
-                                    <li style="padding-top:10px">
-                                        <input class="form-control" id="Attendees_' + counter + '" name="Attendees[' + counter + ']" value=@item>
-                                        </input>&nbsp;&nbsp;&nbsp;
-                                        <a href="#" onclick="$(this).parent().remove();updateAttendees();"><span class="glyphicon glyphicon-remove"></span></a>
-                                    </li>
-                                </div>
-
-                                counter = counter + 1;
-                            }
-                        }
-
                     </ul>
-
-                    @* or this can be put in the JS below as an alternative *@
-                    @*@Html.EditorFor(model => model.ServiceProviderId)*@
-
-                    @*
-                        //Run for each attendee added.
-                        //var myArray = [];
-
-                        //console.log('about to load up the array with email addresses');
-                        //@foreach (var d in Model.Attendees)
-                        //{
-                        //    @:myArray.push("@d");
-                        //}
-
-                        //console.log('about to add email addresses to dom. Array length is ' + myArray.length);
-                        //for (var i=0; i<myArray.length; i++) {
-                            //console.log('adding email ' + myArray[i] + ' to dom');
-                        //    $('#attendeeList').prepend(prependAttendee(i+1, myArray[i]));
-                        //}*@
 
                     <script src="../../../../scripts/spectrum/appointment.js"></script>
 
@@ -105,9 +66,16 @@
             $('.input-validation-error').parents('.form-group').addClass('has-error');
             $('.field-validation-error').addClass('text-danger');
 
+            var myArray = [];
 
-
-
+            @foreach (var d in Model.Attendees)
+            {
+                @:myArray.push("@d");
+            }
+            for (var i=0; i<myArray.length; i++) {
+                $('#attendeeList').prepend(prependAttendee(i+1, myArray[i]));
+            }
+        
             initialiseDatePicker();
 
             $('.btn').click(function () {
@@ -122,7 +90,47 @@
             });
 
             $('form').submit(function (event) {
+
                 $('#submit').prop('disabled', true);
+                event.preventDefault();
+
+                var url = "/umbraco/Surface/Appointments/UpdateAppointment";
+                var id = $('#Id').val();
+                var startTime = $('#StartTime').val();
+                var duration = $('#Duration').val();
+                var location = $('#Location').val();
+                var description = $('#Description').val();
+               
+                var items = document.getElementById("attendeeList").getElementsByTagName("li");
+
+                var attendees = [].map.call(items,
+                    function(node) {
+                        return node.children[0].value;
+                    });
+
+                var postData = {
+                    id : id,
+                    startTime: startTime,
+                    duration: duration,
+                    location: location,
+                    description : description,
+                    attendees: attendees
+                };
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: JSON.stringify(postData),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        window.location.href = data;
+                    },
+                    error: function (request, status, errorThrown) {
+                        console.log('Server error ' + errorThrown);
+                        window.location.href = "/error";
+                    }
+                });
             });
         });
 

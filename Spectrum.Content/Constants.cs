@@ -33,6 +33,16 @@
         public static class Rules
         {
             /// <summary>
+            /// The is customer quotes enabled.
+            /// </summary>
+            public const string IsCustomerQuotesEnabled = "IsCustomerQuotesEnabled";
+            
+            /// <summary>
+            /// The is customer invoices enabled
+            /// </summary>
+            public const string IsCustomerInvoicesEnabled = "IsCustomerInvoicesEnabled";
+
+            /// <summary>
             /// The is customer appointments enabled.
             /// </summary>
             public const string IsCustomerAppointmentsEnabled = "IsCustomerAppointmentsEnabled";
