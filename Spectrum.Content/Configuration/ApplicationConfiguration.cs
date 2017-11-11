@@ -1,4 +1,6 @@
-﻿namespace Spectrum.Content.Configuration
+﻿using Spectrum.Content.Payments.Models;
+
+namespace Spectrum.Content.Configuration
 {
     using Appointments.Models;
     using ContentModels;
@@ -49,6 +51,8 @@
             db.CreateTableIfNotExist<AppointmentModel>(Content.Constants.Database.AppointmentTableName);
             db.CreateTableIfNotExist<AppointmentAttendeeModel>(Content.Constants.Database.AppointmentAttendeeTableName);
             db.CreateTableIfNotExist<ICalAppointmentModel>(Content.Constants.Database.IcalAppointmentTableName);
+
+            db.CreateTableIfNotExist<PaymentModel>(Content.Constants.Database.PaymentTableName);
 
             PublishedContentRequest.Prepared += PublishedContentRequestPrepared;
 

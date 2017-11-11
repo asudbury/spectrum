@@ -6,8 +6,9 @@
 
     public class LoggingController : BaseController
     {
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseController" /> class.
+        /// Initializes a new instance of the <see cref="T:Spectrum.Content.BaseController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="settingsService">The settings service.</param>

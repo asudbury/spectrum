@@ -113,7 +113,7 @@
                 Duration = viewModel.Duration,
                 Location = viewModel.Location,
                 Description = viewModel.Description,
-                PaymentId = originalModel.PaymentId
+                PaymentId = viewModel.PaymentId
             };
 
             return model;
@@ -136,7 +136,7 @@
             if (string.IsNullOrEmpty(paymentsPage) == false)
             {
                 //// TODO : this is rubbish but will do for now!
-                url = paymentsPage.Replace("payment", page) + "?" + PaymentsQueryStringConstants.AppointmentId + "=" + encryptionService.EncryptString(appointmentId.ToString());
+                url = paymentsPage.Replace("payments/makepayment", "appointments/" + page) + "?" + PaymentsQueryStringConstants.AppointmentId + "=" + encryptionService.EncryptString(appointmentId.ToString());
             }
 
             return url;

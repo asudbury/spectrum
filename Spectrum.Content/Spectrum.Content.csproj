@@ -373,6 +373,7 @@
     <Compile Include="Appointments\Models\AppointmentAttendeeModel.cs" />
     <Compile Include="Appointments\Models\AppointmentStatusModel.cs" />
     <Compile Include="Appointments\Models\AppointmentModel.cs" />
+    <Compile Include="Payments\Models\PaymentModel.cs" />
     <Compile Include="Appointments\Models\ICalAppointmentModel.cs" />
     <Compile Include="Appointments\ViewModels\UpdateAppointmentViewModel.cs" />
     <Compile Include="Configuration\ConfigurationHelper.cs" />

@@ -36,6 +36,11 @@
         public string Description { get; set; }
 
         /// <summary>
+        /// Gets or sets the payment identifier.
+        /// </summary>
+        public string PaymentId { get; set; }
+
+        /// <summary>
         /// Gets or sets the attendees.
         /// </summary>
         public IEnumerable<string> Attendees { get; set; }

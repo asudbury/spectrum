@@ -108,6 +108,8 @@
             IPublishedContent publishedContent,
             PaymentViewModel viewModel)
         {
+            loggingService.Info(GetType(), "HandlePayment MakePayment");
+
             PageModel pageModel = new PageModel(publishedContent);
 
             if (string.IsNullOrEmpty(pageModel.NextPageUrl))
@@ -122,46 +124,61 @@
 
             PaymentSettingsModel model = paymentProvider.GetBraintreeModel(umbracoContext);
 
-            loggingService.Info(GetType(), "HandlePayment MakePayment");
-
             string paymentId = paymentProvider.MakePayment(model, viewModel);
 
             if (string.IsNullOrEmpty(paymentId) == false)
             {
+                //// at this point the payment has worked
+                //// so need to be careful from here as to what we raise as errors etc.
+                
                 //// make sure we clear the cache!
                 transactionsRepository.SetKey(umbracoContext);
                 transactionsRepository.Clear();
 
                 loggingService.Info(GetType(), "Payment Succesful Id=" + paymentId);
 
-                eventPublisher.Publish(new PaymentMadeMessage(
-                                            umbracoContext, 
-                                            paymentId, 
-                                            viewModel.AutoAllocate, 
-                                            viewModel.AppointmentId));
-                
-                if (string.IsNullOrEmpty(pageModel.EmailTemplateName) == false &&
-                    string.IsNullOrEmpty(viewModel.EmailAddress) == false)
+                try
                 {
-                    Dictionary<string, string> dictionary = new Dictionary<string, string>
-                    {
-                        {"PaymentId", paymentId},
-                        {"AppointmentId", viewModel.AppointmentId},
-                        {"PaymentAmount", viewModel.Amount.ToString(CultureInfo.InvariantCulture)},
-                    };
-                    
-                    loggingService.Info(GetType(), "Sending Email");
-
-                    MailResponse mailResponse = mailProvider.SendEmail(
-                                                    umbracoContext,
-                                                    pageModel.EmailTemplateName,
-                                                    viewModel.EmailAddress,
-                                                    null,
-                                                    dictionary);
-
-                    //// TODO : we need to log the mail response!
+                    eventPublisher.Publish(new PaymentMadeMessage(
+                        umbracoContext,
+                        paymentId,
+                        viewModel.AutoAllocate,
+                        viewModel.AppointmentId));
+                }
+                catch (Exception exception)
+                {
+                    loggingService.Error(GetType(), "Publish of payment Failed", exception);
                 }
 
+                try
+                {
+                    if (string.IsNullOrEmpty(pageModel.EmailTemplateName) == false &&
+                        string.IsNullOrEmpty(viewModel.EmailAddress) == false)
+                    {
+                        Dictionary<string, string> dictionary = new Dictionary<string, string>
+                        {
+                            {"PaymentId", paymentId},
+                            {"AppointmentId", viewModel.AppointmentId},
+                            {"PaymentAmount", viewModel.Amount.ToString(CultureInfo.InvariantCulture)},
+                        };
+
+                        loggingService.Info(GetType(), "Sending Email");
+
+                        MailResponse mailResponse = mailProvider.SendEmail(
+                            umbracoContext,
+                            pageModel.EmailTemplateName,
+                            viewModel.EmailAddress,
+                            null,
+                            dictionary);
+
+                        //// TODO : we need to log the mail response!
+                    }
+                }
+                catch (Exception exception)
+                {
+                    loggingService.Error(GetType(), "Sending of confirmation email Failed", exception);
+                }
+                
                 return pageModel.NextPageUrl;
             }
 

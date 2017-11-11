@@ -35,6 +35,9 @@
 
                     @Html.TextAreaFor(model => model.Description, new { @class = "form-control", placeholder = "Description", @rows = "5" })
                     @Html.ValidationMessageFor(model => model.Description)
+                    
+                    @Html.EditorFor(model => model.PaymentId, new { htmlAttributes = new { @class = "form-control", placeholder = "Payment Id" } })
+                    @Html.ValidationMessageFor(model => model.PaymentId)
 
                     <div>
                         <label class="control-label">Add Attendees</label>
@@ -100,7 +103,8 @@
                 var duration = $('#Duration').val();
                 var location = $('#Location').val();
                 var description = $('#Description').val();
-               
+                var paymentId = $('#PaymentId').val();
+                
                 var items = document.getElementById("attendeeList").getElementsByTagName("li");
 
                 var attendees = [].map.call(items,
@@ -113,7 +117,8 @@
                     startTime: startTime,
                     duration: duration,
                     location: location,
-                    description : description,
+                    description: description,
+                    paymentId: paymentId,
                     attendees: attendees
                 };
 

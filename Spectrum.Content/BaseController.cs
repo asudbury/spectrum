@@ -14,8 +14,9 @@
         /// </summary>
         protected readonly ILoggingService LoggingService;
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseController" /> class.
+        /// Initializes a new instance of the <see cref="T:Spectrum.Content.BaseController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         public BaseController(ILoggingService loggingService)
@@ -23,8 +24,9 @@
             LoggingService = loggingService;
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseController"/> class.
+        /// Initializes a new instance of the <see cref="T:Spectrum.Content.BaseController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="umbracoContext">The umbraco context.</param>
@@ -95,6 +97,17 @@
             }
 
             return url;
+        }
+
+        /// <summary>
+        /// Throws the access denied exception.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        protected void ThrowAccessDeniedException(string message)
+        {
+            ApplicationException applicationException = new ApplicationException(message);
+            LoggingService.Error(GetType(), message, applicationException);
+            throw applicationException;
         }
     }
 }

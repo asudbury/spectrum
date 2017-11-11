@@ -43,7 +43,7 @@
                 return moment(row.startTime).format('ddd DD MMM HH:mm');
             },
             "paymentId": function (column, row) {
-                if (row.paymentId !== "") {
+                if (row.paymentId) {
                     return '<a href="#" class="link-payment" data-payment-id=' + row.paymentId + '>Paid</a>';
                 }
 
@@ -70,3 +70,14 @@
     });
     
  </script>
+
+<div id="transaction"></div>
+
+<script type="text/javascript">
+
+    function onTransaction(data) {
+        jQuery('#transaction').html(data);
+        jQuery('#transaction').dialog({ 'title': 'Payment', 'width': 400, 'height': 300 });
+    }
+
+</script>

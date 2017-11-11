@@ -28,7 +28,12 @@
             /// The ical appointment table name
             /// </summary>
             public const string IcalAppointmentTableName = "spectrumIcalAppointment";
-         }
+
+            /// <summary>
+            /// The payment table name.
+            /// </summary>
+            public const string PaymentTableName = "spectrumPayment";
+        }
 
         public static class Rules
         {

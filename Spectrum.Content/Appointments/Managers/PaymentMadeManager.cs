@@ -8,7 +8,7 @@
     using Providers;
     using System;
     
-    public class PaymentMadeManager 
+    public class PaymentMadeManager : IPaymentMadeManager
     {
         /// <summary>
         /// The logging service.

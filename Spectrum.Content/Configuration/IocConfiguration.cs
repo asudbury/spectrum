@@ -1,4 +1,8 @@
-﻿using Spectrum.Application.Services;
+﻿using System;
+using Autofac.Events;
+using Spectrum.Application.Services;
+using Spectrum.Content.Appointments.Handlers;
+using Spectrum.Content.Messages;
 
 namespace Spectrum.Content.Configuration
 {

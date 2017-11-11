@@ -427,7 +427,7 @@ namespace Spectrum.Content.Appointments.Managers
             }
 
             //// TODO : this needs changing!!
-            return "/customer/dashboard";
+            return "/customer/appointments";
         }
 
         /// <summary>
@@ -518,7 +518,7 @@ namespace Spectrum.Content.Appointments.Managers
             }
 
             //// TODO : this needs changing!!
-            return "/customer/dashboard";
+            return "/customer/appointments";
         }
 
         /// <summary>

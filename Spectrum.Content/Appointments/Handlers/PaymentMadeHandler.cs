@@ -19,6 +19,7 @@
         {
             this.paymentMadeManager = paymentMadeManager;
         }
+
         /// <summary>
         /// Handles the specified payment made message.
         /// </summary>

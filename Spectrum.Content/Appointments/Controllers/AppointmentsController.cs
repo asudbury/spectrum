@@ -126,7 +126,12 @@
         {
             LoggingService.Info(GetType());
 
-            if (!ModelState.IsValid)
+            if (rulesEngineService.IsCustomerAppointmentsEnabled(UmbracoContext) == false)
+            {
+                ThrowAccessDeniedException("No Access to insert appointment");
+            }
+
+                if (!ModelState.IsValid)
             {
                 return CurrentUmbracoPage();
             }
@@ -226,6 +231,11 @@
         {
             LoggingService.Info(GetType(), "beeswwr=" + beeswwr);
 
+            if (rulesEngineService.IsCustomerAppointmentsEnabled(UmbracoContext) == false)
+            {
+                ThrowAccessDeniedException("No Access to view appointment");
+            }
+
             AppointmentViewModel viewModel = appointmentsManager.GetAppointment(UmbracoContext, beeswwr);
 
             return PartialView("Partials/Spectrum/Appointments/Appointment", viewModel);
@@ -241,6 +251,11 @@
         {
             LoggingService.Info(GetType(), "Id=" + beeswwr);
 
+            if (rulesEngineService.IsCustomerAppointmentsEnabled(UmbracoContext) == false)
+            {
+                ThrowAccessDeniedException("No Access to update appointment");
+            }
+
             AppointmentViewModel viewModel = appointmentsManager.GetAppointment(UmbracoContext, beeswwr);
 
             return PartialView("Partials/Spectrum/Appointments/UpdateAppointment", viewModel);
@@ -255,6 +270,11 @@
         public ActionResult UpdateAppointment(UpdateAppointmentViewModel viewModel)
         {
             LoggingService.Info(GetType());
+
+            if (rulesEngineService.IsCustomerAppointmentsEnabled(UmbracoContext) == false)
+            {
+                ThrowAccessDeniedException("No Access to update appointment");
+            }
 
             if (!ModelState.IsValid)
             {
@@ -277,6 +297,11 @@
         [HttpGet]
         public ActionResult Delete(string id)
         {
+            if (rulesEngineService.IsCustomerAppointmentsEnabled(UmbracoContext) == false)
+            {
+                ThrowAccessDeniedException("No Access to delete appointment");
+            }
+
             LoggingService.Info(GetType(), "Id=" + id);
 
             string url = appointmentsManager.DeleteAppointment(UmbracoContext, id);
