@@ -2,6 +2,7 @@
 {
     using Braintree;
     using Umbraco.Web;
+    using Payments.ViewModels;
 
     public class PaymentMadeMessage
     {
@@ -10,18 +11,21 @@
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="transaction">The transaction.</param>
-        /// <param name="autoAllocate">if set to <c>true</c> [automatic allocate].</param>
-        /// <param name="appointmentId">The appointment identifier.</param>
+        /// <param name="paymentViewModel">The payment view model.</param>
+        /// <param name="createdUser">The created user.</param>
+        /// <param name="emailTemplateName">Name of the email template.</param>
         public PaymentMadeMessage(
             UmbracoContext umbracoContext,
-            Result<Transaction> transaction,
-            string autoAllocate,
-            string appointmentId)
+            Transaction transaction,
+            PaymentViewModel paymentViewModel,
+            string createdUser,
+            string emailTemplateName)
         {
             Transaction  = transaction;
             UmbracoContext = umbracoContext;
-            AutoAllocate = autoAllocate;
-            AppointmentId = appointmentId;
+            PaymentViewModel = paymentViewModel;
+            CreatedUser = createdUser;
+            EmailTemplateName = emailTemplateName;
         }
 
         /// <summary>
@@ -32,16 +36,24 @@
         /// <summary>
         /// The payment identifier.
         /// </summary>
-        public Result<Transaction> Transaction { get; }
+        public Transaction Transaction { get; }
 
         /// <summary>
-        /// Gets a value indicating whether [automatic allocate].
+        /// Gets the payment view model.
         /// </summary>
-        public string AutoAllocate { get; }
+        /// <value>
+        /// The payment view model.
+        /// </value>
+        public PaymentViewModel PaymentViewModel { get; }
 
         /// <summary>
-        /// Gets the appointment identifier.
+        /// Gets the created user.
         /// </summary>
-        public string AppointmentId { get; }
+        public string CreatedUser { get; }
+
+        /// <summary>
+        /// Gets the name of the email template.
+        /// </summary>
+        public string EmailTemplateName { get; }
     }
 }

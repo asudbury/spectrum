@@ -3,6 +3,7 @@
     using Application.Services;
     using Content.Services;
     using ContentModels;
+    using Customer.Providers;
     using Messages;
     using Models;
     using Providers;
@@ -19,6 +20,11 @@
         /// The appointments provider.
         /// </summary>
         private readonly IAppointmentsProvider appointmentsProvider;
+
+        /// <summary>
+        /// The customer provider.
+        /// </summary>
+        private readonly ICustomerProvider customerProvider;
 
         /// <summary>
         /// The database provider.
@@ -40,17 +46,20 @@
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="appointmentsProvider">The appointments provider.</param>
+        /// <param name="customerProvider">The customer provider.</param>
         /// <param name="databaseProvider">The database provider.</param>
         /// <param name="encryptionService">The encryption service.</param>
         /// <param name="cookieService">The cookie service.</param>
         public PaymentMadeManager(
             ILoggingService loggingService,
             IAppointmentsProvider appointmentsProvider,
+            ICustomerProvider customerProvider,
             IDatabaseProvider databaseProvider,
             IEncryptionService encryptionService,
             ICookieService cookieService)
         {
             this.loggingService = loggingService;
+            this.customerProvider = customerProvider;
             this.appointmentsProvider = appointmentsProvider;
             this.databaseProvider = databaseProvider;
             this.encryptionService = encryptionService;
@@ -64,9 +73,9 @@
         /// <param name="paymentMadeMessage">The payment made message.</param>
         public void Handle(PaymentMadeMessage paymentMadeMessage)
         {
-            string paymentId = paymentMadeMessage.Transaction.Target.Id;
-            string autoAllocate = paymentMadeMessage.AutoAllocate;
-            string appointmentId = paymentMadeMessage.AppointmentId;
+            string paymentId = paymentMadeMessage.Transaction.Id;
+            string autoAllocate = paymentMadeMessage.PaymentViewModel.AutoAllocate;
+            string appointmentId = paymentMadeMessage.PaymentViewModel.AppointmentId;
 
             string message = "PaymentMadeMessage " +
                              "PaymentId=" + paymentId + " " +
@@ -85,7 +94,8 @@
 
             AppointmentSettingsModel appointmentsModel = appointmentsProvider.GetAppointmentsModel(paymentMadeMessage.UmbracoContext);
 
-            CustomerModel customerModel = appointmentsProvider.GetCustomerModel(paymentMadeMessage.UmbracoContext);
+            CustomerModel customerModel = customerProvider.GetCustomerModel(paymentMadeMessage.UmbracoContext);
+
             int customerId = customerModel.Id;
 
             if (appointmentsModel.DatabaseIntegration)

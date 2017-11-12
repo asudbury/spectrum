@@ -26,10 +26,12 @@
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="publishedContent">Content of the published.</param>
         /// <param name="viewModel">The view model.</param>
+        /// <param name="currentUser">The current user.</param>
         /// <returns></returns>
         string HandlePayment(
             UmbracoContext umbracoContext,
             IPublishedContent publishedContent,
-            PaymentViewModel viewModel);
+            PaymentViewModel viewModel,
+            string currentUser);
     }
 }

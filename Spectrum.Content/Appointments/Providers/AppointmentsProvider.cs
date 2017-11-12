@@ -46,18 +46,5 @@
                 new AppointmentSettingsModel(GetAppointmentsNode(umbracoContext)) : 
                 null;
         }
-
-        /// <inheritdoc />
-        /// <summary>
-        /// Gets the customer identifier.
-        /// </summary>
-        /// <param name="umbracoContext">The umbraco context.</param>
-        /// <returns></returns>
-        public CustomerModel GetCustomerModel(UmbracoContext umbracoContext)
-        {
-            IPublishedContent customerNode = settingsService.GetCustomerNode(umbracoContext);
-
-            return  new CustomerModel(customerNode);
-        }
     }
 }

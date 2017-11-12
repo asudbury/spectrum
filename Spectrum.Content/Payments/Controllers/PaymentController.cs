@@ -116,7 +116,8 @@
                 string url = paymentManager.HandlePayment(
                     UmbracoContext, 
                     publishedContent, 
-                    viewModel);
+                    viewModel,
+                    Members.CurrentUserName);
 
                 return Json(url);
             }

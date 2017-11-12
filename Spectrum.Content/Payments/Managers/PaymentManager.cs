@@ -4,14 +4,10 @@
     using Braintree;
     using Content.Services;
     using ContentModels;
-    using Mail.Models;
-    using Mail.Providers;
     using Messages;
     using Providers;
     using Repositories;
     using System;
-    using System.Collections.Generic;
-    using System.Globalization;
     using Umbraco.Core.Models;
     using Umbraco.Web;
     using ViewModels;
@@ -39,30 +35,22 @@
         private readonly ITransactionsRepository transactionsRepository;
 
         /// <summary>
-        /// The mail provider.
-        /// </summary>
-        private readonly IMailProvider mailProvider;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="PaymentManager" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="paymentProvider">The payment provider.</param>
         /// <param name="eventPublisher">The event publisher.</param>
         /// <param name="transactionsRepository">The transactions repository.</param>
-        /// <param name="mailProvider">The mail provider.</param>
         public PaymentManager(
             ILoggingService loggingService,
             IPaymentProvider paymentProvider,
             IEventPublisher eventPublisher,
-            ITransactionsRepository transactionsRepository,
-            IMailProvider mailProvider)
+            ITransactionsRepository transactionsRepository)
         {
             this.loggingService = loggingService;
             this.paymentProvider = paymentProvider;
             this.eventPublisher = eventPublisher;
             this.transactionsRepository = transactionsRepository;
-            this.mailProvider = mailProvider;
         }
 
         /// <inheritdoc />
@@ -91,23 +79,20 @@
             return model?.Environment;
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Handles the payment.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="publishedContent">Content of the published.</param>
         /// <param name="viewModel">The view model.</param>
+        /// <param name="currentUser">The current user.</param>
         /// <returns></returns>
-        /// <exception cref="T:System.ApplicationException">
-        /// Current Page Id Not Set
-        /// Next Page Url Not Set
-        /// Error Page Url Not Set
-        /// </exception>
+        /// <inheritdoc />
         public string HandlePayment(
             UmbracoContext umbracoContext,
             IPublishedContent publishedContent,
-            PaymentViewModel viewModel)
+            PaymentViewModel viewModel,
+            string currentUser)
         {
             loggingService.Info(GetType(), "HandlePayment MakePayment");
 
@@ -144,42 +129,14 @@
                 {
                     eventPublisher.Publish(new PaymentMadeMessage(
                         umbracoContext,
-                        transaction,
-                        viewModel.AutoAllocate,
-                        viewModel.AppointmentId));
+                        transaction.Target,
+                        viewModel,
+                        currentUser,
+                        pageModel.EmailTemplateName));
                 }
                 catch (Exception exception)
                 {
                     loggingService.Error(GetType(), "Publish of payment Failed", exception);
-                }
-
-                try
-                {
-                    if (string.IsNullOrEmpty(pageModel.EmailTemplateName) == false &&
-                        string.IsNullOrEmpty(viewModel.EmailAddress) == false)
-                    {
-                        Dictionary<string, string> dictionary = new Dictionary<string, string>
-                        {
-                            {"PaymentId", paymentId},
-                            {"AppointmentId", viewModel.AppointmentId},
-                            {"PaymentAmount", viewModel.Amount.ToString(CultureInfo.InvariantCulture)},
-                        };
-
-                        loggingService.Info(GetType(), "Sending Email");
-
-                        MailResponse mailResponse = mailProvider.SendEmail(
-                            umbracoContext,
-                            pageModel.EmailTemplateName,
-                            viewModel.EmailAddress,
-                            null,
-                            dictionary);
-
-                        //// TODO : we need to log the mail response!
-                    }
-                }
-                catch (Exception exception)
-                {
-                    loggingService.Error(GetType(), "Sending of confirmation email Failed", exception);
                 }
                 
                 return pageModel.NextPageUrl;

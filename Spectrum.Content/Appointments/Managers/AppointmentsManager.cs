@@ -1,3 +1,5 @@
+using Spectrum.Content.Customer.Providers;
+
 namespace Spectrum.Content.Appointments.Managers
 {
     using Application.Services;
@@ -78,6 +80,11 @@ namespace Spectrum.Content.Appointments.Managers
         private readonly IAppointmentsBootGridTranslator appointmentsBootGridTranslator;
 
         /// <summary>
+        /// The customer provider.
+        /// </summary>
+        private readonly ICustomerProvider customerProvider;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="AppointmentsManager" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
@@ -91,6 +98,7 @@ namespace Spectrum.Content.Appointments.Managers
         /// <param name="encryptionService">The encryption service.</param>
         /// <param name="mailProvider">The email provider.</param>
         /// <param name="appointmentsBootGridTranslator">The appointments boot grid translator.</param>
+        /// <param name="customerProvider">The customer provider.</param>
         public AppointmentsManager(
             ILoggingService loggingService,
             IAppointmentsProvider appointmentsProvider,
@@ -102,7 +110,8 @@ namespace Spectrum.Content.Appointments.Managers
             IAppointmentTranslator appointmentTranslator,
             IEncryptionService encryptionService,
             IMailProvider mailProvider,
-            IAppointmentsBootGridTranslator appointmentsBootGridTranslator)
+            IAppointmentsBootGridTranslator appointmentsBootGridTranslator,
+            ICustomerProvider customerProvider)
         {
             this.loggingService = loggingService;
             this.appointmentsProvider = appointmentsProvider;
@@ -115,6 +124,7 @@ namespace Spectrum.Content.Appointments.Managers
             this.encryptionService = encryptionService;
             this.mailProvider = mailProvider;
             this.appointmentsBootGridTranslator = appointmentsBootGridTranslator;
+            this.customerProvider = customerProvider;
         }
 
         /// <summary>
@@ -150,7 +160,7 @@ namespace Spectrum.Content.Appointments.Managers
 
             AppointmentSettingsModel settingsModel = appointmentsProvider.GetAppointmentsModel(umbracoContext);
 
-            CustomerModel customerModel = appointmentsProvider.GetCustomerModel(umbracoContext);
+            CustomerModel customerModel = customerProvider.GetCustomerModel(umbracoContext);
 
             AppointmentModel appointmentModel = insertAppointmentTranslator.Translate(viewModel);
             appointmentModel.CustomerId = customerModel.Id;
@@ -264,7 +274,7 @@ namespace Spectrum.Content.Appointments.Managers
             {
                 string id = encryptionService.DecryptString(appointmentId);
 
-                CustomerModel customerModel = appointmentsProvider.GetCustomerModel(umbracoContext);
+                CustomerModel customerModel = customerProvider.GetCustomerModel(umbracoContext);
                 int customerId = customerModel.Id;
 
                 AppointmentModel model = databaseProvider.GetAppointment(Convert.ToInt32(id), customerId);
@@ -528,7 +538,7 @@ namespace Spectrum.Content.Appointments.Managers
         /// <returns></returns>
         internal int GetCustomerId(UmbracoContext context)
         {
-            CustomerModel customerModel = appointmentsProvider.GetCustomerModel(context);
+            CustomerModel customerModel = customerProvider.GetCustomerModel(context);
             return customerModel.Id;
         }
 

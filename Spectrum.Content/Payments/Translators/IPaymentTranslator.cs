@@ -1,6 +1,6 @@
 ﻿namespace Spectrum.Content.Payments.Translators
 {
-    using Braintree;
+    using Messages;
     using Models;
 
     public interface IPaymentTranslator
@@ -8,8 +8,8 @@
         /// <summary>
         /// Translates the specified transaction.
         /// </summary>
-        /// <param name="transaction">The transaction.</param>
+        /// <param name="paymentMadeMessage">The payment made message.</param>
         /// <returns></returns>
-        PaymentModel Translate(Transaction transaction);
+        PaymentModel Translate(PaymentMadeMessage paymentMadeMessage);
     }
 }

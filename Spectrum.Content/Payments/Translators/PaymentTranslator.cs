@@ -1,26 +1,27 @@
 ﻿namespace Spectrum.Content.Payments.Translators
 {
-    using Braintree;
+    using Messages;
     using Models;
     using System;
 
     public class PaymentTranslator : IPaymentTranslator
     {
-        /// <inheritdoc />
         /// <summary>
         /// Translates the specified transaction.
         /// </summary>
-        /// <param name="transaction">The transaction.</param>
+        /// <param name="paymentMadeMessage">The payment made message.</param>
         /// <returns></returns>
-        public PaymentModel Translate(Transaction transaction)
+        /// <inheritdoc />
+        public PaymentModel Translate(PaymentMadeMessage paymentMadeMessage)
         {
             return new PaymentModel
             {
-                Amount = transaction.Amount ?? 0,
-                CardType = transaction.CreditCard.CardType.ToString(),
-                MaskedCardNumber = transaction.CreditCard.MaskedNumber,
+                Amount = paymentMadeMessage.Transaction.Amount ?? 0,
+                CardType = paymentMadeMessage.Transaction.CreditCard.CardType.ToString(),
+                MaskedCardNumber = paymentMadeMessage.Transaction.CreditCard.MaskedNumber,
                 CreatedTime = DateTime.UtcNow,
-                PaymentId = transaction.Id
+                PaymentId = paymentMadeMessage.Transaction.Id,
+                CreatedUser = paymentMadeMessage.CreatedUser
             };
         }
     }

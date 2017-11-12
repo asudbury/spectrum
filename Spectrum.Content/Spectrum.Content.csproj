@@ -373,6 +373,11 @@
     <Compile Include="Appointments\Models\AppointmentAttendeeModel.cs" />
     <Compile Include="Appointments\Models\AppointmentStatusModel.cs" />
     <Compile Include="Appointments\Models\AppointmentModel.cs" />
+    <Compile Include="Customer\Providers\CustomerProvider.cs" />
+    <Compile Include="Customer\Providers\ICustomerProvider.cs" />
+    <Compile Include="Payments\Handlers\PaymentMadeHandler.cs" />
+    <Compile Include="Payments\Managers\IPaymentMadeManager.cs" />
+    <Compile Include="Payments\Managers\PaymentMadeManager.cs" />
     <Compile Include="Payments\Models\PaymentModel.cs" />
     <Compile Include="Appointments\Models\ICalAppointmentModel.cs" />
     <Compile Include="Appointments\ViewModels\UpdateAppointmentViewModel.cs" />
