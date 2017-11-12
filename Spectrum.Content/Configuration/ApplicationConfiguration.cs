@@ -1,10 +1,9 @@
-﻿using Spectrum.Content.Payments.Models;
-
-namespace Spectrum.Content.Configuration
+﻿namespace Spectrum.Content.Configuration
 {
     using Appointments.Models;
     using ContentModels;
     using Extensions;
+    using Payments.Models;
     using System;
     using Umbraco.Core;
     using Umbraco.Core.Logging;

@@ -25,9 +25,19 @@
             public const string AppointmentStatusTableName = "spectrumAppointmentStatus";
 
             /// <summary>
-            /// The ical appointment table name
+            /// The ical appointment table name.
             /// </summary>
             public const string IcalAppointmentTableName = "spectrumIcalAppointment";
+
+            /// <summary>
+            /// The quote table name.
+            /// </summary>
+            public const string QuoteTableName = "spectrumQuote";
+
+            /// <summary>
+            /// The invoice table name.
+            /// </summary>
+            public const string InvoiceTableName = "spectrumInvoice";
 
             /// <summary>
             /// The payment table name.

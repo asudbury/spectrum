@@ -454,10 +454,14 @@
     <Compile Include="Payments\Managers\PaymentManager.cs" />
     <Compile Include="Payments\Managers\TransactionsManager.cs" />
     <Compile Include="Payments\PaymentsQueryStringConstants.cs" />
+    <Compile Include="Payments\Providers\DatabaseProvider.cs" />
+    <Compile Include="Payments\Providers\IDatabaseProvider.cs" />
     <Compile Include="Payments\Providers\IPaymentProvider.cs" />
     <Compile Include="Payments\Providers\PaymentProvider.cs" />
     <Compile Include="Payments\Services\BraintreeService.cs" />
     <Compile Include="Payments\Services\IBraintreeService.cs" />
+    <Compile Include="Payments\Translators\IPaymentTranslator.cs" />
+    <Compile Include="Payments\Translators\PaymentTranslator.cs" />
     <Compile Include="Payments\Translators\TransactionsBootGridTranslator.cs" />
     <Compile Include="Payments\Translators\ITransactionsBootGridTranslator.cs" />
     <Compile Include="Payments\Translators\ITransactionTranslator.cs" />

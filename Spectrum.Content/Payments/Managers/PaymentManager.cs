@@ -1,6 +1,7 @@
 ﻿namespace Spectrum.Content.Payments.Managers
 {
     using Autofac.Events;
+    using Braintree;
     using Content.Services;
     using ContentModels;
     using Mail.Models;
@@ -124,16 +125,18 @@
 
             PaymentSettingsModel model = paymentProvider.GetBraintreeModel(umbracoContext);
 
-            string paymentId = paymentProvider.MakePayment(model, viewModel);
+            Result<Transaction> transaction = paymentProvider.MakePayment(model, viewModel);
 
-            if (string.IsNullOrEmpty(paymentId) == false)
+            if (transaction != null)
             {
                 //// at this point the payment has worked
                 //// so need to be careful from here as to what we raise as errors etc.
-                
+
                 //// make sure we clear the cache!
                 transactionsRepository.SetKey(umbracoContext);
                 transactionsRepository.Clear();
+
+                string paymentId = transaction.Target.Id;
 
                 loggingService.Info(GetType(), "Payment Succesful Id=" + paymentId);
 
@@ -141,7 +144,7 @@
                 {
                     eventPublisher.Publish(new PaymentMadeMessage(
                         umbracoContext,
-                        paymentId,
+                        transaction,
                         viewModel.AutoAllocate,
                         viewModel.AppointmentId));
                 }

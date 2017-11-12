@@ -55,6 +55,12 @@
         /// Gets or sets the description.
         /// </summary>
         public string Description { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the invoice identifier.
+        /// </summary>
+        [NullSetting(NullSetting = NullSettings.Null)]
+        public int InvoiceId { get; set; }
 
         /// <summary>
         /// Gets or sets the payment identifier.
@@ -75,6 +81,7 @@
         /// <summary>
         /// Gets or sets the service provider identifier.
         /// </summary>
+        [NullSetting(NullSetting = NullSettings.Null)]
         public int ServiceProviderId { get; set; }
 
         /// <summary>

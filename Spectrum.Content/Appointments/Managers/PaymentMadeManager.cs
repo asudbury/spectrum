@@ -57,13 +57,14 @@
             this.cookieService = cookieService;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Handles the specified payment made message.
         /// </summary>
         /// <param name="paymentMadeMessage">The payment made message.</param>
         public void Handle(PaymentMadeMessage paymentMadeMessage)
         {
-            string paymentId = paymentMadeMessage.PaymentId;
+            string paymentId = paymentMadeMessage.Transaction.Target.Id;
             string autoAllocate = paymentMadeMessage.AutoAllocate;
             string appointmentId = paymentMadeMessage.AppointmentId;
 

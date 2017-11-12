@@ -1,4 +1,6 @@
-﻿namespace Spectrum.Content.Payments.Translators
+﻿using Spectrum.Content.Models;
+
+namespace Spectrum.Content.Payments.Translators
 {
     using Models;
     using System;

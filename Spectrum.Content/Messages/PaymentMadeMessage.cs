@@ -1,5 +1,6 @@
 ﻿namespace Spectrum.Content.Messages
 {
+    using Braintree;
     using Umbraco.Web;
 
     public class PaymentMadeMessage
@@ -8,16 +9,16 @@
         /// Initializes a new instance of the <see cref="PaymentMadeMessage" /> class.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
-        /// <param name="paymentId">The payment identifier.</param>
+        /// <param name="transaction">The transaction.</param>
         /// <param name="autoAllocate">if set to <c>true</c> [automatic allocate].</param>
         /// <param name="appointmentId">The appointment identifier.</param>
         public PaymentMadeMessage(
             UmbracoContext umbracoContext,
-            string paymentId,
+            Result<Transaction> transaction,
             string autoAllocate,
             string appointmentId)
         {
-            PaymentId = paymentId;
+            Transaction  = transaction;
             UmbracoContext = umbracoContext;
             AutoAllocate = autoAllocate;
             AppointmentId = appointmentId;
@@ -31,7 +32,7 @@
         /// <summary>
         /// The payment identifier.
         /// </summary>
-        public string PaymentId { get; }
+        public Result<Transaction> Transaction { get; }
 
         /// <summary>
         /// Gets a value indicating whether [automatic allocate].

@@ -64,7 +64,7 @@
         /// <param name="model">The model.</param>
         /// <param name="viewModel">The view model.</param>
         /// <returns>Payment Id</returns>
-        public string MakePayment(
+        public Result<Transaction> MakePayment(
             PaymentSettingsModel model,
             PaymentViewModel viewModel)
         {

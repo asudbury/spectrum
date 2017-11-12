@@ -27,7 +27,7 @@
         /// <param name="paymentModel">The braintree model.</param>
         /// <param name="model">The model.</param>
         /// <returns>Payment Id</returns>
-        string MakePayment(
+        Result<Transaction> MakePayment(
             PaymentSettingsModel paymentModel,
             PaymentViewModel model);
 

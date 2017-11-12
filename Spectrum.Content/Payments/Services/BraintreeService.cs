@@ -6,6 +6,7 @@
 
     public class BraintreeService : IBraintreeService
     {
+        /// <inheritdoc />
         /// <summary>
         /// Gets the gateway.
         /// </summary>
@@ -20,6 +21,7 @@
                 model.PrivateKey);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the token.
         /// </summary>
@@ -32,13 +34,14 @@
             return GetGateway(model).ClientToken.generate();
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Makes the payment.
         /// </summary>
         /// <param name="model">The model.</param>
         /// <param name="viewModel">The view model.</param>
         /// <returns>Payment Id</returns>
-        public string MakePayment(
+        public Result<Transaction> MakePayment(
             PaymentSettingsModel model,
             PaymentViewModel viewModel)
         {
@@ -57,12 +60,13 @@
             if (result.IsSuccess() &&
                 result.Target != null)
             {
-                return result.Target.Id;
+                return result;
             }
 
             return null;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the transactions.
         /// </summary>
@@ -75,6 +79,7 @@
             return GetGateway(model).Transaction.Search(request);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the transaction.
         /// </summary>

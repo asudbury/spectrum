@@ -1,4 +1,6 @@
-﻿namespace Spectrum.Content.Payments.Controllers
+﻿using Spectrum.Content.Models;
+
+namespace Spectrum.Content.Payments.Controllers
 {
     using Content.Services;
     using Managers;

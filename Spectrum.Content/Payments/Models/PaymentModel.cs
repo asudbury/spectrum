@@ -4,7 +4,7 @@
     using Umbraco.Core.Persistence;
     using Umbraco.Core.Persistence.DatabaseAnnotations;
 
-    [TableName(Constants.Database.AppointmentTableName)]
+    [TableName(Constants.Database.PaymentTableName)]
     [PrimaryKey("Id", autoIncrement = true)]
     public class PaymentModel
     {
@@ -23,6 +23,7 @@
         /// <summary>
         /// Gets or sets the service provider identifier.
         /// </summary>
+        [NullSetting(NullSetting = NullSettings.Null)]
         public int ServiceProviderId { get; set; }
 
         /// <summary>
@@ -44,5 +45,15 @@
         /// Gets or sets the amount.
         /// </summary>
         public decimal Amount { get; set; }
+
+        /// <summary>
+        /// Gets or sets the type of the card.
+        /// </summary>
+        public string CardType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the masked card number.
+        /// </summary>
+        public string MaskedCardNumber { get; set; }
     }
 }

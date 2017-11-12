@@ -1,4 +1,6 @@
-﻿namespace Spectrum.Content.Payments.Managers
+﻿using Spectrum.Content.Models;
+
+namespace Spectrum.Content.Payments.Managers
 {
     using Braintree;
     using Content.Services;

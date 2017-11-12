@@ -61,6 +61,11 @@
         public string PaymentId { get; set; }
 
         /// <summary>
+        /// Gets or sets the invoice identifier.
+        /// </summary>
+        public int InvoiceId { get; set; }
+
+        /// <summary>
         /// Gets or sets the location.
         /// </summary>
         public string Location { get; set; }

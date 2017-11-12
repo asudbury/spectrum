@@ -48,6 +48,7 @@
                 Duration = model.Duration,
                 Status = ((AppointmentStatus)model.Status).ToString(),
                 PaymentId = model.PaymentId,
+                InvoiceId = model.InvoiceId,
                 Location = model.Location,
                 Description = model.Description,
                 ViewAppointmentUrl = BuildAppointmentUrl(paymentsPage, model.Id, "viewappointment"),
@@ -79,7 +80,8 @@
                 Duration = viewModel.Duration,
                 Location = viewModel.Location,
                 Description = viewModel.Description,
-                PaymentId = viewModel.PaymentId
+                PaymentId = viewModel.PaymentId,
+                InvoiceId = viewModel.InvoiceId
             };
 
             return model;
@@ -113,7 +115,8 @@
                 Duration = viewModel.Duration,
                 Location = viewModel.Location,
                 Description = viewModel.Description,
-                PaymentId = viewModel.PaymentId
+                PaymentId = viewModel.PaymentId,
+                InvoiceId =  originalModel.InvoiceId
             };
 
             return model;
