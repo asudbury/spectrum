@@ -56,11 +56,6 @@
         public bool IcalSendToAttendees => this.GetPropertyValue<bool>("iCalSendToAttendees");
 
         /// <summary>
-        /// Gets a value indicating whether [database integration].
-        /// </summary>
-        public bool DatabaseIntegration => this.GetPropertyValue<bool>("database");
-
-        /// <summary>
         /// Gets the payments page.
         /// </summary>
         public string PaymentsPage => GetNiceUrl(this.GetPropertyValue<int>("paymentsPage"));

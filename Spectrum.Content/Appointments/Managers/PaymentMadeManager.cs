@@ -17,11 +17,6 @@
         private readonly ILoggingService loggingService;
 
         /// <summary>
-        /// The appointments provider.
-        /// </summary>
-        private readonly IAppointmentsProvider appointmentsProvider;
-
-        /// <summary>
         /// The customer provider.
         /// </summary>
         private readonly ICustomerProvider customerProvider;
@@ -45,14 +40,12 @@
         /// Initializes a new instance of the <see cref="PaymentMadeManager" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
-        /// <param name="appointmentsProvider">The appointments provider.</param>
         /// <param name="customerProvider">The customer provider.</param>
         /// <param name="databaseProvider">The database provider.</param>
         /// <param name="encryptionService">The encryption service.</param>
         /// <param name="cookieService">The cookie service.</param>
         public PaymentMadeManager(
             ILoggingService loggingService,
-            IAppointmentsProvider appointmentsProvider,
             ICustomerProvider customerProvider,
             IDatabaseProvider databaseProvider,
             IEncryptionService encryptionService,
@@ -60,7 +53,6 @@
         {
             this.loggingService = loggingService;
             this.customerProvider = customerProvider;
-            this.appointmentsProvider = appointmentsProvider;
             this.databaseProvider = databaseProvider;
             this.encryptionService = encryptionService;
             this.cookieService = cookieService;
@@ -92,16 +84,11 @@
                 return;
             }
 
-            AppointmentSettingsModel appointmentsModel = appointmentsProvider.GetAppointmentsModel(paymentMadeMessage.UmbracoContext);
-
             CustomerModel customerModel = customerProvider.GetCustomerModel(paymentMadeMessage.UmbracoContext);
 
             int customerId = customerModel.Id;
 
-            if (appointmentsModel.DatabaseIntegration)
-            {
-                UpdateAppointment(id.Value, customerId, paymentId);
-            }
+            UpdateAppointment(id.Value, customerId, paymentId);
         }
         
         /// <summary>

@@ -1,5 +1,3 @@
-using Spectrum.Content.Customer.Providers;
-
 namespace Spectrum.Content.Appointments.Managers
 {
     using Application.Services;
@@ -7,6 +5,7 @@ namespace Spectrum.Content.Appointments.Managers
     using Content.Models;
     using Content.Services;
     using ContentModels;
+    using Customer.Providers;
     using Mail.Providers;
     using Messages;
     using Models;
@@ -144,8 +143,6 @@ namespace Spectrum.Content.Appointments.Managers
         {
             loggingService.Info(GetType(), "Start");
 
-            bool processed = false;
-
             PageModel pageModel = new PageModel(publishedContent);
 
             if (string.IsNullOrEmpty(pageModel.NextPageUrl))
@@ -169,25 +166,19 @@ namespace Spectrum.Content.Appointments.Managers
             
             int appointmentId = 0;
 
-            if (settingsModel.DatabaseIntegration)
+            loggingService.Info(GetType(), "Database Integration");
+
+            appointmentId = databaseProvider.InsertAppointment(appointmentModel);
+
+            if (appointmentId > 0)
             {
-                loggingService.Info(GetType(), "Database Integration");
-
-                appointmentId = databaseProvider.InsertAppointment(appointmentModel);
-
-                if (appointmentId > 0)
-                {
-                    cookieService.SetValue(AppointmentConstants.LastAppointmentIdCookie, appointmentId);
-                    eventPublisher.Publish(new AppointmentMadeMessage(appointmentId));
-                }
-
-                processed = true;
+                cookieService.SetValue(AppointmentConstants.LastAppointmentIdCookie, appointmentId);
+                eventPublisher.Publish(new AppointmentMadeMessage(appointmentId));
             }
 
             if (settingsModel.GoogleCalendarIntegration)
             {
                 loggingService.Info(GetType(), "Google Calendar Integration");
-                processed = true;    
             }
 
             if (settingsModel.IcalIntegration)
@@ -238,14 +229,6 @@ namespace Spectrum.Content.Appointments.Managers
                             dictionary);
                     }
                 }
-
-                processed = true;
-            }
-
-            if (processed == false)
-            {
-                loggingService.Info(GetType(), "No integration setting set to be processed");
-                return pageModel.ErrorPageUrl;
             }
 
             cookieService.SetValue(AppointmentConstants.LastAppointmentDuration, viewModel.Duration);
@@ -270,19 +253,14 @@ namespace Spectrum.Content.Appointments.Managers
 
             AppointmentSettingsModel settingsModel = appointmentsProvider.GetAppointmentsModel(umbracoContext);
 
-            if (settingsModel.DatabaseIntegration)
-            {
-                string id = encryptionService.DecryptString(appointmentId);
+            string id = encryptionService.DecryptString(appointmentId);
 
-                CustomerModel customerModel = customerProvider.GetCustomerModel(umbracoContext);
-                int customerId = customerModel.Id;
+            CustomerModel customerModel = customerProvider.GetCustomerModel(umbracoContext);
+            int customerId = customerModel.Id;
 
-                AppointmentModel model = databaseProvider.GetAppointment(Convert.ToInt32(id), customerId);
+            AppointmentModel model = databaseProvider.GetAppointment(Convert.ToInt32(id), customerId);
 
-                return appointmentTranslator.Translate(settingsModel.PaymentsPage, model);
-            }
-
-            return new AppointmentViewModel();
+            return appointmentTranslator.Translate(settingsModel.PaymentsPage, model);
         }
 
         /// <inheritdoc />
@@ -304,26 +282,21 @@ namespace Spectrum.Content.Appointments.Managers
 
             int customerId = GetCustomerId(umbracoContext);
             
-            if (appointmentSettingsModel.DatabaseIntegration)
+            IEnumerable<AppointmentModel> models = databaseProvider.GetAppointments(
+                                                        dateRangeStart,
+                                                        dateRangeEnd,
+                                                        customerId);
+
+            List<AppointmentViewModel> viewModels = new List<AppointmentViewModel>();
+
+            string paymentsPage = appointmentSettingsModel.PaymentsPage;
+
+            foreach (AppointmentModel appointmentModel in models)
             {
-                IEnumerable<AppointmentModel> models = databaseProvider.GetAppointments(
-                                                            dateRangeStart,
-                                                            dateRangeEnd,
-                                                            customerId);
-
-                List<AppointmentViewModel> viewModels = new List<AppointmentViewModel>();
-
-                string paymentsPage = appointmentSettingsModel.PaymentsPage;
-
-                foreach (AppointmentModel appointmentModel in models)
-                {
-                    viewModels.Add(appointmentTranslator.Translate(paymentsPage, appointmentModel));
-                }
-
-                return viewModels;
+                viewModels.Add(appointmentTranslator.Translate(paymentsPage, appointmentModel));
             }
 
-            return new List<AppointmentViewModel>();
+            return viewModels;
         }
 
         /// <summary>
@@ -381,12 +354,9 @@ namespace Spectrum.Content.Appointments.Managers
 
             AppointmentModel appointmentModel = databaseProvider.GetAppointment(appId, customerId);
 
-            if (appointmentSettingsModel.DatabaseIntegration)
-            {
-                appointmentModel.Status = (int)AppointmentStatus.Deleted;
+            appointmentModel.Status = (int)AppointmentStatus.Deleted;
 
-                databaseProvider.UpdateAppointment(appointmentModel);
-            }
+            databaseProvider.UpdateAppointment(appointmentModel);
 
             if (appointmentSettingsModel.IcalIntegration &&
                 string.IsNullOrEmpty(appointmentSettingsModel.IcalDeleteEmailTemplate) == false)
@@ -462,17 +432,14 @@ namespace Spectrum.Content.Appointments.Managers
             AppointmentModel appointmentModel = appointmentTranslator.Translate(originalModel, viewModel);
             appointmentModel.LastedUpdatedUser = lastUpdatedUser;
 
-            if (appointmentSettingsModel.DatabaseIntegration)
+            loggingService.Info(GetType(), "Database Integration");
+
+            databaseProvider.UpdateAppointment(appointmentModel);
+
+            //// now update the attendees
+            if (viewModel.Attendees != null)
             {
-                loggingService.Info(GetType(), "Database Integration");
-
-                databaseProvider.UpdateAppointment(appointmentModel);
-
-                //// now update the attendees
-                if (viewModel.Attendees != null)
-                {
-                    UpdateAppointmentAttendees(appointmentModel.Id, viewModel.Attendees);
-                }
+                UpdateAppointmentAttendees(appointmentModel.Id, viewModel.Attendees);
             }
 
             if (appointmentSettingsModel.GoogleCalendarIntegration)
