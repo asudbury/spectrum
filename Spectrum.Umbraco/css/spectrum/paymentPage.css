@@ -2,6 +2,88 @@
 /* Styling for the payment page                          */
 /*********************************************************/
 
+/*********************************************************/
+/* This section deals with the sandbox corner ribbon     */
+/*********************************************************/
+
+.corner-ribbon{
+  width: 200px;
+  background: #e43;
+  position: absolute;
+  top: 25px;
+  left: -50px;
+  text-align: center;
+  line-height: 50px;
+  letter-spacing: 1px;
+  color: #f0f0f0;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  display: none;
+}
+
+.corner-ribbon.sticky{
+  position: fixed;
+}
+
+.corner-ribbon.shadow{
+  box-shadow: 0 0 3px rgba(0,0,0,.3);
+}
+
+.corner-ribbon.top-right{
+  top: 25px;
+  right: -50px;
+  left: auto;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+/* Corner and mobile ribbon must be display: none by default so they don't appear
+ the javascript makes them appear if the environment is sandbox
+ The viewport size then controls the visibility property to switch between them */
+
+.corner-ribbon.red{background: #e43;}
+
+.mobile-sandbox {display: none;}
+
+@media (min-width: 769px) {
+	.mobile-sandbox {visibility: hidden;}
+}
+
+/* Mobile corner ribbon */
+@media (max-width: 768px) {
+	
+	.corner-ribbon {visibility: hidden; }
+	
+	.mobile-sandbox {
+		width: 100%;
+		height: 30px;
+		background: #e43;
+		padding-top: 5px;
+		padding-bottom: 5px;
+  		letter-spacing: 1px;
+  		color: #f0f0f0;
+		text-align: center;
+		visibility: visible;
+	}
+}
+
+/* Braintree Hosted Fields styling classes*/
+.braintree-hosted-fields-focused { 
+  border: 1px solid #0275d8;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+}
+
+.braintree-hosted-fields-focused.focused-invalid {
+  border: 1px solid #ebcccc;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(100,100,0,.6);
+}
+
+.errorPanel {
+    display: none;
+    padding-top: 2em;
+}
+
+
 .left-field {
 	padding-left: 0;
 }
