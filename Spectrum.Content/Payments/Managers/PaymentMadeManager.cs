@@ -10,7 +10,7 @@
     using Providers;
     using System.Collections.Generic;
     using System.Globalization;
-    using Translators;
+    using Translators.Interfaces;
 
     public class PaymentMadeManager : IPaymentMadeManager
     {
@@ -63,23 +63,23 @@
 
         /// <inheritdoc />
         /// <summary>
-        /// Handles the specified payment made message.
+        /// Handles the specified transaction made message.
         /// </summary>
         /// <param name="paymentMadeMessage">The payment made message.</param>
-        public void Handle(PaymentMadeMessage paymentMadeMessage)
+        public void Handle(TransactionMadeMessage paymentMadeMessage)
         {
-            string paymentId = paymentMadeMessage.Transaction.Id;
+            string transactionId = paymentMadeMessage.Transaction.Id;
 
-            string message = "PaymentMadeMessage " + "PaymentId=" + paymentId + " ";
+            string message = "TransactionMadeMessage " + "TransactionId=" + transactionId + " ";
 
             loggingService.Info(GetType(), message);
 
             CustomerModel customerModel = customerProvider.GetCustomerModel(paymentMadeMessage.UmbracoContext);
 
-            PaymentModel model = paymentTranslator.Translate(paymentMadeMessage);
+            TransactionModel model = paymentTranslator.Translate(paymentMadeMessage);
             model.CustomerId = customerModel.Id;
 
-            databaseProvider.InsertPayment(model);
+            databaseProvider.InsertTransaction(model);
 
             ///// do we want to send a confirmation email??
            
@@ -88,7 +88,7 @@
             {
                 Dictionary<string, string> dictionary = new Dictionary<string, string>
                 {
-                    {"PaymentId", paymentId},
+                    {"PaymentId", transactionId},
                     {"AppointmentId", paymentMadeMessage.PaymentViewModel.AppointmentId},
                     {"PaymentAmount", paymentMadeMessage.PaymentViewModel.Amount.ToString(CultureInfo.InvariantCulture)},
                 };

@@ -2,13 +2,13 @@
 @using Spectrum.Content.Payments.Controllers
 @using Umbraco.Web
 
-@inherits UmbracoViewPage<Spectrum.Content.Payments.ViewModels.PaymentViewModel>
+@inherits UmbracoViewPage<Spectrum.Content.Payments.ViewModels.MakePaymentViewModel>
 @{
     Html.EnableClientValidation(true);
     Html.EnableUnobtrusiveJavaScript(true);
 }
 
-@using (Html.BeginUmbracoForm<PaymentController>("HandlePayment"))
+@using (Html.BeginUmbracoForm<PaymentController>("MakePayment"))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -69,7 +69,10 @@
                     <script src="https://js.braintreegateway.com/web/3.17.0/js/hosted-fields.min.js"></script>
                     <script src="../../../../scripts/spectrum/braintree.js"></script>
                     <script>
-                        var url = '@Url.Action("HandlePayment", "Payment")';
+
+                        var context = '@Html.Action("GetPaymentContext", "Payment")';
+
+                        var url = '@Url.Action("MakePayment", "Payment")';
                         var token = '@Html.Action("GetAuthToken", "PaymentParameters")';
                         var nodeId = '@Html.Action("GetNodeId", "PaymentParameters")';
                         var env = '@Html.Action("GetEnvironment", "PaymentParameters")';

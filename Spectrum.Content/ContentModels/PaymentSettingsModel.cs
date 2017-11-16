@@ -21,6 +21,11 @@
         public bool PaymentsEnabled => this.GetPropertyValue<bool>("paymentsEnabled");
 
         /// <summary>
+        /// Gets the provider.
+        /// </summary>
+        public string Provider => this.GetPropertyValue<string>("provider");
+
+        /// <summary>
         /// Gets the environment.
         /// </summary>
         public string Environment => this.GetPropertyValue<string>("environment");

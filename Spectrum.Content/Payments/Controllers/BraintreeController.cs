@@ -1,10 +1,9 @@
-﻿using Spectrum.Content.Models;
-
-namespace Spectrum.Content.Payments.Controllers
+﻿namespace Spectrum.Content.Payments.Controllers
 {
+    using Content.Models;
     using Content.Services;
+    using Factories;
     using Managers;
-    using Models;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
     using System.Collections.Generic;
@@ -12,12 +11,12 @@ namespace Spectrum.Content.Payments.Controllers
     using Umbraco.Web;
     using ViewModels;
 
-    public class TransactionsController : BaseController
+    public class BraintreeController : BaseController
     {
         /// <summary>
-        /// The transactions manager.
+        /// The braintree manager.
         /// </summary>
-        private readonly ITransactionsManager transactionsManager;
+        private readonly IBraintreeManager braintreeManager;
 
         /// <summary>
         /// The rules engine service.
@@ -25,20 +24,28 @@ namespace Spectrum.Content.Payments.Controllers
         private readonly IRulesEngineService rulesEngineService;
 
         /// <summary>
+        /// The payment provider factory.
+        /// </summary>
+        private readonly IPaymentProviderFactory paymentProviderFactory;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="T:Spectrum.Content.BaseController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
-        /// <param name="transactionsManager">The transactions manager.</param>
+        /// <param name="braintreeManager">The braintree manager.</param>
         /// <param name="rulesEngineService">The rules engine service.</param>
+        /// <param name="paymentProviderFactory">The payment provider factory.</param>
         /// <inheritdoc />
-        public TransactionsController(
+        public BraintreeController(
             ILoggingService loggingService,
-            ITransactionsManager transactionsManager,
-            IRulesEngineService rulesEngineService) 
+            IBraintreeManager braintreeManager,
+            IRulesEngineService rulesEngineService,
+            IPaymentProviderFactory paymentProviderFactory)
             : base(loggingService)
         {
-            this.transactionsManager = transactionsManager;
+            this.braintreeManager = braintreeManager;
             this.rulesEngineService = rulesEngineService;
+            this.paymentProviderFactory = paymentProviderFactory;
         }
 
         /// <summary>
@@ -46,18 +53,18 @@ namespace Spectrum.Content.Payments.Controllers
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="loggingService">The logging service.</param>
-        /// <param name="transactionsManager">The transactions manager.</param>
+        /// <param name="braintreeTransactionsManager">The transactions manager.</param>
         /// <param name="rulesEngineService">The rules engine service.</param>
         /// <inheritdoc />
-        public TransactionsController(
+        public BraintreeController(
             UmbracoContext umbracoContext,
             ILoggingService loggingService,
-            ITransactionsManager transactionsManager,
+            IBraintreeManager braintreeTransactionsManager,
             IRulesEngineService rulesEngineService)
             : base(loggingService, 
                    umbracoContext)
         {
-            this.transactionsManager = transactionsManager;
+            this.braintreeManager = braintreeTransactionsManager;
             this.rulesEngineService = rulesEngineService;
         }
 
@@ -67,42 +74,44 @@ namespace Spectrum.Content.Payments.Controllers
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="umbracoHelper">The umbraco helper.</param>
         /// <param name="loggingService">The logging service.</param>
-        /// <param name="transactionsManager">The transactions manager.</param>
+        /// <param name="braintreeTransactionsManager">The transactions manager.</param>
         /// <param name="rulesEngineService">The rules engine service.</param>
         /// <inheritdoc />
-        public TransactionsController(
+        public BraintreeController(
             UmbracoContext umbracoContext,
             UmbracoHelper umbracoHelper,
             ILoggingService loggingService,
-            ITransactionsManager transactionsManager,
+            IBraintreeManager braintreeTransactionsManager,
             IRulesEngineService rulesEngineService)
             : base(loggingService, 
                    umbracoContext, 
                    umbracoHelper)
         {
-            this.transactionsManager = transactionsManager;
+            this.braintreeManager = braintreeTransactionsManager;
             this.rulesEngineService = rulesEngineService;
         }
 
         /// <summary>
-        /// Transactionses this instance.
+        /// Gets the transactions page.
         /// </summary>
         /// <returns></returns>
         [ChildActionOnly]
-        public PartialViewResult Transactions()
+        public PartialViewResult GetTransactionsPage()
         {
             LoggingService.Info(GetType());
 
             if (rulesEngineService.IsCustomerPaymentsEnabled(UmbracoContext))
             {
-                return PartialView("");
+                string partialView = paymentProviderFactory.GetTransactionsPartialView(UmbracoContext);
+
+                return PartialView(partialView);
             }
 
             return default(PartialViewResult);
         }
 
         /// <summary>
-        /// Gets the transactions.
+        /// Gets the braintree transactions.
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -110,13 +119,13 @@ namespace Spectrum.Content.Payments.Controllers
         {
             LoggingService.Info(GetType(), string.Empty);
 
-            IEnumerable<TransactionViewModel> viewModels = transactionsManager.GetTransactionsViewModel(UmbracoContext);
+            IEnumerable<BraintreeTransactionViewModel> viewModels = braintreeManager.GetTransactionsViewModel(UmbracoContext);
 
              return Json(viewModels, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
-        /// Gets the boot grid transactions.
+        /// Gets the braintree boot grid transactions.
         /// </summary>
         /// <param name="current">The current.</param>
         /// <param name="rowCount">The row count.</param>
@@ -132,7 +141,7 @@ namespace Spectrum.Content.Payments.Controllers
         {
             if (rulesEngineService.IsCustomerPaymentsEnabled(UmbracoContext))
             {
-                BootGridViewModel<TransactionViewModel> bootGridViewModel = transactionsManager.GetBootGridTransactions(
+                BootGridViewModel<BraintreeTransactionViewModel> bootGridViewModel = braintreeManager.GetBootGridTransactions(
                     current,
                     rowCount,
                     searchPhrase,
@@ -152,20 +161,27 @@ namespace Spectrum.Content.Payments.Controllers
 
             return Content(string.Empty, "application/json");
         }
-
+        
         /// <summary>
-        /// Views the specified identifier.
+        /// Views the braintree transaction.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         [HttpGet]
-        public PartialViewResult View(string id)
+        public PartialViewResult ViewTransaction(string id)
         {
             LoggingService.Info(GetType(), "Id=" + id);
 
-            TransactionViewModel viewModel = transactionsManager.GetTransactionViewModel(UmbracoContext, id);
+            if (rulesEngineService.IsCustomerPaymentsEnabled(UmbracoContext))
+            {
+                string partialView = paymentProviderFactory.GetTransactionPartialView(UmbracoContext);
+                
+                BraintreeTransactionViewModel viewModel = braintreeManager.GetTransactionViewModel(UmbracoContext, id);
 
-            return PartialView("Partials/Spectrum/Payments/Transaction", viewModel);
+                return PartialView(partialView, viewModel);
+            }
+
+            return default(PartialViewResult);
         }
     }
 }

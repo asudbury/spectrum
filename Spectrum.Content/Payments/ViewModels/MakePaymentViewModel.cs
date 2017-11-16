@@ -3,9 +3,9 @@
     using Newtonsoft.Json;
 
     /// <summary>
-    /// The PaymentViewModel class.
+    /// The MakePaymentViewModel class.
     /// </summary>
-    public class PaymentViewModel 
+    public class MakePaymentViewModel 
     {
         /// <summary>
         /// Gets or sets the current page node identifier.

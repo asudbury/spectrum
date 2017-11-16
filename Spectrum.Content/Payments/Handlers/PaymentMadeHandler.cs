@@ -4,7 +4,7 @@
     using Messages;
     using Managers;
 
-    public class PaymentMadeHandler : IHandleEvent<PaymentMadeMessage>
+    public class PaymentMadeHandler : IHandleEvent<TransactionMadeMessage>
     {
         /// <summary>
         /// The payment made manager.
@@ -24,7 +24,7 @@
         /// Handles the specified payment made message.
         /// </summary>
         /// <param name="paymentMadeMessage">The payment made message.</param>
-        public void Handle(PaymentMadeMessage paymentMadeMessage)
+        public void Handle(TransactionMadeMessage paymentMadeMessage)
         {
             paymentMadeManager.Handle(paymentMadeMessage);
         }

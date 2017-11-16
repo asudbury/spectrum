@@ -36,7 +36,7 @@
             }
             return request;
         },
-        url: "/umbraco/Surface/Transactions/GetBootGridTransactions",
+        url: "/umbraco/Surface/Braintree/GetBootGridTransactions",
         formatters: {
             "dateTime": function (column, row) {
                 return moment.utc(row.transactionDateTime).format('ddd DD MMM HH:mm');
@@ -61,7 +61,7 @@
             event.preventDefault();
 
             $.ajax({
-                url: '/umbraco/Surface/Transactions/View/' + transactionsId,
+                url: '/umbraco/Surface/Braintree/ViewTransaction/' + transactionsId,
                 success: function (data) {
                     onTransaction(data);
                 }

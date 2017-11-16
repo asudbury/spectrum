@@ -1,8 +1,7 @@
-﻿using Spectrum.Content.Models;
-
-namespace Spectrum.Content.Payments.Translators
+﻿namespace Spectrum.Content.Payments.Translators
 {
-    using Models;
+    using Content.Models;
+    using Interfaces;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -10,7 +9,7 @@ namespace Spectrum.Content.Payments.Translators
 
     public class TransactionsBootGridTranslator : BaseBootGridTranslator, ITransactionsBootGridTranslator
     {
-        private IOrderedEnumerable<TransactionViewModel> transactionViewModels;
+        private IOrderedEnumerable<BraintreeTransactionViewModel> transactionViewModels;
 
         /// <summary>
         /// Translates the specified view models.
@@ -22,8 +21,8 @@ namespace Spectrum.Content.Payments.Translators
         /// <param name="sortItems">The sort items.</param>
         /// <returns></returns>
         /// <inheritdoc />
-        public BootGridViewModel<TransactionViewModel> Translate(
-            List<TransactionViewModel> viewModels, 
+        public BootGridViewModel<BraintreeTransactionViewModel> Translate(
+            List<BraintreeTransactionViewModel> viewModels, 
             int current, 
             int rowCount, 
             string searchString,
@@ -38,7 +37,7 @@ namespace Spectrum.Content.Payments.Translators
                 viewModels = GetSortData(viewModels, sortItems).ToList();
             }
 
-            List<TransactionViewModel> rows = new List<TransactionViewModel>();
+            List<BraintreeTransactionViewModel> rows = new List<BraintreeTransactionViewModel>();
 
             Tuple<int, int> range = GetRange(viewModels.Count, current, rowCount);
 
@@ -47,7 +46,7 @@ namespace Spectrum.Content.Payments.Translators
                 rows = viewModels.GetRange(range.Item1, range.Item2);
             }
 
-            BootGridViewModel<TransactionViewModel> bootGridViewModel = new BootGridViewModel<TransactionViewModel>
+            BootGridViewModel<BraintreeTransactionViewModel> bootGridViewModel = new BootGridViewModel<BraintreeTransactionViewModel>
             {
                 Rows = rows,
                 Current = current,
@@ -65,8 +64,8 @@ namespace Spectrum.Content.Payments.Translators
         /// <param name="originalViewModels">The original view models.</param>
         /// <param name="searchString">The search string.</param>
         /// <returns></returns>
-        public List<TransactionViewModel> GetViewModels(
-            List<TransactionViewModel> originalViewModels,
+        public List<BraintreeTransactionViewModel> GetViewModels(
+            List<BraintreeTransactionViewModel> originalViewModels,
             string searchString)
         {
             if (string.IsNullOrEmpty(searchString))
@@ -74,11 +73,11 @@ namespace Spectrum.Content.Payments.Translators
                 return originalViewModels;
             }
 
-            List<TransactionViewModel> viewModels = new List<TransactionViewModel>();
+            List<BraintreeTransactionViewModel> viewModels = new List<BraintreeTransactionViewModel>();
 
             if (string.IsNullOrEmpty(searchString) == false)
             {
-                foreach (TransactionViewModel transactionViewModel in originalViewModels)
+                foreach (BraintreeTransactionViewModel transactionViewModel in originalViewModels)
                 {
                     if (IsDateCheckKeywordSearch(
                         searchString, 
@@ -109,11 +108,11 @@ namespace Spectrum.Content.Payments.Translators
         /// <param name="viewModels">The view models.</param>
         /// <param name="sortItems">The sort items.</param>
         /// <returns></returns>
-        public IEnumerable<TransactionViewModel> GetSortData(
-            IEnumerable<TransactionViewModel> viewModels,
+        public IEnumerable<BraintreeTransactionViewModel> GetSortData(
+            IEnumerable<BraintreeTransactionViewModel> viewModels,
             IEnumerable<SortData> sortItems)
         {
-            IEnumerable<TransactionViewModel> transactionsList = viewModels as TransactionViewModel[] ?? viewModels.ToArray();
+            IEnumerable<BraintreeTransactionViewModel> transactionsList = viewModels as BraintreeTransactionViewModel[] ?? viewModels.ToArray();
 
             if (sortItems != null)
             {

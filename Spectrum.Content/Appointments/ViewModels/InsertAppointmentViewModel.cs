@@ -18,9 +18,6 @@
             StartTime = new DateTime(now.Year, now.Month, now.Day, now.Hour +1, 0,0);
             Attendees = new List<string>();
             Duration = 0;
-
-            //// for now use dummy values for service provider id
-            ServiceProviderId = Constants.DefaultServiceProviderId;
         }
 
         /// <summary>

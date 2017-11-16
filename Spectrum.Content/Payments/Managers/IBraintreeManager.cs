@@ -1,20 +1,18 @@
-﻿using Spectrum.Content.Appointments.Models;
-using Spectrum.Content.Models;
-
-namespace Spectrum.Content.Payments.Managers
+﻿namespace Spectrum.Content.Payments.Managers
 {
+    using Content.Models;
     using System.Collections.Generic;
     using Umbraco.Web;
     using ViewModels;
 
-    public interface ITransactionsManager
+    public interface IBraintreeManager
     {
         /// <summary>
         /// Gets the transactions view model.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <returns></returns>
-        IEnumerable<TransactionViewModel> GetTransactionsViewModel(UmbracoContext umbracoContext);
+        IEnumerable<BraintreeTransactionViewModel> GetTransactionsViewModel(UmbracoContext umbracoContext);
 
         /// <summary>
         /// Gets the transaction.
@@ -22,7 +20,7 @@ namespace Spectrum.Content.Payments.Managers
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="transactionId">The transaction identifier.</param>
         /// <returns></returns>
-        TransactionViewModel GetTransactionViewModel(
+        BraintreeTransactionViewModel GetTransactionViewModel(
             UmbracoContext umbracoContext,
             string transactionId);
 
@@ -35,7 +33,7 @@ namespace Spectrum.Content.Payments.Managers
         /// <param name="sortItems">The sort items.</param>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <returns></returns>
-        BootGridViewModel<TransactionViewModel> GetBootGridTransactions(
+        BootGridViewModel<BraintreeTransactionViewModel> GetBootGridTransactions(
             int current,
             int rowCount,
             string searchPhrase,

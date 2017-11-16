@@ -28,7 +28,7 @@
         /// <returns>Payment Id</returns>
         Result<Transaction> MakePayment(
             PaymentSettingsModel model,
-            PaymentViewModel viewModel);
+            MakePaymentViewModel viewModel);
 
         /// <summary>
         /// Gets the transactions.

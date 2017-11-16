@@ -2,11 +2,6 @@
 {
     public static class Constants
     {
-        /// <summary>
-        /// The default service provider identifier.
-        /// </summary>
-        public const int DefaultServiceProviderId = 1;
-
         public static class Database
         {
             /// <summary>
@@ -40,9 +35,9 @@
             public const string InvoiceTableName = "spectrumInvoice";
 
             /// <summary>
-            /// The payment table name.
+            /// The transactions table name.
             /// </summary>
-            public const string PaymentTableName = "spectrumPayment";
+            public const string TransactionsTableName = "spectrumTransaction";
         }
 
         public static class Rules
@@ -76,6 +71,20 @@
             /// The is customer google calendar enabled.
             /// </summary>
             public const string IsCustomerGoogleCalendarEnabled = "IsCustomerGoogleCalendarEnabled";
+        }
+
+        public static class PaymentProviders
+        {
+            /// <summary>
+            /// Braintree.
+            /// </summary>
+            public const string Braintree = "Braintree";
+
+            /// <summary>
+            /// PayPal.
+            /// </summary>
+            public const string PayPal = "PayPal";
+
         }
     }
 }

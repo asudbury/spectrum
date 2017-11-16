@@ -11,6 +11,6 @@
         /// Handles the specified payment made message.
         /// </summary>
         /// <param name="paymentMadeMessage">The payment made message.</param>
-        void Handle(PaymentMadeMessage paymentMadeMessage);
+        void Handle(TransactionMadeMessage paymentMadeMessage);
     }
 }

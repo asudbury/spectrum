@@ -43,7 +43,7 @@
         /// <returns>Payment Id</returns>
         public Result<Transaction> MakePayment(
             PaymentSettingsModel model,
-            PaymentViewModel viewModel)
+            MakePaymentViewModel viewModel)
         {
             TransactionRequest request = new TransactionRequest
             {

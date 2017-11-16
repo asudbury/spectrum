@@ -63,7 +63,7 @@
         /// Handles the specified payment made message.
         /// </summary>
         /// <param name="paymentMadeMessage">The payment made message.</param>
-        public void Handle(PaymentMadeMessage paymentMadeMessage)
+        public void Handle(TransactionMadeMessage paymentMadeMessage)
         {
             string paymentId = paymentMadeMessage.Transaction.Id;
             string autoAllocate = paymentMadeMessage.PaymentViewModel.AutoAllocate;

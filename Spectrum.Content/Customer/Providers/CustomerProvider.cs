@@ -1,8 +1,8 @@
 ﻿namespace Spectrum.Content.Customer.Providers
 {
+    using ContentModels;
     using Services;
     using Umbraco.Core.Models;
-    using ContentModels;
     using Umbraco.Web;
 
     public class CustomerProvider : ICustomerProvider

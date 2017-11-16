@@ -1,8 +1,6 @@
-﻿using Spectrum.Content.Models;
-
-namespace Spectrum.Content.Payments.Translators
+﻿namespace Spectrum.Content.Payments.Translators.Interfaces
 {
-    using Models;
+    using Content.Models;
     using System.Collections.Generic;
     using ViewModels;
 
@@ -17,8 +15,8 @@ namespace Spectrum.Content.Payments.Translators
         /// <param name="searchString">The search string.</param>
         /// <param name="sortItems">The sort items.</param>
         /// <returns></returns>
-        BootGridViewModel<TransactionViewModel> Translate(
-            List<TransactionViewModel> viewModels,
+        BootGridViewModel<BraintreeTransactionViewModel> Translate(
+            List<BraintreeTransactionViewModel> viewModels,
             int current,
             int rowCount,
             string searchString,

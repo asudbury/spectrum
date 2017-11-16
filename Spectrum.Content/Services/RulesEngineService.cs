@@ -45,8 +45,10 @@
         /// </summary>
         public bool IsCustomerDashboardEnabled(UmbracoContext umbracoContext)
         {
-            return IsCustomerPaymentsEnabled(umbracoContext) && 
-                   IsCustomerAppointmentsEnabled(umbracoContext);
+            return IsCustomerQuotesEnabled(umbracoContext) ||
+                   IsCustomerInvoicesEnabled(umbracoContext) ||
+                   IsCustomerAppointmentsEnabled(umbracoContext) ||
+                   IsCustomerPaymentsEnabled(umbracoContext);
         }
 
         /// <inheritdoc />
@@ -66,11 +68,10 @@
         /// <param name="umbracoContext">The umbraco context.</param>
         public bool IsCustomerQuotesEnabled(UmbracoContext umbracoContext)
         {
-            return false;
 
-            PaymentSettingsModel model = GetPaymentsSettingsModel(umbracoContext);
+            AppointmentSettingsModel model = GetQuoteSettingsModel(umbracoContext);
 
-            return model != null && model.PaymentsEnabled;
+            return model != null && model.AppointmentsEnabled;
         }
 
         /// <summary>
@@ -81,9 +82,9 @@
         {
             return false;
 
-            PaymentSettingsModel model = GetPaymentsSettingsModel(umbracoContext);
+            AppointmentSettingsModel model = GetInvoiceSettingsModel(umbracoContext);
 
-            return model != null && model.PaymentsEnabled;
+            return model != null && model.AppointmentsEnabled;
         }
 
         /// <inheritdoc />
@@ -120,6 +121,30 @@
                 default:
                     return false;
             }
+        }
+
+        /// <summary>
+        /// Gets the quote settings model.
+        /// </summary>
+        /// <param name="umbracoContext">The umbraco context.</param>
+        /// <returns></returns>
+        internal AppointmentSettingsModel GetQuoteSettingsModel(UmbracoContext umbracoContext)
+        {
+            IPublishedContent quoteNode = settingsService.GetAppointmentsNode(umbracoContext);
+
+            return quoteNode != null ? new AppointmentSettingsModel(quoteNode) : null;
+        }
+
+        /// <summary>
+        /// Gets the invoice settings model.
+        /// </summary>
+        /// <param name="umbracoContext">The umbraco context.</param>
+        /// <returns></returns>
+        internal AppointmentSettingsModel GetInvoiceSettingsModel(UmbracoContext umbracoContext)
+        {
+            IPublishedContent invoiceNode = settingsService.GetAppointmentsNode(umbracoContext);
+
+            return invoiceNode != null ? new AppointmentSettingsModel(invoiceNode) : null;
         }
 
         /// <summary>

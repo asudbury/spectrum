@@ -8,7 +8,7 @@
     Html.EnableUnobtrusiveJavaScript(true);
 }
 
-@using (Html.BeginUmbracoForm<PaymentController>("HandlePayment"))
+@using (Html.BeginUmbracoForm<PaymentController>("MakePayment"))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -75,7 +75,7 @@
             <script>
                 var token = '@Html.Action("GetAuthToken", "Payment")';
                 var nodeId = '@Html.Action("GetNodeId", "Payment")';
-                var url = '@Url.Action("HandlePayment", "Payment")';
+                var url = '@Url.Action("MakePayment", "Payment")';
                 var env = '@Html.Action("GetEnvironment", "Payment")';
                 var autoAllocate = '@Html.Action("GetAutoAllocate", "Payment")';
                 var appointmentId = '@Html.Action("GetAppointmentId", "Payment")';

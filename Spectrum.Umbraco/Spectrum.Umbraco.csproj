@@ -535,18 +535,21 @@
     <Content Include="Views\Partials\Spectrum\Membership\Login.cshtml" />
     <Content Include="Views\Partials\Spectrum\Membership\Logout.cshtml" />
     <Content Include="Views\Partials\Spectrum\Navigation\Menu.cshtml" />
-    <Content Include="Views\Partials\Spectrum\Payments\Transactions.cshtml" />
-    <Content Include="Views\Partials\Spectrum\Payments\Payment.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Payments\Braintree\Transactions.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Payments\Braintree\Payment.cshtml" />
     <Content Include="Views\Partials\Spectrum\Appointments\GoogleCalendar.cshtml" />
     <Content Include="scripts\jquery-1.12.4.min.map" />
     <Content Include="Views\Partials\Spectrum\Appointments\InsertAppointment.cshtml" />
     <Content Include="Views\Partials\Spectrum\Appointments\Appointments.cshtml" />
-    <Content Include="Views\Partials\Spectrum\Payments\Transaction.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Payments\Braintree\Transaction.cshtml" />
     <Content Include="Views\Partials\Spectrum\Appointments\Appointment.cshtml" />
     <Content Include="Views\Partials\Spectrum\Correspondence\GuestBook.cshtml" />
     <Content Include="Views\Partials\Spectrum\Correspondence\ContactUs.cshtml" />
     <Content Include="Views\Partials\Spectrum\Navigation\Footer.cshtml" />
     <Content Include="Views\Partials\Spectrum\Appointments\UpdateAppointment.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Payments\PayPal\Payment.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Payments\PayPal\Transaction.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Payments\PayPal\Transactions.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

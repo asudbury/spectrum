@@ -1,4 +1,4 @@
-﻿namespace Spectrum.Content.Payments.Translators
+﻿namespace Spectrum.Content.Payments.Translators.Interfaces
 {
     using Messages;
     using Models;
@@ -10,6 +10,6 @@
         /// </summary>
         /// <param name="paymentMadeMessage">The payment made message.</param>
         /// <returns></returns>
-        PaymentModel Translate(PaymentMadeMessage paymentMadeMessage);
+        TransactionModel Translate(TransactionMadeMessage paymentMadeMessage);
     }
 }

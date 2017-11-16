@@ -61,7 +61,7 @@
         /// <returns></returns>
         public string GetAuthToken(UmbracoContext umbracoContext)
         {
-            PaymentSettingsModel model = paymentProvider.GetBraintreeModel(umbracoContext);
+            PaymentSettingsModel model = paymentProvider.GetPaymentSettingsModel(umbracoContext);
 
             return model != null ? paymentProvider.GetAuthToken(model) : string.Empty;
         }
@@ -74,7 +74,7 @@
         /// <returns></returns>
         public string GetEnvironment(UmbracoContext umbracoContext)
         {
-            PaymentSettingsModel model = paymentProvider.GetBraintreeModel(umbracoContext);
+            PaymentSettingsModel model = paymentProvider.GetPaymentSettingsModel(umbracoContext);
 
             return model?.Environment;
         }
@@ -88,13 +88,13 @@
         /// <param name="currentUser">The current user.</param>
         /// <returns></returns>
         /// <inheritdoc />
-        public string HandlePayment(
+        public string MakePayment(
             UmbracoContext umbracoContext,
             IPublishedContent publishedContent,
-            PaymentViewModel viewModel,
+            MakePaymentViewModel viewModel,
             string currentUser)
         {
-            loggingService.Info(GetType(), "HandlePayment MakePayment");
+            loggingService.Info(GetType());
 
             PageModel pageModel = new PageModel(publishedContent);
 
@@ -108,9 +108,15 @@
                 throw new ApplicationException("Error Page Url Not Set");
             }
 
-            PaymentSettingsModel model = paymentProvider.GetBraintreeModel(umbracoContext);
+            PaymentSettingsModel paymentSettingsModel = paymentProvider.GetPaymentSettingsModel(umbracoContext);
 
-            Result<Transaction> transaction = paymentProvider.MakePayment(model, viewModel);
+            if (paymentSettingsModel.Provider != Constants.PaymentProviders.Braintree)
+            {
+                //// we currently only support Braintree
+                throw new ApplicationException("Unsupported Payment Provider");
+            }
+
+            Result<Transaction> transaction = paymentProvider.MakePayment(paymentSettingsModel, viewModel);
 
             if (transaction != null)
             {
@@ -127,12 +133,14 @@
 
                 try
                 {
-                    eventPublisher.Publish(new PaymentMadeMessage(
+                    eventPublisher.Publish(new TransactionMadeMessage(
                         umbracoContext,
                         transaction.Target,
                         viewModel,
                         currentUser,
-                        pageModel.EmailTemplateName));
+                        pageModel.EmailTemplateName,
+                        paymentSettingsModel.Provider,
+                        paymentSettingsModel.Environment));
                 }
                 catch (Exception exception)
                 {

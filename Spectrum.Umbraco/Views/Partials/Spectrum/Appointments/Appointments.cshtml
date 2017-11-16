@@ -61,7 +61,7 @@
                 event.preventDefault();
 
                 $.ajax({
-                    url: '/umbraco/Surface/Transactions/View/' + transactionsId,
+                    url: '/umbraco/Surface/Braintree/ViewTransaction/' + transactionsId,
                     success: function(data) {
                         onTransaction(data);
                     }

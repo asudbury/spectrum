@@ -1,7 +1,10 @@
 ﻿namespace Spectrum.Content.Payments.Controllers
 {
     using Content.Services;
+    using Factories;
     using Managers;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Serialization;
     using System;
     using System.Web.Mvc;
     using Umbraco.Core.Models;
@@ -21,20 +24,28 @@
         private readonly IRulesEngineService rulesEngineService;
 
         /// <summary>
+        /// The payment provider factory.
+        /// </summary>
+        private readonly IPaymentProviderFactory paymentProviderFactory;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="T:Spectrum.Content.Payments.Controllers.PaymentController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="paymentManager">The payment manager.</param>
         /// <param name="rulesEngineService">The rules engine service.</param>
+        /// <param name="paymentProviderFactory">The payment provider factory.</param>
         /// <inheritdoc />
         public PaymentController(
             ILoggingService loggingService,
             IPaymentManager paymentManager,
-            IRulesEngineService rulesEngineService)
+            IRulesEngineService rulesEngineService, 
+            IPaymentProviderFactory paymentProviderFactory)
             : base(loggingService)
         {
             this.paymentManager = paymentManager;
             this.rulesEngineService = rulesEngineService;
+            this.paymentProviderFactory = paymentProviderFactory;
         }
 
         /// <summary>
@@ -78,29 +89,66 @@
         }
 
         /// <summary>
-        /// Payments this instance.
+        /// Gets the payment context.
         /// </summary>
         /// <returns></returns>
         [ChildActionOnly]
-        public PartialViewResult Payment()
+        public ActionResult GetPaymentContext()
+        {
+            //// TODO :-move to a translator at some point?
+            
+            PaymentContextViewModel viewModel = new PaymentContextViewModel
+            {
+                AuthToken = paymentManager.GetAuthToken(UmbracoContext),
+                Environment = paymentManager.GetEnvironment(UmbracoContext),
+                NodeId = CurrentPage.Id.ToString(),
+                MakePaymentUrl = "/umbraco/Surface/Payment/MakePayment",
+                AutoAllocate = Request.QueryString[PaymentsQueryStringConstants.AutoAllocate],
+                AppointmentId = Request.QueryString[PaymentsQueryStringConstants.AppointmentId],
+                InvoiceId = Request.QueryString[PaymentsQueryStringConstants.InvoiceId],
+                EmailAddress = Request.QueryString[PaymentsQueryStringConstants.EmailAddress],
+                PaymentAmount = Request.QueryString[PaymentsQueryStringConstants.PaymenyAmount]
+            };
+
+            string jsonString = JsonConvert.SerializeObject(viewModel,
+                new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+
+                });
+
+            return Content(jsonString);
+        }
+
+        /// <summary>
+        /// Gets the payment page.
+        /// </summary>
+        /// <returns></returns>
+        [ChildActionOnly]
+        public PartialViewResult GetPaymentPage()
         {
             LoggingService.Info(GetType());
 
             if (rulesEngineService.IsCustomerPaymentsEnabled(UmbracoContext))
             {
-                return PartialView("", new PaymentViewModel());
+                ///// the factory will return different payment pages
+                //// currently only braintree payments supported.
+                string partialView = paymentProviderFactory.GetPaymentPartialView(UmbracoContext);
+
+                return PartialView(partialView, new MakePaymentViewModel());
             }
 
             return default(PartialViewResult);
         }
-        
+
         /// <summary>
-        /// Handles the payment.
+        /// Makes the payment.
         /// </summary>
         /// <param name="viewModel">The view model.</param>
-        /// <returns>An ActionResult</returns>
+        /// <returns></returns>
+        /// <exception cref="ApplicationException">Current Page Id Not Set</exception>
         [HttpPost]
-        public JsonResult HandlePayment(PaymentViewModel viewModel)
+        public JsonResult MakePayment(MakePaymentViewModel viewModel)
         {
            try
            {
@@ -113,7 +161,7 @@
 
                 IPublishedContent publishedContent = GetContentById(viewModel.CurrentPageNodeId);
 
-                string url = paymentManager.HandlePayment(
+                string url = paymentManager.MakePayment(
                     UmbracoContext, 
                     publishedContent, 
                     viewModel,

@@ -21,17 +21,17 @@
         string GetEnvironment(UmbracoContext umbracoContext);
 
         /// <summary>
-        /// Handles the payment.
+        /// Makes the payment.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="publishedContent">Content of the published.</param>
         /// <param name="viewModel">The view model.</param>
         /// <param name="currentUser">The current user.</param>
         /// <returns></returns>
-        string HandlePayment(
+        string MakePayment(
             UmbracoContext umbracoContext,
             IPublishedContent publishedContent,
-            PaymentViewModel viewModel,
+            MakePaymentViewModel viewModel,
             string currentUser);
     }
 }

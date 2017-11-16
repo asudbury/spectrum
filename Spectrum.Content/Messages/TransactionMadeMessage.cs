@@ -4,28 +4,34 @@
     using Umbraco.Web;
     using Payments.ViewModels;
 
-    public class PaymentMadeMessage
+    public class TransactionMadeMessage
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PaymentMadeMessage" /> class.
+        /// Initializes a new instance of the <see cref="TransactionMadeMessage" /> class.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="transaction">The transaction.</param>
         /// <param name="paymentViewModel">The payment view model.</param>
         /// <param name="createdUser">The created user.</param>
         /// <param name="emailTemplateName">Name of the email template.</param>
-        public PaymentMadeMessage(
+        /// <param name="paymentProvider">The payment provider.</param>
+        /// <param name="environment">The environment.</param>
+        public TransactionMadeMessage(
             UmbracoContext umbracoContext,
             Transaction transaction,
-            PaymentViewModel paymentViewModel,
+            MakePaymentViewModel paymentViewModel,
             string createdUser,
-            string emailTemplateName)
+            string emailTemplateName,
+            string paymentProvider,
+            string environment)
         {
             Transaction  = transaction;
             UmbracoContext = umbracoContext;
             PaymentViewModel = paymentViewModel;
             CreatedUser = createdUser;
             EmailTemplateName = emailTemplateName;
+            PaymentProvider = paymentProvider;
+            Environment = environment;
         }
 
         /// <summary>
@@ -44,7 +50,7 @@
         /// <value>
         /// The payment view model.
         /// </value>
-        public PaymentViewModel PaymentViewModel { get; }
+        public MakePaymentViewModel PaymentViewModel { get; }
 
         /// <summary>
         /// Gets the created user.
@@ -55,5 +61,15 @@
         /// Gets the name of the email template.
         /// </summary>
         public string EmailTemplateName { get; }
+
+        /// <summary>
+        /// Gets the payment provider.
+        /// </summary>
+        public string PaymentProvider { get; }
+
+        /// <summary>
+        /// Gets the environment.
+        /// </summary>
+        public string Environment { get; }
     }
 }

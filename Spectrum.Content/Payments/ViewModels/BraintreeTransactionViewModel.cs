@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class TransactionViewModel
+    public class BraintreeTransactionViewModel
     {
         /// <summary>
         /// Gets or sets the identifier.

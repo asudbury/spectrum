@@ -2,9 +2,10 @@
 {
     using Application.Extensions;
     using Braintree;
+    using Interfaces;
     using ViewModels;
 
-    public class TransactionTranslator : ITransactionTranslator
+    public class BraintreeTransactionTranslator : IBraintreeTransactionTranslator
     {
         /// <inheritdoc />
         /// <summary>
@@ -12,9 +13,9 @@
         /// </summary>
         /// <param name="transaction">The transaction.</param>
         /// <returns></returns>
-        public TransactionViewModel Translate(Transaction transaction)
+        public BraintreeTransactionViewModel Translate(Transaction transaction)
         {
-            return new TransactionViewModel
+            return new BraintreeTransactionViewModel
             {
                 Id = transaction.Id,
                 Amount = transaction.Amount,

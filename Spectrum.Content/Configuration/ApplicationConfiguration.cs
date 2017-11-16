@@ -51,7 +51,7 @@
             db.CreateTableIfNotExist<AppointmentAttendeeModel>(Content.Constants.Database.AppointmentAttendeeTableName);
             db.CreateTableIfNotExist<ICalAppointmentModel>(Content.Constants.Database.IcalAppointmentTableName);
 
-            db.CreateTableIfNotExist<PaymentModel>(Content.Constants.Database.PaymentTableName);
+            db.CreateTableIfNotExist<TransactionModel>(Content.Constants.Database.TransactionsTableName);
 
             PublishedContentRequest.Prepared += PublishedContentRequestPrepared;
 

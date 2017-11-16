@@ -1,16 +1,16 @@
-﻿namespace Spectrum.Content.Payments.Translators
+﻿namespace Spectrum.Content.Payments.Translators.Interfaces
 {
     using Braintree;
     using ViewModels;
 
-    public interface ITransactionTranslator
+    public interface IBraintreeTransactionTranslator
     {
         /// <summary>
         /// Translates the specified transaction.
         /// </summary>
         /// <param name="transaction">The transaction.</param>
         /// <returns></returns>
-        TransactionViewModel Translate(Transaction transaction);
+        BraintreeTransactionViewModel Translate(Transaction transaction);
     }
 }
 

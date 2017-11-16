@@ -1,20 +1,18 @@
-﻿using Spectrum.Content.Models;
-
-namespace Spectrum.Content.Payments.Managers
+﻿namespace Spectrum.Content.Payments.Managers
 {
     using Braintree;
     using Content.Services;
     using ContentModels;
-    using Models;
+    using Content.Models;
     using Providers;
     using Repositories;
     using System.Collections.Generic;
     using System.Linq;
-    using Translators;
+    using Translators.Interfaces;
     using Umbraco.Web;
     using ViewModels;
 
-    public class TransactionsManager : ITransactionsManager
+    public class BraintreeManager : IBraintreeManager
     {
         /// <summary>
         /// The logging service.
@@ -29,7 +27,7 @@ namespace Spectrum.Content.Payments.Managers
         /// <summary>
         /// The transaction translator.
         /// </summary>
-        private readonly ITransactionTranslator transactionTranslator;
+        private readonly IBraintreeTransactionTranslator transactionTranslator;
 
         /// <summary>
         /// The transactions repository.
@@ -42,17 +40,17 @@ namespace Spectrum.Content.Payments.Managers
         private readonly ITransactionsBootGridTranslator transactionsBootGridTranslator;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TransactionsManager" /> class.
+        /// Initializes a new instance of the <see cref="BraintreeManager" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="paymentProvider">The payment provider.</param>
         /// <param name="transactionTranslator">The transaction translator.</param>
         /// <param name="transactionsRepository">The transactions repository.</param>
         /// <param name="transactionsBootGridTranslator">The transactions boot grid translator.</param>
-        public TransactionsManager(
+        public BraintreeManager(
             ILoggingService loggingService,
             IPaymentProvider paymentProvider,
-            ITransactionTranslator transactionTranslator,
+            IBraintreeTransactionTranslator transactionTranslator,
             ITransactionsRepository transactionsRepository,
             ITransactionsBootGridTranslator transactionsBootGridTranslator)
         {
@@ -69,13 +67,13 @@ namespace Spectrum.Content.Payments.Managers
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <returns></returns>
-        public IEnumerable<TransactionViewModel> GetTransactionsViewModel(UmbracoContext umbracoContext)
+        public IEnumerable<BraintreeTransactionViewModel> GetTransactionsViewModel(UmbracoContext umbracoContext)
         {
             loggingService.Info(GetType());
 
-            List<TransactionViewModel> viewModels = new List<TransactionViewModel>();
+            List<BraintreeTransactionViewModel> viewModels = new List<BraintreeTransactionViewModel>();
 
-            PaymentSettingsModel model = paymentProvider.GetBraintreeModel(umbracoContext);
+            PaymentSettingsModel model = paymentProvider.GetPaymentSettingsModel(umbracoContext);
 
             if (model.PaymentsEnabled)
             {
@@ -85,7 +83,7 @@ namespace Spectrum.Content.Payments.Managers
 
                 if (exists)
                 {
-                    return transactionsRepository.Get<IEnumerable<TransactionViewModel>>();
+                    return transactionsRepository.Get<IEnumerable<BraintreeTransactionViewModel>>();
                 }
 
                 ResourceCollection<Transaction> transactions = paymentProvider.GetTransactions(model);
@@ -108,13 +106,13 @@ namespace Spectrum.Content.Payments.Managers
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="transactionId">The transaction identifier.</param>
         /// <returns></returns>
-        public TransactionViewModel GetTransactionViewModel(
+        public BraintreeTransactionViewModel GetTransactionViewModel(
             UmbracoContext umbracoContext,
             string transactionId)
         {
             loggingService.Info(GetType(), "EncryptedTransactionId=" + transactionId);
 
-            PaymentSettingsModel model = paymentProvider.GetBraintreeModel(umbracoContext);
+            PaymentSettingsModel model = paymentProvider.GetPaymentSettingsModel(umbracoContext);
 
             transactionsRepository.SetKey(umbracoContext);
 
@@ -122,9 +120,9 @@ namespace Spectrum.Content.Payments.Managers
 
             if (exists)
             {
-                IEnumerable<TransactionViewModel> viewModels = transactionsRepository.Get<IEnumerable<TransactionViewModel>>();
+                IEnumerable<BraintreeTransactionViewModel> viewModels = transactionsRepository.Get<IEnumerable<BraintreeTransactionViewModel>>();
 
-                TransactionViewModel viewModel = viewModels.FirstOrDefault(x => x.Id == transactionId);
+                BraintreeTransactionViewModel viewModel = viewModels.FirstOrDefault(x => x.Id == transactionId);
 
                 if (viewModel != null)
                 {
@@ -147,14 +145,14 @@ namespace Spectrum.Content.Payments.Managers
         /// <param name="sortItems"></param>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <returns></returns>
-        public BootGridViewModel<TransactionViewModel> GetBootGridTransactions(
+        public BootGridViewModel<BraintreeTransactionViewModel> GetBootGridTransactions(
             int current, 
             int rowCount, 
             string searchPhrase,
             IEnumerable<SortData> sortItems,
             UmbracoContext umbracoContext)
         {
-            IEnumerable<TransactionViewModel> viewModels = GetTransactionsViewModel(umbracoContext);
+            IEnumerable<BraintreeTransactionViewModel> viewModels = GetTransactionsViewModel(umbracoContext);
 
             return transactionsBootGridTranslator.Translate(
                 viewModels.ToList(), 

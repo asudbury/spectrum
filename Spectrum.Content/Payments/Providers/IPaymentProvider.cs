@@ -8,11 +8,11 @@
     public interface IPaymentProvider
     {
         /// <summary>
-        /// Gets the braintree model.
+        /// Gets the payment settings model.
         /// </summary>
         /// <param name="content">The content.</param>
         /// <returns></returns>
-        PaymentSettingsModel GetBraintreeModel(UmbracoContext content);
+        PaymentSettingsModel GetPaymentSettingsModel(UmbracoContext content);
 
         /// <summary>
         /// Gets the authentication token.
@@ -29,7 +29,7 @@
         /// <returns>Payment Id</returns>
         Result<Transaction> MakePayment(
             PaymentSettingsModel paymentModel,
-            PaymentViewModel model);
+            MakePaymentViewModel model);
 
         /// <summary>
         /// Gets the transactions.

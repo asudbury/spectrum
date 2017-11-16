@@ -67,8 +67,6 @@
         [ChildActionOnly]
         public ActionResult GetAuthToken()
         {
-            LoggingService.Info(GetType());
-
             return Content(paymentManager.GetAuthToken(UmbracoContext));
         }
 
@@ -79,8 +77,6 @@
         [ChildActionOnly]
         public ActionResult GetEnvironment()
         {
-            LoggingService.Info(GetType());
-
             return Content(paymentManager.GetEnvironment(UmbracoContext));
         }
 
@@ -91,10 +87,7 @@
         [ChildActionOnly]
         public ActionResult GetAutoAllocate()
         {
-            LoggingService.Info(GetType());
-
-            string autoallocate = Request.QueryString["autoAllocate"];
-
+            string autoallocate = Request.QueryString[PaymentsQueryStringConstants.AutoAllocate];
             return Content(autoallocate);
         }
 
@@ -105,10 +98,7 @@
         [ChildActionOnly]
         public ActionResult GetAppointmentId()
         {
-            LoggingService.Info(GetType());
-
             string appointmentId = Request.QueryString[PaymentsQueryStringConstants.AppointmentId];
-
             return Content(appointmentId);
         }
 
@@ -119,10 +109,7 @@
         [ChildActionOnly]
         public ActionResult GetEmailAddress()
         {
-            LoggingService.Info(GetType());
-
             string emailAddress = Request.QueryString[PaymentsQueryStringConstants.EmailAddress];
-
             return Content(emailAddress);
         }
 
@@ -130,12 +117,10 @@
         /// Gets the payment amount.
         /// </summary>
         /// <returns></returns>
+        [ChildActionOnly]
         public ActionResult GetPaymentAmount()
         {
-            LoggingService.Info(GetType());
-
             string paymentAmount = Request.QueryString[PaymentsQueryStringConstants.PaymenyAmount];
-
             return Content(paymentAmount);
         }
     }

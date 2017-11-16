@@ -35,11 +35,11 @@
 
         /// <inheritdoc />
         /// <summary>
-        /// Gets the braintree model.
+        /// Gets the payment settings model.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <returns></returns>
-        public PaymentSettingsModel GetBraintreeModel(UmbracoContext umbracoContext)
+        public PaymentSettingsModel GetPaymentSettingsModel(UmbracoContext umbracoContext)
         {
             IPublishedContent content = settingsService.GetPaymentsNode(umbracoContext);
 
@@ -66,7 +66,7 @@
         /// <returns>Payment Id</returns>
         public Result<Transaction> MakePayment(
             PaymentSettingsModel model,
-            PaymentViewModel viewModel)
+            MakePaymentViewModel viewModel)
         {
             return braintreeService.MakePayment(model, viewModel);
         }
