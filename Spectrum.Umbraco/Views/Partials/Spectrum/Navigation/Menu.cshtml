@@ -1,10 +1,10 @@
-﻿@model Spectrum.Content.Navigation.ViewModels.MenuViewModel
+﻿@using Spectrum.Content.ContentModels
+@model Spectrum.Content.Navigation.ViewModels.MenuViewModel
 @{
 }
 
-<!--ul class="nav navbar-nav navbar-right"-->
 <ul class="nav navbar-nav">    
-    @foreach (var menuItem in Model.MenuItems)
+    @foreach (MenuItemModel menuItem in Model.MenuItems)
     {
         <li>
             <a href="@menuItem.Link">@menuItem.Text</a>

@@ -1,4 +1,6 @@
-﻿namespace Spectrum.Content.ContentModels
+﻿using Umbraco.Web;
+
+namespace Spectrum.Content.ContentModels
 {
     using System;
     using Umbraco.Core;
@@ -32,7 +34,7 @@
         /// </summary>
         /// <param name="propertyName">Name of the property.</param>
         /// <returns></returns>
-        public int? GetNodeId(string propertyName)
+        protected int? GetNodeId(string propertyName)
         {
             IPublishedProperty property = GetPublishedProperty(propertyName);
 
@@ -83,7 +85,7 @@
         /// </summary>
         /// <param name="nodeId">The node identifier.</param>
         /// <returns></returns>
-        public string GetNiceUrl(int? nodeId)
+        protected string GetNiceUrl(int? nodeId)
         {
             if (nodeId.HasValue)
             {
@@ -91,6 +93,18 @@
             }
 
             return string.Empty;
+        }
+
+        /// <summary>
+        /// Gets the media URL.
+        /// </summary>
+        /// <param name="nodeId">The node identifier.</param>
+        /// <returns></returns>
+        protected string GetMediaUrl(int nodeId)
+        {
+            UmbracoHelper helper = new UmbracoHelper(UmbracoContext.Current);
+            dynamic content = helper.Media(nodeId);
+            return content.Url;
         }
     }
 }

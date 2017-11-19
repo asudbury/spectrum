@@ -99,6 +99,7 @@
             
             PaymentContextViewModel viewModel = new PaymentContextViewModel
             {
+                CustomerName = paymentManager.GetCustomerName(UmbracoContext),
                 AuthToken = paymentManager.GetAuthToken(UmbracoContext),
                 Environment = paymentManager.GetEnvironment(UmbracoContext),
                 NodeId = CurrentPage.Id.ToString(),

@@ -1,6 +1,7 @@
 ﻿namespace Spectrum.Content.ContentModels
 {
     using Umbraco.Core.Models;
+    using Umbraco.Web;
 
     public class InvoiceSettingsModel : BaseModel
     {
@@ -17,6 +18,11 @@
         /// <summary>
         /// Gets a value indicating whether [invoices enabled].
         /// </summary>
-        public bool InvoicesEnabled => false;
+        public bool InvoicesEnabled => this.GetPropertyValue<bool>("invoicesEnabled");
+
+        /// <summary>
+        /// Gets the invoice email template.
+        /// </summary>
+        public string InvoiceEmailTemplate => this.GetPropertyValue<string>("invoiceEmailTemplate");
     }
 }

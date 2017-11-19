@@ -1,6 +1,7 @@
 ﻿namespace Spectrum.Content.ContentModels
 {
     using Umbraco.Core.Models;
+    using Umbraco.Web;
 
     public class QuoteSettingsModel : BaseModel
     {
@@ -15,8 +16,13 @@
         }
 
         /// <summary>
-        /// Gets the payments enabled.
+        /// Gets a value indicating whether [quotes enabled].
         /// </summary>
-        public bool QuotesEnabled => false;
+        public bool QuotesEnabled => this.GetPropertyValue<bool>("quotesEnabled");
+
+        /// <summary>
+        /// Gets a value indicating whether [quote email template].
+        /// </summary>
+        public string QuoteEmailTemplate => this.GetPropertyValue<string>("quoteEmailTemplate");
     }
 }

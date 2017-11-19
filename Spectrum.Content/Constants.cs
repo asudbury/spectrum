@@ -84,7 +84,54 @@
             /// PayPal.
             /// </summary>
             public const string PayPal = "PayPal";
+        }
 
+        public static class Nodes
+        {
+            /// <summary>
+            /// The settings node name.
+            /// </summary>
+            public const string SettingsNodeName = "SettingsNode";
+
+            /// <summary>
+            /// The customer node name.
+            /// </summary>
+            public const string CustomerNodeName = "CustomerNode";
+
+            /// <summary>
+            /// The menu node name.
+            /// </summary>
+            public const string MenuNodeName = "MenuNode";
+
+            /// <summary>
+            /// The payments node name.
+            /// </summary>
+            public const string PaymentsNodeName = "PaymentsNode";
+            
+            /// <summary>
+            /// The appointments node name.
+            /// </summary>
+            public const string AppointmentsNodeName = "AppointmentsNode";
+
+            /// <summary>
+            /// The invoices node name.
+            /// </summary>
+            public const string InvoicesNodeName = "InvoicesNode";
+
+            /// <summary>
+            /// The quotes node name.
+            /// </summary>
+            public const string QuotesNodeName = "QuotesNode";
+
+            /// <summary>
+            /// The mail node name.
+            /// </summary>
+            public const string MailNodeName = "MailNode";
+
+            /// <summary>
+            /// The cards node name.
+            /// </summary>
+            public const string CardsNodeName = "CardsNode";
         }
     }
 }

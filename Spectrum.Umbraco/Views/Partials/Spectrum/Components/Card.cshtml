@@ -1,0 +1,40 @@
+﻿@model Spectrum.Content.Components.Models.CardModel
+@{
+}
+
+<div class="col-xs-12 col-sm-3">
+    <div class="card">
+        <div class="img-card">
+            <img src="@Model.Image"/>
+        </div>
+        <div class="card-content">
+            @if (Model.Title != string.Empty)
+            {
+                <h4 class="card-title">
+                    @Model.Title
+                </h4>
+            }
+
+            @if (Model.Text != string.Empty)
+            {
+                <p class="">
+                    @Html.Raw(Model.Text)
+                </p>
+            }
+
+            @if (Model.PrimaryLink != "#" && Model.PrimaryLinkText != string.Empty)
+            {
+                <a class="btn btn-md btn-primary button-stack create-card-btn" role="button" href="@Model.PrimaryLink">@Model.PrimaryLinkText</a>
+            }
+        </div>
+
+        @if (Model.SecondaryLink != "#" && Model.SecondaryLinkText != string.Empty)
+        {
+            <div class="card-read-more">
+                <a href="@Model.SecondaryLink" class="btn btn-link btn-block">
+                    @Model.SecondaryLinkText
+                </a>
+            </div>
+        }
+    </div>
+</div>

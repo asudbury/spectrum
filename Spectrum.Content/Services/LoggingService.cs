@@ -5,6 +5,7 @@
 
     public class LoggingService : ILoggingService
     {
+        /// <inheritdoc />
         /// <summary>
         /// Errors the specified message.
         /// </summary>
@@ -18,6 +19,7 @@
             LogHelper.Error<T>(message, exception);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Errors the specified calling type.
         /// </summary>
@@ -32,6 +34,7 @@
             LogHelper.Error(callingType, message, exception);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Informations the specified calling type.
         /// </summary>
@@ -44,6 +47,7 @@
             LogHelper.Info(callingType, message);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Informations the specified calling type.
         /// </summary>

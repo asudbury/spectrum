@@ -23,19 +23,20 @@
             characters: 1
         },
         templates: {
+
             header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\">" +
                         "<div class=\"row\">" +
                         "<h2 class=\"partial-title\">Appointments</h2>" +
                         "</div>" +
                         "<div class=\"row\">" +
                             "<div class=\"col-sm-12 actionBar\">" +
-                                "<a class=\"btn btn-md btn-primary button-stack create-btn\" role-\"button\" href=\"/customer/appointments/createappointment\">Create Appointment</a>" +
+                                "<a class=\"btn btn-md btn-primary button-stack create-btn\" role-\"button\" href=\"createappointment\">Create Appointment</a>" +
                                 "<p class=\"{{css.search}}\"></p>" +
                                 "<p class=\"{{css.actions}}\">" +
                                 "</p>" +
                             "</div>" +
                         "</div>" +
-                    "</div>",
+                    "</div>"
         },
         ajax: true,
         requestHandler: function (request) {

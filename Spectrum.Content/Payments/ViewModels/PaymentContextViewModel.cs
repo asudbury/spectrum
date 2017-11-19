@@ -3,6 +3,11 @@
     public class PaymentContextViewModel
     {
         /// <summary>
+        /// Gets or sets the name of the customer.
+        /// </summary>
+        public string CustomerName { get; set; }
+
+        /// <summary>
         /// Gets or sets the environment.
         /// </summary>
         public string Environment { get; set; }

@@ -1,4 +1,6 @@
-﻿namespace Spectrum.Content.Payments.Managers
+﻿using Spectrum.Content.Customer.Providers;
+
+namespace Spectrum.Content.Payments.Managers
 {
     using Autofac.Events;
     using Braintree;
@@ -20,6 +22,11 @@
         private readonly ILoggingService loggingService;
 
         /// <summary>
+        /// The customer provider.
+        /// </summary>
+        private readonly ICustomerProvider customerProvider;
+
+        /// <summary>
         /// The payment provider.
         /// </summary>
         private readonly IPaymentProvider paymentProvider;
@@ -38,19 +45,33 @@
         /// Initializes a new instance of the <see cref="PaymentManager" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
+        /// <param name="customerProvider">The customer provider.</param>
         /// <param name="paymentProvider">The payment provider.</param>
         /// <param name="eventPublisher">The event publisher.</param>
         /// <param name="transactionsRepository">The transactions repository.</param>
         public PaymentManager(
             ILoggingService loggingService,
+            ICustomerProvider customerProvider,
             IPaymentProvider paymentProvider,
             IEventPublisher eventPublisher,
             ITransactionsRepository transactionsRepository)
         {
             this.loggingService = loggingService;
+            this.customerProvider = customerProvider;
             this.paymentProvider = paymentProvider;
             this.eventPublisher = eventPublisher;
             this.transactionsRepository = transactionsRepository;
+        }
+
+        /// <summary>
+        /// Gets the name of the customer.
+        /// </summary>
+        /// <param name="umbracoContext">The umbraco context.</param>
+        /// <returns></returns>
+        public string GetCustomerName(UmbracoContext umbracoContext)
+        {
+            CustomerModel customerModel = customerProvider.GetCustomerModel(umbracoContext);
+            return customerModel.CustomerName;
         }
 
         /// <inheritdoc />

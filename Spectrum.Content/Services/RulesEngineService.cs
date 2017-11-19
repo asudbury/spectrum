@@ -62,29 +62,28 @@
             return model != null && model.GoogleCalendarEnabled;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Determines whether [is customer quotes enabled] [the specified umbraco context].
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         public bool IsCustomerQuotesEnabled(UmbracoContext umbracoContext)
         {
+            QuoteSettingsModel model = GetQuoteSettingsModel(umbracoContext);
 
-            AppointmentSettingsModel model = GetQuoteSettingsModel(umbracoContext);
-
-            return model != null && model.AppointmentsEnabled;
+            return model != null && model.QuotesEnabled;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Determines whether [is customer invoices enabled] [the specified umbraco context].
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         public bool IsCustomerInvoicesEnabled(UmbracoContext umbracoContext)
         {
-            return false;
+            InvoiceSettingsModel model = GetInvoiceSettingsModel(umbracoContext);
 
-            AppointmentSettingsModel model = GetInvoiceSettingsModel(umbracoContext);
-
-            return model != null && model.AppointmentsEnabled;
+            return model != null && model.InvoicesEnabled;
         }
 
         /// <inheritdoc />
@@ -128,11 +127,11 @@
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <returns></returns>
-        internal AppointmentSettingsModel GetQuoteSettingsModel(UmbracoContext umbracoContext)
+        internal QuoteSettingsModel GetQuoteSettingsModel(UmbracoContext umbracoContext)
         {
-            IPublishedContent quoteNode = settingsService.GetAppointmentsNode(umbracoContext);
+            IPublishedContent quoteNode = settingsService.GetQuotesNode(umbracoContext);
 
-            return quoteNode != null ? new AppointmentSettingsModel(quoteNode) : null;
+            return quoteNode != null ? new QuoteSettingsModel(quoteNode) : null;
         }
 
         /// <summary>
@@ -140,11 +139,11 @@
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <returns></returns>
-        internal AppointmentSettingsModel GetInvoiceSettingsModel(UmbracoContext umbracoContext)
+        internal InvoiceSettingsModel GetInvoiceSettingsModel(UmbracoContext umbracoContext)
         {
-            IPublishedContent invoiceNode = settingsService.GetAppointmentsNode(umbracoContext);
+            IPublishedContent invoiceNode = settingsService.GetInvoicesNode(umbracoContext);
 
-            return invoiceNode != null ? new AppointmentSettingsModel(invoiceNode) : null;
+            return invoiceNode != null ? new InvoiceSettingsModel(invoiceNode) : null;
         }
 
         /// <summary>

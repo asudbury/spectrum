@@ -551,6 +551,12 @@
     <Content Include="Views\Partials\Spectrum\Payments\PayPal\Payment.cshtml" />
     <Content Include="Views\Partials\Spectrum\Payments\PayPal\Transaction.cshtml" />
     <Content Include="Views\Partials\Spectrum\Payments\PayPal\Transactions.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Components\Card.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Components\CardStack.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Invoices\Invoices.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Quotes\Quotes.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Invoices\CreateInvoice.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Quotes\CreateQuote.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

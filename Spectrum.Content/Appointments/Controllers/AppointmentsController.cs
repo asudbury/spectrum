@@ -238,7 +238,7 @@
 
             AppointmentViewModel viewModel = appointmentsManager.GetAppointment(UmbracoContext, beeswwr);
 
-            return PartialView("Partials/Spectrum/Appointments/Appointment.cshtml", viewModel);
+            return PartialView("Partials/Spectrum/Appointments/Appointment", viewModel);
         }
 
         /// <summary>
@@ -258,7 +258,7 @@
 
             AppointmentViewModel viewModel = appointmentsManager.GetAppointment(UmbracoContext, beeswwr);
 
-            return PartialView("Partials/Spectrum/Appointments/UpdateAppointment.cshtml", viewModel);
+            return PartialView("Partials/Spectrum/Appointments/UpdateAppointment", viewModel);
         }
 
         /// <summary>

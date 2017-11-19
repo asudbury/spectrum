@@ -6,6 +6,11 @@
     public interface ISettingsService
     {
         /// <summary>
+        /// Clears the cache.
+        /// </summary>
+        void ClearCache();
+
+        /// <summary>
         /// Gets the settings node.
         /// </summary>
         /// <param name="context">The context.</param>
@@ -35,8 +40,7 @@
         IPublishedContent GetMenu(
             UmbracoContext context,
             string name);
-
-
+        
         /// <summary>
         /// Gets the payments node.
         /// </summary>
@@ -106,5 +110,36 @@
         /// <param name="context">The context.</param>
         /// <returns></returns>
         IPublishedContent GetAppointmentsNode(UmbracoContext context);
+
+        /// <summary>
+        /// Gets the quotes node.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        IPublishedContent GetQuotesNode(UmbracoContext context);
+
+        /// <summary>
+        /// Gets the invoices node.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        IPublishedContent GetInvoicesNode(UmbracoContext context);
+
+        /// <summary>
+        /// Gets the cards node.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        IPublishedContent GetCardsNode(UmbracoContext context);
+
+        /// <summary>
+        /// Gets the card stack.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
+        IPublishedContent GetCardStack(
+            UmbracoContext context,
+            string name);
     }
 }

@@ -24,6 +24,7 @@
             UmbracoApplicationBase umbracoApplication,
             ApplicationContext applicationContext)
         {
+
             LogHelper.Info(typeof(ApplicationConfiguration), "ApplicationStarted Started");
 
             DatabaseContext databaseContext = applicationContext.DatabaseContext;

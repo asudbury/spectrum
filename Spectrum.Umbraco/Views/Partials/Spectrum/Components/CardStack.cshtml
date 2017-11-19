@@ -1,0 +1,20 @@
+﻿@using Spectrum.Content.Components.Models
+@using Spectrum.Content.Components.ViewModels
+@model CardStackViewModel
+@{
+}
+
+<section class="wrapper">
+    <div class="container-fostrap">
+        <div class="content">
+            <div class="container">
+                <div class="row">
+                    @foreach (CardModel card in Model.Cards)
+                    {
+                        @Html.Partial("Partials/Spectrum/Components/Card", card)
+                    }
+                 </div>
+            </div>
+        </div>
+    </div>
+</section>

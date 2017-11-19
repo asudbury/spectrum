@@ -6,6 +6,8 @@
 
     public interface IPaymentManager
     {
+        string GetCustomerName(UmbracoContext umbracoContext);
+
         /// <summary>
         /// Gets the authentication token.
         /// </summary>

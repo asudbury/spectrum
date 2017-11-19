@@ -28,7 +28,12 @@
         {
             IPublishedContent customerNode = settingsService.GetCustomerNode(umbracoContext);
 
-            return new CustomerModel(customerNode);
+            if (customerNode != null)
+            {
+                return new CustomerModel(customerNode);
+            }
+
+            return null;
         }
     }
 }

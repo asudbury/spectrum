@@ -25,6 +25,17 @@
         bool IsCustomerGoogleCalendarEnabled(UmbracoContext umbracoContext);
 
         /// <summary>
+        /// Determines whether [is customer invoices enabled] [the specified umbraco context].
+        /// </summary>
+        bool IsCustomerInvoicesEnabled(UmbracoContext umbracoContext);
+
+        /// <summary>
+        /// Determines whether [is customer quotes enabled] [the specified umbraco context].
+        /// </summary>
+        /// <param name="umbracoContext">The umbraco context.</param>
+        bool IsCustomerQuotesEnabled(UmbracoContext umbracoContext);
+
+        /// <summary>
         /// Executes the specified query.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>

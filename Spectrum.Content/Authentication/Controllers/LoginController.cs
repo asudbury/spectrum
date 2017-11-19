@@ -1,54 +1,43 @@
-﻿using System.Web.Security;
-
-namespace Spectrum.Content.Authentication.Controllers
+﻿namespace Spectrum.Content.Authentication.Controllers
 {
-    using ContentModels;
+    using Managers;
     using Services;
     using System;
     using System.Web.Mvc;
-    using Umbraco.Core.Models;
-    using Umbraco.Web;
     using ViewModels;
 
     public class LoginController : BaseController
     {
         /// <summary>
-        /// The user service.
+        /// The login manager.
         /// </summary>
-        private readonly IUserService userService;
+        private readonly ILoginManager loginManager;
 
-        /// <summary>
-        /// The settings service.
-        /// </summary>
-        private readonly ISettingsService settingsService;
-
-        /// <inheritdoc />
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Spectrum.Content.Authentication.Controllers.LoginController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
-        /// <param name="settingsService">The settings service.</param>
-        /// <param name="userService">The user service.</param>
+        /// <param name="loginManager">The login manager.</param>
+        /// <inheritdoc />
         public LoginController(
             ILoggingService loggingService,
-            ISettingsService settingsService,
-            IUserService userService)
+            ILoginManager loginManager)
             : base(loggingService)
         {
-            this.userService = userService;
-            this.userService.MemberService = Services.MemberService;
-            this.settingsService = settingsService;
+            this.loginManager = loginManager;
+            this.loginManager.UserService.MemberService = Services.MemberService;
         }
 
-        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Spectrum.Content.Authentication.Controllers.LoginController" /> class.
+        /// Gets the login.
         /// </summary>
-        public LoginController() : 
-            this(new LoggingService(), 
-                 new SettingsService(), 
-                 new UserService())
+        /// <returns></returns>
+        [ChildActionOnly]
+        public ActionResult GetLogin()
         {
+            LoginViewModel viewModel = loginManager.GetLoginViewModel();
+
+            return PartialView("Partials/Spectrum/Membership/Login", viewModel);
         }
 
         /// <summary>
@@ -69,7 +58,7 @@ namespace Spectrum.Content.Authentication.Controllers
                 return PartialView("Login", viewModel);
             }
 
-            if (userService.IsUserLoggedIn())
+            if (loginManager.IsUserLoggedIn())
             {
                 LoggingService.Info(GetType(), "User LoggedIn");
                 return Redirect("/");
@@ -77,31 +66,15 @@ namespace Spectrum.Content.Authentication.Controllers
 
             try
             {
-                bool result = userService.Login(viewModel.EmailAddress, viewModel.Password);
+                bool result = loginManager.Login(viewModel.EmailAddress, viewModel.Password);
 
                 if (result)
                 {
                     LoggingService.Info(GetType(), "Successful Log In");
 
-                    FormsAuthentication.SetAuthCookie(viewModel.EmailAddress, viewModel.RememberMe);
+                    loginManager.SetCookies(viewModel, Request.IsLocal);
 
-                    IMember member = userService.GetUser(viewModel.EmailAddress);
-
-                    userService.UpdateLoginStatus(member);
-
-                    string role = userService.GetDefaultRole(member.Username);
-
-                    if (!string.IsNullOrEmpty(role))
-                    { 
-                        IPublishedContent menuNode = settingsService.GetMenu(UmbracoContext.Current, role);
-
-                        if (menuNode != null)
-                        { 
-                            MenuModel menuModel = new MenuModel(menuNode);
-
-                            viewModel.ReturnUrl = menuModel.LandingPage;
-                        }
-                    }
+                    viewModel.ReturnUrl = loginManager.GetReturnUrl(viewModel.EmailAddress);
 
                     return !string.IsNullOrEmpty(viewModel.ReturnUrl) ? new RedirectResult(viewModel.ReturnUrl) 
                                                                       : new RedirectResult("/");
@@ -130,11 +103,11 @@ namespace Spectrum.Content.Authentication.Controllers
         {
             LoggingService.Info(GetType(), "Logout");
 
-            if (userService.IsUserLoggedIn())
+            if (loginManager.IsUserLoggedIn())
             {
                 TempData.Clear();
                 Session.Clear();
-                userService.Logout();
+                loginManager.LogOut();
             }
 
             return Content("/");

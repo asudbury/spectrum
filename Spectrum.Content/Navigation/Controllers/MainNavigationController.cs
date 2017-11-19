@@ -13,8 +13,9 @@
         /// </summary>
         private readonly IMainNavigationManager mainNavigationManager;
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseController" /> class.
+        /// Initializes a new instance of the <see cref="T:Spectrum.Content.BaseController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="mainNavigationManager">The main navigation manager.</param>
@@ -26,8 +27,9 @@
             this.mainNavigationManager = mainNavigationManager;
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseController" /> class.
+        /// Initializes a new instance of the <see cref="T:Spectrum.Content.BaseController" /> class.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="loggingService">The logging service.</param>
@@ -42,8 +44,9 @@
             this.mainNavigationManager = mainNavigationManager;
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseController" /> class.
+        /// Initializes a new instance of the <see cref="T:Spectrum.Content.BaseController" /> class.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="umbracoHelper">The umbraco helper.</param>

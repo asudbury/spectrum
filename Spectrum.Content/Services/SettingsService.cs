@@ -1,6 +1,7 @@
 ﻿namespace Spectrum.Content.Services
 {
     using ContentModels;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Umbraco.Core.Models;
@@ -9,6 +10,20 @@
 
     public class SettingsService : ISettingsService
     {
+        /// <summary>
+        /// The cache.
+        /// </summary>
+        private static readonly Dictionary<string, IPublishedContent> Cache = new Dictionary<string, IPublishedContent>();
+        
+        /// <inheritdoc />
+        /// <summary>
+        /// Clears the cache.
+        /// </summary>
+        public void ClearCache()
+        {
+            Cache.Clear();
+        }
+
         /// <inheritdoc />
         /// <summary>
         /// Gets the settings node.
@@ -16,9 +31,17 @@
         /// <returns></returns>
         public IPublishedContent GetSettingsNode(UmbracoContext context)
         {
-            IPublishedContent node = GetHelper(context).TypedContentAtRoot().FirstOrDefault(x => x.DocumentTypeAlias == "settings");
+            if (Cache.ContainsKey(Constants.Nodes.SettingsNodeName))
+            {
+                return Cache[Constants.Nodes.SettingsNodeName];
+            }
 
-            return node ?? GetHelper(context).TypedContentAtRoot().FirstOrDefault(x => x.Name == "Settings");
+            IPublishedContent node = GetHelper(context).TypedContentAtRoot().FirstOrDefault(x => x.DocumentTypeAlias == "settings") ??
+                                     GetHelper(context).TypedContentAtRoot().FirstOrDefault(x => x.Name == "Settings");
+
+            Cache.Add(Constants.Nodes.SettingsNodeName, node);
+
+            return node;
         }
 
         /// <inheritdoc />
@@ -29,18 +52,23 @@
         /// <returns></returns>
         public IPublishedContent GetCustomerNode(UmbracoContext context)
         {
-            IPublishedContent settingsNode = GetSettingsNode(context);
-        
-            if (settingsNode != null)
+            MembershipHelper membershipHelper = new MembershipHelper(context);
+
+            IPublishedContent currentMember = membershipHelper.GetCurrentMember();
+
+            if (currentMember != null)
             {
-                MembershipHelper membershipHelper = new MembershipHelper(context);
+                string currentUserName = currentMember.Name;
 
-                IPublishedContent currentMember = membershipHelper.GetCurrentMember();
-
-                if (currentMember != null)
+                if (Cache.ContainsKey(Constants.Nodes.CustomerNodeName + currentUserName))
                 {
-                    string currentUserName = currentMember.Name;
+                    return Cache[Constants.Nodes.CustomerNodeName + currentUserName];
+                }
+                
+                IPublishedContent settingsNode = GetSettingsNode(context);
 
+                if (settingsNode != null)
+                {
                     IEnumerable<IPublishedContent> customerNodes = settingsNode.Children.Where(x => x.DocumentTypeAlias == "customer");
 
                     foreach (IPublishedContent customerNode in customerNodes)
@@ -49,6 +77,7 @@
 
                         if (customerModel.Users.Contains(currentUserName))
                         {
+                            Cache.Add(Constants.Nodes.CustomerNodeName + currentUserName, customerNode);
                             return customerNode;
                         }
                     }
@@ -67,14 +96,10 @@
         {
             IPublishedContent settingsNode = GetSettingsNode(context);
 
-            if (settingsNode != null)
-            {
-                IPublishedContent node = settingsNode.Children.FirstOrDefault(x => x.DocumentTypeAlias == "menus");
-
-                return node ?? settingsNode.Children.FirstOrDefault(x => x.Name == "Menus");
-            }
-
-            return null;
+            return settingsNode != null ? GetChildNode(
+                                            settingsNode, 
+                                            "menus", 
+                                            Constants.Nodes.MenuNodeName) : null;
         }
 
         /// <inheritdoc />
@@ -88,9 +113,17 @@
             UmbracoContext context,
             string name)
         {
+            if (Cache.ContainsKey(Constants.Nodes.MenuNodeName + name))
+            {
+                return Cache[Constants.Nodes.MenuNodeName + name];
+            }
+
             IPublishedContent menusNode = GetMenusNode(context);
 
-            return menusNode?.Children.FirstOrDefault(x => x.Name == name);
+            IPublishedContent menu =  menusNode?.Children.FirstOrDefault(x => x.Name == name);
+
+            Cache.Add(Constants.Nodes.MenuNodeName + name, menu);
+            return menu;
         }
 
         /// <inheritdoc />
@@ -103,14 +136,10 @@
         {
             IPublishedContent customerNode = GetCustomerNode(context);
 
-            if (customerNode != null)
-            {
-                IPublishedContent node = customerNode.Children.FirstOrDefault(x => x.DocumentTypeAlias == "payments");
-
-                return node ?? customerNode.Children.FirstOrDefault(x => x.Name == "Payments");
-            }
-
-            return null;
+            return customerNode != null ? GetChildNode(
+                                            customerNode, 
+                                            "payments", 
+                                            Constants.Nodes.PaymentsNodeName) : null;
         }
         
         /// <inheritdoc />
@@ -123,14 +152,10 @@
         {
             IPublishedContent customerNode = GetCustomerNode(context);
 
-            if (customerNode != null)
-            {
-                IPublishedContent node = customerNode.Children.FirstOrDefault(x => x.DocumentTypeAlias == "mail");
-
-                return node ?? customerNode.Children.FirstOrDefault(x => x.Name == "Mail");
-            }
-
-            return null;
+            return customerNode != null ? GetChildNode(
+                                            customerNode, 
+                                            "mail", 
+                                            Constants.Nodes.MailNodeName) : null;
         }
         
         /// <inheritdoc />
@@ -222,14 +247,73 @@
         {
             IPublishedContent customerNode = GetCustomerNode(context);
 
-            if (customerNode != null)
-            {
-                IPublishedContent node = customerNode.Children.FirstOrDefault(x => x.DocumentTypeAlias == "appointments");
+            return customerNode != null ? GetChildNode(
+                                            customerNode, 
+                                            "appointments", 
+                                            Constants.Nodes.AppointmentsNodeName) : null;
+        }
 
-                return node ?? customerNode.Children.FirstOrDefault(x => x.Name == "Appointments");
-            }
+        /// <inheritdoc />
+        /// <summary>
+        /// Gets the quotes node.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        public IPublishedContent GetQuotesNode(UmbracoContext context)
+        {
+            IPublishedContent customerNode = GetCustomerNode(context);
 
-            return null;
+            return customerNode != null ? GetChildNode(
+                                                customerNode, 
+                                                "quotes", 
+                                                Constants.Nodes.QuotesNodeName) : null;
+        }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// Gets the invoices node.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        public IPublishedContent GetInvoicesNode(UmbracoContext context)
+        {
+            IPublishedContent customerNode = GetCustomerNode(context);
+
+            return customerNode != null ? GetChildNode(
+                                            customerNode, 
+                                            "invoices", 
+                                            Constants.Nodes.InvoicesNodeName) : null;
+        }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// Gets the cards node.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        public IPublishedContent GetCardsNode(UmbracoContext context)
+        {
+            IPublishedContent settingsNode = GetSettingsNode(context);
+
+            return settingsNode != null ? GetChildNode(settingsNode, "cards", Constants.Nodes.CardsNodeName) : null;
+        }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// Gets the card stack.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
+        public IPublishedContent GetCardStack(
+            UmbracoContext context, 
+            string name)
+        {
+            IPublishedContent cardsNode = GetCardsNode(context);
+
+            GetChildNode(cardsNode, name, Constants.Nodes.CardsNodeName + name);
+
+            return cardsNode?.Children.FirstOrDefault(x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase));
         }
 
         /// <summary>
@@ -240,6 +324,37 @@
         private UmbracoHelper GetHelper(UmbracoContext context)
         {
             return new UmbracoHelper(context);
+        }
+
+        /// <summary>
+        /// Gets the child node.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <param name="childNodeName">Name of the child node.</param>
+        /// <param name="cacheKeyName">Name of the cache key.</param>
+        /// <returns></returns>
+        private IPublishedContent GetChildNode(
+            IPublishedContent node,
+            string childNodeName,
+            string cacheKeyName)
+        {
+            if (string.IsNullOrEmpty(cacheKeyName) == false)
+            {
+                if (Cache.ContainsKey(cacheKeyName))
+                {
+                    return Cache[cacheKeyName];
+                }
+            }
+
+            IPublishedContent childNode = node.Children.FirstOrDefault(x => x.DocumentTypeAlias.ToLower() == childNodeName.ToLower()) ??
+                                          node.Children.FirstOrDefault(x => x.Name.ToLower() == childNodeName.ToLower());
+
+            if (string.IsNullOrEmpty(cacheKeyName) == false)
+            {
+                Cache.Add(cacheKeyName, childNode);
+            }
+
+            return childNode;
         }
     }
 }
