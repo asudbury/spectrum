@@ -37,10 +37,11 @@
                     @Html.ValidationMessageFor(model => model.Location)
 
                     <label class="control-label">Description *</label>
-                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control", placeholder = "Description", @rows = "5" })
+                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "5" })
                     @Html.ValidationMessageFor(model => model.Description)
-
-                    @Html.EditorFor(model => model.PaymentId, new { htmlAttributes = new { @class = "form-control", placeholder = "Payment Id" } })
+                    
+                    <label class="control-label">Payment Id</label>
+                    @Html.EditorFor(model => model.PaymentId, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.PaymentId)
 
                     <div>

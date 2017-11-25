@@ -1,4 +1,6 @@
-﻿namespace Spectrum.Content.Invoices.Controllers
+﻿using Spectrum.Content.Invoices.ViewModels;
+
+namespace Spectrum.Content.Invoices.Controllers
 {
     using Services;
     using System.Web.Mvc;
@@ -77,20 +79,25 @@
         }
 
         /// <summary>
-        /// Create an Invoice.
+        /// Gets the Create an Invoice.
         /// </summary>
         /// <returns></returns>
         [ChildActionOnly]
-        public PartialViewResult CreateInvoice()
+        public PartialViewResult GetCreateInvoice()
         {
             LoggingService.Info(GetType());
 
             if (rulesEngineService.IsCustomerInvoicesEnabled(UmbracoContext))
             {
-                return PartialView("Partials/Spectrum/Invoices/CreateInvoice");
+                return PartialView("Partials/Spectrum/Invoices/CreateInvoice", new CreateInvoiceViewModel());
             }
 
             return default(PartialViewResult);
+        }
+
+        public void CreateInvoice(CreateInvoiceViewModel viewModel)
+        {
+            
         }
     }
 }

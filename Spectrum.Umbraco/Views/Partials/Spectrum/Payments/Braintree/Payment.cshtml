@@ -6,6 +6,9 @@
 @{
     Html.EnableClientValidation(true);
     Html.EnableUnobtrusiveJavaScript(true);
+
+    string mediaId = Umbraco.Field("CardImages").ToString();
+    string cardImageUrl = Umbraco.Media(mediaId).Url;
 }
 
 @using (Html.BeginUmbracoForm<PaymentController>("MakePayment"))
@@ -21,10 +24,9 @@
             <div class="col-sm-6 col-md-4 col-md-offset-4">
                 <div class="account-wall">
 
-                    @*<h2 class="partial-title">@Umbraco.Field("Title")</h2>*@
-                    <h2 class="partial-title">@Html.Action("CustomerName", "Customer") Secure Payment</h2>
+                    <h2 class="partial-title">@Html.Action("CustomerName", "Customer") @Umbraco.Field("Title")</h2>
                     <div class="card-logos">
-                        <img src="../../../media/logos/mcvsax_acc_opt_hrz_144_1x.png" />
+                        <img src="@cardImageUrl"/>
                     </div>
 
                     <div class="form-group">
@@ -33,11 +35,11 @@
                     </div>
 
                     <div class="form-group col-xs-6  left-field">
-                        <label class="control-label">@Umbraco.Field("ExpirationDate") *</label>
+                        <label class="control-label">@Umbraco.Field("ExpirationMonth") *</label>
                         <div class="form-control" id="expiration-month"></div>
                     </div>
                     <div class="form-group col-xs-6  right-field">
-                        <label class="control-label">Expiration Year *</label>
+                        <label class="control-label">@Umbraco.Field("ExpirationYear") *</label>
                         <div class="form-control" id="expiration-year"></div>
                     </div>
 

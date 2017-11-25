@@ -1,12 +1,15 @@
 ﻿namespace Spectrum.Content.Customer.Providers
 {
+    using Content.Services;
     using ContentModels;
-    using Services;
     using Umbraco.Core.Models;
     using Umbraco.Web;
 
     public class CustomerProvider : ICustomerProvider
     {
+        /// <summary>
+        /// The settings service.
+        /// </summary>
         private readonly ISettingsService settingsService;
 
         /// <summary>

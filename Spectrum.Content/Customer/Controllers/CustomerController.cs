@@ -1,8 +1,8 @@
 ﻿namespace Spectrum.Content.Customer.Controllers
 {
+    using Content.Services;
     using ContentModels;
     using Providers;
-    using Services;
     using System.Web.Mvc;
     using Umbraco.Web;
 

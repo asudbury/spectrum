@@ -131,7 +131,7 @@
                 ThrowAccessDeniedException("No Access to insert appointment");
             }
 
-                if (!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return CurrentUmbracoPage();
             }
