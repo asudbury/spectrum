@@ -19,28 +19,32 @@
 
                     @Html.HiddenFor(model => model.Id)
 
+                    <label class="control-label">Appointment Date *</label>
                     <div class="calendar-position form-group">
                         @Html.TextBoxFor(model => model.StartTime, "{0:dd-MMM-yyyy HH:mm}", new { @class = "date form-control" })
                         <span class="btn" style="cursor: pointer;">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
                     </div>
-                    @Html.ValidationMessageFor(model => model.StartTime)
 
+                    <label class="control-label">Duration in minutes *</label>
+                    @Html.ValidationMessageFor(model => model.StartTime)
                     @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control", placeholder = "Duration (In minutes)" } })
                     @Html.ValidationMessageFor(model => model.Duration)
 
+                    <label class="control-label">Location</label>
                     @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", placeholder = "Location" } })
                     @Html.ValidationMessageFor(model => model.Location)
 
+                    <label class="control-label">Description *</label>
                     @Html.TextAreaFor(model => model.Description, new { @class = "form-control", placeholder = "Description", @rows = "5" })
                     @Html.ValidationMessageFor(model => model.Description)
-                    
+
                     @Html.EditorFor(model => model.PaymentId, new { htmlAttributes = new { @class = "form-control", placeholder = "Payment Id" } })
                     @Html.ValidationMessageFor(model => model.PaymentId)
 
                     <div>
-                        <label class="control-label">Add Attendees</label>
+                        <label class="control-label">Add Attendees *</label>
                     </div>
                     <div class="form-group">
                         <input class="form-control" id="attendeeInput" placeholder="Enter email address" data-val="true" data-val-required="Please enter a valid Email Address">
@@ -49,8 +53,7 @@
                         </div>
                     </div>
 
-                    <ul id="attendeeList" class="list-group" style="list-style-type: none;">
-                    </ul>
+                    <ul id="attendeeList" class="list-group" style="list-style-type: none;"></ul>
 
                     <script src="../../../../scripts/spectrum/appointment.js"></script>
 
@@ -78,7 +81,7 @@
             for (var i=0; i<myArray.length; i++) {
                 $('#attendeeList').prepend(prependAttendee(i+1, myArray[i]));
             }
-        
+
             initialiseDatePicker();
 
             $('.btn').click(function () {
@@ -104,7 +107,7 @@
                 var location = $('#Location').val();
                 var description = $('#Description').val();
                 var paymentId = $('#PaymentId').val();
-                
+
                 var items = document.getElementById("attendeeList").getElementsByTagName("li");
 
                 var attendees = [].map.call(items,

@@ -117,35 +117,27 @@ function btCustomerError(err) {
  * @returns {} 
  * Main Braintree API
  *********************************************************************************/
-function setupBraintree(
-    token,
-    nodeId,
-    url,
-    env,
-    autoAllocate,
-    appointmentId,
-    paymentAmount,
-    emailAddress) {
+function setupBraintree(context) {
 
-    if (paymentAmount !== "") {
+    if (context.paymentAmount) {
         $('#amount').prop("readonly", true);
-        $('#amount').val(paymentAmount);
+        $('#amount').val(context.paymentAmount);
     }
 
-    if (emailAddress !== "") {
+    if (context.emailAddress) {
         $('#emailAddress').prop("readonly", true);
-        $('#emailAddress').val(emailAddress);
+        $('#emailAddress').val(context.emailAddress);
     }
 
     braintree.client.create({
-        authorization: token
+        authorization: context.authToken
     },
         function (err, clientInstance) {
 
-            if (env !== 'production') {
-                $('#sandboxRibbon').text(env);
+            if (context.environment !== 'production') {
+                $('#sandboxRibbon').text(context.environment);
                 $('#sandboxRibbon').show();
-                $('#mobileSandboxRibbon').text(env);
+                $('#mobileSandboxRibbon').text(context.environment);
                 $('#mobileSandboxRibbon').show();
             }
 
@@ -276,16 +268,16 @@ function setupBraintree(
                             }
 
                             var postData = {
-                                currentPageNodeId: nodeId,
+                                currentPageNodeId: context.nodeId,
                                 emailAddress: email,
                                 nonce: payload.nonce,
                                 amount: amt,
-                                autoAllocate: autoAllocate,
-                                appointmentId: appointmentId
+                                autoAllocate: context.autoAllocate,
+                                appointmentId: context.appointmentId
                             };
 
                             $.ajax({
-                                url: url,
+                                url: context.makePaymentUrl,
                                 type: 'POST',
                                 dataType: 'json',
                                 data: JSON.stringify(postData),

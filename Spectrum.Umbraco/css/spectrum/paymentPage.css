@@ -67,6 +67,23 @@
 	}
 }
 
+/* Centers card logos within containing div and adds a little vertical space */
+.card-logos {
+	display: flex;
+  	justify-content: center;
+	padding-bottom: 20px;
+}
+
+.payment-button img {
+	width: 12%;
+	padding-left: 10px;
+}
+
+.lock-logo {
+	padding-left: 6px;
+}
+
+
 /* Braintree Hosted Fields styling classes*/
 .braintree-hosted-fields-focused { 
   border: 1px solid #0275d8;

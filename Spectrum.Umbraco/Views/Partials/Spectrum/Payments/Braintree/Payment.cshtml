@@ -21,29 +21,33 @@
             <div class="col-sm-6 col-md-4 col-md-offset-4">
                 <div class="account-wall">
 
-                    <h2 class="partial-title">@Umbraco.Field("Title")</h2>
+                    @*<h2 class="partial-title">@Umbraco.Field("Title")</h2>*@
+                    <h2 class="partial-title">@Html.Action("CustomerName", "Customer") Secure Payment</h2>
+                    <div class="card-logos">
+                        <img src="../../../media/logos/mcvsax_acc_opt_hrz_144_1x.png" />
+                    </div>
 
                     <div class="form-group">
-                        <label class="control-label">@Umbraco.Field("CardNumber")</label>
+                        <label class="control-label">@Umbraco.Field("CardNumber") *</label>
                         <div class="form-control" id="card-number"></div>
                     </div>
 
                     <div class="form-group col-xs-6  left-field">
-                        <label class="control-label">@Umbraco.Field("ExpirationDate")</label>
+                        <label class="control-label">@Umbraco.Field("ExpirationDate") *</label>
                         <div class="form-control" id="expiration-month"></div>
                     </div>
                     <div class="form-group col-xs-6  right-field">
-                        <label class="control-label">Expiration Year</label>
+                        <label class="control-label">Expiration Year *</label>
                         <div class="form-control" id="expiration-year"></div>
                     </div>
 
                     <label class="control-label col-xs-12  left-field"></label>
                     <div class="form-group col-xs-6  left-field">
-                        <label class="control-label">@Umbraco.Field("SecurityCode")</label>
+                        <label class="control-label">@Umbraco.Field("SecurityCode") *</label>
                         <div class="form-control" id="cvv"></div>
                     </div>
                     <div class="form-group col-xs-6  right-field">
-                        <label class="control-label">@Umbraco.Field("Amount")</label>
+                        <label class="control-label">@Umbraco.Field("Amount") *</label>
                         <input type="text" class="form-control" id="amount" placeholder="0.0" />
                     </div>
 
@@ -52,8 +56,9 @@
                         <input type="text" class="form-control" id="emailAddress" />
                     </div>
 
-                    <button value="submit" id="submit" class="btn btn-primary btn-block">
+                    <button value="submit" id="submit" class="btn btn-success btn-block payment-button">
                         @Umbraco.Field("PayWith") <span id="card-type">Card</span>
+                        <i class="fa fa-lock lock-logo" aria-hidden="true"></i>
                     </button>
 
                     <div class="row errorPanel" id="errorRow">
@@ -70,18 +75,9 @@
                     <script src="../../../../scripts/spectrum/braintree.js"></script>
                     <script>
 
-                        var context = '@Html.Action("GetPaymentContext", "Payment")';
+                        var context = JSON.parse('@Html.Action("GetPaymentContext", "Payment")');
+                        setupBraintree(context);
 
-                        var url = '@Url.Action("MakePayment", "Payment")';
-                        var token = '@Html.Action("GetAuthToken", "PaymentParameters")';
-                        var nodeId = '@Html.Action("GetNodeId", "PaymentParameters")';
-                        var env = '@Html.Action("GetEnvironment", "PaymentParameters")';
-                        var autoAllocate = '@Html.Action("GetAutoAllocate", "PaymentParameters")';
-                        var appointmentId = '@Html.Action("GetAppointmentId", "PaymentParameters")';
-                        var paymentAmount = '@Html.Action("GetPaymentAmount", "PaymentParameters")';
-                        var emailAddress = '@Html.Action("GetEmailAddress", "PaymentParameters")';
-
-                        setupBraintree(token, nodeId, url, env, autoAllocate, appointmentId, paymentAmount, emailAddress);
                     </script>
 
                 </div>
