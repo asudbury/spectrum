@@ -21,6 +21,11 @@
         public bool PaymentsEnabled => this.GetPropertyValue<bool>("paymentsEnabled");
 
         /// <summary>
+        /// Gets a value indicating whether [customer payments enabled].
+        /// </summary>
+        public bool CustomerPaymentsEnabled => this.GetPropertyValue<bool>("customerPayments");
+
+        /// <summary>
         /// Gets the provider.
         /// </summary>
         public string Provider => this.GetPropertyValue<string>("provider");

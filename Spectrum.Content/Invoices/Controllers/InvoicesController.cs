@@ -1,10 +1,9 @@
-﻿using Spectrum.Content.Invoices.ViewModels;
-
-namespace Spectrum.Content.Invoices.Controllers
+﻿namespace Spectrum.Content.Invoices.Controllers
 {
     using Services;
     using System.Web.Mvc;
     using Umbraco.Web;
+    using ViewModels;
 
     public class InvoicesController : BaseController
     {
@@ -95,9 +94,16 @@ namespace Spectrum.Content.Invoices.Controllers
             return default(PartialViewResult);
         }
 
+        /// <summary>
+        /// Creates the invoice.
+        /// </summary>
+        /// <param name="viewModel">The view model.</param>
         public void CreateInvoice(CreateInvoiceViewModel viewModel)
         {
-            
+            if (rulesEngineService.IsCustomerInvoicesEnabled(UmbracoContext) == false)
+            {
+                ThrowAccessDeniedException("No Access to create invoice");
+            }
         }
     }
 }

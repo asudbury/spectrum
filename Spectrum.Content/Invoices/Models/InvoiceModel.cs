@@ -1,13 +1,12 @@
-﻿namespace Spectrum.Content.Appointments.Models
+﻿namespace Spectrum.Content.Invoices.Models
 {
     using System;
-    using System.Collections.Generic;
     using Umbraco.Core.Persistence;
     using Umbraco.Core.Persistence.DatabaseAnnotations;
 
-    [TableName(Constants.Database.AppointmentTableName)]
+    [TableName(Constants.Database.InvoiceTableName)]
     [PrimaryKey("Id", autoIncrement = true)]
-    public class AppointmentModel
+    public class InvoiceModel
     {
         /// <summary>
         /// Gets or sets the identifier.
@@ -24,20 +23,18 @@
         /// <summary>
         /// Gets or sets the client identifier.
         /// </summary>
-        [NullSetting(NullSetting = NullSettings.Null)]
         public int ClientId { get; set; }
 
         /// <summary>
         /// Gets or sets the address identifier.
         /// </summary>
-        [NullSetting(NullSetting = NullSettings.Null)]
         public int AddressId { get; set; }
 
         /// <summary>
         /// Gets or sets the created time.
         /// </summary>
         public DateTime CreatedTime { get; set; }
-
+        
         /// <summary>
         /// Gets or sets the created user.
         /// </summary>
@@ -52,38 +49,6 @@
         /// Gets or sets the created user.
         /// </summary>
         public string LastedUpdatedUser { get; set; }
-        
-        /// <summary>
-        /// Gets or sets the start time.
-        /// </summary>
-        public DateTime StartTime { get; set; }
-
-        /// <summary>
-        /// Gets or sets the duration.
-        /// </summary>
-        public int Duration { get; set; }
-
-        /// <summary>
-        /// Gets or sets the location.
-        /// </summary>
-        public string Location { get; set; }
-
-        /// <summary>
-        /// Gets or sets the description.
-        /// </summary>
-        public string Description { get; set; }
-        
-        /// <summary>
-        /// Gets or sets the invoice identifier.
-        /// </summary>
-        [NullSetting(NullSetting = NullSettings.Null)]
-        public int InvoiceId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the payment identifier.
-        /// </summary>
-        [NullSetting(NullSetting = NullSettings.Null)]
-        public string PaymentId { get; set; }
 
         /// <summary>
         /// Gets or sets the status.
@@ -91,15 +56,24 @@
         public int Status { get; set; }
 
         /// <summary>
-        /// Gets or sets the service provider identifier.
+        /// Gets or sets the invoice date.
         /// </summary>
-        [NullSetting(NullSetting = NullSettings.Null)]
-        public int ServiceProviderId { get; set; }
+        public DateTime InvoiceDate { get; set; }
 
         /// <summary>
-        /// Gets or sets the attendees.
+        /// Gets or sets the invoice amount.
         /// </summary>
-        [Ignore]
-        public List<AppointmentAttendeeModel> Attendees { get; set; }
+        public decimal InvoiceAmount { get; set; }
+
+        /// <summary>
+        /// Gets or sets the invoice details.
+        /// </summary>
+        public string InvoiceDetails { get; set; }
+
+        /// <summary>
+        /// Gets or sets the payment identifier.
+        /// </summary>
+        [NullSetting(NullSetting = NullSettings.Null)]
+        public string PaymentId { get; set; }
     }
 }

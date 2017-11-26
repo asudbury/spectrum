@@ -406,6 +406,7 @@
     <Compile Include="Customer\Services\PostalAddressService.cs" />
     <Compile Include="Customer\ViewModels\AddressSearchViewModel.cs" />
     <Compile Include="Invoices\Controllers\InvoicesController.cs" />
+    <Compile Include="Invoices\Models\InvoiceModel.cs" />
     <Compile Include="Invoices\ViewModels\CreateInvoiceViewModel.cs" />
     <Compile Include="Payments\Factories\IPaymentProviderFactory.cs" />
     <Compile Include="Payments\Factories\PaymentProviderFactory.cs" />
@@ -511,6 +512,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BaseController.cs" />
     <Compile Include="Quotes\Controllers\QuotesController.cs" />
+    <Compile Include="Quotes\Models\QuoteModel.cs" />
     <Compile Include="Registration\Controllers\RegistrationController.cs" />
     <Compile Include="Registration\Handlers\VerificationHandler.cs" />
     <Compile Include="Registration\Handlers\RegistrationHandler.cs" />

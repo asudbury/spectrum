@@ -14,17 +14,25 @@
         private readonly ILoginManager loginManager;
 
         /// <summary>
+        /// The settings service.
+        /// </summary>
+        private readonly ISettingsService settingsService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="T:Spectrum.Content.Authentication.Controllers.LoginController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="loginManager">The login manager.</param>
+        /// <param name="settingsService">The settings service.</param>
         /// <inheritdoc />
         public LoginController(
             ILoggingService loggingService,
-            ILoginManager loginManager)
+            ILoginManager loginManager,
+            ISettingsService settingsService)
             : base(loggingService)
         {
             this.loginManager = loginManager;
+            this.settingsService = settingsService;
             this.loginManager.UserService.MemberService = Services.MemberService;
         }
 
@@ -72,6 +80,8 @@
                 {
                     LoggingService.Info(GetType(), "Successful Log In");
 
+                    settingsService.ClearCache();
+
                     loginManager.SetCookies(viewModel, Request.IsLocal);
 
                     viewModel.ReturnUrl = loginManager.GetReturnUrl(viewModel.EmailAddress);
@@ -105,6 +115,7 @@
 
             if (loginManager.IsUserLoggedIn())
             {
+                settingsService.ClearCache();
                 TempData.Clear();
                 Session.Clear();
                 loginManager.LogOut();
