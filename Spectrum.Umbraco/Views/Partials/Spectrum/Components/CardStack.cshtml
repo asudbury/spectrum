@@ -9,11 +9,14 @@
         <div class="content">
             <div class="container">
                 <div class="row">
+
+                    @{ ViewBag.CardCount = Model.Cards.Count(); }
+
                     @foreach (CardModel card in Model.Cards)
                     {
                         @Html.Partial("Partials/Spectrum/Components/Card", card)
                     }
-                 </div>
+                </div>
             </div>
         </div>
     </div>

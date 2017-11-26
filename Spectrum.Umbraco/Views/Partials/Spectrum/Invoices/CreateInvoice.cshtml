@@ -1,5 +1,4 @@
-﻿
-@using Spectrum.Content.Invoices.Controllers
+﻿@using Spectrum.Content.Invoices.Controllers
 @model Spectrum.Content.Invoices.ViewModels.CreateInvoiceViewModel
 @{
 }
@@ -15,29 +14,31 @@
                 <div class="account-wall">
 
                     <h2 class="partial-title">Create Invoice</h2>
-                    
+
+                    <label class="control-label">Invoice Date *</label>
                     <div class="calendar-position form-group">
-                        <label class="control-label">Invoice Date *</label>
-                        @Html.TextBoxFor(model => model.Date, "{0:dd-MMM-yyyy}", new {@class = "date form-control"})
+                        @Html.TextBoxFor(model => model.Date, "{0:dd-MMM-yyyy}", new { @class = "date form-control" })
                         <span class="btn" style="cursor: pointer;">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
                     </div>
-                    
+
+
+
                     <label class="control-label">Client Name *</label>
                     @Html.EditorFor(model => model.ClientName, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.ClientName)
-                    
+
                     @Html.Action("GetAddressSearch", "Search")
-                    
+
                     <label class="control-label">Client Email Address *</label>
-                    @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control"} })
+                    @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.EmailAddress)
-                    
+
                     <label class="control-label">Invoice Amount *</label>
                     @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Amount)
-                    
+
                     <label class="control-label">Details *</label>
                     @Html.TextAreaFor(model => model.Details, new { @class = "form-control", rows = "5" })
                     @Html.ValidationMessageFor(model => model.Details)
@@ -45,14 +46,14 @@
                     <div class="checkbox">
                         <label>@Html.CheckBoxFor(model => model.IncludePaymentLink)&nbsp;@Html.DisplayNameFor(model => model.IncludePaymentLink)</label>
                     </div>
-                   
+
                     <button value="submit" id="submit" class="btn btn-lg btn-primary btn-block">Save Invoice</button>
 
                 </div>
             </div>
         </div>
     </div>
-    
+
     <script>
 
         $(document).ready(function () {
