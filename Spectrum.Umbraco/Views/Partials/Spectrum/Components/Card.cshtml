@@ -1,15 +1,32 @@
 ﻿@model Spectrum.Content.Components.Models.CardModel
 @{
-    var divClass = "col-xs-12 col-sm-3";
+    var divClass = "col-xs-12";
 }
 
-@if (@ViewBag.CardCount == 4) {
-    divClass = "col-xs-12 col-sm-3";
-} else if (@ViewBag.CardCount == 3) {
-    divClass = "col-xs-12 col-sm-4";
-} else if (@ViewBag.CardCount == 2) {
-    divClass = "col-sm-6 col-md-4 col-md-offset-4";
-} else {
+@*The card count is used to decide what column size to use in the grid *@
+@*If the card count is 2 then we need to know which card is being requested so the offset can be turned off on the second card. *@
+
+@if (@ViewBag.CardCount == 4)
+{
+    divClass = "col-xs-12 col-md-3";
+}
+else if (@ViewBag.CardCount == 3)
+{
+    divClass = "col-xs-12 col-md-4";
+}
+else if (@ViewBag.CardCount == 2)
+{
+    if (@ViewBag.index == 1)
+    {
+        divClass = "col-xs-12 col-md-4 col-md-offset-2";
+    }
+    else
+    {
+        divClass = "col-xs-12 col-md-4";
+    }
+}
+else
+{
     divClass = "col-xs-12 col-md-4 col-md-offset-4";
 }
 
@@ -17,7 +34,7 @@
 
     <div class="card">
         <div class="img-card">
-            <img src="@Model.Image"/>
+            <img src="@Model.Image" />
         </div>
         <div class="card-content">
             @if (Model.Title != string.Empty)

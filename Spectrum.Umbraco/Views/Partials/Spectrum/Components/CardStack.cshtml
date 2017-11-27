@@ -2,13 +2,19 @@
 @using Spectrum.Content.Components.ViewModels
 @model CardStackViewModel
 @{
+    int i = 1;
 }
 
+@{ ViewBag.CardCount = Model.Cards.Count(); }
+
 <div class="row">
-    @{ ViewBag.CardCount = Model.Cards.Count(); }
-   
+
     @foreach (CardModel card in Model.Cards)
     {
-        @Html.Partial("Partials/Spectrum/Components/Card", card)
+        @*<div>@i</div>*@
+    { ViewBag.index = @i; }
+    @Html.Partial("Partials/Spectrum/Components/Card", card)
+        i++;
     }
 </div>
+

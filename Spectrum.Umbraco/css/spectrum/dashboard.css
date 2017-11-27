@@ -94,7 +94,6 @@ h1.heading {
 	margin-top: 10px;
 }
 
-/*.equal-height-card > div > div.card {
-    height: calc(100% - 15px);
-    margin-bottom: 15px;
-}*/
+.title-row {
+	margin-bottom: 20px;
+}
