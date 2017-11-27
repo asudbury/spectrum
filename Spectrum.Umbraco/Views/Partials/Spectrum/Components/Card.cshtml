@@ -3,28 +3,21 @@
     var divClass = "col-xs-12 col-sm-3";
 }
 
-@if (@ViewBag.CardCount == 4)
-{
+@if (@ViewBag.CardCount == 4) {
     divClass = "col-xs-12 col-sm-3";
-}
-else if (@ViewBag.CardCount == 3)
-{
+} else if (@ViewBag.CardCount == 3) {
     divClass = "col-xs-12 col-sm-4";
-}
-else if (@ViewBag.CardCount == 2)
-{
-    divClass = "col-xs-12 col-sm-6";
-}
-else
-{
-    divClass = "col-xs-12";
+} else if (@ViewBag.CardCount == 2) {
+    divClass = "col-sm-6 col-md-4 col-md-offset-4";
+} else {
+    divClass = "col-xs-12 col-md-4 col-md-offset-4";
 }
 
 <div class="@divClass">
 
     <div class="card">
         <div class="img-card">
-            <img src="@Model.Image" />
+            <img src="@Model.Image"/>
         </div>
         <div class="card-content">
             @if (Model.Title != string.Empty)
