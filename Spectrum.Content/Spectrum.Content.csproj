@@ -408,6 +408,7 @@
     <Compile Include="Invoices\Controllers\InvoicesController.cs" />
     <Compile Include="Invoices\Models\InvoiceModel.cs" />
     <Compile Include="Invoices\ViewModels\CreateInvoiceViewModel.cs" />
+    <Compile Include="Models\Alert.cs" />
     <Compile Include="Payments\Factories\IPaymentProviderFactory.cs" />
     <Compile Include="Payments\Factories\PaymentProviderFactory.cs" />
     <Compile Include="Payments\Handlers\PaymentMadeHandler.cs" />
@@ -488,7 +489,6 @@
     <Compile Include="ContentModels\PageModel.cs" />
     <Compile Include="Payments\Controllers\PaymentController.cs" />
     <Compile Include="ContentModels\PaymentSettingsModel.cs" />
-    <Compile Include="Payments\Controllers\PaymentParametersController.cs" />
     <Compile Include="Payments\Controllers\BraintreeController.cs" />
     <Compile Include="Payments\Managers\IPaymentManager.cs" />
     <Compile Include="Payments\Managers\IBraintreeManager.cs" />
