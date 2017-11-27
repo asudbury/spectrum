@@ -408,7 +408,6 @@
     <Compile Include="Invoices\Controllers\InvoicesController.cs" />
     <Compile Include="Invoices\Models\InvoiceModel.cs" />
     <Compile Include="Invoices\ViewModels\CreateInvoiceViewModel.cs" />
-    <Compile Include="Models\Alert.cs" />
     <Compile Include="Payments\Factories\IPaymentProviderFactory.cs" />
     <Compile Include="Payments\Factories\PaymentProviderFactory.cs" />
     <Compile Include="Payments\Handlers\PaymentMadeHandler.cs" />
