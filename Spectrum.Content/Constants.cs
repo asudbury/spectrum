@@ -38,6 +38,16 @@
             /// The transactions table name.
             /// </summary>
             public const string TransactionsTableName = "spectrumTransaction";
+
+            /// <summary>
+            /// The address table name.
+            /// </summary>
+            public const string AddressTableName = "spectrumAddress";
+
+            /// <summary>
+            /// The client table name.
+            /// </summary>
+            public const string ClientTableName = "spectrumClient";
         }
 
         public static class Rules

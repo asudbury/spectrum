@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using ViewModels;
 
-    public interface ITransactionsBootGridTranslator
+    public interface IBraintreeBootGridTranslator
     {
         /// <summary>
         /// Translates the specified view models.
@@ -15,8 +15,8 @@
         /// <param name="searchString">The search string.</param>
         /// <param name="sortItems">The sort items.</param>
         /// <returns></returns>
-        BootGridViewModel<TransactionViewModel> Translate(
-            List<TransactionViewModel> viewModels,
+        BootGridViewModel<BraintreeTransactionViewModel> Translate(
+            List<BraintreeTransactionViewModel> viewModels,
             int current,
             int rowCount,
             string searchString,

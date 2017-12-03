@@ -52,14 +52,23 @@
             this.settingsService = settingsService;
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Gets the transactions partial view.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
+        /// <param name="useSpectrumPage">if set to <c>true</c> [use spectrum page].</param>
         /// <returns></returns>
-        public string GetTransactionsPartialView(UmbracoContext umbracoContext)
+        /// <exception cref="ApplicationException">Payment Provider not setup.</exception>
+        /// <inheritdoc />
+        public string GetTransactionsPartialView(
+            UmbracoContext umbracoContext,
+            bool useSpectrumPage)
         {
+            if (useSpectrumPage)
+            {
+                return BaseDirectory + TransactionsPage;
+            }
+
             PaymentSettingsModel model = GetPaymentSettingsModel(umbracoContext);
 
             switch (model.Provider)
@@ -75,14 +84,23 @@
             }
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Gets the transaction partial view.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
+        /// <param name="useSpectrumPage">if set to <c>true</c> [use spectrum page].</param>
         /// <returns></returns>
-        public string GetTransactionPartialView(UmbracoContext umbracoContext)
+        /// <exception cref="ApplicationException">Payment Provider not setup.</exception>
+        /// <inheritdoc />
+        public string GetTransactionPartialView(
+            UmbracoContext umbracoContext,
+            bool useSpectrumPage)
         {
+            if (useSpectrumPage)
+            {
+                return BaseDirectory + TransactionPage;
+            }
+
             PaymentSettingsModel model = GetPaymentSettingsModel(umbracoContext);
 
             switch (model.Provider)
@@ -98,13 +116,15 @@
             }
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Gets the payment partial view.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <returns></returns>
-        public string GetPaymentPartialView(UmbracoContext umbracoContext)
+        /// <exception cref="ApplicationException">Payment Provider not setup.</exception>
+        /// <inheritdoc />
+        public string GetPaymentPartialView(
+            UmbracoContext umbracoContext)
         {
             PaymentSettingsModel model = GetPaymentSettingsModel(umbracoContext);
 

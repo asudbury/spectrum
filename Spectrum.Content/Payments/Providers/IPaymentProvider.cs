@@ -32,11 +32,11 @@
             MakePaymentViewModel model);
 
         /// <summary>
-        /// Gets the transactions.
+        /// Gets the braintree transactions.
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        ResourceCollection<Transaction> GetTransactions(PaymentSettingsModel model);
+        ResourceCollection<Transaction> GetBraintreeTransactions(PaymentSettingsModel model);
 
         /// <summary>
         /// Gets the transaction.

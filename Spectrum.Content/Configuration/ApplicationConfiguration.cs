@@ -1,4 +1,5 @@
-﻿using Spectrum.Content.Invoices.Models;
+﻿using Spectrum.Content.Customer.Models;
+using Spectrum.Content.Invoices.Models;
 using Spectrum.Content.Quotes.Models;
 
 namespace Spectrum.Content.Configuration
@@ -59,6 +60,9 @@ namespace Spectrum.Content.Configuration
 
             db.CreateTableIfNotExist<InvoiceModel>(Content.Constants.Database.InvoiceTableName);
             db.CreateTableIfNotExist<QuoteModel>(Content.Constants.Database.QuoteTableName);
+
+            db.CreateTableIfNotExist<AddressModel>(Content.Constants.Database.AddressTableName);
+            db.CreateTableIfNotExist<ClientModel>(Content.Constants.Database.ClientTableName);
 
             PublishedContentRequest.Prepared += PublishedContentRequestPrepared;
 

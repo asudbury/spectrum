@@ -3,6 +3,11 @@
     public static class PaymentsQueryStringConstants
     {
         /// <summary>
+        /// The payment identifier.
+        /// </summary>
+        public const string PaymentId = "opddewq";
+
+        /// <summary>
         /// The automatic allocate.
         /// </summary>
         public const string AutoAllocate = "autoAllocate";

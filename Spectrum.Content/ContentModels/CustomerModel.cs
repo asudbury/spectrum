@@ -21,6 +21,21 @@
         public bool CustomerEnabled => this.GetPropertyValue<bool>("customerEnabled");
 
         /// <summary>
+        /// Gets a value indicating whether [save password].
+        /// </summary>
+        public bool SavePassword => this.GetPropertyValue<bool>("savePassword");
+
+        /// <summary>
+        /// Gets a value indicating whether [application save password].
+        /// </summary>
+        public bool AppSavePassword => this.GetPropertyValue<bool>("appSavePassword");
+
+        /// <summary>
+        /// Gets a value indicating whether [cache settings].
+        /// </summary>
+        public bool CacheSettings => this.GetPropertyValue<bool>("cacheSettings");
+
+        /// <summary>
         /// Gets the home page URL.
         /// </summary>
         public string HomePageUrl => this.GetPropertyValue<string>("homepageUrl");

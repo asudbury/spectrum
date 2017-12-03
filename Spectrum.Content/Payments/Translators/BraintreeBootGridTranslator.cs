@@ -7,14 +7,13 @@
     using System.Linq;
     using ViewModels;
 
-    public class TransactionsBootGridTranslator : BaseBootGridTranslator, ITransactionsBootGridTranslator
+    public class BraintreeBootGridTranslator : BaseBootGridTranslator, IBraintreeBootGridTranslator
     {
         /// <summary>
         /// The transaction view models.
         /// </summary>
-        private IOrderedEnumerable<TransactionViewModel> transactionViewModels;
+        private IOrderedEnumerable<BraintreeTransactionViewModel> transactionViewModels;
 
-        /// <inheritdoc />
         /// <summary>
         /// Translates the specified view models.
         /// </summary>
@@ -24,11 +23,12 @@
         /// <param name="searchString">The search string.</param>
         /// <param name="sortItems">The sort items.</param>
         /// <returns></returns>
-        public BootGridViewModel<TransactionViewModel> Translate(
-            List<TransactionViewModel> viewModels, 
+        /// <inheritdoc />
+        public BootGridViewModel<BraintreeTransactionViewModel> Translate(
+            List<BraintreeTransactionViewModel> viewModels, 
             int current, 
             int rowCount, 
-            string searchString, 
+            string searchString,
             IEnumerable<SortData> sortItems)
         {
             viewModels = GetViewModels(viewModels, searchString.ToLower());
@@ -40,7 +40,7 @@
                 viewModels = GetSortData(viewModels, sortItems).ToList();
             }
 
-            List<TransactionViewModel> rows = new List<TransactionViewModel>();
+            List<BraintreeTransactionViewModel> rows = new List<BraintreeTransactionViewModel>();
 
             Tuple<int, int> range = GetRange(viewModels.Count, current, rowCount);
 
@@ -49,7 +49,7 @@
                 rows = viewModels.GetRange(range.Item1, range.Item2);
             }
 
-            BootGridViewModel<TransactionViewModel> bootGridViewModel = new BootGridViewModel<TransactionViewModel>
+            BootGridViewModel<BraintreeTransactionViewModel> bootGridViewModel = new BootGridViewModel<BraintreeTransactionViewModel>
             {
                 Rows = rows,
                 Current = current,
@@ -67,8 +67,8 @@
         /// <param name="originalViewModels">The original view models.</param>
         /// <param name="searchString">The search string.</param>
         /// <returns></returns>
-        internal List<TransactionViewModel> GetViewModels(
-            List<TransactionViewModel> originalViewModels,
+        internal List<BraintreeTransactionViewModel> GetViewModels(
+            List<BraintreeTransactionViewModel> originalViewModels,
             string searchString)
         {
             if (string.IsNullOrEmpty(searchString))
@@ -76,14 +76,14 @@
                 return originalViewModels;
             }
 
-            List<TransactionViewModel> viewModels = new List<TransactionViewModel>();
+            List<BraintreeTransactionViewModel> viewModels = new List<BraintreeTransactionViewModel>();
 
             if (string.IsNullOrEmpty(searchString) == false)
             {
-                foreach (TransactionViewModel transactionViewModel in originalViewModels)
+                foreach (BraintreeTransactionViewModel transactionViewModel in originalViewModels)
                 {
                     if (IsDateCheckKeywordSearch(
-                        searchString,
+                        searchString, 
                         transactionViewModel.TransactionDateTime.Value))
                     {
                         viewModels.Add(transactionViewModel);
@@ -95,7 +95,7 @@
                              transactionViewModel.Status.ToLower().Contains(searchString) ||
                              transactionViewModel.CardType.ToLower().Contains(searchString) ||
                              transactionViewModel.MaskedNumber.ToLower().Contains(searchString) ||
-                             transactionViewModel.Amount.Contains(searchString))
+                             transactionViewModel.Amount.Value.ToString("F").Contains(searchString))
                     {
                         viewModels.Add(transactionViewModel);
                     }
@@ -109,13 +109,13 @@
         /// Gets the sort data.
         /// </summary>
         /// <param name="viewModels">The view models.</param>
-        /// <param name="sortItems">The sort items.</param>Bas
+        /// <param name="sortItems">The sort items.</param>
         /// <returns></returns>
-        internal IEnumerable<TransactionViewModel> GetSortData(
-            IEnumerable<TransactionViewModel> viewModels,
+        internal  IEnumerable<BraintreeTransactionViewModel> GetSortData(
+            IEnumerable<BraintreeTransactionViewModel> viewModels,
             IEnumerable<SortData> sortItems)
         {
-            IEnumerable<TransactionViewModel> transactionsList = viewModels as TransactionViewModel[] ?? viewModels.ToArray();
+            IEnumerable<BraintreeTransactionViewModel> transactionsList = viewModels as BraintreeTransactionViewModel[] ?? viewModels.ToArray();
 
             if (sortItems != null)
             {
@@ -125,8 +125,8 @@
                 switch (sortData.Field)
                 {
                     case "id":
-                        transactionViewModels = IsSortOrderAscending(sortData.Type) ?
-                            transactionsList.OrderBy(x => x.Id) :
+                        transactionViewModels = IsSortOrderAscending(sortData.Type) ? 
+                            transactionsList.OrderBy(x => x.Id) : 
                             transactionsList.OrderByDescending(x => x.Id);
                         break;
 
@@ -163,6 +163,5 @@
 
             return transactionsList;
         }
-
     }
 }

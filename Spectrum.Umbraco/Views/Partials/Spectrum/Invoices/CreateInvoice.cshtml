@@ -42,10 +42,15 @@
                     <label class="control-label">Details *</label>
                     @Html.TextAreaFor(model => model.Details, new { @class = "form-control", rows = "5" })
                     @Html.ValidationMessageFor(model => model.Details)
-
-                    <div class="checkbox">
-                        <label>@Html.CheckBoxFor(model => model.IncludePaymentLink)&nbsp;@Html.DisplayNameFor(model => model.IncludePaymentLink)</label>
-                    </div>
+                    
+                    @if (Model.ShowIncludePaymentLink)
+                    { 
+                        <div class="checkbox">
+                            <label>@Html.CheckBoxFor(model => model.IncludePaymentLink)&nbsp;@Html.DisplayNameFor(model => model.IncludePaymentLink)</label>
+                        </div>
+                    }
+                    
+                    @Html.Partial("Spectrum/Required")
 
                     <button value="submit" id="submit" class="btn btn-lg btn-primary btn-block">Save Invoice</button>
 

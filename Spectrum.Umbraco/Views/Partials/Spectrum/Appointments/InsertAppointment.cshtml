@@ -68,6 +68,8 @@
                     @Html.EditorFor(model => model.ServiceProviderId)
 
                     <script src="../../../../scripts/spectrum/appointment.js"></script>
+                    
+                    @Html.Partial("Spectrum/Required")
 
                     <button value="submit" id="submit" onclick="checkAttendees();" class="btn btn-lg btn-primary btn-block">Save Appointment</button>
 

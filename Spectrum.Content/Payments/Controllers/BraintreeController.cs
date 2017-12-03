@@ -102,7 +102,9 @@
 
             if (rulesEngineService.IsCustomerPaymentsEnabled(UmbracoContext))
             {
-                string partialView = paymentProviderFactory.GetTransactionsPartialView(UmbracoContext);
+                string partialView = paymentProviderFactory.GetTransactionsPartialView(
+                    UmbracoContext,
+                    false);
 
                 return PartialView(partialView);
             }
@@ -174,7 +176,8 @@
 
             if (rulesEngineService.IsCustomerPaymentsEnabled(UmbracoContext))
             {
-                string partialView = paymentProviderFactory.GetTransactionPartialView(UmbracoContext);
+                string partialView = paymentProviderFactory
+                                        .GetTransactionPartialView(UmbracoContext, false);
                 
                 BraintreeTransactionViewModel viewModel = braintreeManager.GetTransactionViewModel(UmbracoContext, id);
 

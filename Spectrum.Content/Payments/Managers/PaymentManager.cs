@@ -1,15 +1,20 @@
-﻿using Spectrum.Content.Customer.Providers;
-
-namespace Spectrum.Content.Payments.Managers
+﻿namespace Spectrum.Content.Payments.Managers
 {
+    using Application.Services;
     using Autofac.Events;
     using Braintree;
+    using Content.Models;
     using Content.Services;
     using ContentModels;
+    using Customer.Providers;
     using Messages;
+    using Models;
     using Providers;
     using Repositories;
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Translators.Interfaces;
     using Umbraco.Core.Models;
     using Umbraco.Web;
     using ViewModels;
@@ -42,6 +47,26 @@ namespace Spectrum.Content.Payments.Managers
         private readonly ITransactionsRepository transactionsRepository;
 
         /// <summary>
+        /// The transaction translator.
+        /// </summary>
+        private readonly ITransactionTranslator transactionTranslator;
+
+        /// <summary>
+        /// The database provider.
+        /// </summary>
+        private readonly IDatabaseProvider databaseProvider;
+
+        /// <summary>
+        /// The transactions boot grid translator.
+        /// </summary>
+        private readonly ITransactionsBootGridTranslator transactionsBootGridTranslator;
+
+        /// <summary>
+        /// The encryption service.
+        /// </summary>
+        private readonly IEncryptionService encryptionService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="PaymentManager" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
@@ -49,18 +74,30 @@ namespace Spectrum.Content.Payments.Managers
         /// <param name="paymentProvider">The payment provider.</param>
         /// <param name="eventPublisher">The event publisher.</param>
         /// <param name="transactionsRepository">The transactions repository.</param>
+        /// <param name="transactionTranslator">The transaction translator.</param>
+        /// <param name="databaseProvider">The database provider.</param>
+        /// <param name="transactionsBootGridTranslator">The transactions boot grid translator.</param>
+        /// <param name="encryptionService">The encryption service.</param>
         public PaymentManager(
             ILoggingService loggingService,
             ICustomerProvider customerProvider,
             IPaymentProvider paymentProvider,
             IEventPublisher eventPublisher,
-            ITransactionsRepository transactionsRepository)
+            ITransactionsRepository transactionsRepository,
+            ITransactionTranslator transactionTranslator,
+            IDatabaseProvider databaseProvider,
+            ITransactionsBootGridTranslator transactionsBootGridTranslator,
+            IEncryptionService encryptionService)
         {
             this.loggingService = loggingService;
             this.customerProvider = customerProvider;
             this.paymentProvider = paymentProvider;
             this.eventPublisher = eventPublisher;
             this.transactionsRepository = transactionsRepository;
+            this.transactionTranslator = transactionTranslator;
+            this.databaseProvider = databaseProvider;
+            this.transactionsBootGridTranslator = transactionsBootGridTranslator;
+            this.encryptionService = encryptionService;
         }
 
         /// <summary>
@@ -98,6 +135,96 @@ namespace Spectrum.Content.Payments.Managers
             PaymentSettingsModel model = paymentProvider.GetPaymentSettingsModel(umbracoContext);
 
             return model?.Environment;
+        }
+
+        /// <summary>
+        /// Gets the transaction view model.
+        /// </summary>
+        /// <param name="umbracoContext">The umbraco context.</param>
+        /// <param name="encryptedId">The encrypted identifier.</param>
+        /// <returns></returns>
+        /// <inheritdoc />
+        public TransactionViewModel GetTransactionViewModel(
+            UmbracoContext umbracoContext,
+            string encryptedId)
+        {
+            PaymentSettingsModel settingsModel = paymentProvider.GetPaymentSettingsModel(umbracoContext);
+
+            if (settingsModel.PaymentsEnabled)
+            {
+                string paymentId = encryptionService.DecryptString(encryptedId);
+
+                CustomerModel customerModel = customerProvider.GetCustomerModel(umbracoContext);
+
+                TransactionModel model = databaseProvider.GetTransaction(Convert.ToInt32(paymentId), customerModel.Id);
+
+                return transactionTranslator.Translate(model);
+            }
+
+            return new TransactionViewModel();
+        }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// Gets the transactions view model.
+        /// </summary>
+        /// <param name="umbracoContext">The umbraco context.</param>
+        /// <returns></returns>
+        public IEnumerable<TransactionViewModel> GetTransactionsViewModel(UmbracoContext umbracoContext)
+        {
+            loggingService.Info(GetType());
+
+            List<TransactionViewModel> viewModels = new List<TransactionViewModel>();
+
+            PaymentSettingsModel model = paymentProvider.GetPaymentSettingsModel(umbracoContext);
+
+            if (model.PaymentsEnabled)
+            {
+                CustomerModel customerModel = customerProvider.GetCustomerModel(umbracoContext);
+                
+                //// TODO : change at some point!
+                DateTime startDate = DateTime.MinValue;
+                DateTime endDate = DateTime.MaxValue;
+                
+                IEnumerable<TransactionModel> transactions = databaseProvider.GetTransactions(
+                                                                        startDate,
+                                                                        endDate,
+                                                                        customerModel.Id);
+
+                viewModels = (from TransactionModel transaction
+                            in transactions
+                        select transactionTranslator.Translate(transaction))
+                    .ToList();
+            }
+
+            return viewModels;
+        }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// Gets the boot grid transactions.
+        /// </summary>
+        /// <param name="current">The current.</param>
+        /// <param name="rowCount">The row count.</param>
+        /// <param name="searchPhrase">The search phrase.</param>
+        /// <param name="sortItems">The sort items.</param>
+        /// <param name="umbracoContext">The umbraco context.</param>
+        /// <returns></returns>
+        public BootGridViewModel<TransactionViewModel> GetBootGridTransactions(
+            int current, 
+            int rowCount, 
+            string searchPhrase, 
+            IEnumerable<SortData> sortItems,
+            UmbracoContext umbracoContext)
+        {
+            IEnumerable<TransactionViewModel> viewModels = GetTransactionsViewModel(umbracoContext);
+
+            return transactionsBootGridTranslator.Translate(
+                viewModels.ToList(),
+                current,
+                rowCount,
+                searchPhrase,
+                sortItems);
         }
 
         /// <summary>

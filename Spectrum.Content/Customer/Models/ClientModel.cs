@@ -5,9 +5,9 @@ namespace Spectrum.Content.Customer.Models
     using Umbraco.Core.Persistence;
     using Umbraco.Core.Persistence.DatabaseAnnotations;
 
-    [TableName(Constants.Database.AddressTableName)]
+    [TableName(Constants.Database.ClientTableName)]
     [PrimaryKey("Id", autoIncrement = true)]
-    public class AddressModel
+    public class ClientModel
     {
         /// <summary>
         /// Gets or sets the identifier.
@@ -20,6 +20,12 @@ namespace Spectrum.Content.Customer.Models
         /// Gets or sets the customer identifier.
         /// </summary>
         public int CustomerId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the address identifier.
+        /// </summary>
+        [NullSetting(NullSetting = NullSettings.Null)]
+        public int AddressId { get; set; }
 
         /// <summary>
         /// Gets or sets the created time.
@@ -40,24 +46,15 @@ namespace Spectrum.Content.Customer.Models
         /// Gets or sets the created user.
         /// </summary>
         public string LastedUpdatedUser { get; set; }
-        /// <summary>
-        /// Gets or sets the name of the building.
-        /// </summary>
-        public string BuildingName { get; set; }
 
         /// <summary>
-        /// Gets or sets the building number.
+        /// Gets or sets the name.
         /// </summary>
-        public string BuildingNumber { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the post code.
+        /// Gets or sets the email address.
         /// </summary>
-        public string PostCode { get; set; }
-
-        /// <summary>
-        /// Gets or sets the full address.
-        /// </summary>
-        public string FullAddress { get; set; }
+        public string EmailAddress { get; set; }
     }
 }

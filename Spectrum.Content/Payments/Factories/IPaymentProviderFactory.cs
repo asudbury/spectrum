@@ -8,15 +8,21 @@
         /// Gets the transactions partial view.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
+        /// <param name="useSpectrumPage">if set to <c>true</c> [use spectrum page].</param>
         /// <returns></returns>
-        string GetTransactionsPartialView(UmbracoContext umbracoContext);
+        string GetTransactionsPartialView(
+            UmbracoContext umbracoContext,
+            bool useSpectrumPage);
 
         /// <summary>
         /// Gets the transaction partial view.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
+        /// <param name="useSpectrumPage">if set to <c>true</c> [use spectrum page].</param>
         /// <returns></returns>
-        string GetTransactionPartialView(UmbracoContext umbracoContext);
+        string GetTransactionPartialView(
+            UmbracoContext umbracoContext,
+            bool useSpectrumPage);
 
         /// <summary>
         /// Gets the payment partial view.

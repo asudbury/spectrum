@@ -1,7 +1,7 @@
 ﻿namespace Spectrum.Content.Authentication.Controllers
 {
+    using Content.Services;
     using Managers;
-    using Services;
     using System;
     using System.Web.Mvc;
     using ViewModels;

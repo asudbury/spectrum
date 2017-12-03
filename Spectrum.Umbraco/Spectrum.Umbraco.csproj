@@ -560,6 +560,9 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Partials\Spectrum\Customer\AddressSearch.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Payments\Transactions.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Payments\Transaction.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Required.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

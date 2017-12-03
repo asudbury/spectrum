@@ -1,4 +1,7 @@
-﻿namespace Spectrum.Content.Payments.Providers
+﻿using System.Collections.Generic;
+using Spectrum.Content.Payments.Models;
+
+namespace Spectrum.Content.Payments.Providers
 {
     using Braintree;
     using ContentModels;
@@ -77,7 +80,7 @@
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        public ResourceCollection<Transaction> GetTransactions(PaymentSettingsModel model)
+        public ResourceCollection<Transaction> GetBraintreeTransactions(PaymentSettingsModel model)
         {
             return braintreeService.GetTransactions(model);
         }

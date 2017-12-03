@@ -35,9 +35,9 @@
         private readonly ITransactionsRepository transactionsRepository;
 
         /// <summary>
-        /// The transactions boot grid translator.
+        /// The braintree boot grid translator.
         /// </summary>
-        private readonly ITransactionsBootGridTranslator transactionsBootGridTranslator;
+        private readonly IBraintreeBootGridTranslator braintreeBootGridTranslator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BraintreeManager" /> class.
@@ -46,19 +46,19 @@
         /// <param name="paymentProvider">The payment provider.</param>
         /// <param name="transactionTranslator">The transaction translator.</param>
         /// <param name="transactionsRepository">The transactions repository.</param>
-        /// <param name="transactionsBootGridTranslator">The transactions boot grid translator.</param>
+        /// <param name="braintreeBootGridTranslator">The braintree boot grid translator.</param>
         public BraintreeManager(
             ILoggingService loggingService,
             IPaymentProvider paymentProvider,
             IBraintreeTransactionTranslator transactionTranslator,
             ITransactionsRepository transactionsRepository,
-            ITransactionsBootGridTranslator transactionsBootGridTranslator)
+            IBraintreeBootGridTranslator braintreeBootGridTranslator)
         {
             this.loggingService = loggingService;
             this.paymentProvider = paymentProvider;
             this.transactionTranslator = transactionTranslator;
             this.transactionsRepository = transactionsRepository;
-            this.transactionsBootGridTranslator = transactionsBootGridTranslator;
+            this.braintreeBootGridTranslator = braintreeBootGridTranslator;
         }
 
         /// <inheritdoc />
@@ -86,7 +86,7 @@
                     return transactionsRepository.Get<IEnumerable<BraintreeTransactionViewModel>>();
                 }
 
-                ResourceCollection<Transaction> transactions = paymentProvider.GetTransactions(model);
+                ResourceCollection<Transaction> transactions = paymentProvider.GetBraintreeTransactions(model);
 
                 viewModels = (from Transaction transaction
                             in transactions
@@ -154,7 +154,7 @@
         {
             IEnumerable<BraintreeTransactionViewModel> viewModels = GetTransactionsViewModel(umbracoContext);
 
-            return transactionsBootGridTranslator.Translate(
+            return braintreeBootGridTranslator.Translate(
                 viewModels.ToList(), 
                 current, 
                 rowCount, 

@@ -1,9 +1,8 @@
 ﻿namespace Spectrum.Content.Authentication.Managers
 {
-    using Application.Services;
+    using Content.Services;
     using ContentModels;
     using Services;
-    using System;
     using System.Web.Security;
     using Umbraco.Core.Models;
     using Umbraco.Web;
@@ -19,30 +18,21 @@
         /// <summary>
         /// The cookie service.
         /// </summary>
-        private readonly ICookieService cookieService;
-
-        /// <summary>
-        /// The encryption service.
-        /// </summary>
-        private readonly IEncryptionService encryptionService;
-
-
+        private readonly ILoginCookieService loginCookieService;
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="LoginManager" /> class.
         /// </summary>
         /// <param name="settingsService">The settings service.</param>
-        /// <param name="cookieService">The cookie service.</param>
-        /// <param name="encryptionService">The encryption service.</param>
+        /// <param name="loginCookieService">The login cookie service.</param>
         /// <param name="userService">The user service.</param>
         public LoginManager(
             ISettingsService settingsService,
-            ICookieService cookieService, 
-            IEncryptionService encryptionService,
+            ILoginCookieService loginCookieService, 
             IUserService userService)
         {
             this.settingsService = settingsService;
-            this.cookieService = cookieService;
-            this.encryptionService = encryptionService;
+            this.loginCookieService = loginCookieService;
             UserService = userService;
         }
 
@@ -59,31 +49,14 @@
         /// <returns></returns>
         public LoginViewModel GetLoginViewModel()
         {
-            string emailAddress = cookieService.GetValue(AuthenticationConstants.EmailAddress);
-            string password = cookieService.GetValue(AuthenticationConstants.Password);
-            string rememberMe = cookieService.GetValue(AuthenticationConstants.RememberMe);
-
-            LoginViewModel viewModel = new LoginViewModel();
-
-            if (string.IsNullOrEmpty(emailAddress) == false)
+            return new LoginViewModel
             {
-                viewModel.EmailAddress = encryptionService.DecryptString(emailAddress);
-            }
-
-            if (string.IsNullOrEmpty(password) == false)
-            {
-                viewModel.Password = encryptionService.DecryptString(password);
-            }
-
-            if (string.IsNullOrEmpty(rememberMe) == false)
-            {
-                bool remember = Convert.ToBoolean(encryptionService.DecryptString(rememberMe));
-
-                viewModel.RememberMe = remember;
-            }
-
-            return viewModel;
+                EmailAddress = loginCookieService.GeEmailAdress(),
+                Password = loginCookieService.GetPassword(),
+                RememberMe = loginCookieService.GetRememberMe()
+            };
         }
+
 
         /// <inheritdoc />
         /// <summary>
@@ -129,27 +102,12 @@
         {
             FormsAuthentication.SetAuthCookie(viewModel.EmailAddress, viewModel.RememberMe);
 
-            if (viewModel.RememberMe)
-            {
-                string encryptedEmailAddress = encryptionService.EncryptString(viewModel.EmailAddress);
-                cookieService.SetValue(AuthenticationConstants.EmailAddress, encryptedEmailAddress);
-
-                string encryptedRememberMe = encryptionService.EncryptString(viewModel.RememberMe.ToString());
-                cookieService.SetValue(AuthenticationConstants.RememberMe, encryptedRememberMe);
-
-                if (isLocalHost)
-                {
-                    string encryptedPassword = encryptionService.EncryptString(viewModel.Password);
-                    cookieService.SetValue(AuthenticationConstants.Password, encryptedPassword);
-                }
-            }
-
-            else
-            {
-                cookieService.Expire(AuthenticationConstants.EmailAddress);
-                cookieService.Expire(AuthenticationConstants.Password);
-                cookieService.Expire(AuthenticationConstants.RememberMe);
-            }
+            loginCookieService.SetCookies(
+                UmbracoContext.Current, 
+                isLocalHost,
+                viewModel.EmailAddress, 
+                viewModel.RememberMe, 
+                viewModel.Password);
         }
 
         /// <inheritdoc />

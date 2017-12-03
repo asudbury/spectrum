@@ -1,11 +1,13 @@
 ﻿namespace Spectrum.Content.Payments.Controllers
 {
+    using Content.Models;
     using Content.Services;
     using Factories;
     using Managers;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
     using System;
+    using System.Collections.Generic;
     using System.Web.Mvc;
     using Umbraco.Core.Models;
     using Umbraco.Web;
@@ -122,6 +124,71 @@
         }
 
         /// <summary>
+        /// Gets the transactions page.
+        /// </summary>
+        /// <returns></returns>
+        [ChildActionOnly]
+        public PartialViewResult GetTransactionsPage()
+        {
+            LoggingService.Info(GetType());
+
+            if (rulesEngineService.IsCustomerPaymentsEnabled(UmbracoContext))
+            {
+                string partialView = paymentProviderFactory
+                                        .GetTransactionsPartialView(UmbracoContext, true);
+
+                IEnumerable<TransactionViewModel> viewModels = paymentManager.GetTransactionsViewModel(UmbracoContext);
+
+                return PartialView(partialView, viewModels);
+            }
+
+            return default(PartialViewResult);
+        }
+
+        /// <summary>
+        /// Gets the transaction page.
+        /// </summary>
+        /// <returns></returns>
+        [ChildActionOnly]
+        public PartialViewResult GetTransactionPage(string opddewq)
+        {
+            LoggingService.Info(GetType());
+
+            if (rulesEngineService.IsCustomerPaymentsEnabled(UmbracoContext))
+            {
+                string partialView = paymentProviderFactory
+                    .GetTransactionPartialView(UmbracoContext, true);
+
+                TransactionViewModel viewModel = paymentManager.GetTransactionViewModel(UmbracoContext, opddewq);
+
+                return PartialView(partialView, viewModel);
+            }
+
+            return default(PartialViewResult);
+        }
+
+        /// <summary>
+        /// Gets the payment page.
+        /// </summary>
+        /// <returns></returns>
+        [ChildActionOnly]
+        public PartialViewResult GetViewPaymentPage()
+        {
+            LoggingService.Info(GetType());
+
+            if (rulesEngineService.IsCustomerPaymentsEnabled(UmbracoContext))
+            {
+                ///// the factory will return different payment pages
+                //// currently only braintree payments supported.
+                string partialView = paymentProviderFactory.GetTransactionPartialView(UmbracoContext, true);
+
+                return PartialView(partialView, new MakePaymentViewModel());
+            }
+
+            return default(PartialViewResult);
+        }
+
+        /// <summary>
         /// Gets the payment page.
         /// </summary>
         /// <returns></returns>
@@ -140,6 +207,44 @@
             }
 
             return default(PartialViewResult);
+        }
+
+        /// <summary>
+        /// Gets the boot grid transactions.
+        /// </summary>
+        /// <param name="current">The current.</param>
+        /// <param name="rowCount">The row count.</param>
+        /// <param name="searchPhrase">The search phrase.</param>
+        /// <param name="sortItems">The sort items.</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult GetBootGridTransactions(
+            int current,
+            int rowCount,
+            string searchPhrase,
+            IEnumerable<SortData> sortItems)
+        {
+            if (rulesEngineService.IsCustomerPaymentsEnabled(UmbracoContext))
+            {
+                BootGridViewModel<TransactionViewModel> bootGridViewModel = paymentManager.GetBootGridTransactions(
+                    current,
+                    rowCount,
+                    searchPhrase,
+                    sortItems,
+                    UmbracoContext);
+
+                string jsonString = JsonConvert.SerializeObject(
+                    bootGridViewModel,
+                    new JsonSerializerSettings
+                    {
+                        ContractResolver = new CamelCasePropertyNamesContractResolver()
+
+                    });
+
+                return Content(jsonString, "application/json");
+            }
+
+            return Content(string.Empty, "application/json");
         }
 
         /// <summary>

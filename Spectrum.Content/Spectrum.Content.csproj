@@ -386,6 +386,8 @@
     <Compile Include="Authentication\AuthenticationConstants.cs" />
     <Compile Include="Authentication\Managers\ILoginManager.cs" />
     <Compile Include="Authentication\Managers\LoginManager.cs" />
+    <Compile Include="Authentication\Services\ILoginCookieService.cs" />
+    <Compile Include="Authentication\Services\LoginCookieService.cs" />
     <Compile Include="Components\Controllers\CardController.cs" />
     <Compile Include="Components\Managers\CardManager.cs" />
     <Compile Include="Components\Managers\ICardManager.cs" />
@@ -399,6 +401,7 @@
     <Compile Include="Customer\Controllers\SearchController.cs" />
     <Compile Include="Customer\Managers\ISearchManager.cs" />
     <Compile Include="Customer\Managers\SearchManager.cs" />
+    <Compile Include="Customer\Models\ClientModel.cs" />
     <Compile Include="Customer\Models\AddressModel.cs" />
     <Compile Include="Customer\Providers\CustomerProvider.cs" />
     <Compile Include="Customer\Providers\ICustomerProvider.cs" />
@@ -413,6 +416,11 @@
     <Compile Include="Payments\Handlers\PaymentMadeHandler.cs" />
     <Compile Include="Payments\Managers\IPaymentMadeManager.cs" />
     <Compile Include="Payments\Managers\PaymentMadeManager.cs" />
+    <Compile Include="Payments\Translators\Interfaces\ITransactionsBootGridTranslator.cs" />
+    <Compile Include="Payments\Translators\Interfaces\ITransactionTranslator.cs" />
+    <Compile Include="Payments\Translators\TransactionsBootGridTranslator.cs" />
+    <Compile Include="Payments\Translators\TransactionTranslator.cs" />
+    <Compile Include="Payments\ViewModels\TransactionViewModel.cs" />
     <Compile Include="Payments\ViewModels\PaymentContextViewModel.cs" />
     <Compile Include="Payments\Models\TransactionModel.cs" />
     <Compile Include="Appointments\Models\ICalAppointmentModel.cs" />
@@ -502,8 +510,8 @@
     <Compile Include="Payments\Services\IBraintreeService.cs" />
     <Compile Include="Payments\Translators\Interfaces\IPaymentTranslator.cs" />
     <Compile Include="Payments\Translators\PaymentTranslator.cs" />
-    <Compile Include="Payments\Translators\TransactionsBootGridTranslator.cs" />
-    <Compile Include="Payments\Translators\Interfaces\ITransactionsBootGridTranslator.cs" />
+    <Compile Include="Payments\Translators\BraintreeBootGridTranslator.cs" />
+    <Compile Include="Payments\Translators\Interfaces\IBraintreeBootGridTranslator.cs" />
     <Compile Include="Payments\Translators\Interfaces\IBraintreeTransactionTranslator.cs" />
     <Compile Include="Payments\Translators\BraintreeTransactionTranslator.cs" />
     <Compile Include="Payments\ViewModels\MakePaymentViewModel.cs" />

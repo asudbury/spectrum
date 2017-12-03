@@ -40,6 +40,11 @@
         public string EmailAddress { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether [show include payment link].
+        /// </summary>
+        public bool ShowIncludePaymentLink { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether [include payment link].
         /// </summary>
         [DisplayName("Include link for payment")]

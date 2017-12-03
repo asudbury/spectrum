@@ -1,0 +1,60 @@
+﻿@using Spectrum.Content.Payments.ViewModels
+@model TransactionViewModel
+
+<div class="center-content">
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-md-offset-4">
+            <div class="account-wall">
+
+                <h2 class="partial-title">Payment</h2>
+
+                <table class="table-responsive table table-striped table-bordered">
+                    <tbody>
+                        <tr>
+                            <td>Payment Id</td>
+                            <td>@Model.Id</td>
+                        </tr>
+                        <tr>
+                            <td>Created By</td>
+                            <td>@Model.CreatedUser</td>
+                        </tr>
+                        <tr>
+                            <td>Date</td>
+                            <td>
+                                @if (Model.TransactionDateTime.HasValue)
+                                {
+                                    @Model.TransactionDateTime.Value.ToString("dd MMM yyyy HH:mm:ss")
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Environment</td>
+                            <td>@Model.Environment</td>
+                        </tr>
+                        <tr>
+                            <td>Payment Provider</td>
+                            <td>@Model.PaymentProvider</td>
+                        </tr>
+                        <tr>
+                            <td>Type</td>
+                            <td>@Model.Type</td>
+                        </tr>
+                        <tr>
+                            <td>Status</td>
+                            <td>@Model.Status</td>
+                        </tr>
+                        <tr>
+                            <td>Payment Information</td>
+                            <td>@Model.CardType @Model.MaskedNumber</td>
+                        </tr>
+                        <tr>
+                            <td>Amount</td>
+                            <td>@Model.Amount</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

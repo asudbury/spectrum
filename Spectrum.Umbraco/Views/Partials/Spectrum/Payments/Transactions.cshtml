@@ -5,7 +5,7 @@
             <th data-column-id="transactionDateTime" data-formatter="dateTime" data-header-align="center" data-align="center">Date</th>
             <th data-column-id="status" data-header-align="center" data-align="center">Status</th>
             <th data-column-id="paymentInformation" data-formatter="paymentInformation" data-header-align="center" data-align="center">Payment Information</th>
-            <th data-column-id="amount" data-formatter="amount" data-header-align="center" data-align="center">Amount</th>
+            <th data-column-id="amount" data-header-align="center" data-align="center">Amount</th>
             <th data-column-id="actions" data-header-align="center" data-align="center" data-formatter="actions">Commands</th>
         </tr>
     </thead>
@@ -48,7 +48,7 @@
             }
             return request;
         },
-        url: "/umbraco/Surface/Braintree/GetBootGridTransactions",
+        url: "/umbraco/Surface/Payment/GetBootGridTransactions",
         formatters: {
             "dateTime": function (column, row) {
                 return moment.utc(row.transactionDateTime).format('ddd DD MMM HH:mm');
@@ -56,29 +56,10 @@
             "paymentInformation": function (column, row) {
                 return row.cardType + " " + row.maskedNumber;
             },
-            "amount": function (column, row) {
-                return '£' + parseFloat(Math.round(row.amount * 100) / 100).toFixed(2); 
-            },
             "actions": function (column, row) {
-                return '<a href="#" class="link-view-transaction" data-transaction-id=' +
-                    row.id +
-                    '>View</a>';
-
+                return '<a href="' + row.viewTransactionUrl + '">View</a>';
             }
         }
-    }).on("loaded.rs.jquery.bootgrid", function () {
-
-        transactionsGrid.find(".link-view-transaction").on("click", function (e) {
-            var transactionsId = $(this).data("transaction-id");
-            event.preventDefault();
-
-            $.ajax({
-                url: '/umbraco/Surface/Braintree/ViewTransaction/' + transactionsId,
-                success: function (data) {
-                    onTransaction(data);
-                }
-            });
-        });
     });
 </script>
 

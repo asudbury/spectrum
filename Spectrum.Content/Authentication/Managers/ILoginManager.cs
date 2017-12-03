@@ -1,6 +1,6 @@
 ﻿namespace Spectrum.Content.Authentication.Managers
 {
-    using Services;
+    using Content.Services;
     using ViewModels;
 
     public interface ILoginManager

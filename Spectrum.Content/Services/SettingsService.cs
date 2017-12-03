@@ -77,7 +77,11 @@
 
                         if (customerModel.Users.Contains(currentUserName))
                         {
-                            Cache.Add(Constants.Nodes.CustomerNodeName + currentUserName, customerNode);
+                            if (customerModel.CacheSettings)
+                            {
+                                Cache.Add(Constants.Nodes.CustomerNodeName + currentUserName, customerNode);
+                            }
+
                             return customerNode;
                         }
                     }
@@ -99,7 +103,8 @@
             return settingsNode != null ? GetChildNode(
                                             settingsNode, 
                                             "menus", 
-                                            Constants.Nodes.MenuNodeName) : null;
+                                            Constants.Nodes.MenuNodeName,
+                                            null) : null;
         }
 
         /// <inheritdoc />
@@ -139,7 +144,8 @@
             return customerNode != null ? GetChildNode(
                                             customerNode, 
                                             "payments", 
-                                            Constants.Nodes.PaymentsNodeName) : null;
+                                            Constants.Nodes.PaymentsNodeName,
+                                            customerNode) : null;
         }
         
         /// <inheritdoc />
@@ -155,7 +161,8 @@
             return customerNode != null ? GetChildNode(
                                             customerNode, 
                                             "mail", 
-                                            Constants.Nodes.MailNodeName) : null;
+                                            Constants.Nodes.MailNodeName,
+                                            customerNode) : null;
         }
         
         /// <inheritdoc />
@@ -250,7 +257,8 @@
             return customerNode != null ? GetChildNode(
                                             customerNode, 
                                             "appointments", 
-                                            Constants.Nodes.AppointmentsNodeName) : null;
+                                            Constants.Nodes.AppointmentsNodeName,
+                                            customerNode) : null;
         }
 
         /// <inheritdoc />
@@ -266,7 +274,8 @@
             return customerNode != null ? GetChildNode(
                                                 customerNode, 
                                                 "quotes", 
-                                                Constants.Nodes.QuotesNodeName) : null;
+                                                Constants.Nodes.QuotesNodeName,
+                                                customerNode) : null;
         }
 
         /// <inheritdoc />
@@ -282,7 +291,8 @@
             return customerNode != null ? GetChildNode(
                                             customerNode, 
                                             "invoices", 
-                                            Constants.Nodes.InvoicesNodeName) : null;
+                                            Constants.Nodes.InvoicesNodeName,
+                                            customerNode) : null;
         }
 
         /// <inheritdoc />
@@ -295,7 +305,7 @@
         {
             IPublishedContent settingsNode = GetSettingsNode(context);
 
-            return settingsNode != null ? GetChildNode(settingsNode, "cards", Constants.Nodes.CardsNodeName) : null;
+            return settingsNode != null ? GetChildNode(settingsNode, "cards", Constants.Nodes.CardsNodeName, null) : null;
         }
 
         /// <inheritdoc />
@@ -311,7 +321,7 @@
         {
             IPublishedContent cardsNode = GetCardsNode(context);
 
-            GetChildNode(cardsNode, name, Constants.Nodes.CardsNodeName + name);
+            GetChildNode(cardsNode, name, Constants.Nodes.CardsNodeName + name, null);
 
             return cardsNode?.Children.FirstOrDefault(x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase));
         }
@@ -332,26 +342,43 @@
         /// <param name="node">The node.</param>
         /// <param name="childNodeName">Name of the child node.</param>
         /// <param name="cacheKeyName">Name of the cache key.</param>
+        /// <param name="customerNode">The customer node.</param>
         /// <returns></returns>
         private IPublishedContent GetChildNode(
             IPublishedContent node,
             string childNodeName,
-            string cacheKeyName)
+            string cacheKeyName,
+            IPublishedContent customerNode)
         {
-            if (string.IsNullOrEmpty(cacheKeyName) == false)
+            bool useCache = true;
+
+            if (customerNode != null)
             {
-                if (Cache.ContainsKey(cacheKeyName))
+                CustomerModel customerModel = new CustomerModel(customerNode);
+
+                useCache = customerModel.CacheSettings;
+            }
+
+            if (useCache)
+            {
+                if (string.IsNullOrEmpty(cacheKeyName) == false)
                 {
-                    return Cache[cacheKeyName];
+                    if (Cache.ContainsKey(cacheKeyName))
+                    {
+                        return Cache[cacheKeyName];
+                    }
                 }
             }
 
             IPublishedContent childNode = node.Children.FirstOrDefault(x => x.DocumentTypeAlias.ToLower() == childNodeName.ToLower()) ??
                                           node.Children.FirstOrDefault(x => x.Name.ToLower() == childNodeName.ToLower());
 
-            if (string.IsNullOrEmpty(cacheKeyName) == false)
+            if (useCache)
             {
-                Cache.Add(cacheKeyName, childNode);
+                if (string.IsNullOrEmpty(cacheKeyName) == false)
+                {
+                    Cache.Add(cacheKeyName, childNode);
+                }
             }
 
             return childNode;

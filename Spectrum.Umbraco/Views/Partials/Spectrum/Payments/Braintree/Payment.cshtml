@@ -58,6 +58,8 @@
                         <label class="control-label">@Umbraco.Field("Email")</label>
                         <input type="text" class="form-control" id="emailAddress" />
                     </div>
+                    
+                    @Html.Partial("Spectrum/Required")
 
                     <button value="submit" id="submit" class="btn btn-primary btn-block payment-button">
                         @Umbraco.Field("PayWith") <span id="card-type">Card</span>
