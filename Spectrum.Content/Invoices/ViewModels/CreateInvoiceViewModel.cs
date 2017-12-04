@@ -2,6 +2,7 @@
 {
     using System;
     using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
 
     public class CreateInvoiceViewModel
     {
@@ -17,26 +18,31 @@
         /// <summary>
         /// Gets or sets the invoice date.
         /// </summary>
+        [Required(ErrorMessage = "Please enter a Invoice Date")]
         public DateTime Date { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the client.
         /// </summary>
+        [Required(ErrorMessage = "Please enter a Client Name")]
         public string ClientName { get; set; }
 
         /// <summary>
         /// Gets or sets the invoice details.
         /// </summary>
+        [Required(ErrorMessage = "Please enter Invoice Details")]
         public string Details { get; set; }
 
         /// <summary>
         /// Gets or sets the invoice amount.
         /// </summary>
-        public decimal Amount { get; set; }
+        [Required(ErrorMessage = "Please enter Invoice Amount")]
+        public decimal? Amount { get; set; }
 
         /// <summary>
         /// Gets or sets the email address.
         /// </summary>
+        [Required(ErrorMessage = "Please enter Client Email Address")]
         public string EmailAddress { get; set; }
 
         /// <summary>

@@ -122,12 +122,21 @@
         /// Creates the invoice.
         /// </summary>
         /// <param name="viewModel">The view model.</param>
-        public void CreateInvoice(CreateInvoiceViewModel viewModel)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateInvoice(CreateInvoiceViewModel viewModel)
         {
             if (rulesEngineService.IsCustomerInvoicesEnabled(UmbracoContext) == false)
             {
                 ThrowAccessDeniedException("No Access to create invoice");
             }
+
+            if (!ModelState.IsValid)
+            {
+                return CurrentUmbracoPage();
+            }
+
+            return default(PartialViewResult);
         }
     }
 }
