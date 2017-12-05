@@ -27,7 +27,6 @@
                 Description = viewModel.Description,
                 Location = viewModel.Location,
                 PaymentId = string.Empty,
-                Status = (int)AppointmentStatus.Outstanding,
                 ServiceProviderId = viewModel.ServiceProviderId,
                 Attendees = GetAttendees(viewModel.Attendees)
             };
@@ -40,7 +39,7 @@
         /// </summary>
         /// <param name="attendees">The attendees.</param>
         /// <returns></returns>
-        private List<AppointmentAttendeeModel> GetAttendees(List<string> attendees)
+        private List<AppointmentAttendeeModel> GetAttendees(IEnumerable<string> attendees)
         {
             List<AppointmentAttendeeModel> models = new List<AppointmentAttendeeModel>();
 

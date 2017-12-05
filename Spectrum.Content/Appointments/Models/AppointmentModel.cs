@@ -88,6 +88,7 @@
         /// <summary>
         /// Gets or sets the status.
         /// </summary>
+        [NullSetting(NullSetting = NullSettings.Null)]
         public int Status { get; set; }
 
         /// <summary>

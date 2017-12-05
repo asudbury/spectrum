@@ -46,7 +46,7 @@
                 LastedUpdatedUser = model.LastedUpdatedUser,
                 StartTime = startTime,
                 Duration = model.Duration,
-                Status = ((AppointmentStatus)model.Status).ToString(),
+                Status = GetAppointmentStatus(model.Status, model.StartTime),
                 PaymentId = model.PaymentId,
                 InvoiceId = model.InvoiceId,
                 Location = model.Location,
@@ -120,6 +120,24 @@
             };
 
             return model;
+        }
+
+        /// <summary>
+        /// Gets the appointment status.
+        /// </summary>
+        /// <param name="status">The status.</param>
+        /// <param name="appointmentTime">The appointment time.</param>
+        /// <returns></returns>
+        internal string GetAppointmentStatus(
+            int status,
+            DateTime appointmentTime)
+        {
+            if ((AppointmentStatus)status != AppointmentStatus.Unknown)
+            {
+                return ((AppointmentStatus)status).ToString();
+            }
+
+            return appointmentTime > DateTime.Now ? "Outstanding" : "Complete";
         }
 
         /// <summary>
