@@ -237,3 +237,7 @@ input.input-validation-error,
 textarea.input-validation-error{
 	margin-bottom: 0;
 }
+
+label {
+	font-weight: 400;
+}

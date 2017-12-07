@@ -63,14 +63,6 @@ h2 {
     font-size: 290%;
 }
 
-.feature-row h3,
-.feature-row-end h3 {
-    /*color: #797979;*/
-    color: #2177d0;
-    font-weight: 300;
-    font-size: 100%;
-}
-
 .feature-row p {
     color: #737373;
     font-weight: 300;
@@ -82,9 +74,11 @@ h2 {
 }
 
 .feature-row-end h3 {
+	font-family: 'Lato','Arial', sans-serif;
 	color: #737373;
     font-weight: 300;
     font-size: 180%;
+	text-align: center;
 }
 
 .feature-row img {
