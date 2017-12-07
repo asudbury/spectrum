@@ -409,7 +409,13 @@
     <Compile Include="Customer\Services\PostalAddressService.cs" />
     <Compile Include="Customer\ViewModels\AddressSearchViewModel.cs" />
     <Compile Include="Invoices\Controllers\InvoicesController.cs" />
+    <Compile Include="Invoices\Managers\IInvoiceManager.cs" />
+    <Compile Include="Invoices\Managers\InvoiceManager.cs" />
     <Compile Include="Invoices\Models\InvoiceModel.cs" />
+    <Compile Include="Invoices\Services\IInvoiceService.cs" />
+    <Compile Include="Invoices\Services\InvoiceService.cs" />
+    <Compile Include="Invoices\Translators\IInvoiceTranslator.cs" />
+    <Compile Include="Invoices\Translators\InvoiceTranslator.cs" />
     <Compile Include="Invoices\ViewModels\CreateInvoiceViewModel.cs" />
     <Compile Include="Payments\Factories\IPaymentProviderFactory.cs" />
     <Compile Include="Payments\Factories\PaymentProviderFactory.cs" />

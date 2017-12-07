@@ -48,7 +48,7 @@
         /// <returns></returns>
         public CardStackViewModel GetCardStack(string cardStackName)
         {
-            IPublishedContent cardStackNode = settingsService.GetCardStack(UmbracoContext.Current, cardStackName);
+            IPublishedContent cardStackNode = settingsService.GetCardStack(cardStackName);
 
             if (cardStackNode != null)
             {
@@ -60,9 +60,7 @@
                 {
                     if (string.IsNullOrEmpty(cardModel.DisplayRule) == false)
                     {
-                        bool result = rulesEngineService.Execute(
-                            UmbracoContext.Current,
-                            cardModel.DisplayRule);
+                        bool result = rulesEngineService.Execute(cardModel.DisplayRule);
 
                         if (result)
                         {

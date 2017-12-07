@@ -44,7 +44,7 @@ namespace Spectrum.Content.Payments.Providers
         /// <returns></returns>
         public PaymentSettingsModel GetPaymentSettingsModel(UmbracoContext umbracoContext)
         {
-            IPublishedContent content = settingsService.GetPaymentsNode(umbracoContext);
+            IPublishedContent content = settingsService.GetPaymentsNode();
 
             return content != null ? new PaymentSettingsModel(content) : null;
         }

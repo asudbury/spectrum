@@ -2,10 +2,12 @@
 {
     using ContentModels;
     using Umbraco.Core.Models;
-    using Umbraco.Web;
 
     public class RulesEngineService : IRulesEngineService
     {
+        /// <summary>
+        /// The settings service.
+        /// </summary>
         private readonly ISettingsService settingsService;
 
         /// <summary>
@@ -21,9 +23,9 @@
         /// <summary>
         /// Determines whether [is customer appointments enabled].
         /// </summary>
-        public bool IsCustomerAppointmentsEnabled(UmbracoContext umbracoContext)
+        public bool IsCustomerAppointmentsEnabled()
         {
-            AppointmentSettingsModel model = GetAppointmentSettingsModel(umbracoContext);
+            AppointmentSettingsModel model = GetAppointmentSettingsModel();
 
             return model != null && model.AppointmentsEnabled;
         }
@@ -32,9 +34,9 @@
         /// <summary>
         /// Determines whether [is customer payments enabled].
         /// </summary>
-        public bool IsCustomerPaymentsEnabled(UmbracoContext umbracoContext)
+        public bool IsCustomerPaymentsEnabled()
         {
-            PaymentSettingsModel model = GetPaymentsSettingsModel(umbracoContext);
+            PaymentSettingsModel model = GetPaymentsSettingsModel();
 
             return model != null && model.PaymentsEnabled;
         }
@@ -43,79 +45,78 @@
         /// <summary>
         /// Determines whether [is customer dashboard enabled].
         /// </summary>
-        public bool IsCustomerDashboardEnabled(UmbracoContext umbracoContext)
+        public bool IsCustomerDashboardEnabled()
         {
-            return IsCustomerQuotesEnabled(umbracoContext) ||
-                   IsCustomerInvoicesEnabled(umbracoContext) ||
-                   IsCustomerAppointmentsEnabled(umbracoContext) ||
-                   IsCustomerPaymentsEnabled(umbracoContext);
+            return IsCustomerQuotesEnabled() ||
+                   IsCustomerInvoicesEnabled() ||
+                   IsCustomerAppointmentsEnabled() ||
+                   IsCustomerPaymentsEnabled();
         }
 
         /// <inheritdoc />
         /// <summary>
         /// Determines whether [is customer google calendar enabled].
         /// </summary>
-        public bool IsCustomerGoogleCalendarEnabled(UmbracoContext umbracoContext)
+        public bool IsCustomerGoogleCalendarEnabled()
         {
-            AppointmentSettingsModel model = GetAppointmentSettingsModel(umbracoContext);
+            AppointmentSettingsModel model = GetAppointmentSettingsModel();
 
             return model != null && model.GoogleCalendarEnabled;
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Determines whether [is customer quotes enabled] [the specified umbraco context].
         /// </summary>
-        /// <param name="umbracoContext">The umbraco context.</param>
-        public bool IsCustomerQuotesEnabled(UmbracoContext umbracoContext)
+        /// <returns>
+        ///   <c>true</c> if [is customer quotes enabled]; otherwise, <c>false</c>.
+        /// </returns>
+        /// <inheritdoc />
+        public bool IsCustomerQuotesEnabled()
         {
-            QuoteSettingsModel model = GetQuoteSettingsModel(umbracoContext);
+            QuoteSettingsModel model = GetQuoteSettingsModel();
 
             return model != null && model.QuotesEnabled;
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Determines whether [is customer invoices enabled] [the specified umbraco context].
         /// </summary>
-        /// <param name="umbracoContext">The umbraco context.</param>
-        public bool IsCustomerInvoicesEnabled(UmbracoContext umbracoContext)
+        /// <returns></returns>
+        /// <inheritdoc />
+        public bool IsCustomerInvoicesEnabled()
         {
-            InvoiceSettingsModel model = GetInvoiceSettingsModel(umbracoContext);
+            InvoiceSettingsModel model = GetInvoiceSettingsModel();
 
             return model != null && model.InvoicesEnabled;
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Executes the specified query.
         /// </summary>
-        /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="query">The query.</param>
         /// <returns></returns>
-        public bool Execute(
-            UmbracoContext umbracoContext,
-            string query)
+        /// <inheritdoc />
+        public bool Execute(string query)
         {
             switch (query)
             {
                 case Constants.Rules.IsCustomerQuotesEnabled:
-                    return IsCustomerQuotesEnabled(umbracoContext);
+                    return IsCustomerQuotesEnabled();
 
                 case Constants.Rules.IsCustomerInvoicesEnabled:
-                    return IsCustomerInvoicesEnabled(umbracoContext);
+                    return IsCustomerInvoicesEnabled();
 
                 case Constants.Rules.IsCustomerAppointmentsEnabled:
-                    return IsCustomerAppointmentsEnabled(umbracoContext);
+                    return IsCustomerAppointmentsEnabled();
 
                 case Constants.Rules.IsCustomerPaymentsEnabled:
-                    return IsCustomerPaymentsEnabled(umbracoContext);
+                    return IsCustomerPaymentsEnabled();
 
                 case Constants.Rules.IsCustomerDashboardEnabled:
-                    return IsCustomerDashboardEnabled(umbracoContext);
+                    return IsCustomerDashboardEnabled();
 
                 case Constants.Rules.IsCustomerGoogleCalendarEnabled:
-                    return IsCustomerGoogleCalendarEnabled(umbracoContext);
+                    return IsCustomerGoogleCalendarEnabled();
 
                 default:
                     return false;
@@ -125,11 +126,10 @@
         /// <summary>
         /// Gets the quote settings model.
         /// </summary>
-        /// <param name="umbracoContext">The umbraco context.</param>
         /// <returns></returns>
-        internal QuoteSettingsModel GetQuoteSettingsModel(UmbracoContext umbracoContext)
+        internal QuoteSettingsModel GetQuoteSettingsModel()
         {
-            IPublishedContent quoteNode = settingsService.GetQuotesNode(umbracoContext);
+            IPublishedContent quoteNode = settingsService.GetQuotesNode();
 
             return quoteNode != null ? new QuoteSettingsModel(quoteNode) : null;
         }
@@ -137,11 +137,10 @@
         /// <summary>
         /// Gets the invoice settings model.
         /// </summary>
-        /// <param name="umbracoContext">The umbraco context.</param>
         /// <returns></returns>
-        internal InvoiceSettingsModel GetInvoiceSettingsModel(UmbracoContext umbracoContext)
+        internal InvoiceSettingsModel GetInvoiceSettingsModel()
         {
-            IPublishedContent invoiceNode = settingsService.GetInvoicesNode(umbracoContext);
+            IPublishedContent invoiceNode = settingsService.GetInvoicesNode();
 
             return invoiceNode != null ? new InvoiceSettingsModel(invoiceNode) : null;
         }
@@ -149,11 +148,10 @@
         /// <summary>
         /// Gets the appointment settings model.
         /// </summary>
-        /// <param name="umbracoContext">The umbraco context.</param>
         /// <returns></returns>
-        internal AppointmentSettingsModel GetAppointmentSettingsModel(UmbracoContext umbracoContext)
+        internal AppointmentSettingsModel GetAppointmentSettingsModel()
         {
-            IPublishedContent appointmentsNode = settingsService.GetAppointmentsNode(umbracoContext);
+            IPublishedContent appointmentsNode = settingsService.GetAppointmentsNode();
 
             return appointmentsNode != null ? new AppointmentSettingsModel(appointmentsNode) : null;
         }
@@ -161,11 +159,10 @@
         /// <summary>
         /// Gets the payments settings model.
         /// </summary>
-        /// <param name="umbracoContext">The umbraco context.</param>
         /// <returns></returns>
-        internal PaymentSettingsModel GetPaymentsSettingsModel(UmbracoContext umbracoContext)
+        internal PaymentSettingsModel GetPaymentsSettingsModel()
         {
-            IPublishedContent paymentsNode = settingsService.GetPaymentsNode(umbracoContext);
+            IPublishedContent paymentsNode = settingsService.GetPaymentsNode();
 
             return paymentsNode != null ? new PaymentSettingsModel(paymentsNode) : null;
         }

@@ -71,9 +71,7 @@ namespace Spectrum.Content.Mail.Providers
             Attachment attachment,
             Dictionary<string, string> replacementTokens)
         {
-            IPublishedContent content = settingsService.GetMailTemplate(
-                                            umbracoContext, 
-                                            emailTemplateName);
+            IPublishedContent content = settingsService.GetMailTemplate(emailTemplateName);
             if (content == null)
             {
                 throw new ApplicationException("Mail Template " + emailTemplateName + " not defined");

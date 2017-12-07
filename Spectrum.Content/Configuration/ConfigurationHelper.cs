@@ -45,7 +45,7 @@
         {
             SettingsService settingsService = new SettingsService();
 
-            return  settingsService.GetSettingsNode(UmbracoContext.Current);
+            return  settingsService.GetSettingsNode();
         }
 
 
@@ -70,7 +70,7 @@
         {
             SettingsService settingsService = new SettingsService();
 
-            IPublishedContent customerNode = settingsService.GetCustomerNode(UmbracoContext.Current);
+            IPublishedContent customerNode = settingsService.GetCustomerNode();
 
             if (customerNode != null)
             {

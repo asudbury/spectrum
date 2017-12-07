@@ -69,7 +69,7 @@
                 string encryptedRememberMe = encryptionService.EncryptString(true.ToString());
                 cookieService.SetValue(rememberMeKey, encryptedRememberMe);
 
-                IPublishedContent customerNode = settingsService.GetCustomerNode(umbracoContext);
+                IPublishedContent customerNode = settingsService.GetCustomerNode();
 
                 CustomerModel model = new CustomerModel(customerNode);
                 

@@ -10,7 +10,6 @@
     using System.Collections.Generic;
     using System.Web.Mvc;
     using Umbraco.Core.Models;
-    using Umbraco.Web;
     using ViewModels;
 
     public class PaymentController : BaseController
@@ -48,46 +47,6 @@
             this.paymentManager = paymentManager;
             this.rulesEngineService = rulesEngineService;
             this.paymentProviderFactory = paymentProviderFactory;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:Spectrum.Content.Payments.Controllers.PaymentController" /> class.
-        /// </summary>
-        /// <param name="umbracoContext">The umbraco context.</param>
-        /// <param name="loggingService">The logging service.</param>
-        /// <param name="paymentManager">The payment manager.</param>
-        /// <param name="rulesEngineService">The rules engine service.</param>
-        /// <inheritdoc />
-        public PaymentController(
-            UmbracoContext umbracoContext,
-            ILoggingService loggingService,
-            IPaymentManager paymentManager,
-            IRulesEngineService rulesEngineService)
-            : base(loggingService)
-        {
-            this.paymentManager = paymentManager;
-            this.rulesEngineService = rulesEngineService;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:Spectrum.Content.Payments.Controllers.PaymentController" /> class.
-        /// </summary>
-        /// <param name="umbracoContext">The umbraco context.</param>
-        /// <param name="umbracoHelper">The umbraco helper.</param>
-        /// <param name="loggingService">The logging service.</param>
-        /// <param name="paymentManager">The payment manager.</param>
-        /// <param name="rulesEngineService">The rules engine service.</param>
-        /// <inheritdoc />
-        public PaymentController(
-            UmbracoContext umbracoContext,
-            UmbracoHelper umbracoHelper,
-            ILoggingService loggingService,
-            IPaymentManager paymentManager,
-            IRulesEngineService rulesEngineService)
-            : base(loggingService)
-        {
-            this.paymentManager = paymentManager;
-            this.rulesEngineService = rulesEngineService;
         }
 
         /// <summary>
@@ -132,7 +91,7 @@
         {
             LoggingService.Info(GetType());
 
-            if (rulesEngineService.IsCustomerPaymentsEnabled(UmbracoContext))
+            if (rulesEngineService.IsCustomerPaymentsEnabled())
             {
                 string partialView = paymentProviderFactory
                                         .GetTransactionsPartialView(UmbracoContext, true);
@@ -154,7 +113,7 @@
         {
             LoggingService.Info(GetType());
 
-            if (rulesEngineService.IsCustomerPaymentsEnabled(UmbracoContext))
+            if (rulesEngineService.IsCustomerPaymentsEnabled())
             {
                 string partialView = paymentProviderFactory
                     .GetTransactionPartialView(UmbracoContext, true);
@@ -176,7 +135,7 @@
         {
             LoggingService.Info(GetType());
 
-            if (rulesEngineService.IsCustomerPaymentsEnabled(UmbracoContext))
+            if (rulesEngineService.IsCustomerPaymentsEnabled())
             {
                 ///// the factory will return different payment pages
                 //// currently only braintree payments supported.
@@ -197,7 +156,7 @@
         {
             LoggingService.Info(GetType());
 
-            if (rulesEngineService.IsCustomerPaymentsEnabled(UmbracoContext))
+            if (rulesEngineService.IsCustomerPaymentsEnabled())
             {
                 ///// the factory will return different payment pages
                 //// currently only braintree payments supported.
@@ -224,7 +183,7 @@
             string searchPhrase,
             IEnumerable<SortData> sortItems)
         {
-            if (rulesEngineService.IsCustomerPaymentsEnabled(UmbracoContext))
+            if (rulesEngineService.IsCustomerPaymentsEnabled())
             {
                 BootGridViewModel<TransactionViewModel> bootGridViewModel = paymentManager.GetBootGridTransactions(
                     current,

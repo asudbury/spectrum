@@ -29,7 +29,7 @@
         /// <returns></returns>
         public CustomerModel GetCustomerModel(UmbracoContext umbracoContext)
         {
-            IPublishedContent customerNode = settingsService.GetCustomerNode(umbracoContext);
+            IPublishedContent customerNode = settingsService.GetCustomerNode();
 
             if (customerNode != null)
             {

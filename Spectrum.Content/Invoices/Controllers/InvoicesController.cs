@@ -1,10 +1,10 @@
 ﻿namespace Spectrum.Content.Invoices.Controllers
 {
+    using Content.Services;
     using ContentModels;
-    using Services;
+    using Managers;
     using System.Web.Mvc;
     using Umbraco.Core.Models;
-    using Umbraco.Web;
     using ViewModels;
 
     public class InvoicesController : BaseController
@@ -20,60 +20,28 @@
         private readonly IRulesEngineService rulesEngineService;
 
         /// <summary>
+        /// The invoice manager.
+        /// </summary>
+        private readonly IInvoiceManager invoiceManager;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="T:Spectrum.Content.BaseController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="settingsService">The settings service.</param>
         /// <param name="rulesEngineService">The rules engine service.</param>
+        /// <param name="invoiceManager">The invoice manager.</param>
         /// <inheritdoc />
         public InvoicesController(
             ILoggingService loggingService,
             ISettingsService settingsService,
-            IRulesEngineService rulesEngineService) 
+            IRulesEngineService rulesEngineService,
+            IInvoiceManager invoiceManager)
             : base(loggingService)
         {
             this.settingsService = settingsService;
             this.rulesEngineService = rulesEngineService;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:Spectrum.Content.BaseController" /> class.
-        /// </summary>
-        /// <param name="loggingService">The logging service.</param>
-        /// <param name="settingsService">The settings service.</param>
-        /// <param name="umbracoContext">The umbraco context.</param>
-        /// <param name="rulesEngineService">The rules engine service.</param>
-        /// <inheritdoc />
-        public InvoicesController(
-            ILoggingService loggingService,
-            ISettingsService settingsService,
-            UmbracoContext umbracoContext,
-            IRulesEngineService rulesEngineService) 
-            : base(loggingService, umbracoContext)
-        {
-            this.settingsService = settingsService;
-            this.rulesEngineService = rulesEngineService;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:Spectrum.Content.BaseController" /> class.
-        /// </summary>
-        /// <param name="loggingService">The logging service.</param>
-        /// <param name="settingsService">The settings service.</param>
-        /// <param name="umbracoContext">The umbraco context.</param>
-        /// <param name="umbracoHelper">The umbraco helper.</param>
-        /// <param name="rulesEngineService">The rules engine service.</param>
-        /// <inheritdoc />
-        public InvoicesController(
-            ILoggingService loggingService,
-            ISettingsService settingsService,
-            UmbracoContext umbracoContext, 
-            UmbracoHelper umbracoHelper,
-            IRulesEngineService rulesEngineService) 
-            : base(loggingService, umbracoContext, umbracoHelper)
-        {
-            this.settingsService = settingsService;
-            this.rulesEngineService = rulesEngineService;
+            this.invoiceManager = invoiceManager;
         }
 
         /// <summary>
@@ -85,7 +53,7 @@
         {
             LoggingService.Info(GetType());
 
-            if (rulesEngineService.IsCustomerInvoicesEnabled(UmbracoContext))
+            if (rulesEngineService.IsCustomerInvoicesEnabled())
             {
                 return PartialView("Partials/Spectrum/Invoices/Invoices");
             }
@@ -102,11 +70,11 @@
         {
             LoggingService.Info(GetType());
 
-            if (rulesEngineService.IsCustomerInvoicesEnabled(UmbracoContext))
+            if (rulesEngineService.IsCustomerInvoicesEnabled())
             {
                 CreateInvoiceViewModel viewModel = new CreateInvoiceViewModel();
                 
-                IPublishedContent paymentsNode = settingsService.GetPaymentsNode(UmbracoContext);
+                IPublishedContent paymentsNode = settingsService.GetPaymentsNode();
 
                 PaymentSettingsModel settingsModel = new PaymentSettingsModel(paymentsNode);
 
@@ -126,7 +94,7 @@
         [ValidateAntiForgeryToken]
         public ActionResult CreateInvoice(CreateInvoiceViewModel viewModel)
         {
-            if (rulesEngineService.IsCustomerInvoicesEnabled(UmbracoContext) == false)
+            if (rulesEngineService.IsCustomerInvoicesEnabled() == false)
             {
                 ThrowAccessDeniedException("No Access to create invoice");
             }
@@ -135,6 +103,8 @@
             {
                 return CurrentUmbracoPage();
             }
+
+            invoiceManager.CreateInvoice(viewModel);
 
             return default(PartialViewResult);
         }

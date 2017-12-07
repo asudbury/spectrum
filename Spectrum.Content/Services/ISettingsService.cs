@@ -1,7 +1,6 @@
 ﻿namespace Spectrum.Content.Services
 {
     using Umbraco.Core.Models;
-    using Umbraco.Web;
 
     public interface ISettingsService
     {
@@ -13,133 +12,106 @@
         /// <summary>
         /// Gets the settings node.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <returns></returns>
-        IPublishedContent GetSettingsNode(UmbracoContext context);
+        IPublishedContent GetSettingsNode();
 
         /// <summary>
         /// Gets the customer node.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <returns></returns>
-        IPublishedContent GetCustomerNode(UmbracoContext context);
+        IPublishedContent GetCustomerNode();
 
         /// <summary>
         /// Gets the menus node.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <returns></returns>
-        IPublishedContent GetMenusNode(UmbracoContext context);
+        IPublishedContent GetMenusNode();
 
         /// <summary>
         /// Gets the menu.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <param name="name">The name.</param>
         /// <returns></returns>
-        IPublishedContent GetMenu(
-            UmbracoContext context,
-            string name);
-        
+        IPublishedContent GetMenu(string name);
+
         /// <summary>
         /// Gets the payments node.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <returns></returns>
-        IPublishedContent GetPaymentsNode(UmbracoContext context);
+        IPublishedContent GetPaymentsNode();
 
         /// <summary>
         /// Gets the mail node.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <returns></returns>
-        IPublishedContent GetMailNode(UmbracoContext context);
+        IPublishedContent GetMailNode();
 
         /// <summary>
         /// Gets the mail templates folder node.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <returns></returns>
-        IPublishedContent GetMailTemplatesFolderNode(UmbracoContext context);
+        IPublishedContent GetMailTemplatesFolderNode();
 
         /// <summary>
         /// Gets the mail template.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <param name="templateName">Name of the template.</param>
         /// <returns></returns>
-        IPublishedContent GetMailTemplate(
-            UmbracoContext context,
-            string templateName);
+        IPublishedContent GetMailTemplate(string templateName);
 
         /// <summary>
         /// Gets the mail template.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <param name="folderName">Name of the folder.</param>
         /// <param name="templateName">Name of the template.</param>
         /// <returns></returns>
         IPublishedContent GetMailTemplate(
-            UmbracoContext context, 
-            string folderName,
+           string folderName,
             string templateName);
 
         /// <summary>
         /// Gets the mail template by identifier.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        IPublishedContent GetMailTemplateById(
-            UmbracoContext context, 
-            int id);
+        IPublishedContent GetMailTemplateById(int id);
 
         /// <summary>
         /// Gets the mail template by URL.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <param name="url">The URL.</param>
         /// <returns></returns>
-        IPublishedContent GetMailTemplateByUrl(
-            UmbracoContext context,
-            string url);
+        IPublishedContent GetMailTemplateByUrl(string url);
 
         /// <summary>
         /// Gets the appointments node.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <returns></returns>
-        IPublishedContent GetAppointmentsNode(UmbracoContext context);
+        IPublishedContent GetAppointmentsNode();
 
         /// <summary>
         /// Gets the quotes node.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <returns></returns>
-        IPublishedContent GetQuotesNode(UmbracoContext context);
+        IPublishedContent GetQuotesNode();
 
         /// <summary>
         /// Gets the invoices node.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <returns></returns>
-        IPublishedContent GetInvoicesNode(UmbracoContext context);
+        IPublishedContent GetInvoicesNode();
 
         /// <summary>
         /// Gets the cards node.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <returns></returns>
-        IPublishedContent GetCardsNode(UmbracoContext context);
+        IPublishedContent GetCardsNode();
 
         /// <summary>
         /// Gets the card stack.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <param name="name">The name.</param>
         /// <returns></returns>
-        IPublishedContent GetCardStack(
-            UmbracoContext context,
-            string name);
+        IPublishedContent GetCardStack(string name);
     }
 }

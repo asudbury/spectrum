@@ -71,7 +71,7 @@
                 }
             }
 
-            IPublishedContent menuNode = settingsService.GetMenu(UmbracoContext.Current, menu);
+            IPublishedContent menuNode = settingsService.GetMenu(menu);
 
             if (menuNode != null)
             {
@@ -83,9 +83,7 @@
                 {
                     if (string.IsNullOrEmpty(menuItemModel.DisplayRule) == false)
                     {
-                        bool result = rulesEngineService.Execute(
-                                            UmbracoContext.Current, 
-                                            menuItemModel.DisplayRule);
+                        bool result = rulesEngineService.Execute(menuItemModel.DisplayRule);
 
                         if (result)
                         {

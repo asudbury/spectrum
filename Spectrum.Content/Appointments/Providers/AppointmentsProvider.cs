@@ -29,7 +29,7 @@
         /// <returns></returns>
         public IPublishedContent GetAppointmentsNode(UmbracoContext umbracoContext)
         {
-            return settingsService.GetAppointmentsNode(umbracoContext);
+            return settingsService.GetAppointmentsNode();
         }
 
         /// <inheritdoc />

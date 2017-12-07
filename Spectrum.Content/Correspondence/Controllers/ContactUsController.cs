@@ -4,7 +4,6 @@
     using Services;
     using System.Web.Mvc;
     using Umbraco.Core.Models;
-    using Umbraco.Web;
     using ViewModels;
 
     public class ContactUsController : BaseController
@@ -24,40 +23,6 @@
             ILoggingService loggingService,
             IContactUsManager contactUsManager) 
             : base(loggingService)
-        {
-            this.contactUsManager = contactUsManager;
-        }
-
-        /// <inheritdoc />
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:Spectrum.Content.Correspondence.Controllers.ContactUsController" /> class.
-        /// </summary>
-        /// <param name="loggingService">The logging service.</param>
-        /// <param name="umbracoContext">The umbraco context.</param>
-        /// <param name="contactUsManager">The contact us manager.</param>
-        public ContactUsController(
-            ILoggingService loggingService,
-            UmbracoContext umbracoContext,
-            IContactUsManager contactUsManager) : 
-            base(loggingService, umbracoContext)
-        {
-            this.contactUsManager = contactUsManager;
-        }
-
-        /// <inheritdoc />
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:Spectrum.Content.Correspondence.Controllers.ContactUsController" /> class.
-        /// </summary>
-        /// <param name="loggingService">The logging service.</param>
-        /// <param name="umbracoContext">The umbraco context.</param>
-        /// <param name="umbracoHelper">The umbraco helper.</param>
-        /// <param name="contactUsManager">The contact us manager.</param>
-        public ContactUsController(
-            ILoggingService loggingService, 
-            UmbracoContext umbracoContext, 
-            UmbracoHelper umbracoHelper,
-            IContactUsManager contactUsManager) : 
-            base(loggingService, umbracoContext, umbracoHelper)
         {
             this.contactUsManager = contactUsManager;
         }

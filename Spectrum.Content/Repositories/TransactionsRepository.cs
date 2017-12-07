@@ -35,13 +35,13 @@
         /// <param name="umbracoContext">The umbraco context.</param>
         public void SetKey(UmbracoContext umbracoContext)
         {
-            IPublishedContent customerNode = settingsService.GetCustomerNode(umbracoContext);
+            IPublishedContent customerNode = settingsService.GetCustomerNode();
 
             if (customerNode != null)
             { 
                 CustomerModel customerModel = new CustomerModel(customerNode);
 
-                IPublishedContent paymentsNode = settingsService.GetPaymentsNode(umbracoContext);
+                IPublishedContent paymentsNode = settingsService.GetPaymentsNode();
 
                 if (paymentsNode != null)
                 {

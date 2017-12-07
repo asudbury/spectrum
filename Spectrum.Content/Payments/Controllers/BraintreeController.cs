@@ -8,7 +8,6 @@
     using Newtonsoft.Json.Serialization;
     using System.Collections.Generic;
     using System.Web.Mvc;
-    using Umbraco.Web;
     using ViewModels;
 
     public class BraintreeController : BaseController
@@ -49,49 +48,6 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Spectrum.Content.Payments.Controllers.TransactionsController" /> class.
-        /// </summary>
-        /// <param name="umbracoContext">The umbraco context.</param>
-        /// <param name="loggingService">The logging service.</param>
-        /// <param name="braintreeTransactionsManager">The transactions manager.</param>
-        /// <param name="rulesEngineService">The rules engine service.</param>
-        /// <inheritdoc />
-        public BraintreeController(
-            UmbracoContext umbracoContext,
-            ILoggingService loggingService,
-            IBraintreeManager braintreeTransactionsManager,
-            IRulesEngineService rulesEngineService)
-            : base(loggingService, 
-                   umbracoContext)
-        {
-            this.braintreeManager = braintreeTransactionsManager;
-            this.rulesEngineService = rulesEngineService;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:Spectrum.Content.Payments.Controllers.TransactionsController" /> class.
-        /// </summary>
-        /// <param name="umbracoContext">The umbraco context.</param>
-        /// <param name="umbracoHelper">The umbraco helper.</param>
-        /// <param name="loggingService">The logging service.</param>
-        /// <param name="braintreeTransactionsManager">The transactions manager.</param>
-        /// <param name="rulesEngineService">The rules engine service.</param>
-        /// <inheritdoc />
-        public BraintreeController(
-            UmbracoContext umbracoContext,
-            UmbracoHelper umbracoHelper,
-            ILoggingService loggingService,
-            IBraintreeManager braintreeTransactionsManager,
-            IRulesEngineService rulesEngineService)
-            : base(loggingService, 
-                   umbracoContext, 
-                   umbracoHelper)
-        {
-            this.braintreeManager = braintreeTransactionsManager;
-            this.rulesEngineService = rulesEngineService;
-        }
-
-        /// <summary>
         /// Gets the transactions page.
         /// </summary>
         /// <returns></returns>
@@ -100,7 +56,7 @@
         {
             LoggingService.Info(GetType());
 
-            if (rulesEngineService.IsCustomerPaymentsEnabled(UmbracoContext))
+            if (rulesEngineService.IsCustomerPaymentsEnabled())
             {
                 string partialView = paymentProviderFactory.GetTransactionsPartialView(
                     UmbracoContext,
@@ -141,7 +97,7 @@
             string searchPhrase,
             IEnumerable<SortData> sortItems)
         {
-            if (rulesEngineService.IsCustomerPaymentsEnabled(UmbracoContext))
+            if (rulesEngineService.IsCustomerPaymentsEnabled())
             {
                 BootGridViewModel<BraintreeTransactionViewModel> bootGridViewModel = braintreeManager.GetBootGridTransactions(
                     current,
@@ -174,7 +130,7 @@
         {
             LoggingService.Info(GetType(), "Id=" + id);
 
-            if (rulesEngineService.IsCustomerPaymentsEnabled(UmbracoContext))
+            if (rulesEngineService.IsCustomerPaymentsEnabled())
             {
                 string partialView = paymentProviderFactory
                                         .GetTransactionPartialView(UmbracoContext, false);

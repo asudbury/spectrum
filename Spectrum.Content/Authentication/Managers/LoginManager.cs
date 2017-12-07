@@ -128,7 +128,7 @@
 
             if (!string.IsNullOrEmpty(role))
             {
-                IPublishedContent menuNode = settingsService.GetMenu(UmbracoContext.Current, role);
+                IPublishedContent menuNode = settingsService.GetMenu(role);
 
                 if (menuNode != null)
                 {

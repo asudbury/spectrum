@@ -5,7 +5,6 @@
     using Models;
     using System.Collections.Generic;
     using System.Web.Mvc;
-    using Umbraco.Web;
     using ViewModels;
 
     public class SearchController : BaseController
@@ -25,40 +24,6 @@
             ILoggingService loggingService,
             ISearchManager searchManager)
             : base(loggingService)
-        {
-            this.searchManager = searchManager;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:Spectrum.Content.BaseController" /> class.
-        /// </summary>
-        /// <param name="loggingService">The logging service.</param>
-        /// <param name="umbracoContext">The umbraco context.</param>
-        /// <param name="searchManager">The search manager.</param>
-        /// <inheritdoc />
-        public SearchController(
-            ILoggingService loggingService,
-            UmbracoContext umbracoContext,
-            ISearchManager searchManager) :
-            base(loggingService, umbracoContext)
-        {
-            this.searchManager = searchManager;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:Spectrum.Content.BaseController" /> class.
-        /// </summary>
-        /// <param name="loggingService">The logging service.</param>
-        /// <param name="umbracoContext">The umbraco context.</param>
-        /// <param name="umbracoHelper">The umbraco helper.</param>
-        /// <param name="searchManager">The search manager.</param>
-        /// <inheritdoc />
-        public SearchController(
-            ILoggingService loggingService,
-            UmbracoContext umbracoContext,
-            UmbracoHelper umbracoHelper,
-            ISearchManager searchManager)
-            : base(loggingService, umbracoContext, umbracoHelper)
         {
             this.searchManager = searchManager;
         }

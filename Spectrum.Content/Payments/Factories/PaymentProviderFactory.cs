@@ -148,7 +148,7 @@
         /// <returns></returns>
         internal PaymentSettingsModel GetPaymentSettingsModel(UmbracoContext umbracoContext)
         {
-            IPublishedContent  paymentsNode = settingsService.GetPaymentsNode(umbracoContext);
+            IPublishedContent  paymentsNode = settingsService.GetPaymentsNode();
 
             return new PaymentSettingsModel(paymentsNode);
         }

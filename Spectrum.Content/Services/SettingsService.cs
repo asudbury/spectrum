@@ -11,10 +11,32 @@
     public class SettingsService : ISettingsService
     {
         /// <summary>
+        /// The umbraco context.
+        /// </summary>
+        private readonly UmbracoContext umbracoContext;
+
+        /// <summary>
         /// The cache.
         /// </summary>
         private static readonly Dictionary<string, IPublishedContent> Cache = new Dictionary<string, IPublishedContent>();
-        
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SettingsService"/> class.
+        /// </summary>
+        public SettingsService()
+        {
+            umbracoContext = UmbracoContext.Current;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SettingsService"/> class.
+        /// </summary>
+        /// <param name="umbracoContextAccessor">The umbraco context accessor.</param>
+        public SettingsService(IUmbracoContextAccessor umbracoContextAccessor)
+        {
+            umbracoContext = umbracoContextAccessor.Value;
+        }
+
         /// <inheritdoc />
         /// <summary>
         /// Clears the cache.
@@ -24,35 +46,34 @@
             Cache.Clear();
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Gets the settings node.
         /// </summary>
         /// <returns></returns>
-        public IPublishedContent GetSettingsNode(UmbracoContext context)
+        /// <inheritdoc />
+        public IPublishedContent GetSettingsNode()
         {
             if (Cache.ContainsKey(Constants.Nodes.SettingsNodeName))
             {
                 return Cache[Constants.Nodes.SettingsNodeName];
             }
 
-            IPublishedContent node = GetHelper(context).TypedContentAtRoot().FirstOrDefault(x => x.DocumentTypeAlias == "settings") ??
-                                     GetHelper(context).TypedContentAtRoot().FirstOrDefault(x => x.Name == "Settings");
+            IPublishedContent node = GetHelper().TypedContentAtRoot().FirstOrDefault(x => x.DocumentTypeAlias == "settings") ??
+                                     GetHelper().TypedContentAtRoot().FirstOrDefault(x => x.Name == "Settings");
 
             Cache.Add(Constants.Nodes.SettingsNodeName, node);
 
             return node;
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Gets the customer node.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <returns></returns>
-        public IPublishedContent GetCustomerNode(UmbracoContext context)
+        /// <inheritdoc />
+        public IPublishedContent GetCustomerNode()
         {
-            MembershipHelper membershipHelper = new MembershipHelper(context);
+            MembershipHelper membershipHelper = new MembershipHelper(umbracoContext);
 
             IPublishedContent currentMember = membershipHelper.GetCurrentMember();
 
@@ -65,7 +86,7 @@
                     return Cache[Constants.Nodes.CustomerNodeName + currentUserName];
                 }
                 
-                IPublishedContent settingsNode = GetSettingsNode(context);
+                IPublishedContent settingsNode = GetSettingsNode();
 
                 if (settingsNode != null)
                 {
@@ -91,14 +112,14 @@
             return null;
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Gets the menus node.
         /// </summary>
         /// <returns></returns>
-        public IPublishedContent GetMenusNode(UmbracoContext context)
+        /// <inheritdoc />
+        public IPublishedContent GetMenusNode()
         {
-            IPublishedContent settingsNode = GetSettingsNode(context);
+            IPublishedContent settingsNode = GetSettingsNode();
 
             return settingsNode != null ? GetChildNode(
                                             settingsNode, 
@@ -107,23 +128,20 @@
                                             null) : null;
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Gets the menu.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <param name="name">The name.</param>
         /// <returns></returns>
-        public IPublishedContent GetMenu(
-            UmbracoContext context,
-            string name)
+        /// <inheritdoc />
+        public IPublishedContent GetMenu(string name)
         {
             if (Cache.ContainsKey(Constants.Nodes.MenuNodeName + name))
             {
                 return Cache[Constants.Nodes.MenuNodeName + name];
             }
 
-            IPublishedContent menusNode = GetMenusNode(context);
+            IPublishedContent menusNode = GetMenusNode();
 
             IPublishedContent menu =  menusNode?.Children.FirstOrDefault(x => x.Name == name);
 
@@ -131,15 +149,14 @@
             return menu;
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Gets the payments node.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <returns></returns>
-        public IPublishedContent GetPaymentsNode(UmbracoContext context)
+        /// <inheritdoc />
+        public IPublishedContent GetPaymentsNode()
         {
-            IPublishedContent customerNode = GetCustomerNode(context);
+            IPublishedContent customerNode = GetCustomerNode();
 
             return customerNode != null ? GetChildNode(
                                             customerNode, 
@@ -147,16 +164,15 @@
                                             Constants.Nodes.PaymentsNodeName,
                                             customerNode) : null;
         }
-        
-        /// <inheritdoc />
+
         /// <summary>
         /// Gets the maile node.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <returns></returns>
-        public IPublishedContent GetMailNode(UmbracoContext context)
+        /// <inheritdoc />
+        public IPublishedContent GetMailNode()
         {
-            IPublishedContent customerNode = GetCustomerNode(context);
+            IPublishedContent customerNode = GetCustomerNode();
 
             return customerNode != null ? GetChildNode(
                                             customerNode, 
@@ -164,95 +180,82 @@
                                             Constants.Nodes.MailNodeName,
                                             customerNode) : null;
         }
-        
-        /// <inheritdoc />
+
         /// <summary>
         /// Gets the mail templates folder node.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <returns></returns>
-        public IPublishedContent GetMailTemplatesFolderNode(UmbracoContext context)
+        /// <inheritdoc />
+        public IPublishedContent GetMailTemplatesFolderNode()
         {
-            IPublishedContent mailNode = GetMailNode(context);
+            IPublishedContent mailNode = GetMailNode();
 
             return mailNode?.Children.FirstOrDefault();
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Gets the mail template.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <param name="templateName">Name of the template.</param>
         /// <returns></returns>
-        public IPublishedContent GetMailTemplate(
-            UmbracoContext context, 
-            string templateName)
+        /// <inheritdoc />
+        public IPublishedContent GetMailTemplate(string templateName)
         {
-            IPublishedContent folderNode = GetMailTemplatesFolderNode(context);
+            IPublishedContent folderNode = GetMailTemplatesFolderNode();
 
             return folderNode?.Children.FirstOrDefault(x => x.Name == templateName);
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Gets the mail template.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <param name="folderName">Name of the folder.</param>
         /// <param name="templateName">Name of the template.</param>
         /// <returns></returns>
+        /// <inheritdoc />
         public IPublishedContent GetMailTemplate(
-            UmbracoContext context, 
-            string folderName, 
+           string folderName, 
             string templateName)
         {
-            IPublishedContent folderNode = GetMailTemplatesFolderNode(context);
+            IPublishedContent folderNode = GetMailTemplatesFolderNode();
 
             return folderNode?.Children.FirstOrDefault(x => x.Name == templateName);
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Gets the mail template by identifier.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        public IPublishedContent GetMailTemplateById(
-            UmbracoContext context, 
-            int id)
+        /// <inheritdoc />
+        public IPublishedContent GetMailTemplateById(int id)
         {
-            IPublishedContent folderNode = GetMailTemplatesFolderNode(context);
+            IPublishedContent folderNode = GetMailTemplatesFolderNode();
 
             return folderNode?.Children.FirstOrDefault(x => x.Id == id);
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Gets the mail template by URL.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <param name="url">The URL.</param>
         /// <returns></returns>
-        public IPublishedContent GetMailTemplateByUrl(
-            UmbracoContext context, 
-            string url)
+        /// <inheritdoc />
+        public IPublishedContent GetMailTemplateByUrl(string url)
         {
-            IPublishedContent mailTemplatesNode = GetMailTemplatesFolderNode(context);
+            IPublishedContent mailTemplatesNode = GetMailTemplatesFolderNode();
 
             return mailTemplatesNode?.Children.FirstOrDefault(x => x.Url == url);
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Gets the appointments node.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <returns></returns>
-        public IPublishedContent GetAppointmentsNode(UmbracoContext context)
+        /// <inheritdoc />
+        public IPublishedContent GetAppointmentsNode()
         {
-            IPublishedContent customerNode = GetCustomerNode(context);
+            IPublishedContent customerNode = GetCustomerNode();
 
             return customerNode != null ? GetChildNode(
                                             customerNode, 
@@ -261,15 +264,14 @@
                                             customerNode) : null;
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Gets the quotes node.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <returns></returns>
-        public IPublishedContent GetQuotesNode(UmbracoContext context)
+        /// <inheritdoc />
+        public IPublishedContent GetQuotesNode()
         {
-            IPublishedContent customerNode = GetCustomerNode(context);
+            IPublishedContent customerNode = GetCustomerNode();
 
             return customerNode != null ? GetChildNode(
                                                 customerNode, 
@@ -278,15 +280,14 @@
                                                 customerNode) : null;
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Gets the invoices node.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <returns></returns>
-        public IPublishedContent GetInvoicesNode(UmbracoContext context)
+        /// <inheritdoc />
+        public IPublishedContent GetInvoicesNode()
         {
-            IPublishedContent customerNode = GetCustomerNode(context);
+            IPublishedContent customerNode = GetCustomerNode();
 
             return customerNode != null ? GetChildNode(
                                             customerNode, 
@@ -295,31 +296,27 @@
                                             customerNode) : null;
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Gets the cards node.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <returns></returns>
-        public IPublishedContent GetCardsNode(UmbracoContext context)
+        /// <inheritdoc />
+        public IPublishedContent GetCardsNode()
         {
-            IPublishedContent settingsNode = GetSettingsNode(context);
+            IPublishedContent settingsNode = GetSettingsNode();
 
             return settingsNode != null ? GetChildNode(settingsNode, "cards", Constants.Nodes.CardsNodeName, null) : null;
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Gets the card stack.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <param name="name">The name.</param>
         /// <returns></returns>
-        public IPublishedContent GetCardStack(
-            UmbracoContext context, 
-            string name)
+        /// <inheritdoc />
+        public IPublishedContent GetCardStack(string name)
         {
-            IPublishedContent cardsNode = GetCardsNode(context);
+            IPublishedContent cardsNode = GetCardsNode();
 
             GetChildNode(cardsNode, name, Constants.Nodes.CardsNodeName + name, null);
 
@@ -329,11 +326,10 @@
         /// <summary>
         /// Gets the helper.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <returns></returns>
-        private UmbracoHelper GetHelper(UmbracoContext context)
+        private UmbracoHelper GetHelper()
         {
-            return new UmbracoHelper(context);
+            return new UmbracoHelper(umbracoContext);
         }
 
         /// <summary>

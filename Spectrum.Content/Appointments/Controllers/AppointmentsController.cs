@@ -9,7 +9,6 @@
     using System.Collections.Generic;
     using System.Web.Mvc;
     using Umbraco.Core.Models;
-    using Umbraco.Web;
     using ViewModels;
 
     public class AppointmentsController : BaseController
@@ -42,46 +41,6 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Spectrum.Content.Appointments.Controllers.AppointmentsController" /> class.
-        /// </summary>
-        /// <param name="umbracoContext">The umbraco context.</param>
-        /// <param name="loggingService">The logging service.</param>
-        /// <param name="appointmentsManager">The appointments manager.</param>
-        /// <param name="rulesEngineService">The rules engine service.</param>
-        /// <inheritdoc />
-        public AppointmentsController(
-            UmbracoContext umbracoContext,
-            ILoggingService loggingService,
-            IAppointmentsManager appointmentsManager,
-            IRulesEngineService rulesEngineService)
-            : base(loggingService)
-        {
-            this.appointmentsManager = appointmentsManager;
-            this.rulesEngineService = rulesEngineService;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:Spectrum.Content.Appointments.Controllers.AppointmentsController" /> class.
-        /// </summary>
-        /// <param name="umbracoContext">The umbraco context.</param>
-        /// <param name="umbracoHelper">The umbraco helper.</param>
-        /// <param name="loggingService">The logging service.</param>
-        /// <param name="appointmentsManager">The appointments manager.</param>
-        /// <param name="rulesEngineService">The rules engine service.</param>
-        /// <inheritdoc />
-        public AppointmentsController(
-            UmbracoContext umbracoContext,
-            UmbracoHelper umbracoHelper,
-            ILoggingService loggingService,
-            IAppointmentsManager appointmentsManager,
-            IRulesEngineService rulesEngineService)
-            : base(loggingService)
-        {
-            this.appointmentsManager = appointmentsManager;
-            this.rulesEngineService = rulesEngineService;
-        }
-
-        /// <summary>
         /// Appointmentses this instance.
         /// </summary>
         /// <returns></returns>
@@ -90,7 +49,7 @@
         {
             LoggingService.Info(GetType());
 
-            if (rulesEngineService.IsCustomerAppointmentsEnabled(UmbracoContext))
+            if (rulesEngineService.IsCustomerAppointmentsEnabled())
             {
                 return PartialView("");
             }
@@ -107,7 +66,7 @@
         {
             LoggingService.Info(GetType());
 
-            if (rulesEngineService.IsCustomerAppointmentsEnabled(UmbracoContext))
+            if (rulesEngineService.IsCustomerAppointmentsEnabled())
             {
                 return PartialView("", new InsertAppointmentViewModel());
             }
@@ -126,7 +85,7 @@
         {
             LoggingService.Info(GetType());
 
-            if (rulesEngineService.IsCustomerAppointmentsEnabled(UmbracoContext) == false)
+            if (rulesEngineService.IsCustomerAppointmentsEnabled() == false)
             {
                 ThrowAccessDeniedException("No Access to insert appointment");
             }
@@ -231,7 +190,7 @@
         {
             LoggingService.Info(GetType(), "beeswwr=" + beeswwr);
 
-            if (rulesEngineService.IsCustomerAppointmentsEnabled(UmbracoContext) == false)
+            if (rulesEngineService.IsCustomerAppointmentsEnabled() == false)
             {
                 ThrowAccessDeniedException("No Access to view appointment");
             }
@@ -251,7 +210,7 @@
         {
             LoggingService.Info(GetType(), "Id=" + beeswwr);
 
-            if (rulesEngineService.IsCustomerAppointmentsEnabled(UmbracoContext) == false)
+            if (rulesEngineService.IsCustomerAppointmentsEnabled() == false)
             {
                 ThrowAccessDeniedException("No Access to update appointment");
             }
@@ -271,7 +230,7 @@
         {
             LoggingService.Info(GetType());
 
-            if (rulesEngineService.IsCustomerAppointmentsEnabled(UmbracoContext) == false)
+            if (rulesEngineService.IsCustomerAppointmentsEnabled() == false)
             {
                 ThrowAccessDeniedException("No Access to update appointment");
             }
@@ -297,7 +256,7 @@
         [HttpGet]
         public ActionResult Delete(string id)
         {
-            if (rulesEngineService.IsCustomerAppointmentsEnabled(UmbracoContext) == false)
+            if (rulesEngineService.IsCustomerAppointmentsEnabled() == false)
             {
                 ThrowAccessDeniedException("No Access to delete appointment");
             }
