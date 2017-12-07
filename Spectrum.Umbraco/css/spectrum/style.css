@@ -232,3 +232,8 @@ h2.title-sub {
 		padding-right: 10px;
 	}
 }
+
+input.input-validation-error,
+textarea.input-validation-error{
+	margin-bottom: 0;
+}

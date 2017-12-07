@@ -27,7 +27,9 @@
                     <h2 class="partial-title payment-title">@Html.Action("CustomerName", "Customer")</h2>
                     <h2 class="partial-title title-sub">@Umbraco.Field("Title")</h2>
                     <div class="card-logos">
-                        <img src="@cardImageUrl" />
+                        @*<img src="@cardImageUrl" />*@
+                        <img src="../../../../media/logos/mastercard.jpg" />
+                        <img src="../../../../media/logos/visa.jpg" />
                     </div>
 
                     <div class="form-group">
@@ -58,7 +60,7 @@
                         <label class="control-label">@Umbraco.Field("Email")</label>
                         <input type="text" class="form-control" id="emailAddress" />
                     </div>
-                    
+
                     @Html.Partial("Spectrum/Required")
 
                     <button value="submit" id="submit" class="btn btn-primary btn-block payment-button">
