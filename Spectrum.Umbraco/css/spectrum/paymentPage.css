@@ -74,15 +74,20 @@
 	padding-bottom: 20px;
 }
 
-.card-logos img {
-	width: 35px;
-	height: 22.7px;
+.card-logos i {
+	font-size:50px;
+}
+
+.card-logos i:last-child {
+    margin-left: 5px;
 }
 
 .payment-button img {
 	width: 12%;
 	padding-left: 10px;
 }
+
+
 
 .lock-logo {
 	padding-left: 6px;

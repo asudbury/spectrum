@@ -25,11 +25,10 @@
                 <div class="account-wall">
 
                     <h2 class="partial-title payment-title">@Html.Action("CustomerName", "Customer")</h2>
-                    <h2 class="partial-title title-sub">@Umbraco.Field("Title")</h2>
+                    <h2 class="partial-title title-sub">@Umbraco.Field("Title")<i class="fa fa-lock lock-logo" aria-hidden="true"></i></h2>
                     <div class="card-logos">
-                        @*<img src="@cardImageUrl" />*@
-                        <img src="../../../../media/logos/mastercard.jpg" />
-                        <img src="../../../../media/logos/visa.jpg" />
+                        <i class="fa fa-cc-mastercard"></i>
+                        <i class="fa fa-cc-visa"></i>
                     </div>
 
                     <div class="form-group">
