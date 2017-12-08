@@ -20,7 +20,6 @@
         /// <summary>
         /// Gets or sets the message.
         /// </summary>
-        [Required(ErrorMessage = "Please enter a Message")]
         [DataType(DataType.MultilineText)]
         public string Message { get; set; }
     }

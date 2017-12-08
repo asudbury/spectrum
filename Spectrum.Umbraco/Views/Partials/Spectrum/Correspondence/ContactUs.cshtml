@@ -33,7 +33,6 @@
                     <div class="form-group">
                         <label class="control-label">Message</label>
                         @Html.TextAreaFor(model => model.Message, new { @class = "form-control", rows = "6" })
-                        @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
                     </div>
 
                     @Html.Partial("Spectrum/Required")
