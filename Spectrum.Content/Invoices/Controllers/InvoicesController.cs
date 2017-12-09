@@ -1,4 +1,11 @@
-﻿namespace Spectrum.Content.Invoices.Controllers
+﻿using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using Spectrum.Content.Appointments.ViewModels;
+using Spectrum.Content.Models;
+
+namespace Spectrum.Content.Invoices.Controllers
 {
     using Content.Services;
     using ContentModels;
@@ -84,6 +91,48 @@
             }
 
             return default(PartialViewResult);
+        }
+
+        /// <summary>
+        /// Gets the boot grid invoices.
+        /// </summary>
+        /// <param name="current">The current.</param>
+        /// <param name="rowCount">The row count.</param>
+        /// <param name="searchPhrase">The search phrase.</param>
+        /// <param name="sortItems">The sort items.</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult GetBootGridInvoices(
+            int current,
+            int rowCount,
+            string searchPhrase,
+            IEnumerable<SortData> sortItems)
+        {
+            LoggingService.Info(GetType());
+
+            DateTime dateRangeStart = DateTime.Now.AddDays(-10000);
+            DateTime dateRangeEnd = DateTime.Now.AddDays(10000);
+
+            /*BootGridViewModel<InvoiceViewModel> bootGridViewModel = invoiceManager.GetBootGridAppointments(
+                current,
+                rowCount,
+                searchPhrase,
+                sortItems,
+                UmbracoContext,
+                dateRangeStart,
+                dateRangeEnd);
+
+            string jsonString = JsonConvert.SerializeObject(
+                bootGridViewModel,
+                new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+
+                });*/
+
+            string jsonString = string.Empty;
+
+            return Content(jsonString, "application/json");
         }
 
         /// <summary>

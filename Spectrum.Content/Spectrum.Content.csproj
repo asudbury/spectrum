@@ -405,6 +405,8 @@
     <Compile Include="Customer\Models\AddressModel.cs" />
     <Compile Include="Customer\Providers\CustomerProvider.cs" />
     <Compile Include="Customer\Providers\ICustomerProvider.cs" />
+    <Compile Include="Customer\Services\ClientService.cs" />
+    <Compile Include="Customer\Services\IClientService.cs" />
     <Compile Include="Customer\Services\IPostalAddressService.cs" />
     <Compile Include="Customer\Services\PostalAddressService.cs" />
     <Compile Include="Customer\ViewModels\AddressSearchViewModel.cs" />
