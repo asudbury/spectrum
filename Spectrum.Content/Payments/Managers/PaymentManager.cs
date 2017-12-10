@@ -9,6 +9,8 @@
     using Customer.Providers;
     using Messages;
     using Models;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Serialization;
     using Providers;
     using Repositories;
     using System;
@@ -210,7 +212,7 @@
         /// <param name="sortItems">The sort items.</param>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <returns></returns>
-        public BootGridViewModel<TransactionViewModel> GetBootGridTransactions(
+        public string GetBootGridTransactions(
             int current, 
             int rowCount, 
             string searchPhrase, 
@@ -219,12 +221,22 @@
         {
             IEnumerable<TransactionViewModel> viewModels = GetTransactionsViewModel(umbracoContext);
 
-            return transactionsBootGridTranslator.Translate(
+            BootGridViewModel<TransactionViewModel> bootGridViewModel =  transactionsBootGridTranslator.Translate(
                 viewModels.ToList(),
                 current,
                 rowCount,
                 searchPhrase,
                 sortItems);
+
+            string jsonString = JsonConvert.SerializeObject(
+                bootGridViewModel,
+                new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+
+                });
+
+            return jsonString;
         }
 
         /// <summary>

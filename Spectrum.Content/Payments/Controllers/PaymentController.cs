@@ -185,20 +185,12 @@
         {
             if (rulesEngineService.IsCustomerPaymentsEnabled())
             {
-                BootGridViewModel<TransactionViewModel> bootGridViewModel = paymentManager.GetBootGridTransactions(
+                string jsonString = paymentManager.GetBootGridTransactions(
                     current,
                     rowCount,
                     searchPhrase,
                     sortItems,
                     UmbracoContext);
-
-                string jsonString = JsonConvert.SerializeObject(
-                    bootGridViewModel,
-                    new JsonSerializerSettings
-                    {
-                        ContractResolver = new CamelCasePropertyNamesContractResolver()
-
-                    });
 
                 return Content(jsonString, "application/json");
             }

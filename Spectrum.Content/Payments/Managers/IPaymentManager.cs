@@ -50,7 +50,7 @@
         /// <param name="sortItems">The sort items.</param>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <returns></returns>
-        BootGridViewModel<TransactionViewModel> GetBootGridTransactions(
+        string GetBootGridTransactions(
             int current,
             int rowCount,
             string searchPhrase,
