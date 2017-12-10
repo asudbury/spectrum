@@ -241,3 +241,17 @@ textarea.input-validation-error{
 label {
 	font-weight: 400;
 }
+
+.find-address {
+	font-style: italic;
+}
+
+/* Element initially not displayed */
+.disp-none {
+	display: none;
+}
+
+.form-group.postcode-finder,
+.form-control.postcode-finder{
+	margin-bottom: 2px;
+}

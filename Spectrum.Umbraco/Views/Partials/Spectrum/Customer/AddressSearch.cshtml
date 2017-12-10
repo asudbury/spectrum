@@ -6,38 +6,47 @@
     Html.EnableUnobtrusiveJavaScript(true);
 }
 
-<div class="center-content">
-    <div class="row">
-        <div class="col-sm-6 col-md-4 col-md-offset-4">
-            <div class="account-wall">
 
-                @Html.EditorFor(model => model.BuildingNumber, new { htmlAttributes = new { @class = "form-control buildingNumber", placeholder = "Building No" } })
-                @Html.ValidationMessageFor(model => model.BuildingNumber)
 
-                @Html.EditorFor(model => model.PostCode, new { htmlAttributes = new { @class = "form-control postCode", placeholder = "Post Code" } })
-                @Html.ValidationMessageFor(model => model.PostCode)
-
-                <button id="findAddress" class="btn btn-secondary">Find Address</button>
-            </div>
-        </div>
+<label class="control-label">Postcode</label>
+<div class="form-group postcode-finder">
+    <div class="calendar-position form-group postcode-finder">
+        @Html.EditorFor(model => model.PostCode, new { htmlAttributes = new { @class = "form-control postCode postcode-finder", placeholder = "Enter Your Postcode" } })
+        <span class="btn" style="cursor: pointer;">
+            <i class="fa fa-search" aria-hidden="true" id="findAddress"></i>
+        </span>
+        @Html.ValidationMessageFor(model => model.PostCode, "", new { @class = "text-danger" })
     </div>
 </div>
-        
+
+<div id="addressResult"></div>
+<div class="form-group">
+    <select id="addressList" class="form-control disp-none" onchange="doSomething(this.selectedIndex);" onfocus="this.selectedIndex = -1;"></select>
+</div>
+
+<label class="control-label">House Number</label>
+<div class="form-group">
+    @Html.EditorFor(model => model.BuildingNumber, new { htmlAttributes = new { @class = "form-control buildingNumber", placeholder = "Building No" } })
+    @Html.ValidationMessageFor(model => model.BuildingNumber)
+</div>
+
 <script>
 
 $(document).ready(function () {
 
     $("#findAddress").click(function() {
 
-        $('#findAddress').prop('disabled', true);
-        $('#findAddress').text('Searching...');
-        alert("hello");
+        //Clear
+        $("#addressList").empty();
+        $('#addressResult').text('Searching...');
 
         var url = "/umbraco/Surface/Search/GetAddresses";
 
+        var postCode = $('#PostCode').val();
+
         var postData = {
-            buildingNumber: "12",
-            postCode: "NG5 4DB"
+            buildingNumber: "",
+            postCode: postCode
         };
 
         $.ajax({
@@ -47,10 +56,14 @@ $(document).ready(function () {
             data: JSON.stringify(postData),
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
-                console.log('Server success ' + data);
-                $('#findAddress').prop('disabled', false);
-                $('#findAddress').text('Find Address...');
-                        
+                console.log('Server success ', data);
+                $('#addressResult').text('');
+                $('#addressList').removeClass('disp-none');
+
+                for (i=0; i<data.length; i++) {
+                    console.log('order ' + data[i].FullAddress);
+                    $('#addressList').prepend(prependAddress(i, ' ' + data[i].FullAddress, data[i].BuildingNumber));
+                }
             },
             error: function (request, status, errorThrown) {
                 console.log('Server error ' + errorThrown);
@@ -60,6 +73,20 @@ $(document).ready(function () {
     });
 });
 
+
+function prependAddress(index, inputValue, buildingNumber) {
+
+    //console.log('prepend input value = ' + inputValue);
+    var retVal = '<option id="Address_' + index + '" value=' + buildingNumber + '>' + inputValue + '</option>';
+    return (retVal);
+}
+
+function doSomething(index) {
+    var e = document.getElementById("addressList");
+    var buildingNumber = e.options[index].value;
+
+    console.log('dropdown list changed. index ' + index + ' buildNumber ' + buildingNumber);
+    $('#BuildingNumber').val(buildingNumber);
+}
+
 </script>
-
-
