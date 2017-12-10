@@ -56,7 +56,7 @@
         /// <param name="dateRangeStart">The date range start.</param>
         /// <param name="dateRangeEnd">The date range end.</param>
         /// <returns></returns>
-        BootGridViewModel<AppointmentViewModel> GetBootGridAppointments(
+        string GetBootGridAppointments(
             int current,
             int rowCount,
             string searchPhrase,

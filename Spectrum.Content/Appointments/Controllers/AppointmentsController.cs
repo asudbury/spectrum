@@ -160,22 +160,14 @@
             DateTime dateRangeStart = DateTime.Now.AddDays(-10000);
             DateTime dateRangeEnd = DateTime.Now.AddDays(10000);
 
-            BootGridViewModel<AppointmentViewModel> bootGridViewModel = appointmentsManager.GetBootGridAppointments(
-                                                                            current,
-                                                                            rowCount,
-                                                                            searchPhrase,
-                                                                            sortItems,
-                                                                            UmbracoContext,
-                                                                            dateRangeStart,
-                                                                            dateRangeEnd);
-
-            string jsonString = JsonConvert.SerializeObject(
-                                    bootGridViewModel,
-                                    new JsonSerializerSettings
-                                    {
-                                        ContractResolver = new CamelCasePropertyNamesContractResolver()
-
-                                    });
+            string jsonString = appointmentsManager.GetBootGridAppointments(
+                                                                current,
+                                                                rowCount,
+                                                                searchPhrase,
+                                                                sortItems,
+                                                                UmbracoContext,
+                                                                dateRangeStart,
+                                                                dateRangeEnd);
 
             return Content(jsonString, "application/json");
         }

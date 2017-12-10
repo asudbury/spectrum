@@ -9,6 +9,8 @@ namespace Spectrum.Content.Appointments.Managers
     using Mail.Providers;
     using Messages;
     using Models;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Serialization;
     using Providers;
     using Services;
     using System;
@@ -311,7 +313,7 @@ namespace Spectrum.Content.Appointments.Managers
         /// <param name="dateRangeEnd">The date range end.</param>
         /// <returns></returns>
         /// <inheritdoc />
-        public BootGridViewModel<AppointmentViewModel> GetBootGridAppointments(
+        public string GetBootGridAppointments(
             int current,
             int rowCount,
             string searchPhrase,
@@ -325,12 +327,21 @@ namespace Spectrum.Content.Appointments.Managers
                 dateRangeStart,
                 dateRangeEnd);
 
-            return appointmentsBootGridTranslator.Translate(
+            BootGridViewModel<AppointmentViewModel> bootGridViewModel =  appointmentsBootGridTranslator.Translate(
                 viewModels.ToList(), 
                 current, 
                 rowCount, 
                 searchPhrase,
                 sortItems);
+            
+            string jsonString = JsonConvert.SerializeObject(
+                bootGridViewModel,
+                new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                });
+
+            return jsonString;
         }
 
         /// <inheritdoc />
