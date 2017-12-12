@@ -1,8 +1,6 @@
-﻿using Spectrum.Content.Models;
-
-namespace Spectrum.Content.Appointments.Translators
+﻿namespace Spectrum.Content.Appointments.Translators
 {
-    using Models;
+    using Content.Models;
     using System.Collections.Generic;
     using ViewModels;
 

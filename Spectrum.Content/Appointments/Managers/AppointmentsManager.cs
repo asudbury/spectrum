@@ -327,7 +327,7 @@ namespace Spectrum.Content.Appointments.Managers
                 dateRangeStart,
                 dateRangeEnd);
 
-            BootGridViewModel<AppointmentViewModel> bootGridViewModel =  appointmentsBootGridTranslator.Translate(
+            BootGridViewModel<AppointmentViewModel> bootGridViewModel = appointmentsBootGridTranslator.Translate(
                 viewModels.ToList(), 
                 current, 
                 rowCount, 

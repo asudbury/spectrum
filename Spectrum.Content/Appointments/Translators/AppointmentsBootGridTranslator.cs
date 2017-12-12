@@ -61,7 +61,7 @@
         /// <param name="originalViewModels">The original view models.</param>
         /// <param name="searchString">The search string.</param>
         /// <returns></returns>
-        public List<AppointmentViewModel> GetViewModels(
+        internal List<AppointmentViewModel> GetViewModels(
                     List<AppointmentViewModel> originalViewModels,
                     string searchString)
         {
@@ -93,7 +93,7 @@
                         appointmentViewModel.StartTime.ToString("ddd dd MMM HH:mm").ToLower().Contains(searchString) ||
                         appointmentViewModel.Duration.ToString(CultureInfo.InvariantCulture).Contains(searchString) ||
                         appointmentViewModel.Status.ToLower().Contains(searchString) ||
-                        appointmentViewModel.PaymentId.ToLower().Contains(searchString) ||
+                        (appointmentViewModel.PaymentId != null && appointmentViewModel.PaymentId.ToLower().Contains(searchString)) ||
                         appointmentViewModel.Location.ToLower().Contains(searchString) ||
                         appointmentViewModel.Description.ToLower().Contains(searchString))
                     {
@@ -111,7 +111,7 @@
         /// <param name="viewModels">The view models.</param>
         /// <param name="sortItems">The sort items.</param>
         /// <returns></returns>
-        public IEnumerable<AppointmentViewModel> GetSortData(
+        internal IEnumerable<AppointmentViewModel> GetSortData(
             IEnumerable<AppointmentViewModel> viewModels,
             IEnumerable<SortData> sortItems)
         {
