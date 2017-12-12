@@ -6,14 +6,13 @@
     Html.EnableUnobtrusiveJavaScript(true);
 }
 
-
-
-<label class="control-label">Postcode</label>
+<label class="control-label">Postcode *</label>
 <div class="form-group postcode-finder">
+
     <div class="calendar-position form-group postcode-finder">
-        @Html.EditorFor(model => model.PostCode, new { htmlAttributes = new { @class = "form-control postCode postcode-finder", placeholder = "Enter Your Postcode" } })
-        <span class="btn" style="cursor: pointer;">
-            <i class="fa fa-search" aria-hidden="true" id="findAddress"></i>
+        @Html.EditorFor(model => model.PostCode, new { htmlAttributes = new { @class = "form-control postCode postcode-finder" } })
+        <span class="btn find-address" style="cursor: pointer;">
+            <i class="fa fa-search " aria-hidden="true" id="findAddress"></i>
         </span>
         @Html.ValidationMessageFor(model => model.PostCode, "", new { @class = "text-danger" })
     </div>
@@ -21,13 +20,18 @@
 
 <div id="addressResult"></div>
 <div class="form-group">
-    <select id="addressList" class="form-control disp-none" onchange="doSomething(this.selectedIndex);" onfocus="this.selectedIndex = -1;"></select>
+    <select id="addressList" class="form-control disp-none" onchange="addressSelected(this.selectedIndex);" onfocus="this.selectedIndex = -1;"></select>
 </div>
 
-<label class="control-label">House Number</label>
+@*Spinner*@
+<div id="loading" class="disp-none">
+    <img id="loading-image" src="../../../../media/rolling/rollingBlue.gif" alt="Loading..." />
+</div>
+
+<label class="control-label">House Number *</label>
 <div class="form-group">
-    @Html.EditorFor(model => model.BuildingNumber, new { htmlAttributes = new { @class = "form-control buildingNumber", placeholder = "Building No" } })
-    @Html.ValidationMessageFor(model => model.BuildingNumber)
+    @Html.EditorFor(model => model.BuildingNumber, new { htmlAttributes = new { @class = "form-control buildingNumber" } })
+    @Html.ValidationMessageFor(model => model.BuildingNumber, "", new { @class = "text-danger" })
 </div>
 
 <script>
@@ -36,18 +40,37 @@ $(document).ready(function () {
 
     $("#findAddress").click(function() {
 
+        var postCode = $('#PostCode').val();
+
+        if (!postCode) {
+            console.log('postcode is empty');
+
+            //make the validation error span for postcode appear
+            $('.find-address + span').addClass('field-validation-error');
+            $('.find-address + span').removeClass('field-validation-valid');
+            $('.find-address + span').text("Please enter a postcode");
+            return;
+        } else {
+            //make the validation error span for postcode dissaapear
+            $('.find-address + span').removeClass('field-validation-error');
+            $('.find-address + span').addClass('field-validation-valid');
+            $('.find-address + span').text("");
+        }
+
         //Clear
         $("#addressList").empty();
-        $('#addressResult').text('Searching...');
+        //$('#addressResult').text('Searching...');
 
         var url = "/umbraco/Surface/Search/GetAddresses";
-
-        var postCode = $('#PostCode').val();
 
         var postData = {
             buildingNumber: "",
             postCode: postCode
         };
+
+        //Show the spinner
+        $('#loading').removeClass('disp-none');
+        $('#addressList').addClass('disp-none');
 
         $.ajax({
             url: url,
@@ -56,17 +79,32 @@ $(document).ready(function () {
             data: JSON.stringify(postData),
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
-                console.log('Server success ', data);
-                $('#addressResult').text('');
+                //console.log('Server success ', data);
+                //Hide the spinner
+                $('#loading').addClass('disp-none');
+
+                //$('#addressResult').text('');
                 $('#addressList').removeClass('disp-none');
 
                 for (i=0; i<data.length; i++) {
-                    console.log('order ' + data[i].FullAddress);
+                    //console.log('order ' + data[i].FullAddress);
                     $('#addressList').prepend(prependAddress(i, ' ' + data[i].FullAddress, data[i].BuildingNumber));
                 }
+
+                //Reverse the list as prepend reverses it fpr some strange reason
+                var list = $('#addressList');
+                var listItems = list.children('option');
+                list.append(listItems.get().reverse());
+
+                $('#addressList').prepend('<option value="" disabled="disabled" selected="selected">Please select address</option>');
+
             },
             error: function (request, status, errorThrown) {
-                console.log('Server error ' + errorThrown);
+                //console.log('Server error ' + errorThrown);
+                //Hide the spinner
+                $('#loading').addClass('disp-none');
+
+                $('#addressList').removeClass('disp-none');
                 window.location.href = "/error";
             }
         });
@@ -81,11 +119,11 @@ function prependAddress(index, inputValue, buildingNumber) {
     return (retVal);
 }
 
-function doSomething(index) {
-    var e = document.getElementById("addressList");
-    var buildingNumber = e.options[index].value;
+function addressSelected(index) {
+    var addressDropdown = document.getElementById("addressList");
+    var buildingNumber = addressDropdown.options[index].value;
 
-    console.log('dropdown list changed. index ' + index + ' buildNumber ' + buildingNumber);
+    //console.log('dropdown list changed. index ' + index + ' buildNumber ' + buildingNumber);
     $('#BuildingNumber').val(buildingNumber);
 }
 

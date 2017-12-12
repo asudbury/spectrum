@@ -55,5 +55,17 @@
         /// </summary>
         [DisplayName("Include link for payment")]
         public bool IncludePaymentLink { get; set; }
+
+        /// <summary>
+        /// Gets or sets the building number.
+        /// </summary>
+        [Required(ErrorMessage = "Please enter a Building Number")]
+        public string BuildingNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets the post code.
+        /// </summary>
+        [Required(ErrorMessage = "Please enter a Post Code")]
+        public string PostCode { get; set; }
     }
 }
