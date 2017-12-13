@@ -61,7 +61,10 @@
             IPublishedContent node = GetHelper().TypedContentAtRoot().FirstOrDefault(x => x.DocumentTypeAlias == "settings") ??
                                      GetHelper().TypedContentAtRoot().FirstOrDefault(x => x.Name == "Settings");
 
-            Cache.Add(Constants.Nodes.SettingsNodeName, node);
+            if (Cache.ContainsKey(Constants.Nodes.SettingsNodeName) == false)
+            {
+                Cache.Add(Constants.Nodes.SettingsNodeName, node);
+            }
 
             return node;
         }

@@ -416,8 +416,11 @@
     <Compile Include="Invoices\Models\InvoiceModel.cs" />
     <Compile Include="Invoices\Services\IInvoiceService.cs" />
     <Compile Include="Invoices\Services\InvoiceService.cs" />
+    <Compile Include="Invoices\Translators\IInvoicesBootGridTranslator.cs" />
     <Compile Include="Invoices\Translators\IInvoiceTranslator.cs" />
+    <Compile Include="Invoices\Translators\InvoicesBootGridTranslator.cs" />
     <Compile Include="Invoices\Translators\InvoiceTranslator.cs" />
+    <Compile Include="Invoices\ViewModels\InvoiceViewModel.cs" />
     <Compile Include="Invoices\ViewModels\CreateInvoiceViewModel.cs" />
     <Compile Include="Payments\Factories\IPaymentProviderFactory.cs" />
     <Compile Include="Payments\Factories\PaymentProviderFactory.cs" />

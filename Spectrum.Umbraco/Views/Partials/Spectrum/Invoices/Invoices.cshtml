@@ -2,9 +2,9 @@
     <thead>
         <tr>
             <th data-column-id="id" data-header-align="center" data-align="center">Id</th>
-            <th data-column-id="transactionDateTime" data-formatter="dateTime" data-header-align="center" data-align="center">Date</th>
+            <th data-column-id="invoiceDate" data-formatter="date" data-header-align="center" data-align="center">Date</th>
             <th data-column-id="status" data-header-align="center" data-align="center">Status</th>
-            <th data-column-id="paymentInformation" data-formatter="paymentInformation" data-header-align="center" data-align="center">Payment Information</th>
+            <th data-column-id="client" data-header-align="center" data-align="center">Client</th>
             <th data-column-id="amount" data-header-align="center" data-align="center">Amount</th>
             <th data-column-id="actions" data-header-align="center" data-align="center" data-formatter="actions">Commands</th>
         </tr>
@@ -50,14 +50,11 @@
         },
         url: "/umbraco/Surface/Invoices/GetBootGridInvoices",
         formatters: {
-            "dateTime": function (column, row) {
-                return moment.utc(row.transactionDateTime).format('ddd DD MMM HH:mm');
-            },
-            "paymentInformation": function (column, row) {
-                return row.cardType + " " + row.maskedNumber;
+            "date": function (column, row) {
+                return moment.utc(row.invoiceDate).format('ddd DD MMM');
             },
             "actions": function (column, row) {
-                return '<a href="' + row.viewTransactionUrl + '">View</a>';
+                return '<a href="' + row.viewInvoiceUrl + '">View</a>';
             }
         }
     });

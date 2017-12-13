@@ -210,7 +210,7 @@
         /// <returns></returns>
         public string GetCurrentUserName()
         {
-            return membershipHelper.CurrentUserName;
+            return GetMembershipHelper().CurrentUserName;
         }
 
         /// <summary>

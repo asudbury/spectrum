@@ -563,6 +563,7 @@
     <Content Include="Views\Partials\Spectrum\Payments\Transactions.cshtml" />
     <Content Include="Views\Partials\Spectrum\Payments\Transaction.cshtml" />
     <Content Include="Views\Partials\Spectrum\Required.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Invoices\Invoice.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using Spectrum.Content.Appointments.ViewModels;
-using Spectrum.Content.Models;
-
-namespace Spectrum.Content.Invoices.Controllers
+﻿namespace Spectrum.Content.Invoices.Controllers
 {
+    using Content.Models;
     using Content.Services;
     using ContentModels;
     using Managers;
+    using System;
+    using System.Collections.Generic;
     using System.Web.Mvc;
     using Umbraco.Core.Models;
     using ViewModels;
@@ -113,7 +109,7 @@ namespace Spectrum.Content.Invoices.Controllers
             DateTime dateRangeStart = DateTime.Now.AddDays(-10000);
             DateTime dateRangeEnd = DateTime.Now.AddDays(10000);
 
-            /*BootGridViewModel<InvoiceViewModel> bootGridViewModel = invoiceManager.GetBootGridAppointments(
+            string jsonString = invoiceManager.GetBootGridInvoices(
                 current,
                 rowCount,
                 searchPhrase,
@@ -121,16 +117,6 @@ namespace Spectrum.Content.Invoices.Controllers
                 UmbracoContext,
                 dateRangeStart,
                 dateRangeEnd);
-
-            string jsonString = JsonConvert.SerializeObject(
-                bootGridViewModel,
-                new JsonSerializerSettings
-                {
-                    ContractResolver = new CamelCasePropertyNamesContractResolver()
-
-                });*/
-
-            string jsonString = string.Empty;
 
             return Content(jsonString, "application/json");
         }
