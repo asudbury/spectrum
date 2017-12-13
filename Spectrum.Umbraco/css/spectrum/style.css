@@ -262,10 +262,9 @@ label {
 	width: 100%;
 }
 
-
 #loading-image {
 	background-color: blue;
-	width: 50px;
+	width: 30px;
 	display: block;
 	margin: 0 auto;
 }
