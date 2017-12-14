@@ -14,6 +14,9 @@
         <span class="btn find-address" style="cursor: pointer;">
             <i class="fa fa-search " aria-hidden="true" id="findAddress"></i>
         </span>
+        <div id="loading" class="disp-none">
+            <img id="loading-image" src="../../../../media/rolling/rollingBlue.gif" alt="Loading..." />
+        </div>
         @Html.ValidationMessageFor(model => model.PostCode, "", new { @class = "text-danger" })
     </div>
 </div>
@@ -21,11 +24,6 @@
 <div id="addressResult"></div>
 <div class="form-group">
     <select id="addressList" class="form-control disp-none" onchange="addressSelected(this.selectedIndex);" onfocus="this.selectedIndex = -1;"></select>
-</div>
-
-@*Spinner*@
-<div id="loading" class="disp-none">
-    <img id="loading-image" src="../../../../media/rolling/rollingBlue.gif" alt="Loading..." />
 </div>
 
 <label class="control-label">House Number *</label>
@@ -71,6 +69,7 @@ $(document).ready(function () {
         //Show the spinner
         $('#loading').removeClass('disp-none');
         $('#addressList').addClass('disp-none');
+        $('.find-address').addClass('disp-none');
 
         $.ajax({
             url: url,
@@ -85,6 +84,10 @@ $(document).ready(function () {
 
                 //$('#addressResult').text('');
                 $('#addressList').removeClass('disp-none');
+                $('.find-address').removeClass('disp-none');
+
+                //Empty the buildNumber field
+                $('#BuildingNumber').val('');
 
                 for (i=0; i<data.length; i++) {
                     //console.log('order ' + data[i].FullAddress);
@@ -103,6 +106,7 @@ $(document).ready(function () {
                 //console.log('Server error ' + errorThrown);
                 //Hide the spinner
                 $('#loading').addClass('disp-none');
+                $('.find-address').removeClass('disp-none');
 
                 $('#addressList').removeClass('disp-none');
                 window.location.href = "/error";
