@@ -33,9 +33,12 @@ else
 <div class="@divClass">
 
     <div class="card">
-        <div class="img-card">
-            <img src="@Model.Image" />
-        </div>
+        @if (Model.Image != string.Empty)
+        {
+            <div class="img-card">
+                <img src="@Model.Image"/>
+            </div>
+        }
         <div class="card-content">
             @if (Model.Title != string.Empty)
             {
