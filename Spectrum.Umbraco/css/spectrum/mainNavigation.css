@@ -1,5 +1,7 @@
 ﻿/* Spectrum Navigation Styling */
 
+
+
 /* Center NAV */
 @media (min-width: 768px) {
 	
@@ -26,7 +28,7 @@
     }
 	
     .user-id {
-        color: #777;
+        /*color: #777;*/
         font-size: 16px;
         /* The margin the nav would have had */
         margin-bottom: 20p;
@@ -35,16 +37,22 @@
     .user-id.home {
         color: #9d9d9d; 
     }
+	
+
 }
 
 /* Turn off centered login name when hamburger menu displayed */
 @media (max-width: 768px) {
-    .user-id {
+    
+	.user-id {
         display: none;
     }
 	
     .navbar-brand {
         font-size: 13px;
+		width: 100%;
+		text-align: center;
+		padding-top: 0;
     }
 }
 
@@ -53,6 +61,7 @@
 
 .spectrum-nav {
     font-size: 16px;
+	padding-top: 10px;
 }
 
 .navbar-brand {
@@ -76,17 +85,30 @@
     /*padding-right: 150px;*/
 }
 
-/*.spectrum-nav .collapsed{
-	border-color: transparent;
-}*/
-
 .navbar-default {
     background-color: transparent;
     border-color: transparent;
 }
 
+.navbar-default .navbar-brand {
+	color: #9d9d9d;	
+}
+
+.logo {
+	padding: 5px; 15px;
+	/*padding: 15px;*/
+}
+
+.logo img {
+	max-width: 40px;
+}
+
 @media only screen and (max-width: 767px) {
     
+	.navbar {
+		margin-bottom: 0;
+	}
+	
     .spectrum-nav .navbar-toggle {
         border-color: transparent;
     }

@@ -104,7 +104,11 @@ h2 {
     }
 	
     #cover-caption {
-        padding-top: 80px;
+        padding-top: 20px;
     }
+	
+	.partial-title.home-page {
+		padding-top: 20px;
+	}
 		
 }
