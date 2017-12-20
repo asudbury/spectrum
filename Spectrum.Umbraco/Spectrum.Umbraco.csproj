@@ -403,6 +403,9 @@
     <Content Include="default.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="images\spectrum\icons8-accounting-64.png" />
+    <Content Include="images\spectrum\icons8-accounting-96.png" />
+    <Content Include="images\spectrum\rollingBlue.gif" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
