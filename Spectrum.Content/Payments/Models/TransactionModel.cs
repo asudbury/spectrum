@@ -1,12 +1,12 @@
-﻿ namespace Spectrum.Content.Payments.Models
+﻿namespace Spectrum.Content.Payments.Models
 {
-    using System;
+    using Content.Models;
     using Umbraco.Core.Persistence;
     using Umbraco.Core.Persistence.DatabaseAnnotations;
 
     [TableName(Constants.Database.TransactionsTableName)]
     [PrimaryKey("Id", autoIncrement = true)]
-    public class TransactionModel
+    public class TransactionModel : BaseClientModel
     {
         /// <summary>
         /// Gets or sets the identifier.
@@ -28,11 +28,6 @@
         public string TransactionType { get; set; }
 
         /// <summary>
-        /// Gets or sets the customer identifier.
-        /// </summary>
-        public int CustomerId { get; set; }
-
-        /// <summary>
         /// Gets or sets the paymemt provider.
         /// </summary>
         [Length(1)]
@@ -49,16 +44,6 @@
         /// </summary>
         [NullSetting(NullSetting = NullSettings.Null)]
         public int ServiceProviderId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the created time.
-        /// </summary>
-        public DateTime CreatedTime { get; set; }
-
-        /// <summary>
-        /// Gets or sets the created user.
-        /// </summary>
-        public string CreatedUser { get; set; }
 
         /// <summary>
         /// Gets or sets the amount.

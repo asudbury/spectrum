@@ -34,7 +34,7 @@
         /// <param name="customerId">The customer identifier.</param>
         /// <returns></returns>
         TransactionModel GetTransaction(
-            int paymentId,
+            string paymentId,
             int customerId);
     }
 }

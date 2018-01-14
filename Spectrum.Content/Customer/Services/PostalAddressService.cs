@@ -46,14 +46,14 @@
                 AddressModel addressModel = new AddressModel
                 {
                     BuildingNumber = buildingNumber,
-                    FullAddress = addressString,
+                    Address = addressString,
                     PostCode = postCode
                 };
 
                 addresses.Add(addressModel);
             }
 
-            return addresses.OrderBy(x => x.FullAddress);
+            return addresses.OrderBy(x => x.Address);
         }
 
         /// <inheritdoc />
@@ -77,23 +77,6 @@
             }
 
             return addresses;
-        }
-
-        /// <summary>
-        /// Gets the address identifier.
-        /// </summary>
-        /// <param name="customerId">The customer identifier.</param>
-        /// <param name="postCode">The post code.</param>
-        /// <param name="buildingNumber">The building number.</param>
-        /// <param name="fullAddress">The full address.</param>
-        /// <returns></returns>
-        public int GetAddressId(
-            int customerId,
-            string postCode, 
-            string buildingNumber,
-            string fullAddress)
-        {
-            return 0;
         }
     }
 }

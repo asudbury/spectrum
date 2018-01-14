@@ -1,7 +1,6 @@
 ﻿namespace Spectrum.Content.Appointments.ViewModels
 {
     using System;
-    using System.Collections.Generic;
 
     public class AppointmentViewModel
     {
@@ -29,7 +28,7 @@
         /// Gets or sets the lasted updated user.
         /// </summary>
         public string LastedUpdatedUser { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the last updated time.
         /// </summary>
@@ -54,11 +53,6 @@
         /// Gets or sets the status.
         /// </summary>
         public string Status { get; set; }
-
-        /// <summary>
-        /// Gets or sets the payment identifier.
-        /// </summary>
-        public string PaymentId { get; set; }
 
         /// <summary>
         /// Gets or sets the invoice identifier.
@@ -91,13 +85,19 @@
         public string DeleteAppointmentUrl { get; set; }
 
         /// <summary>
-        /// Gets or sets the take payment URL.
+        /// Gets or sets the google search URL.
         /// </summary>
-        public string TakePaymentUrl { get; set; }
+        public string GoogleSearchUrl { get; set; }
 
         /// <summary>
-        /// Gets or sets the attendees.
+        /// Gets or sets the name of the client.
         /// </summary>
-        public IEnumerable<string> Attendees { get; set; }
+        public string ClientName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the client URL.
+        /// </summary>
+        public string ClientUrl { get; set; }
+        
     }
 }

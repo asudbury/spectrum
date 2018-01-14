@@ -1,0 +1,85 @@
+﻿@using Spectrum.Content.Customer.Controllers
+@model Spectrum.Content.Customer.ViewModels.CreateClientViewModel
+@{
+    Html.EnableClientValidation(true);
+    Html.EnableUnobtrusiveJavaScript(true);
+}
+
+@using (Html.BeginUmbracoForm<ClientController>("CreateClient"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="center-content">
+        <div class="row">
+            <div class="col-sm-6 col-md-4 col-md-offset-4">
+                <div class="account-wall">
+
+                    <h2 class="partial-title">Create Client</h2>
+
+                    <label class="control-label">Name *</label>
+                    <div class="form-group">
+                        @Html.TextBoxFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+
+                    <label class="control-label">Email address *</label>
+                    <div class="form-group">
+                        @Html.TextBoxFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
+                    </div>
+
+
+                    <label class="control-label">Home phone</label>
+                    <div class="form-group">
+                        @Html.TextBoxFor(model => model.HomePhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.HomePhoneNumber, "", new { @class = "text-danger" })
+                    </div>
+
+
+                    <label class="control-label">Mobile phone</label>
+                    <div class="form-group">
+                        @Html.TextBoxFor(model => model.MobilePhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.MobilePhoneNumber, "", new { @class = "text-danger" })
+                    </div>
+
+                    <label class="control-label">Postcode *</label>
+                    <div class="form-group postcode-finder">
+
+                        <div class="calendar-position form-group postcode-finder">
+                            @Html.TextBoxFor(model => model.PostCode, new { htmlAttributes = new { @class = "form-control postCode postcode-finder" } })
+                            <span class="btn find-address" style="cursor: pointer;">
+                                <i class="fa fa-search " aria-hidden="true" id="findAddress"></i>
+                            </span>
+                            <div id="loading" class="disp-none">
+                                <img id="loading-image" src="../../../../images/spectrum/rollingBlue.gif" alt="Loading..." />
+                            </div>
+                            @Html.ValidationMessageFor(model => model.PostCode, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div id="addressResult"></div>
+                    <div class="form-group">
+                        <select id="addressList" class="form-control disp-none" onchange="addressSelected(this.selectedIndex);" onfocus="this.selectedIndex = -1;"></select>
+                    </div>
+
+                    <label class="control-label">Building number *</label>
+                    <div class="form-group">
+                        @Html.TextBoxFor(model => model.BuildingNumber, new { htmlAttributes = new { @class = "form-control buildingNumber" } })
+                        @Html.ValidationMessageFor(model => model.BuildingNumber, "", new { @class = "text-danger" })
+                    </div>
+                    
+                    @Html.HiddenFor(model => model.Address)
+
+                    <script src="../../../../scripts/spectrum/address.js"></script>
+
+
+                    @Html.Partial("Spectrum/Components/Required")
+
+                    <button value="submit" id="submit" class="btn btn-lg btn-primary btn-block">Save Client</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -21,19 +21,5 @@
         IEnumerable<AddressModel> GetAddressesFromPostCodeAndBuildingNumber(
             string postCode,
             string buildingNumber);
-
-        /// <summary>
-        /// Gets the address identifier.
-        /// </summary>
-        /// <param name="customerId">The customer identifier.</param>
-        /// <param name="postCode">The post code.</param>
-        /// <param name="buildingNumber">The building number.</param>
-        /// <param name="fullAddress">The full address.</param>
-        /// <returns></returns>
-        int GetAddressId(
-            int customerId,
-            string postCode,
-            string buildingNumber,
-            string fullAddress);
     }
 }

@@ -1,54 +1,20 @@
 ﻿namespace Spectrum.Content.Quotes.Models
 {
+    using Content.Models;
     using System;
     using Umbraco.Core.Persistence.DatabaseAnnotations;
     using Umbraco.Core.Persistence;
 
     [TableName(Constants.Database.QuoteTableName)]
-    [PrimaryKey("Id", autoIncrement = true)]
-    public class QuoteModel
+    [PrimaryKey("QuoteId", autoIncrement = true)]
+    public class QuoteModel : BaseClientModel
     {
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
-        [Column("Id")]
+        [Column("QuoteId")]
         [PrimaryKeyColumn(AutoIncrement = true, IdentitySeed = 1000)]
-        public int Id { get; set; }
-
-        /// <summary>
-        /// Gets or sets the customer identifier.
-        /// </summary>
-        public int CustomerId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the client identifier.
-        /// </summary>
-        public int ClientId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the address identifier.
-        /// </summary>
-        public int AddressId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the created time.
-        /// </summary>
-        public DateTime CreatedTime { get; set; }
-
-        /// <summary>
-        /// Gets or sets the created user.
-        /// </summary>
-        public string CreatedUser { get; set; }
-
-        /// <summary>
-        /// Gets or sets the created time.
-        /// </summary>
-        public DateTime LasteUpdatedTime { get; set; }
-
-        /// <summary>
-        /// Gets or sets the created user.
-        /// </summary>
-        public string LastedUpdatedUser { get; set; }
+        public int QuoteId { get; set; }
 
         /// <summary>
         /// Gets or sets the status.

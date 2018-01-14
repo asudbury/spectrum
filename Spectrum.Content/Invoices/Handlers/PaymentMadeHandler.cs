@@ -1,4 +1,4 @@
-﻿namespace Spectrum.Content.Appointments.Handlers
+﻿namespace Spectrum.Content.Invoices.Handlers
 {
     using Autofac.Events;
     using Messages;

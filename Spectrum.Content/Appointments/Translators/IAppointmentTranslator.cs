@@ -13,7 +13,7 @@
         /// <returns></returns>
         AppointmentViewModel Translate(
             string paymentsPage,
-            AppointmentModel model);
+            ClientAppointmentModel model);
         
         /// <summary>
         /// Translates the specified view model.

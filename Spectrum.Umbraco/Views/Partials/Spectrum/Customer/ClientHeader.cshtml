@@ -1,0 +1,64 @@
+﻿@using Spectrum.Content.Customer.ViewModels
+@model ClientViewModel
+
+<div class="center-content">
+    <div class="row">
+            <table class="table-responsive table table-striped table-bordered">
+                <tbody>
+                    <tr>
+                        <td>Client Id</td>
+                        <td>@Model.Id</td>
+                    </tr>
+                    <tr>
+                        <td>Name</td>
+                        <td>@Model.Name</td>
+                    </tr>
+
+                @if (string.IsNullOrEmpty(Model.EmailAddress) == false)
+                {
+                    <tr>
+                        <td>Email</td>
+                        <td>
+                            <a href="mailto:@Model.EmailAddress">@Model.EmailAddress</a>
+                        </td>
+                    </tr>
+                }
+                    
+                <tr>
+                    <td>Address</td>
+                    <td>
+                        @if (string.IsNullOrEmpty(Model.Address) == false)
+                        {
+                            <a href="@Model.GoogleSearchUrl" target="_blank">@Model.Address</a>
+                        }
+                        else
+                        {
+                            <a href="@Model.GoogleSearchUrl" target="_blank">@Model.BuildingNumber @Model.PostCode</a>
+                        }
+                    </td>
+                </tr>
+
+                @if (string.IsNullOrEmpty(Model.HomePhoneNumber) == false)
+                {
+                    <tr>
+                        <td>Home</td>
+                        <td>
+                            <a href="tel:@Model.HomePhoneNumber">@Model.HomePhoneNumber</a>
+                        </td>
+                    </tr>
+                }
+                    
+                @if (string.IsNullOrEmpty(Model.MobilePhoneNumber) == false)
+                {
+                    <tr>
+                        <td>Mobile</td>
+                        <td>
+                            <a href="tel:@Model.MobilePhoneNumber">@Model.MobilePhoneNumber</a>
+                        </td>
+                    </tr>
+                }
+
+                </tbody>
+                </table>
+    </div>
+</div>

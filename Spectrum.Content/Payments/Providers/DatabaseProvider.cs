@@ -15,6 +15,12 @@
         /// <param name="model">The model.</param>
         public void InsertTransaction(TransactionModel model)
         {
+            //// catch client id not set - might occur if code is regressed!
+            if (model.ClientId == 0)
+            {
+                throw new ApplicationException("Insert Transaction - Client Id not set");
+            }
+
             DatabaseContext context = ApplicationContext.Current.DatabaseContext;
 
             context.Database.Insert(model);
@@ -52,7 +58,7 @@
         /// <param name="customerId">The customer identifier.</param>
         /// <returns></returns>
         public TransactionModel GetTransaction(
-            int paymentId, 
+            string paymentId, 
             int customerId)
         {
             DatabaseContext context = ApplicationContext.Current.DatabaseContext;
@@ -60,7 +66,7 @@
             Sql sql = new Sql()
                 .Select("*")
                 .From(Content.Constants.Database.TransactionsTableName)
-                .Where("Id = " + paymentId + " and CustomerId= " + customerId);
+                .Where("TransactionId = '" + paymentId + "' and CustomerId= " + customerId);
 
             TransactionModel model = context.Database.FirstOrDefault<TransactionModel>(sql);
 

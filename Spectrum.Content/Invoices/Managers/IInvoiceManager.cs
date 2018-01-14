@@ -3,6 +3,7 @@
     using Content.Models;
     using System;
     using System.Collections.Generic;
+    using Umbraco.Core.Models;
     using Umbraco.Web;
     using ViewModels;
 
@@ -11,8 +12,22 @@
         /// <summary>
         /// Creates the invoice.
         /// </summary>
+        /// <param name="publishedContent">Content of the published.</param>
         /// <param name="viewModel">The view model.</param>
-        void CreateInvoice(CreateInvoiceViewModel viewModel);
+        /// <returns></returns>
+        string CreateInvoice(
+            IPublishedContent publishedContent,
+            CreateInvoiceViewModel viewModel);
+
+        /// <summary>
+        /// Gets the invoice.
+        /// </summary>
+        /// <param name="umbracoContext">The umbraco context.</param>
+        /// <param name="invoiceId">The invoice identifier.</param>
+        /// <returns></returns>
+        InvoiceViewModel GetInvoice(
+            UmbracoContext umbracoContext,
+            string invoiceId);
 
         /// <summary>
         /// Gets the invoices.

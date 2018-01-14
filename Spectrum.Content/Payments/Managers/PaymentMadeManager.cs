@@ -3,7 +3,6 @@
     using Content.Services;
     using ContentModels;
     using Customer.Providers;
-    using Mail.Models;
     using Mail.Providers;
     using Messages;
     using Models;
@@ -84,25 +83,23 @@
             ///// do we want to send a confirmation email??
            
             if (string.IsNullOrEmpty(paymentMadeMessage.EmailTemplateName) == false &&
-                string.IsNullOrEmpty(paymentMadeMessage.PaymentViewModel.EmailAddress) == false)
+                string.IsNullOrEmpty(paymentMadeMessage.ClientViewModel.EmailAddress) == false)
             {
                 Dictionary<string, string> dictionary = new Dictionary<string, string>
                 {
                     {"PaymentId", transactionId},
-                    {"AppointmentId", paymentMadeMessage.PaymentViewModel.AppointmentId},
+                    {"InvoiceId", paymentMadeMessage.PaymentViewModel.InvoiceId},
                     {"PaymentAmount", paymentMadeMessage.PaymentViewModel.Amount.ToString(CultureInfo.InvariantCulture)},
                 };
 
                 loggingService.Info(GetType(), "Sending Email");
 
-                MailResponse mailResponse = mailProvider.SendEmail(
+                mailProvider.SendEmail(
                     paymentMadeMessage.UmbracoContext,
                     paymentMadeMessage.EmailTemplateName,
-                    paymentMadeMessage.PaymentViewModel.EmailAddress,
+                    paymentMadeMessage.ClientViewModel.EmailAddress,
                     null,
                     dictionary);
-
-                //// TODO : we need to log the mail response!
             }
         }
     }

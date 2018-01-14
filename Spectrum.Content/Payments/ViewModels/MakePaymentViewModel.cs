@@ -5,19 +5,24 @@
     /// <summary>
     /// The MakePaymentViewModel class.
     /// </summary>
-    public class MakePaymentViewModel 
+    public class MakePaymentViewModel
     {
+        /// <summary>
+        /// Gets or sets the client identifier.
+        /// </summary>
+        [JsonProperty(PropertyName = "clientId")]
+        public string ClientId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the invoice identifier.
+        /// </summary>
+        public string InvoiceId { get; set; }
+
         /// <summary>
         /// Gets or sets the current page node identifier.
         /// </summary>
         [JsonProperty(PropertyName = "currentPageNodeId")]
         public string CurrentPageNodeId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the email address.
-        /// </summary>
-        [JsonProperty(PropertyName = "emailAddress")]
-        public string EmailAddress { get; set; }
 
         /// <summary>
         /// Gets or sets the nonce.
@@ -30,17 +35,5 @@
         /// </summary>
         [JsonProperty(PropertyName = "amount")]
         public decimal Amount { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether [automatic allocate].
-        /// </summary>
-        [JsonProperty(PropertyName = "autoAllocate")]
-        public string AutoAllocate { get; set; }
-        
-        /// <summary>
-        /// Gets or sets the appointment identifier.
-        /// </summary>
-        [JsonProperty(PropertyName = "appointmentId")]
-        public string AppointmentId { get; set; }
     }
 }

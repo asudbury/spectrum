@@ -62,7 +62,7 @@
         /// <param name="viewModel">The view model.</param>
         public void InsertEvent(
             UmbracoContext umbracoContext,
-            InsertAppointmentViewModel viewModel)
+            CreateAppointmentViewModel viewModel)
         {
             CalendarService calendarService = GetCalendarService(umbracoContext);
 

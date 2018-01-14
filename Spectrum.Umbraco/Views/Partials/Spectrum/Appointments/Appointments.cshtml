@@ -3,8 +3,8 @@
         <tr>
             <th data-column-id="startTime" data-formatter="startTime" data-header-align="center" data-align="center">Date</th>
             <th data-column-id="status" data-header-align="center" data-align="center">Status</th>
-            <th data-column-id="paymentId" data-header-align="center" data-align="center" data-formatter="paymentId">Payment Id</th>
-            <th data-column-id="location" data-header-align="center" data-align="center">Location</th>
+            <th data-column-id="clientName" data-header-align="center" data-align="center" data-formatter="client">Client</th>
+            <th data-column-id="location" data-header-align="center" data-align="center" data-formatter="location">Location</th>
             <th data-column-id="description" data-header-align="center" data-align="center">Description</th>
             <th data-column-id="actions" data-header-align="center" data-align="center" data-formatter="actions">Commands</th>
         </tr>
@@ -29,7 +29,6 @@
                         "</div>" +
                         "<div class=\"row\">" +
                             "<div class=\"col-sm-12 actionBar\">" +
-                                "<a class=\"btn btn-md btn-primary button-stack create-btn\" role-\"button\" href=\"createappointment\">Create Appointment</a>" +
                                 "<p class=\"{{css.search}}\"></p>" +
                                 "<p class=\"{{css.actions}}\">" +
                                 "</p>" +
@@ -54,12 +53,15 @@
             "startTime": function(column, row) {
                 return moment(row.startTime).format('ddd DD MMM HH:mm');
             },
-            "paymentId": function (column, row) {
-                if (row.paymentId) {
-                    return '<a href="#" class="link-payment" data-payment-id=' + row.paymentId + '>Paid</a>';
+            "location": function(column, row) {
+                if (row.location) {
+                    return '<a href=' + row.googleSearchUrl + '>' + row.location + '</a>';
                 }
 
-                return '<a href="' + row.takePaymentUrl + '" style="color: red">Take Payment</a>';
+                return '';
+            },
+            "client": function (column, row) {
+                return '<a href=' + row.clientUrl + '>' + row.clientName + '</a>';
             },
             "actions": function (column, row) {
                 return '<a href="' + row.viewAppointmentUrl + '"class="link-view-appointment">View</a>';

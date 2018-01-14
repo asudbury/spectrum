@@ -25,6 +25,11 @@
         public string CreatedUser { get; set; }
 
         /// <summary>
+        /// Gets or sets the created time.
+        /// </summary>
+        public DateTime CreatedTime { get; set; }
+
+        /// <summary>
         /// Gets or sets the type.
         /// </summary>
         public string Type { get; set; }

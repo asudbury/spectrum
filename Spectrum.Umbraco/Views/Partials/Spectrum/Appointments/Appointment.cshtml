@@ -6,64 +6,58 @@
         <div class="col-sm-6 col-md-4 col-md-offset-4">
             <div class="account-wall">
 
+                <h2 class="partial-title" data-toggle="collapse" data-target="#client">@Html.Action("ClientName", "Client")</h2>
+
+                <div id="client" class="collapse">
+                    @Html.Action("GetClientHeader", "Client")
+                </div>
+
                 <h2 class="partial-title">Appointment</h2>
 
                 <table class="table-responsive table table-striped table-bordered">
                     <tbody>
                         <tr>
-                            <td>Appointment Id</td>
+                            <td>Id</td>
                             <td>@Model.Id</td>
-                        </tr>
-                        <tr>
-                            <td>Status</td>
-                            <td>@Model.Status</td>
-                        </tr>
-                        <tr>
-                            <td>Created Time</td>
-                            <td>@Model.CreatedTime.ToString("ddd dd MMM HH:mm")</td>
-                        </tr>
-                        <tr>
-                            <td>Created By</td>
-                            <td>@Model.CreatedUser</td>
-                        </tr>
-                        <tr>
-                            <td>Last Updated Time</td>
-                            <td>@Model.LastUpdatedTime.ToString("ddd dd MMM HH:mm")</td>
-                        </tr>
-                        <tr>
-                            <td>Last Updated By</td>
-                            <td>@Model.LastedUpdatedUser</td>
                         </tr>
                         <tr>
                             <td>Start Time</td>
                             <td>@Model.StartTime.ToString("ddd dd MMM HH:mm")</td>
                         </tr>
                         <tr>
-                            <td>Duration (In Minutes)</td>
-                            <td>@Model.Duration</td>
-                        </tr>
-                        <tr>
-                            <td>Payment Id</td>
-                            <td>@Model.PaymentId</td>
+                            <td>Status</td>
+                            <td>@Model.Status</td>
                         </tr>
                         <tr>
                             <td>Location</td>
-                            <td>@Model.Location</td>
+                            <td>
+                                <a href="@Model.GoogleSearchUrl">@Model.Location</a>
+                            </td>
                         </tr>
                         <tr>
                             <td>Description</td>
                             <td>@Model.Description</td>
                         </tr>
-
                         <tr>
-                            <td class="attendees-list" colspan='2'>Attendees</td>
+                            <td>Duration</td>
+                            <td>@Model.Duration mins</td>
                         </tr>
-
-                        @foreach (var item in Model.Attendees)
-                        {
-                            <tr><td colspan='2'>@item</td></tr>
-                        }
-
+                        <tr>
+                            <td>Created</td>
+                            <td>
+                                @Model.CreatedTime.ToString("ddd dd MMM HH:mm")
+                                <br />
+                                @Model.CreatedUser
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Last Updated</td>
+                            <td>
+                                @Model.LastUpdatedTime.ToString("ddd dd MMM HH:mm")
+                                <br />
+                                @Model.LastedUpdatedUser
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
 
@@ -74,8 +68,6 @@
         </div>
     </div>
 </div>
-
-
 
 <script type="text/javascript">
 

@@ -53,7 +53,6 @@ namespace Spectrum.Content.Configuration
             }
 
             db.CreateTableIfNotExist<AppointmentModel>(Content.Constants.Database.AppointmentTableName);
-            db.CreateTableIfNotExist<AppointmentAttendeeModel>(Content.Constants.Database.AppointmentAttendeeTableName);
             db.CreateTableIfNotExist<ICalAppointmentModel>(Content.Constants.Database.IcalAppointmentTableName);
 
             db.CreateTableIfNotExist<TransactionModel>(Content.Constants.Database.TransactionsTableName);
@@ -61,7 +60,6 @@ namespace Spectrum.Content.Configuration
             db.CreateTableIfNotExist<InvoiceModel>(Content.Constants.Database.InvoiceTableName);
             db.CreateTableIfNotExist<QuoteModel>(Content.Constants.Database.QuoteTableName);
 
-            db.CreateTableIfNotExist<AddressModel>(Content.Constants.Database.AddressTableName);
             db.CreateTableIfNotExist<ClientModel>(Content.Constants.Database.ClientTableName);
 
             PublishedContentRequest.Prepared += PublishedContentRequestPrepared;

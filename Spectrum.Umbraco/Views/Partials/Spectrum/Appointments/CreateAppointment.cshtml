@@ -1,6 +1,6 @@
 ﻿@using Spectrum.Content.Appointments
 @using Spectrum.Content.Appointments.Controllers
-@model Spectrum.Content.Appointments.ViewModels.InsertAppointmentViewModel
+@model Spectrum.Content.Appointments.ViewModels.CreateAppointmentViewModel
 @{
     Html.EnableClientValidation(true);
     Html.EnableUnobtrusiveJavaScript(true);
@@ -27,6 +27,8 @@
         <div class="row">
             <div class="col-sm-6 col-md-4 col-md-offset-4">
                 <div class="account-wall">
+                    
+                    <h2 class="partial-title">@Html.Action("ClientName", "Client")</h2>
 
                     <h2 class="partial-title">Create an Appointment</h2>
 
@@ -53,25 +55,13 @@
                     @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = "5" })
                     @Html.ValidationMessageFor(model => model.Description)
 
-                    <div>
-                        <label class="control-label">Add Attendees *</label>
-                    </div>
-                    <div class="form-group">
-                        <input class="form-control" id="attendeeInput" placeholder="Enter email address" data-val="true" data-val-required="Please enter a valid Email Address">
-                        <div>
-                            <span class="field-validation-valid" data-valmsg-for="attendeeInput" data-valmsg-replace="true"></span>
-                        </div>
-                    </div>
-
-                    <ul id="attendeeList" class="list-group" style="list-style-type: none;"></ul>
-
-                    @Html.EditorFor(model => model.ServiceProviderId)
-
                     <script src="../../../../scripts/spectrum/appointment.js"></script>
                     
-                    @Html.Partial("Spectrum/Required")
+                    @Html.HiddenFor(model => model.ClientId)
 
-                    <button value="submit" id="submit" onclick="checkAttendees();" class="btn btn-lg btn-primary btn-block">Save Appointment</button>
+                    @Html.Partial("Spectrum/Components/Required")
+
+                    <button value="submit" id="submit" class="btn btn-lg btn-primary btn-block">Save Appointment</button>
 
                 </div>
             </div>
@@ -90,13 +80,6 @@
 
             $('.btn').click(function () {
                 $(".date", $(this).closest(".form-group")).focus();
-            });
-
-            $('#attendeeInput').blur(function () {
-                if ($('#attendeeInput').val() !== '') {
-                    addAttendee();
-                    $(this).focus();
-                }
             });
 
             $('form').submit(function (event) {

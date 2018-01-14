@@ -48,10 +48,25 @@ namespace Spectrum.Application.Services
         /// <returns></returns>
         public string EncryptString(string textToEncrypt)
         {
+            if (string.IsNullOrEmpty(textToEncrypt))
+            {
+                return string.Empty;
+            }
+
             byte[] vector = new byte[16];
             random.NextBytes(vector);
             IEnumerable<byte> cryptogram = vector.Concat(Encrypt(encoder.GetBytes(textToEncrypt), vector));
             return UrlSafeConvertToBase64String(cryptogram.ToArray());
+        }
+
+        /// <summary>
+        /// Encrypts the string.
+        /// </summary>
+        /// <param name="textToEncrypt">The text to encrypt.</param>
+        /// <returns></returns>
+        public string EncryptString(int textToEncrypt)
+        {
+            return EncryptString(textToEncrypt.ToString());
         }
 
         /// <inheritdoc />
@@ -78,6 +93,11 @@ namespace Spectrum.Application.Services
         /// <exception cref="T:System.ArgumentException">Not a valid encrypted string;encrypted</exception>
         public string DecryptString(string textToDecrypt)
         {
+            if (string.IsNullOrEmpty(textToDecrypt))
+            {
+                return string.Empty;
+            }
+
             byte[] cryptogram = UrlSafeConvertFromBase64String(textToDecrypt);
 
             if (cryptogram.Length < 17)

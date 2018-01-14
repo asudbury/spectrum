@@ -8,6 +8,11 @@
         public string CustomerName { get; set; }
 
         /// <summary>
+        /// Gets or sets the client identifier.
+        /// </summary>
+        public string ClientId { get; set; }
+
+        /// <summary>
         /// Gets or sets the environment.
         /// </summary>
         public string Environment { get; set; }
@@ -23,19 +28,9 @@
         public string AutoAllocate { get; set; }
 
         /// <summary>
-        /// Gets or sets the appointment identifier.
-        /// </summary>
-        public string AppointmentId { get; set; }
-
-        /// <summary>
         /// Gets or sets the invoice identifier.
         /// </summary>
         public string InvoiceId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the email address.
-        /// </summary>
-        public string EmailAddress { get; set; }
 
         /// <summary>
         /// Gets or sets the payment amount.

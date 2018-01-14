@@ -2,7 +2,6 @@
 {
     using Content.Models;
     using Content.Services;
-    using ContentModels;
     using Managers;
     using System;
     using System.Collections.Generic;
@@ -10,7 +9,7 @@
     using Umbraco.Core.Models;
     using ViewModels;
 
-    public class InvoicesController : BaseController
+    public class InvoiceController : BaseController
     {
         /// <summary>
         /// The settings service.
@@ -35,7 +34,7 @@
         /// <param name="rulesEngineService">The rules engine service.</param>
         /// <param name="invoiceManager">The invoice manager.</param>
         /// <inheritdoc />
-        public InvoicesController(
+        public InvoiceController(
             ILoggingService loggingService,
             ISettingsService settingsService,
             IRulesEngineService rulesEngineService,
@@ -65,23 +64,40 @@
         }
 
         /// <summary>
-        /// Gets the Create an Invoice.
+        /// Views the invoice.
         /// </summary>
+        /// <param name="fkdssre">The fkdssre.</param>
+        /// <param name="fdwpoe">The fdwpoe.</param>
         /// <returns></returns>
         [ChildActionOnly]
-        public PartialViewResult GetCreateInvoice()
+        public PartialViewResult ViewInvoice(
+            string fkdssre,
+            string fdwpoe)
         {
             LoggingService.Info(GetType());
 
             if (rulesEngineService.IsCustomerInvoicesEnabled())
             {
-                CreateInvoiceViewModel viewModel = new CreateInvoiceViewModel();
-                
-                IPublishedContent paymentsNode = settingsService.GetPaymentsNode();
+                InvoiceViewModel viewModel = invoiceManager.GetInvoice(UmbracoContext, fdwpoe);
 
-                PaymentSettingsModel settingsModel = new PaymentSettingsModel(paymentsNode);
+                return PartialView("Partials/Spectrum/Invoices/Invoice", viewModel);
+            }
 
-                viewModel.ShowIncludePaymentLink = settingsModel.CustomerPaymentsEnabled;
+            return default(PartialViewResult);
+        }
+
+        /// <summary>
+        /// Gets the Create an Invoice.
+        /// </summary>
+        /// <returns></returns>
+        [ChildActionOnly]
+        public PartialViewResult GetCreateInvoice(string fkdssre)
+        {
+            LoggingService.Info(GetType());
+
+            if (rulesEngineService.IsCustomerInvoicesEnabled())
+            {
+                CreateInvoiceViewModel viewModel = new CreateInvoiceViewModel {Code = fkdssre };
 
                 return PartialView("Partials/Spectrum/Invoices/CreateInvoice", viewModel);
             }
@@ -139,9 +155,13 @@
                 return CurrentUmbracoPage();
             }
 
-            invoiceManager.CreateInvoice(viewModel);
+            IPublishedContent publishedContent = GetContentById(CurrentPage.Id.ToString());
 
-            return default(PartialViewResult);
+            string nextUrl = invoiceManager.CreateInvoice(
+                publishedContent,
+                viewModel);
+
+            return Redirect(nextUrl);
         }
     }
 }

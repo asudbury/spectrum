@@ -76,13 +76,7 @@
             {
                 foreach (AppointmentViewModel appointmentViewModel in originalViewModels)
                 {
-                    if (searchString.ToLower() == "unpaid" &&
-                        string.IsNullOrEmpty(appointmentViewModel.PaymentId))
-                    {
-                        viewModels.Add(appointmentViewModel);
-                    }
-
-                    else if (IsDateCheckKeywordSearch(
+                    if (IsDateCheckKeywordSearch(
                              searchString, 
                              appointmentViewModel.StartTime))
                     { 
@@ -93,9 +87,9 @@
                         appointmentViewModel.StartTime.ToString("ddd dd MMM HH:mm").ToLower().Contains(searchString) ||
                         appointmentViewModel.Duration.ToString(CultureInfo.InvariantCulture).Contains(searchString) ||
                         appointmentViewModel.Status.ToLower().Contains(searchString) ||
-                        (appointmentViewModel.PaymentId != null && appointmentViewModel.PaymentId.ToLower().Contains(searchString)) ||
                         appointmentViewModel.Location.ToLower().Contains(searchString) ||
-                        appointmentViewModel.Description.ToLower().Contains(searchString))
+                        appointmentViewModel.Description.ToLower().Contains(searchString) ||
+                        appointmentViewModel.ClientName.ToLower().Contains(searchString))
                     {
                         viewModels.Add(appointmentViewModel);
                     }
@@ -142,12 +136,6 @@
                             appointmentList.OrderByDescending(x => x.Status);
                         break;
 
-                    case "paymentId":
-                        appointmentViewModels = IsSortOrderAscending(sortData.Type) ?
-                            appointmentList.OrderBy(x => x.PaymentId) :
-                            appointmentList.OrderByDescending(x => x.PaymentId);
-                        break;
-
                     case "location":
                         appointmentViewModels = IsSortOrderAscending(sortData.Type) ?
                             appointmentList.OrderBy(x => x.Location) :
@@ -158,6 +146,12 @@
                         appointmentViewModels = IsSortOrderAscending(sortData.Type) ?
                             appointmentList.OrderBy(x => x.Description) :
                             appointmentList.OrderByDescending(x => x.Description);
+                        break;
+
+                    case "client":
+                        appointmentViewModels = IsSortOrderAscending(sortData.Type) ?
+                            appointmentList.OrderBy(x => x.ClientName) :
+                            appointmentList.OrderByDescending(x => x.ClientName);
                         break;
                 }
 

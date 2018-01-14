@@ -1,11 +1,10 @@
-﻿using Umbraco.Web;
-
-namespace Spectrum.Content.ContentModels
+﻿namespace Spectrum.Content.ContentModels
 {
     using System;
     using Umbraco.Core;
     using Umbraco.Core.Models;
     using Umbraco.Core.Models.PublishedContent;
+    using Umbraco.Web;
 
     public class BaseModel : PublishedContentModel
     {

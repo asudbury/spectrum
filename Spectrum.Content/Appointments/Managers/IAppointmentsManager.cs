@@ -10,17 +10,17 @@
     public interface IAppointmentsManager
     {
         /// <summary>
-        /// Inserts the appointment.
+        /// Creates the appointment.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="publishedContent">Content of the published.</param>
         /// <param name="viewModel">The view model.</param>
         /// <param name="createdUser">The created user.</param>
         /// <returns></returns>
-        string InsertAppointment(
+        string CreateAppointment(
             UmbracoContext umbracoContext,
             IPublishedContent publishedContent,
-            InsertAppointmentViewModel viewModel,
+            CreateAppointmentViewModel viewModel,
             string createdUser);
 
         /// <summary>

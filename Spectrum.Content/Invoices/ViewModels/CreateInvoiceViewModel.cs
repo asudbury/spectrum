@@ -12,20 +12,19 @@
         public CreateInvoiceViewModel()
         {
             Date = DateTime.Today;
-            IncludePaymentLink = true;
+            EmailClientInvoice = true;
         }
+
+        /// <summary>
+        /// Gets or sets the code.
+        /// </summary>
+        public string Code { get; set; }
 
         /// <summary>
         /// Gets or sets the invoice date.
         /// </summary>
         [Required(ErrorMessage = "Please enter a Invoice Date")]
         public DateTime Date { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the client.
-        /// </summary>
-        [Required(ErrorMessage = "Please enter a Client Name")]
-        public string ClientName { get; set; }
 
         /// <summary>
         /// Gets or sets the invoice details.
@@ -40,32 +39,9 @@
         public decimal? Amount { get; set; }
 
         /// <summary>
-        /// Gets or sets the email address.
+        /// Gets or sets a value indicating whether [email client invoice].
         /// </summary>
-        [Required(ErrorMessage = "Please enter Client Email Address")]
-        public string EmailAddress { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether [show include payment link].
-        /// </summary>
-        public bool ShowIncludePaymentLink { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether [include payment link].
-        /// </summary>
-        [DisplayName("Include link for payment")]
-        public bool IncludePaymentLink { get; set; }
-
-        /// <summary>
-        /// Gets or sets the building number.
-        /// </summary>
-        [Required(ErrorMessage = "Please enter a Building Number")]
-        public string BuildingNumber { get; set; }
-
-        /// <summary>
-        /// Gets or sets the post code.
-        /// </summary>
-        [Required(ErrorMessage = "Please enter a Post Code")]
-        public string PostCode { get; set; }
+        [DisplayName("Email client copy of invoice")]
+        public bool EmailClientInvoice { get; set; }
     }
 }

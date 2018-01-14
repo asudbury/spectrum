@@ -17,6 +17,6 @@
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        InvoiceViewModel Translate(InvoiceModel model);
+        InvoiceViewModel Translate(ClientInvoiceModel model);
     }
 }

@@ -23,7 +23,6 @@ $(document).ready(function () {
 
         //Clear
         $("#addressList").empty();
-        //$('#addressResult').text('Searching...');
 
         var url = "/umbraco/Surface/Search/GetAddresses";
 
@@ -48,16 +47,13 @@ $(document).ready(function () {
                 //Hide the spinner
                 $('#loading').addClass('disp-none');
 
-                //$('#addressResult').text('');
                 $('#addressList').removeClass('disp-none');
                 $('.find-address').removeClass('disp-none');
 
-                //Empty the buildNumber field
                 $('#BuildingNumber').val('');
 
                 for (i = 0; i < data.length; i++) {
-                    //console.log('order ' + data[i].FullAddress);
-                    $('#addressList').prepend(prependAddress(i, ' ' + data[i].FullAddress, data[i].BuildingNumber));
+                    $('#addressList').prepend(prependAddress(i, data[i].Address, data[i].BuildingNumber));
                 }
 
                 //Reverse the list as prepend reverses it fpr some strange reason
@@ -83,7 +79,6 @@ $(document).ready(function () {
 
 function prependAddress(index, inputValue, buildingNumber) {
 
-    //console.log('prepend input value = ' + inputValue);
     var retVal = '<option id="Address_' + index + '" value=' + buildingNumber + '>' + inputValue + '</option>';
     return (retVal);
 }
@@ -92,6 +87,7 @@ function addressSelected(index) {
     var addressDropdown = document.getElementById("addressList");
     var buildingNumber = addressDropdown.options[index].value;
 
-    //console.log('dropdown list changed. index ' + index + ' buildNumber ' + buildingNumber);
     $('#BuildingNumber').val(buildingNumber);
+
+    $('#Address').val(addressDropdown[index].innerText);
 }

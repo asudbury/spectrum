@@ -1,4 +1,4 @@
-﻿namespace Spectrum.Content.Appointments.Managers
+﻿namespace Spectrum.Content.Invoices.Managers
 {
     using Messages;
 

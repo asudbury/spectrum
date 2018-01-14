@@ -1,4 +1,7 @@
-﻿namespace Spectrum.Content.Payments.Managers
+﻿using Spectrum.Content.Customer.Managers;
+using Spectrum.Content.Customer.ViewModels;
+
+namespace Spectrum.Content.Payments.Managers
 {
     using Application.Services;
     using Autofac.Events;
@@ -69,6 +72,11 @@
         private readonly IEncryptionService encryptionService;
 
         /// <summary>
+        /// The client manager.
+        /// </summary>
+        private readonly IClientManager clientManager;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="PaymentManager" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
@@ -80,6 +88,7 @@
         /// <param name="databaseProvider">The database provider.</param>
         /// <param name="transactionsBootGridTranslator">The transactions boot grid translator.</param>
         /// <param name="encryptionService">The encryption service.</param>
+        /// <param name="clientManager">The client manager.</param>
         public PaymentManager(
             ILoggingService loggingService,
             ICustomerProvider customerProvider,
@@ -89,7 +98,8 @@
             ITransactionTranslator transactionTranslator,
             IDatabaseProvider databaseProvider,
             ITransactionsBootGridTranslator transactionsBootGridTranslator,
-            IEncryptionService encryptionService)
+            IEncryptionService encryptionService,
+            IClientManager clientManager)
         {
             this.loggingService = loggingService;
             this.customerProvider = customerProvider;
@@ -100,6 +110,7 @@
             this.databaseProvider = databaseProvider;
             this.transactionsBootGridTranslator = transactionsBootGridTranslator;
             this.encryptionService = encryptionService;
+            this.clientManager = clientManager;
         }
 
         /// <summary>
@@ -158,7 +169,7 @@
 
                 CustomerModel customerModel = customerProvider.GetCustomerModel(umbracoContext);
 
-                TransactionModel model = databaseProvider.GetTransaction(Convert.ToInt32(paymentId), customerModel.Id);
+                TransactionModel model = databaseProvider.GetTransaction(paymentId, customerModel.Id);
 
                 return transactionTranslator.Translate(model);
             }
@@ -256,6 +267,14 @@
         {
             loggingService.Info(GetType());
 
+            //// check client id first
+            ClientViewModel clientViewModel = clientManager.GetClient(viewModel.ClientId);
+
+            if (clientViewModel == null)
+            {
+                throw new ApplicationException("Invalid Client Id");
+            }
+
             PageModel pageModel = new PageModel(publishedContent);
 
             if (string.IsNullOrEmpty(pageModel.NextPageUrl))
@@ -297,6 +316,7 @@
                         umbracoContext,
                         transaction.Target,
                         viewModel,
+                        clientViewModel,
                         currentUser,
                         pageModel.EmailTemplateName,
                         paymentSettingsModel.Provider,

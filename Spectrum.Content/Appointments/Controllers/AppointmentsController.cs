@@ -2,9 +2,9 @@
 {
     using Content.Models;
     using Content.Services;
+    using Customer.Managers;
+    using Customer.ViewModels;
     using Managers;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Serialization;
     using System;
     using System.Collections.Generic;
     using System.Web.Mvc;
@@ -24,20 +24,28 @@
         private readonly IRulesEngineService rulesEngineService;
 
         /// <summary>
+        /// The client manager.
+        /// </summary>
+        private readonly IClientManager clientManager;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="T:Spectrum.Content.Appointments.Controllers.AppointmentsController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="appointmentsManager">The appointments manager.</param>
         /// <param name="rulesEngineService">The rules engine service.</param>
+        /// <param name="clientManager">The client manager.</param>
         /// <inheritdoc />
         public AppointmentsController(
             ILoggingService loggingService,
             IAppointmentsManager appointmentsManager,
-            IRulesEngineService rulesEngineService) 
+            IRulesEngineService rulesEngineService,
+            IClientManager clientManager) 
             : base(loggingService)
         {
             this.appointmentsManager = appointmentsManager;
             this.rulesEngineService = rulesEngineService;
+            this.clientManager = clientManager;
         }
 
         /// <summary>
@@ -62,13 +70,21 @@
         /// </summary>
         /// <returns></returns>
         [ChildActionOnly]
-        public PartialViewResult InsertAppointment()
+        public PartialViewResult GetInsertAppointmentPage(string fkdssre)
         {
             LoggingService.Info(GetType());
 
             if (rulesEngineService.IsCustomerAppointmentsEnabled())
             {
-                return PartialView("", new InsertAppointmentViewModel());
+                ClientViewModel clientViewModel = clientManager.GetClient(fkdssre);
+
+                CreateAppointmentViewModel viewModel = new CreateAppointmentViewModel
+                {
+                    ClientId = fkdssre,
+                    Location = clientViewModel.Address
+                };
+
+                return PartialView("~/Views/Partials/Spectrum/Appointments/CreateAppointment.cshtml", viewModel);
             }
 
             return default(PartialViewResult);
@@ -81,7 +97,7 @@
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult InsertAppointment(InsertAppointmentViewModel viewModel)
+        public ActionResult InsertAppointment(CreateAppointmentViewModel viewModel)
         {
             LoggingService.Info(GetType());
 
@@ -97,7 +113,7 @@
 
             IPublishedContent publishedContent = GetContentById(CurrentPage.Id.ToString());
           
-            string nextUrl = appointmentsManager.InsertAppointment(
+            string nextUrl = appointmentsManager.CreateAppointment(
                                          UmbracoContext,
                                          publishedContent,
                                          viewModel,
@@ -180,7 +196,7 @@
         [HttpGet]
         public PartialViewResult ViewAppointment(string beeswwr)
         {
-            LoggingService.Info(GetType(), "beeswwr=" + beeswwr);
+            LoggingService.Info(GetType());
 
             if (rulesEngineService.IsCustomerAppointmentsEnabled() == false)
             {
@@ -200,7 +216,7 @@
         [HttpGet]
         public PartialViewResult GetUpdatedAppointment(string beeswwr)
         {
-            LoggingService.Info(GetType(), "Id=" + beeswwr);
+            LoggingService.Info(GetType());
 
             if (rulesEngineService.IsCustomerAppointmentsEnabled() == false)
             {

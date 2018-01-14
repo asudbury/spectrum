@@ -7,52 +7,33 @@
     public interface IDatabaseProvider
     {
         /// <summary>
-        /// Inserts the appointment.
+        /// Creates the appointment.
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns>The appointmentId</returns>
-        int InsertAppointment(AppointmentModel model);
+        int CreateAppointment(AppointmentModel model);
         
         /// <summary>
-        /// Inserts the appointment attendee.
-        /// </summary>
-        /// <param name="model">The model.</param>
-        void InsertAppointmentAttendee(AppointmentAttendeeModel model);
-
-        /// <summary>
-        /// Gets the appointments.
+        /// Gets the client appointments.
         /// </summary>
         /// <param name="dateRangeStart">The date range start.</param>
         /// <param name="dateRangeEnd">The date range end.</param>
         /// <param name="customerId">The customer identifier.</param>
         /// <returns></returns>
-        IEnumerable<AppointmentModel> GetAppointments(
+        IEnumerable<ClientAppointmentModel> GetClientAppointments(
             DateTime dateRangeStart,
             DateTime dateRangeEnd,
             int customerId);
 
         /// <summary>
-        /// Gets the appointment.
+        /// Gets the client appointment.
         /// </summary>
         /// <param name="appointmentId">The appointment identifier.</param>
         /// <param name="customerId">The customer identifier.</param>
         /// <returns></returns>
-        AppointmentModel GetAppointment(
+        ClientAppointmentModel GetClientAppointment(
             int appointmentId,
             int customerId);
-
-        /// <summary>
-        /// Gets the appointment attendees.
-        /// </summary>
-        /// <param name="appointmentId">The appointment identifier.</param>
-        /// <returns></returns>
-        List<AppointmentAttendeeModel> GetAppointmentAttendees(int appointmentId);
-
-        /// <summary>
-        /// Deletes the appointment attendee.
-        /// </summary>
-        /// <param name="model">The model.</param>
-        void DeleteAppointmentAttendee(AppointmentAttendeeModel model);
 
         /// <summary>
         /// Updates the appointment.

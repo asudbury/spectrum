@@ -6,9 +6,6 @@
 @{
     Html.EnableClientValidation(true);
     Html.EnableUnobtrusiveJavaScript(true);
-
-    string mediaId = Umbraco.Field("CardImages").ToString();
-    string cardImageUrl = Umbraco.Media(mediaId).Url;
 }
 
 @using (Html.BeginUmbracoForm<PaymentController>("MakePayment"))
@@ -25,6 +22,7 @@
                 <div class="account-wall">
 
                     <h2 class="partial-title payment-title">@Html.Action("CustomerName", "Customer")</h2>
+                    <h2 class="partial-title payment-title">@Html.Action("ClientName", "Client")</h2>
                     <h2 class="partial-title title-sub">@Umbraco.Field("Title")<i class="fa fa-lock lock-logo" aria-hidden="true"></i></h2>
                     <div class="card-logos">
                         <i class="fa fa-cc-mastercard"></i>
@@ -55,12 +53,9 @@
                         <input type="text" class="form-control" id="amount" placeholder="0.0" />
                     </div>
 
-                    <div class="form-group">
-                        <label class="control-label">@Umbraco.Field("Email")</label>
-                        <input type="text" class="form-control" id="emailAddress" />
-                    </div>
-
-                    @Html.Partial("Spectrum/Required")
+                    @Html.Partial("Spectrum/Components/Required")
+                    
+                    @Html.HiddenFor(model => model.ClientId)
 
                     <button value="submit" id="submit" class="btn btn-primary btn-block payment-button">
                         @Umbraco.Field("PayWith") <span id="card-type">Card</span>
@@ -75,6 +70,7 @@
                             </div>
                         </div>
                     </div>
+                    
 
                     <script src="https://js.braintreegateway.com/web/3.17.0/js/client.min.js"></script>
                     <script src="https://js.braintreegateway.com/web/3.17.0/js/hosted-fields.min.js"></script>

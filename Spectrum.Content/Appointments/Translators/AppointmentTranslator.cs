@@ -1,10 +1,9 @@
 ﻿namespace Spectrum.Content.Appointments.Translators
 {
     using Application.Services;
+    using Content.Services;
     using Models;
-    using Payments;
     using System;
-    using System.Collections.Generic;
     using ViewModels;
 
     public class AppointmentTranslator : IAppointmentTranslator
@@ -15,12 +14,21 @@
         private readonly IEncryptionService encryptionService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AppointmentTranslator"/> class.
+        /// The URL service.
+        /// </summary>
+        private readonly IUrlService urlService;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AppointmentTranslator" /> class.
         /// </summary>
         /// <param name="encryptionService">The encryption service.</param>
-        public AppointmentTranslator(IEncryptionService encryptionService)
+        /// <param name="urlService">The URL service.</param>
+        public AppointmentTranslator(
+            IEncryptionService encryptionService,
+            IUrlService urlService)
         {
             this.encryptionService = encryptionService;
+            this.urlService = urlService;
         }
 
         /// <inheritdoc />
@@ -32,7 +40,7 @@
         /// <returns></returns>
         public AppointmentViewModel Translate(
             string paymentsPage,
-            AppointmentModel model)
+            ClientAppointmentModel model)
         {
             DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(model.StartTime);
 
@@ -42,20 +50,20 @@
                 EncryptedId = encryptionService.EncryptString(model.Id.ToString()),
                 CreatedTime = TimeZone.CurrentTimeZone.ToLocalTime(model.CreatedTime),
                 CreatedUser = model.CreatedUser,
-                LastUpdatedTime = TimeZone.CurrentTimeZone.ToLocalTime(model.LasteUpdatedTime),
-                LastedUpdatedUser = model.LastedUpdatedUser,
+                LastUpdatedTime = TimeZone.CurrentTimeZone.ToLocalTime(model.LastUpdatedTime),
+                LastedUpdatedUser = model.LastUpdatedUser,
                 StartTime = startTime,
                 Duration = model.Duration,
                 Status = GetAppointmentStatus(model.Status, model.StartTime),
-                PaymentId = model.PaymentId,
                 InvoiceId = model.InvoiceId,
                 Location = model.Location,
                 Description = model.Description,
-                ViewAppointmentUrl = BuildAppointmentUrl(paymentsPage, model.Id, "viewappointment"),
-                UpdateAppointmentUrl = BuildAppointmentUrl(paymentsPage, model.Id, "updateappointment"),
+                ViewAppointmentUrl = urlService.GetViewAppointmentUrl(model.ClientId, model.Id),
+                UpdateAppointmentUrl = urlService.GetUpdateAppointmentUrl(model.ClientId, model.Id),
                 DeleteAppointmentUrl = "/umbraco/Surface/Appointments/Delete/" + encryptionService.EncryptString(model.Id.ToString()),
-                TakePaymentUrl = BuildPaymentsUrl(paymentsPage, model.Id),
-                Attendees = GetAttendees(model.Attendees)
+                GoogleSearchUrl = urlService.GetGoogleSearchUrl(model.Location),
+                ClientUrl = urlService.GetViewClientUrl(model.ClientId),
+                ClientName = encryptionService.DecryptString(model.ClientName)
             };
 
             return viewModel;
@@ -74,20 +82,18 @@
                 Id = viewModel.Id,
                 CreatedTime = viewModel.CreatedTime,
                 CreatedUser = viewModel.CreatedUser,
-                LasteUpdatedTime = viewModel.LastUpdatedTime,
-                LastedUpdatedUser = viewModel.LastedUpdatedUser,
+                LastUpdatedTime = viewModel.LastUpdatedTime,
+                LastUpdatedUser = viewModel.LastedUpdatedUser,
                 StartTime = viewModel.StartTime,
                 Duration = viewModel.Duration,
                 Location = viewModel.Location,
                 Description = viewModel.Description,
-                PaymentId = viewModel.PaymentId,
                 InvoiceId = viewModel.InvoiceId
             };
 
             return model;
         }
-
-
+        
         /// <summary>
         /// Translates the specified original model.
         /// </summary>
@@ -106,16 +112,17 @@
             AppointmentModel model = new AppointmentModel
             {
                 Id = originalModel.Id,
+                ClientId = originalModel.ClientId,
                 CustomerId = originalModel.CustomerId,
                 ServiceProviderId = originalModel.ServiceProviderId,
                 CreatedTime = originalModel.CreatedTime,
                 CreatedUser = originalModel.CreatedUser,
-                LasteUpdatedTime = now,
+                LastUpdatedTime = now,
+                LastUpdatedUser = originalModel.CreatedUser,
                 StartTime = startTime,
                 Duration = viewModel.Duration,
                 Location = viewModel.Location,
                 Description = viewModel.Description,
-                PaymentId = viewModel.PaymentId,
                 InvoiceId =  originalModel.InvoiceId
             };
 
@@ -157,7 +164,7 @@
             if (string.IsNullOrEmpty(paymentsPage) == false)
             {
                 //// TODO : this is rubbish but will do for now!
-                url = paymentsPage.Replace("payments/makepayment", "appointments/" + page) + "?" + PaymentsQueryStringConstants.AppointmentId + "=" + encryptionService.EncryptString(appointmentId.ToString());
+                url = paymentsPage.Replace("payments/pay", "appointments/" + page) + "?" + Constants.QueryString.AppointmentId + "=" + encryptionService.EncryptString(appointmentId.ToString());
             }
 
             return url;
@@ -177,30 +184,10 @@
 
             if (string.IsNullOrEmpty(paymentsPage) == false)
             {
-                url = paymentsPage + "?" + PaymentsQueryStringConstants.AppointmentId + "=" + encryptionService.EncryptString(appointmentId.ToString());
+                url = paymentsPage + "?" + Constants.QueryString.AppointmentId + "=" + encryptionService.EncryptString(appointmentId.ToString());
             }
 
             return url;
-        }
-
-        /// <summary>
-        /// Gets the attendees.
-        /// </summary>
-        /// <param name="attendeeModels">The attendee models.</param>
-        /// <returns></returns>
-        internal IEnumerable<string> GetAttendees(IEnumerable<AppointmentAttendeeModel> attendeeModels)
-        {
-            List<string> attendees = new List<string>();
-
-            if (attendeeModels != null)
-            {
-                foreach (AppointmentAttendeeModel attendeeModel in attendeeModels)
-                {
-                    attendees.Add(attendeeModel.EmailAddress);
-                }
-            }
-
-            return attendees;
         }
     }
 }

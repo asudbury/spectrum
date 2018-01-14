@@ -1,11 +1,6 @@
-﻿using System;
-using Autofac.Events;
-using Spectrum.Application.Services;
-using Spectrum.Content.Appointments.Handlers;
-using Spectrum.Content.Messages;
-
-namespace Spectrum.Content.Configuration
+﻿namespace Spectrum.Content.Configuration
 {
+    using Application.Services;
     using Appointments.Controllers;
     using Autofac;
     using Autofac.Features.Variance;

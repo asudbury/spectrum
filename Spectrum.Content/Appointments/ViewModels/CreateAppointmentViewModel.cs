@@ -1,24 +1,28 @@
 ﻿namespace Spectrum.Content.Appointments.ViewModels
 {
+    using Newtonsoft.Json;
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Web.Mvc;
 
-    public class InsertAppointmentViewModel
+    public class CreateAppointmentViewModel
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="InsertAppointmentViewModel"/> class.
+        /// Initializes a new instance of the <see cref="CreateAppointmentViewModel"/> class.
         /// </summary>
-        public InsertAppointmentViewModel()
+        public CreateAppointmentViewModel()
         {
             //// we need to set some default dates
             //// other wise we get the DateTime default date round upto text hour
             DateTime now = DateTime.Now;
             StartTime = new DateTime(now.Year, now.Month, now.Day, now.Hour +1, 0,0);
-            Attendees = new List<string>();
             Duration = 0;
         }
+
+        /// <summary>
+        /// Gets or sets the client identifier.
+        /// </summary>
+        [JsonProperty(PropertyName = "clientId")]
+        public string ClientId { get; set; }
 
         /// <summary>
         /// Gets or sets the start date.
@@ -46,16 +50,5 @@
         [Required(ErrorMessage = "Please enter a Description")]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
-
-        /// <summary>
-        /// Gets or sets the attendees.
-        /// </summary>
-        public List<string> Attendees { get; set; }
-
-        /// <summary>
-        /// Gets or sets the service provider identifier.
-        /// </summary>
-        [HiddenInput(DisplayValue = false)]
-        public int ServiceProviderId { get; set; }
     }
 }

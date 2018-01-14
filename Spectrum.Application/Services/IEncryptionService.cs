@@ -13,6 +13,13 @@
         /// Encrypts the string.
         /// </summary>
         /// <param name="textToEncrypt">The text to encrypt.</param>
+        /// <returns></returns>
+        string EncryptString(int textToEncrypt);
+
+        /// <summary>
+        /// Encrypts the string.
+        /// </summary>
+        /// <param name="textToEncrypt">The text to encrypt.</param>
         /// <param name="key">The key.</param>
         /// <returns></returns>
         string EncryptString(

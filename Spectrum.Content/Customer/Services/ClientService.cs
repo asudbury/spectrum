@@ -3,6 +3,7 @@
     using Content.Services;
     using Models;
     using System;
+    using System.Collections.Generic;
     using Umbraco.Core;
     using Umbraco.Core.Persistence;
 
@@ -49,8 +50,8 @@
             {
                 model.EmailAddress = emailAddress;
                 model.Name = name;
-                model.LasteUpdatedTime = DateTime.Now;
-                model.LastedUpdatedUser = userService.GetCurrentUserName();
+                model.LastUpdatedTime = DateTime.Now;
+                model.LastUpdatedUser = userService.GetCurrentUserName();
 
                 UpdateClient(model);
 
@@ -61,10 +62,9 @@
             {
                 CreatedTime = DateTime.Now,
                 CreatedUser = userService.GetCurrentUserName(),
-                LasteUpdatedTime = DateTime.Now,
-                LastedUpdatedUser = userService.GetCurrentUserName(),
+                LastUpdatedTime = DateTime.Now,
+                LastUpdatedUser = userService.GetCurrentUserName(),
                 CustomerId = customerId,
-                AddressId = addressId,
                 EmailAddress = emailAddress,
                 Name = name
             };
@@ -75,16 +75,19 @@
         /// <summary>
         /// Gets the client.
         /// </summary>
+        /// <param name="customerId">The customer identifier.</param>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        public ClientModel GetClient(int id)
+        public ClientModel GetClient(
+            int customerId,
+            int id)
         {
             DatabaseContext context = ApplicationContext.Current.DatabaseContext;
 
             Sql sql = new Sql()
                 .Select("*")
                 .From(Content.Constants.Database.ClientTableName)
-                .Where("Id=" + id);
+                .Where("CustomerId=" + customerId + "and Id=" + id);
 
             return context.Database.FirstOrDefault<ClientModel>(sql);
         }
@@ -112,6 +115,23 @@
             DatabaseContext context = ApplicationContext.Current.DatabaseContext;
 
             context.Database.Update(model);
+        }
+
+        /// <summary>
+        /// Gets the clients.
+        /// </summary>
+        /// <param name="customerId">The customer identifier.</param>
+        /// <returns></returns>
+        public IEnumerable<ClientModel> GetClients(int customerId)
+        {
+            DatabaseContext context = ApplicationContext.Current.DatabaseContext;
+
+            Sql sql = new Sql()
+                .Select("*")
+                .From(Content.Constants.Database.ClientTableName)
+                .Where("CustomerId=" + customerId)
+                .OrderBy("Name");
+            return context.Database.Fetch<ClientModel>(sql);
         }
     }
 }

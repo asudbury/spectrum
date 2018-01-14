@@ -10,6 +10,21 @@
         public int Id { get; set; }
 
         /// <summary>
+        /// Gets or sets the client identifier.
+        /// </summary>
+        public int ClientId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the client.
+        /// </summary>
+        public string ClientName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the client URL.
+        /// </summary>
+        public string ClientUrl { get; set; }
+
+        /// <summary>
         /// Gets or sets the invoice date.
         /// </summary>
         public DateTime InvoiceDate { get; set; }
@@ -35,11 +50,6 @@
         public string CreatedUser { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the client.
-        /// </summary>
-        public string ClientName { get; set; }
-
-        /// <summary>
         /// Gets or sets the invoice details.
         /// </summary>
         public string Details { get; set; }
@@ -48,11 +58,6 @@
         /// Gets or sets the invoice amount.
         /// </summary>
         public string Amount { get; set; }
-
-        /// <summary>
-        /// Gets or sets the email address.
-        /// </summary>
-        public string EmailAddress { get; set; }
 
         /// <summary>
         /// Gets or sets the payment identifier.
@@ -73,5 +78,15 @@
         /// Gets or sets the delete invoice URL.
         /// </summary>
         public string DeleteInvoiceUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets the make payment URL.
+        /// </summary>
+        public string MakePaymentUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets the view payment URL.
+        /// </summary>
+        public string ViewPaymentUrl { get; set; }
     }
 }

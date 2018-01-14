@@ -1,9 +1,9 @@
 ﻿namespace Spectrum.Content.Invoices.Managers
 {
+    using Application.Services;
     using Content.Models;
     using ContentModels;
     using Customer.Providers;
-    using Customer.Services;
     using Models;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
@@ -12,11 +12,12 @@
     using System.Collections.Generic;
     using System.Linq;
     using Translators;
+    using Umbraco.Core.Models;
     using Umbraco.Web;
     using ViewModels;
 
     public class InvoiceManager : IInvoiceManager
-    {
+    { 
         /// <summary>
         /// The invoice translator.
         /// </summary>
@@ -26,16 +27,6 @@
         /// The invoice service.
         /// </summary>
         private readonly IInvoiceService invoiceService;
-
-        /// <summary>
-        /// The client service.
-        /// </summary>
-        private readonly IClientService clientService;
-
-        /// <summary>
-        /// The postal address service.
-        /// </summary>
-        private readonly IPostalAddressService postalAddressService;
 
         /// <summary>
         /// The invoices boot grid translator.
@@ -48,54 +39,71 @@
         private readonly ICustomerProvider customerProvider;
 
         /// <summary>
+        /// The encryption service.
+        /// </summary>
+        private readonly IEncryptionService encryptionService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="InvoiceManager" /> class.
         /// </summary>
         /// <param name="invoiceTranslator">The invoice translator.</param>
         /// <param name="invoiceService">The invoice service.</param>
-        /// <param name="clientService">The client service.</param>
-        /// <param name="postalAddressService">The postal address service.</param>
         /// <param name="invoicesBootGridTranslator">The invoices boot grid translator.</param>
         /// <param name="customerProvider">The customer provider.</param>
+        /// <param name="encryptionService">The encryption service.</param>
         public InvoiceManager(
             IInvoiceTranslator invoiceTranslator,
             IInvoiceService invoiceService,
-            IClientService clientService,
-            IPostalAddressService postalAddressService,
             IInvoicesBootGridTranslator invoicesBootGridTranslator,
-            ICustomerProvider customerProvider)
+            ICustomerProvider customerProvider,
+            IEncryptionService encryptionService)
         {
             this.invoiceTranslator = invoiceTranslator;
             this.invoiceService = invoiceService;
-            this.clientService = clientService;
-            this.postalAddressService = postalAddressService;
             this.invoicesBootGridTranslator = invoicesBootGridTranslator;
             this.customerProvider = customerProvider;
+            this.encryptionService = encryptionService;
         }
 
         /// <summary>
         /// Creates the invoice.
         /// </summary>
+        /// <param name="publishedContent">Content of the published.</param>
         /// <param name="viewModel">The view model.</param>
-        public void CreateInvoice(CreateInvoiceViewModel viewModel)
+        /// <returns></returns>
+        public string CreateInvoice(
+            IPublishedContent publishedContent,
+            CreateInvoiceViewModel viewModel)
         {
             InvoiceModel invoiceModel = invoiceTranslator.Translate(viewModel);
 
-            int addressId = postalAddressService.GetAddressId(
-                                invoiceModel.CustomerId,
-                                "",
-                                "",
-                                "");
-
-            int clientId = clientService.GetClientId(
-                                    invoiceModel.CustomerId, 
-                                    addressId,
-                                    viewModel.ClientName, 
-                                    viewModel.EmailAddress);
-
-            invoiceModel.ClientId = clientId;
-            invoiceModel.AddressId = addressId;
-
             invoiceService.CreateInvoice(invoiceModel);
+
+            PageModel pageModel = new PageModel(publishedContent);
+
+            return pageModel.NextPageUrl;
+        }
+
+        /// <summary>
+        /// Gets the invoice.
+        /// </summary>
+        /// <param name="umbracoContext">The umbraco context.</param>
+        /// <param name="invoiceId">The invoice identifier.</param>
+        /// <returns></returns>
+        public InvoiceViewModel GetInvoice(
+            UmbracoContext umbracoContext,
+            string invoiceId)
+        {
+            string id = encryptionService.DecryptString(invoiceId);
+
+            ClientInvoiceModel model = invoiceService.GetClientInvoice(GetCustomerId(umbracoContext), id);
+
+            if (model != null)
+            {
+                return invoiceTranslator.Translate(model);
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -110,13 +118,11 @@
             DateTime dateRangeStart, 
             DateTime dateRangeEnd)
         {
-            IEnumerable<InvoiceModel> models =  invoiceService.GetInvoices(
-                                                    dateRangeStart, 
-                                                    dateRangeEnd, GetCustomerId(umbracoContext));
+            IEnumerable<ClientInvoiceModel> models =  invoiceService.GetClientInvoices(GetCustomerId(umbracoContext));
 
             List<InvoiceViewModel> viewModels = new List<InvoiceViewModel>();
 
-            foreach (InvoiceModel model in models)
+            foreach (ClientInvoiceModel model in models)
             {
                 viewModels.Add(invoiceTranslator.Translate(model));
             }

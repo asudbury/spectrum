@@ -1,6 +1,7 @@
 ﻿namespace Spectrum.Content.Customer.Services
 {
     using Models;
+    using System.Collections.Generic;
 
     public interface IClientService
     {
@@ -21,9 +22,12 @@
         /// <summary>
         /// Gets the client.
         /// </summary>
+        /// <param name="customerId">The customer identifier.</param>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        ClientModel GetClient(int id);
+        ClientModel GetClient(
+            int customerId,
+            int id);
 
         /// <summary>
         /// Creates the client.
@@ -37,5 +41,12 @@
         /// </summary>
         /// <param name="model">The model.</param>
         void UpdateClient(ClientModel model);
+
+        /// <summary>
+        /// Gets the clients.
+        /// </summary>
+        /// <param name="customerId">The customer identifier.</param>
+        /// <returns></returns>
+        IEnumerable<ClientModel> GetClients(int customerId);
     }
 }

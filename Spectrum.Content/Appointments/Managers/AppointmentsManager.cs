@@ -36,9 +36,9 @@ namespace Spectrum.Content.Appointments.Managers
         private readonly IAppointmentsProvider appointmentsProvider;
 
         /// <summary>
-        /// The insert appointment translator.
+        /// The create appointment translator.
         /// </summary>
-        private readonly IInsertAppointmentTranslator insertAppointmentTranslator;
+        private readonly ICreateAppointmentTranslator createAppointmentTranslator;
 
         /// <summary>
         /// The database provider.
@@ -90,7 +90,7 @@ namespace Spectrum.Content.Appointments.Managers
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="appointmentsProvider">The appointments provider.</param>
-        /// <param name="insertappointmentTranslator">The insertappointment translator.</param>
+        /// <param name="createAppointmentTranslator">The create appointment translator.</param>
         /// <param name="databaseProvider">The database provider.</param>
         /// <param name="iCalendarService">The i calendar service.</param>
         /// <param name="eventPublisher">The event publisher.</param>
@@ -103,7 +103,7 @@ namespace Spectrum.Content.Appointments.Managers
         public AppointmentsManager(
             ILoggingService loggingService,
             IAppointmentsProvider appointmentsProvider,
-            IInsertAppointmentTranslator insertappointmentTranslator,
+            ICreateAppointmentTranslator createAppointmentTranslator,
             IDatabaseProvider databaseProvider,
             IICalendarService iCalendarService,
             IEventPublisher eventPublisher,
@@ -116,7 +116,7 @@ namespace Spectrum.Content.Appointments.Managers
         {
             this.loggingService = loggingService;
             this.appointmentsProvider = appointmentsProvider;
-            this.insertAppointmentTranslator = insertappointmentTranslator;
+            this.createAppointmentTranslator = createAppointmentTranslator;
             this.databaseProvider = databaseProvider;
             this.iCalendarService = iCalendarService;
             this.eventPublisher = eventPublisher;
@@ -129,7 +129,7 @@ namespace Spectrum.Content.Appointments.Managers
         }
 
         /// <summary>
-        /// Inserts the appointment.
+        /// Creatds the appointment.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="publishedContent">Content of the published.</param>
@@ -137,10 +137,10 @@ namespace Spectrum.Content.Appointments.Managers
         /// <param name="createdUser">The created user.</param>
         /// <returns></returns>
         /// <inheritdoc />
-        public string InsertAppointment(
+        public string CreateAppointment(
             UmbracoContext umbracoContext,
             IPublishedContent publishedContent,
-            InsertAppointmentViewModel viewModel,
+            CreateAppointmentViewModel viewModel,
             string createdUser)
         {
             loggingService.Info(GetType(), "Start");
@@ -161,16 +161,16 @@ namespace Spectrum.Content.Appointments.Managers
 
             CustomerModel customerModel = customerProvider.GetCustomerModel(umbracoContext);
 
-            AppointmentModel appointmentModel = insertAppointmentTranslator.Translate(viewModel);
+            AppointmentModel appointmentModel = createAppointmentTranslator.Translate(viewModel);
             appointmentModel.CustomerId = customerModel.Id;
             appointmentModel.CreatedUser = createdUser;
-            appointmentModel.LastedUpdatedUser = createdUser;
+            appointmentModel.LastUpdatedUser = createdUser;
             
             int appointmentId = 0;
 
             loggingService.Info(GetType(), "Database Integration");
 
-            appointmentId = databaseProvider.InsertAppointment(appointmentModel);
+            appointmentId = databaseProvider.CreateAppointment(appointmentModel);
 
             if (appointmentId > 0)
             {
@@ -221,15 +221,12 @@ namespace Spectrum.Content.Appointments.Managers
 
                 if (settingsModel.IcalSendToAttendees)
                 {
-                    foreach (AppointmentAttendeeModel attendeeModel in appointmentModel.Attendees)
-                    {
-                        mailProvider.SendEmail(
+                        /*mailProvider.SendEmail(
                             umbracoContext,
                             settingsModel.IcalCreateEmailTemplate,
                             attendeeModel.EmailAddress,
                             attachment,
-                            dictionary);
-                    }
+                            dictionary);*/
                 }
             }
 
@@ -260,7 +257,7 @@ namespace Spectrum.Content.Appointments.Managers
             CustomerModel customerModel = customerProvider.GetCustomerModel(umbracoContext);
             int customerId = customerModel.Id;
 
-            AppointmentModel model = databaseProvider.GetAppointment(Convert.ToInt32(id), customerId);
+            ClientAppointmentModel model = databaseProvider.GetClientAppointment(Convert.ToInt32(id), customerId);
 
             return appointmentTranslator.Translate(settingsModel.PaymentsPage, model);
         }
@@ -284,7 +281,7 @@ namespace Spectrum.Content.Appointments.Managers
 
             int customerId = GetCustomerId(umbracoContext);
             
-            IEnumerable<AppointmentModel> models = databaseProvider.GetAppointments(
+            IEnumerable<ClientAppointmentModel> models = databaseProvider.GetClientAppointments(
                                                         dateRangeStart,
                                                         dateRangeEnd,
                                                         customerId);
@@ -293,9 +290,9 @@ namespace Spectrum.Content.Appointments.Managers
 
             string paymentsPage = appointmentSettingsModel.PaymentsPage;
 
-            foreach (AppointmentModel appointmentModel in models)
+            foreach (ClientAppointmentModel clientAppointmentModel in models)
             {
-                viewModels.Add(appointmentTranslator.Translate(paymentsPage, appointmentModel));
+                viewModels.Add(appointmentTranslator.Translate(paymentsPage, clientAppointmentModel));
             }
 
             return viewModels;
@@ -363,7 +360,7 @@ namespace Spectrum.Content.Appointments.Managers
             
             int customerId = GetCustomerId(umbracoContext);
 
-            AppointmentModel appointmentModel = databaseProvider.GetAppointment(appId, customerId);
+            ClientAppointmentModel appointmentModel = databaseProvider.GetClientAppointment(appId, customerId);
 
             appointmentModel.Status = (int)AppointmentStatus.Deleted;
 
@@ -398,18 +395,12 @@ namespace Spectrum.Content.Appointments.Managers
 
                 if (appointmentSettingsModel.IcalSendToAttendees)
                 {
-                    if (appointmentModel.Attendees != null)
-                    {
-                        foreach (AppointmentAttendeeModel attendeeModel in appointmentModel.Attendees)
-                        {
-                            mailProvider.SendEmail(
+                            /*mailProvider.SendEmail(
                                 umbracoContext,
                                 appointmentSettingsModel.IcalDeleteEmailTemplate,
                                 attendeeModel.EmailAddress,
                                 attachment,
-                                dictionary);
-                        }
-                    }
+                                dictionary);*/
                 }
             }
 
@@ -438,20 +429,14 @@ namespace Spectrum.Content.Appointments.Managers
 
             AppointmentSettingsModel appointmentSettingsModel = appointmentsProvider.GetAppointmentsModel(umbracoContext);
 
-            AppointmentModel originalModel = databaseProvider.GetAppointment(Convert.ToInt32(viewModel.Id), GetCustomerId(umbracoContext));
+            AppointmentModel originalModel = databaseProvider.GetClientAppointment(Convert.ToInt32(viewModel.Id), GetCustomerId(umbracoContext));
 
             AppointmentModel appointmentModel = appointmentTranslator.Translate(originalModel, viewModel);
-            appointmentModel.LastedUpdatedUser = lastUpdatedUser;
+            appointmentModel.LastUpdatedUser = lastUpdatedUser;
 
             loggingService.Info(GetType(), "Database Integration");
 
             databaseProvider.UpdateAppointment(appointmentModel);
-
-            //// now update the attendees
-            if (viewModel.Attendees != null)
-            {
-                UpdateAppointmentAttendees(appointmentModel.Id, viewModel.Attendees);
-            }
 
             if (appointmentSettingsModel.GoogleCalendarIntegration)
             {
@@ -490,18 +475,12 @@ namespace Spectrum.Content.Appointments.Managers
 
                 if (appointmentSettingsModel.IcalSendToAttendees)
                 {
-                    if (appointmentModel.Attendees != null)
-                    {
-                        foreach (AppointmentAttendeeModel attendeeModel in appointmentModel.Attendees)
-                        {
-                            mailProvider.SendEmail(
+                           /* mailProvider.SendEmail(
                                 umbracoContext,
                                 appointmentSettingsModel.IcalUpdateEmailTemplate,
                                 attendeeModel.EmailAddress,
                                 attachment,
-                                dictionary);
-                        }
-                    }
+                                dictionary);*/
                 }
             }
 
@@ -518,44 +497,6 @@ namespace Spectrum.Content.Appointments.Managers
         {
             CustomerModel customerModel = customerProvider.GetCustomerModel(context);
             return customerModel.Id;
-        }
-
-        /// <summary>
-        /// Updates the appointment attendees.
-        /// </summary>
-        /// <param name="appointmentId">The appointment identifier.</param>
-        /// <param name="attendees">The attendees.</param>
-        internal void UpdateAppointmentAttendees(
-            int appointmentId,
-            IEnumerable<string> attendees)
-        {
-            List<AppointmentAttendeeModel> attendeeeModels = databaseProvider.GetAppointmentAttendees(appointmentId);
-
-            string[] emailAddresses = attendees as string[] ?? attendees.ToArray();
-
-            foreach (AppointmentAttendeeModel appointmentAttendeeModel in attendeeeModels)
-            {
-                //// if the current atteendee not in the viewModel attendees then remove from the database
-
-                if (emailAddresses.Contains(appointmentAttendeeModel.Name) == false)
-                {
-                    databaseProvider.DeleteAppointmentAttendee(appointmentAttendeeModel);
-                }
-            }
-
-            //// now add any additional attendees
-
-            foreach (string emailAddress in emailAddresses)
-            {
-                if (attendeeeModels.FirstOrDefault(m => m.Name == emailAddress) == null)
-                {
-                    databaseProvider.InsertAppointmentAttendee(new AppointmentAttendeeModel
-                    {
-                        AppointmentId = appointmentId,
-                        EmailAddress = emailAddress
-                    });
-                }
-            }
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Spectrum.Content.Payments.Translators
 {
-    using Application.Services;
+    using Content.Services;
     using Interfaces;
     using Models;
     using System;
@@ -9,17 +9,17 @@
     public class TransactionTranslator : ITransactionTranslator
     {
         /// <summary>
-        /// The encryption service.
+        /// The URL service.
         /// </summary>
-        private readonly IEncryptionService encryptionService;
+        private readonly IUrlService urlService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TransactionTranslator"/> class.
+        /// Initializes a new instance of the <see cref="TransactionTranslator" /> class.
         /// </summary>
-        /// <param name="encryptionService">The encryption service.</param>
-        public TransactionTranslator(IEncryptionService encryptionService)
+        /// <param name="urlService">The URL service.</param>
+        public TransactionTranslator(IUrlService urlService)
         {
-            this.encryptionService = encryptionService;
+            this.urlService = urlService;
         }
 
         /// <inheritdoc />
@@ -33,6 +33,7 @@
             return new TransactionViewModel
             {
                 Id = model.TransactionId,
+                CreatedTime = model.CreatedTime,
                 CreatedUser = model.CreatedUser,
                 Amount = "£" + Math.Round(model.Amount,2),
                 TransactionDateTime = model.CreatedTime,
@@ -42,7 +43,7 @@
                 Type = GetType(model.TransactionType),
                 CardType = model.CardType,
                 MaskedNumber = model.MaskedCardNumber,
-                ViewTransactionUrl = BuildUrl(model.Id)
+                ViewTransactionUrl = urlService.GetViewPaymenteUrl(model.ClientId, model.TransactionId)
             };
         }
 
@@ -53,12 +54,7 @@
         /// <returns></returns>
         internal string GetType(string type)
         {
-            if (type == "S")
-            {
-                return "Payment";
-            }
-
-            return "Unknown";
+            return type == "S" ? "Payment" : "Unknown";
         }
 
         /// <summary>
@@ -68,12 +64,7 @@
         /// <returns></returns>
         internal string GetEnvironment(string environment)
         {
-            if (environment == "S")
-            {
-                return "Sandbox";
-            }
-
-            return "Production";
+            return environment == "S" ? "Sandbox" : "Production";
         }
 
         internal string GetPaymentProvider(string paymentProvider)
@@ -87,16 +78,6 @@
             }
 
             return paymentProvider;
-        }
-
-        /// <summary>
-        /// Builds the appointment URL.
-        /// </summary>
-        /// <param name="transactionId">The transaction identifier.</param>
-        /// <returns></returns>
-        internal string BuildUrl(int transactionId)
-        {
-            return "viewpayment" + "?" + PaymentsQueryStringConstants.PaymentId + "=" + encryptionService.EncryptString(transactionId.ToString());
         }
     }
 }

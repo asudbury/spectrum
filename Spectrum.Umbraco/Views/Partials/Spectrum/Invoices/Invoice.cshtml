@@ -6,42 +6,78 @@
         <div class="col-sm-6 col-md-4 col-md-offset-4">
             <div class="account-wall">
 
+                <h2 class="partial-title" data-toggle="collapse" data-target="#client">@Html.Action("ClientName", "Client")</h2>
+                
+                <div id="client" class="collapse">
+                    @Html.Action("GetClientHeader", "Client")
+                </div>
+
                 <h2 class="partial-title">Invoice</h2>
 
                 <table class="table-responsive table table-striped table-bordered">
                     <tbody>
                         <tr>
-                            <td>Appointment Id</td>
+                            <td>Invoice Id</td>
                             <td>@Model.Id</td>
                         </tr>
                         <tr>
-                            <td>Created Time</td>
-                            <td>@Model.CreatedTime.ToString("ddd dd MMM HH:mm")</td>
+                            <td>Invoice Date</td>
+                            <td>
+                                @Model.InvoiceDate.ToString("ddd dd MMM")
+                            </td>
                         </tr>
                         <tr>
-                            <td>Created By</td>
-                            <td>@Model.CreatedUser</td>
+                            <td>Amount</td>
+                            <td>@Model.Amount</td>
+                        </tr>
+
+                        <tr>
+                            <td>Details</td>
+                            <td>@Model.Details</td>
                         </tr>
                         <tr>
-                            <td>Last Updated Time</td>
-                            <td>@Model.LastUpdatedTime.ToString("ddd dd MMM HH:mm")</td>
+                            <td>Payment</td>
+                            <td>
+                                @if (string.IsNullOrEmpty(Model.PaymentId) == false)
+                    {
+                        <a href="@Model.ViewPaymentUrl">@Model.PaymentId</a>
+        }
+
+        else
+        {
+            <a href="@Model.MakePaymentUrl" style="color: red">Take Payment</a>
+}
+                            </td>
                         </tr>
                         <tr>
-                            <td>Last Updated By</td>
-                            <td>@Model.LastedUpdatedUser</td>
+                            <td>Created</td>
+                            <td>
+                                @Model.CreatedTime.ToString("ddd dd MMM HH:mm")
+                                <br />
+                                @Model.CreatedUser
+                            </td>
                         </tr>
                         <tr>
-                            <td>Payment Id</td>
-                            <td>@Model.PaymentId</td>
+                            <td>Last Updated</td>
+                            <td>
+                                @Model.LastUpdatedTime.ToString("ddd dd MMM HH:mm")
+                                <br />
+                                @Model.LastedUpdatedUser
+                            </td>
                         </tr>
                     </tbody>
                 </table>
 
-                <a class="btn btn-lg btn-primary btn-block button-stack" role-"button" href="@Model.UpdateInvoiceUrl">Update Invoice</a>
-                <a class="btn btn-lg btn-primary btn-block" role-"button" href="@Model.DeleteInvoiceUrl" id="deleteAppointment">Delete Invoice</a>
+                @if (string.IsNullOrEmpty(Model.UpdateInvoiceUrl) == false)
+    {
+            <a class="btn btn-lg btn-primary btn-block button-stack" role-"button" href="@Model.UpdateInvoiceUrl">Update Invoice</a>
+}
 
+                @if (string.IsNullOrEmpty(Model.DeleteInvoiceUrl) == false)
+    {
+            <a class="btn btn-lg btn-primary btn-block button-stack" role-"button" href="@Model.DeleteInvoiceUrl" id="deleteAppointment">Delete Invoice</a>
+}
             </div>
-        </div>
     </div>
 </div>
 

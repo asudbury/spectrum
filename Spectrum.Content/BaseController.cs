@@ -4,7 +4,6 @@
     using System;
     using System.Web.Mvc;
     using Umbraco.Core.Models;
-    using Umbraco.Web;
     using Umbraco.Web.Mvc;
 
     public class BaseController : SurfaceController
@@ -20,35 +19,6 @@
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         public BaseController(ILoggingService loggingService)
-        {
-            LoggingService = loggingService;
-        }
-
-        /// <inheritdoc />
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:Spectrum.Content.BaseController" /> class.
-        /// </summary>
-        /// <param name="loggingService">The logging service.</param>
-        /// <param name="umbracoContext">The umbraco context.</param>
-        public BaseController(
-            ILoggingService loggingService,
-            UmbracoContext umbracoContext)
-            : base(umbracoContext)
-        {
-            LoggingService = loggingService;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BaseController" /> class.
-        /// </summary>
-        /// <param name="loggingService">The logging service.</param>
-        /// <param name="umbracoContext">The umbraco context.</param>
-        /// <param name="umbracoHelper">The umbraco helper.</param>
-        public BaseController(
-            ILoggingService loggingService,
-            UmbracoContext umbracoContext,
-            UmbracoHelper umbracoHelper)
-            : base(umbracoContext, umbracoHelper)
         {
             LoggingService = loggingService;
         }

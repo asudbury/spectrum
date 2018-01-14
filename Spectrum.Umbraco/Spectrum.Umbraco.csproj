@@ -544,7 +544,7 @@
     <Content Include="Views\Partials\Spectrum\Payments\Braintree\Payment.cshtml" />
     <Content Include="Views\Partials\Spectrum\Appointments\GoogleCalendar.cshtml" />
     <Content Include="scripts\jquery-1.12.4.min.map" />
-    <Content Include="Views\Partials\Spectrum\Appointments\InsertAppointment.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Appointments\CreateAppointment.cshtml" />
     <Content Include="Views\Partials\Spectrum\Appointments\Appointments.cshtml" />
     <Content Include="Views\Partials\Spectrum\Payments\Braintree\Transaction.cshtml" />
     <Content Include="Views\Partials\Spectrum\Appointments\Appointment.cshtml" />
@@ -563,11 +563,18 @@
     <Content Include="Views\Partials\Spectrum\Quotes\CreateQuote.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Partials\Spectrum\Customer\AddressSearch.cshtml" />
     <Content Include="Views\Partials\Spectrum\Payments\Transactions.cshtml" />
     <Content Include="Views\Partials\Spectrum\Payments\Transaction.cshtml" />
-    <Content Include="Views\Partials\Spectrum\Required.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Components\Required.cshtml" />
     <Content Include="Views\Partials\Spectrum\Invoices\Invoice.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Customer\CreateClient.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Customer\Clients.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Invoices\UpdateInvoice.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Customer\ViewClient.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Customer\UpdateClient.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Components\Link.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Components\NoLink.cshtml" />
+    <Content Include="Views\Partials\Spectrum\Customer\ClientHeader.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

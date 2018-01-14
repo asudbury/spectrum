@@ -12,7 +12,7 @@
         /// <param name="viewModel">The view model.</param>
         void InsertEvent(
             UmbracoContext umbracoContext,
-            InsertAppointmentViewModel viewModel);
+            CreateAppointmentViewModel viewModel);
 
         /// <summary>
         /// Gets the events.

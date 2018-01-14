@@ -1,5 +1,6 @@
 ﻿namespace Spectrum.Content.Payments.Controllers
 {
+    using Application.Services;
     using Content.Models;
     using Content.Services;
     using Factories;
@@ -30,23 +31,31 @@
         private readonly IPaymentProviderFactory paymentProviderFactory;
 
         /// <summary>
+        /// The encryption service.
+        /// </summary>
+        private readonly IEncryptionService encryptionService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="T:Spectrum.Content.Payments.Controllers.PaymentController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="paymentManager">The payment manager.</param>
         /// <param name="rulesEngineService">The rules engine service.</param>
         /// <param name="paymentProviderFactory">The payment provider factory.</param>
+        /// <param name="encryptionService">The encryption service.</param>
         /// <inheritdoc />
         public PaymentController(
             ILoggingService loggingService,
             IPaymentManager paymentManager,
             IRulesEngineService rulesEngineService, 
-            IPaymentProviderFactory paymentProviderFactory)
+            IPaymentProviderFactory paymentProviderFactory,
+            IEncryptionService encryptionService)
             : base(loggingService)
         {
             this.paymentManager = paymentManager;
             this.rulesEngineService = rulesEngineService;
             this.paymentProviderFactory = paymentProviderFactory;
+            this.encryptionService = encryptionService;
         }
 
         /// <summary>
@@ -65,11 +74,10 @@
                 Environment = paymentManager.GetEnvironment(UmbracoContext),
                 NodeId = CurrentPage.Id.ToString(),
                 MakePaymentUrl = "/umbraco/Surface/Payment/MakePayment",
-                AutoAllocate = Request.QueryString[PaymentsQueryStringConstants.AutoAllocate],
-                AppointmentId = Request.QueryString[PaymentsQueryStringConstants.AppointmentId],
-                InvoiceId = Request.QueryString[PaymentsQueryStringConstants.InvoiceId],
-                EmailAddress = Request.QueryString[PaymentsQueryStringConstants.EmailAddress],
-                PaymentAmount = Request.QueryString[PaymentsQueryStringConstants.PaymenyAmount]
+                AutoAllocate = Request.QueryString[Constants.QueryString.AutoAllocate],
+                InvoiceId = Request.QueryString[Constants.QueryString.InvoiceId],
+                ClientId = Request.QueryString[Constants.QueryString.ClientId],
+                PaymentAmount = encryptionService.DecryptString(Request.QueryString[Constants.QueryString.PaymenyAmount])
             };
 
             string jsonString = JsonConvert.SerializeObject(viewModel,
@@ -107,9 +115,13 @@
         /// <summary>
         /// Gets the transaction page.
         /// </summary>
+        /// <param name="fkdssre">The fkdssre.</param>
+        /// <param name="opddewq">The opddewq.</param>
         /// <returns></returns>
         [ChildActionOnly]
-        public PartialViewResult GetTransactionPage(string opddewq)
+        public PartialViewResult GetTransactionPage(
+            string fkdssre,
+            string opddewq)
         {
             LoggingService.Info(GetType());
 
@@ -152,7 +164,7 @@
         /// </summary>
         /// <returns></returns>
         [ChildActionOnly]
-        public PartialViewResult GetPaymentPage()
+        public PartialViewResult GetPaymentPage(string fkdssre)
         {
             LoggingService.Info(GetType());
 
@@ -162,7 +174,12 @@
                 //// currently only braintree payments supported.
                 string partialView = paymentProviderFactory.GetPaymentPartialView(UmbracoContext);
 
-                return PartialView(partialView, new MakePaymentViewModel());
+                MakePaymentViewModel viewModel = new MakePaymentViewModel
+                {
+                    ClientId = fkdssre
+                };
+                
+                return PartialView(partialView, viewModel);
             }
 
             return default(PartialViewResult);

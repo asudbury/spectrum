@@ -11,7 +11,7 @@
         /// </summary>
         /// <param name="viewModel">The view model.</param>
         /// <returns></returns>
-        public Event Translate(InsertAppointmentViewModel viewModel)
+        public Event Translate(CreateAppointmentViewModel viewModel)
         {
             return new Event();
         }

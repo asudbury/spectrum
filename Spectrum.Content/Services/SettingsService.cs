@@ -376,6 +376,11 @@
             {
                 if (string.IsNullOrEmpty(cacheKeyName) == false)
                 {
+                    if (Cache.ContainsKey(cacheKeyName))
+                    {
+                        Cache.Remove(cacheKeyName);
+                    }
+
                     Cache.Add(cacheKeyName, childNode);
                 }
             }

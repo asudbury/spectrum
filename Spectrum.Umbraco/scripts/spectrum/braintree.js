@@ -124,11 +124,6 @@ function setupBraintree(context) {
         $('#amount').val(context.paymentAmount);
     }
 
-    if (context.emailAddress) {
-        $('#emailAddress').prop("readonly", true);
-        $('#emailAddress').val(context.emailAddress);
-    }
-
     braintree.client.create({
         authorization: context.authToken
     },
@@ -253,27 +248,16 @@ function setupBraintree(context) {
                                 return;
                             }
 
-                            //Validate the email address
-                            var email = $('#emailAddress').val();
-
-                            if (email) {
-                                //Email validation regex
-                                var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-
-                                if (!filter.test(email)) {
-                                    displayError = 'Your email address must be valid';
-                                    manageError(displayError);
-                                    return;
-                                }
-                            }
+                            var code = $('#fklfkl').val();
 
                             var postData = {
+                                code : code,
                                 currentPageNodeId: context.nodeId,
-                                emailAddress: email,
                                 nonce: payload.nonce,
                                 amount: amt,
                                 autoAllocate: context.autoAllocate,
-                                appointmentId: context.appointmentId
+                                invoiceId: context.invoiceId,
+                                clientId: context.clientId
                             };
 
                             $.ajax({

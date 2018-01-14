@@ -2,11 +2,9 @@
 {
     using Ical.Net;
     using Ical.Net.DataTypes;
-    using Ical.Net.Interfaces.DataTypes;
     using Ical.Net.Serialization;
     using Ical.Net.Serialization.iCalendar.Serializers;
     using System;
-    using System.Collections.Generic;
     using System.Net.Mime;
     using Models;
 
@@ -35,7 +33,6 @@
                 Organizer = new Organizer(model.CreatedUser),
                 Status = GetStatus(model.Status),
                 Location = model.Location,
-                Attendees = GetAttendees(model.Attendees)
             };
 
             if (guid != null)
@@ -63,26 +60,6 @@
                 ContentType = GetContentType(model.Status),
                 Sequence = calendarEvent.Sequence
             };
-        }
-
-        /// <summary>
-        /// Gets the attendees.
-        /// </summary>
-        /// <param name="attendees">The attendees.</param>
-        /// <returns></returns>
-        IList<IAttendee> GetAttendees(IList<AppointmentAttendeeModel> attendees)
-        {
-            IList<IAttendee> attendeeList = new List<IAttendee>();
-
-            if (attendees != null)
-            {
-                foreach (AppointmentAttendeeModel attendee in attendees)
-                {
-                    attendeeList.Add(new Attendee {Value = new Uri("mailto:" + attendee)});
-                }
-            }
-
-            return attendeeList;
         }
 
         /// <summary>

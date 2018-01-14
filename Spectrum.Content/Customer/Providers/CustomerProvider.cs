@@ -21,6 +21,15 @@
             this.settingsService = settingsService;
         }
 
+        /// <summary>
+        /// Gets the customer model.
+        /// </summary>
+        /// <returns></returns>
+        public CustomerModel GetCustomerModel()
+        {
+            return GetCustomerModel(UmbracoContext.Current);
+        }
+
         /// <inheritdoc />
         /// <summary>
         /// Gets the customer model.
