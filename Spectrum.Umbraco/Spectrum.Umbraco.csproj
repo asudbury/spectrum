@@ -395,6 +395,7 @@
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="css\spectrum\dashboard.css" />
     <Content Include="css\spectrum\dragon.css" />
+    <Content Include="css\spectrum\grid.css" />
     <Content Include="css\spectrum\landingPage.css" />
     <Content Include="css\spectrum\mainFooter.css" />
     <Content Include="css\spectrum\mainNavigation.css" />

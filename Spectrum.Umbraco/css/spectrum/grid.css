@@ -1,0 +1,81 @@
+﻿/**************************************************/
+/* General bootgrid table styling */
+/**************************************************/
+
+/* Makes the table header row higher and adds a nice linear gradient */
+.table.bootgrid-table thead th {
+	padding-top: 10px !important;
+	padding-bottom: 10px !important;
+}
+
+/* Adds an outer border to tables but removes inner borders */
+.table.bootgrid-table {
+	border: 1px solid #e0e0e0;
+}
+
+.table.bootgrid-table>tbody>tr>td,
+.table.bootgrid-table>thead>tr>th {
+	border:none;
+}
+
+/* Mobile display */
+@media (max-width: 768px) {
+	
+	.bootgrid-header {
+		margin-top: 0; margin-bottom: 5px;
+	}
+	
+	/* General create button from list view. Make it full width and vertically spaced from searchbar */
+	.create-btn {
+		margin-bottom: 15px;
+		width: 100%;
+	}
+	
+	/* A litte re-arranging for mobile */
+	.bootgrid-header .search {display: block; margin-bottom: 10px; width: 100%;}
+	.bootgrid-header .actionBar {text-align: left;}
+	.col-sm-12.actionBar {padding-left: 0; padding-right: 0;}
+	
+	/* If actions buttons re-required un-comment the below. Currently switched off */
+	/*.actionBar {padding-left: 0;}
+	.actions.btn-group {display: block;}*/
+	
+	/* Switch off button bar */
+	.actions.btn-group {display: none;}
+	
+	.bootgrid-footer .infoBar {text-align: left; padding-left: 0; margin-top: 10px;}	
+	
+	/* Specific appointments grid mobile changes */
+	/*- turn off columns not required */
+	/* nth child starts from 1 for column 1 */
+	#appointmentsGrid thead tr th:nth-child(1),
+	#appointmentsGrid thead tr th:nth-child(3),
+	#appointmentsGrid thead tr th:nth-child(4),
+	#appointmentsGrid thead tr th:nth-child(6),
+	#appointmentsGrid thead tr th:nth-child(7){display: none;}
+
+	#appointmentsGrid tr td:nth-child(1),
+	#appointmentsGrid tr td:nth-child(3),
+	#appointmentsGrid tr td:nth-child(4),
+	#appointmentsGrid tr td:nth-child(6),
+	#appointmentsGrid tr td:nth-child(7){display: none;}
+	
+	#appointmentsGrid tr td:nth-child(5) {text-align: left;}
+	
+	/* Specific transactions grid mobile changes */
+	/*- turn off columns not required */
+	/* nth child starts from 1 for column 1 */
+	#transactionsGrid thead tr th:nth-child(1),
+	#transactionsGrid thead tr th:nth-child(4),
+	#transactionsGrid thead tr th:nth-child(6){display: none;}
+	
+	#transactionsGrid thead tr th:nth-child(5),
+	#transactionsGrid tr td:nth-child(5) {
+		text-align: right;
+		padding-right: 10px;
+	}
+
+	#transactionsGrid tr td:nth-child(1),
+	#transactionsGrid tr td:nth-child(4),
+	#transactionsGrid tr td:nth-child(6){display: none;}
+}
