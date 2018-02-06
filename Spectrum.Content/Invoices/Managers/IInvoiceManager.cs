@@ -12,10 +12,12 @@
         /// <summary>
         /// Creates the invoice.
         /// </summary>
+        /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="publishedContent">Content of the published.</param>
         /// <param name="viewModel">The view model.</param>
         /// <returns></returns>
         string CreateInvoice(
+            UmbracoContext umbracoContext,
             IPublishedContent publishedContent,
             CreateInvoiceViewModel viewModel);
 

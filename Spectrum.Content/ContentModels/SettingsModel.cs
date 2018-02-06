@@ -34,5 +34,16 @@
         /// Gets the page not found URL.
         /// </summary>
         public string PageNotFoundUrl => GetNiceUrl(this.GetPropertyValue<int>("pageNotFoundUrl"));
+
+        /// <summary>
+        /// Gets the email address.
+        /// </summary>
+        public string EmailAddress => this.GetPropertyValue<string>("emailAddress");
+
+        /// <summary>
+        /// Gets the contact us email address.
+        /// </summary>
+        public string ContactUsEmailAddress => this.GetPropertyValue<string>("contactUsEmailAddress");
+
     }
 }

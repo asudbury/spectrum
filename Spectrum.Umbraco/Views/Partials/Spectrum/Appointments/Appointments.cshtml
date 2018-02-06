@@ -50,7 +50,14 @@
         },
         url: "/umbraco/Surface/Appointments/GetBootGridAppointments",
         formatters: {
-            "startTime": function(column, row) {
+            "startTime": function (column, row) {
+
+                var today = moment();
+
+                if (moment(row.startTime).isSame(today, 'day')) {
+                    return "<b>Today " + moment(row.startTime).format('HH:mm') + "</b>";
+                }
+
                 return moment(row.startTime).format('ddd DD MMM HH:mm');
             },
             "location": function(column, row) {

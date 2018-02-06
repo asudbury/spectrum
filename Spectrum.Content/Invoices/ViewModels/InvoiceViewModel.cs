@@ -75,6 +75,11 @@
         public string UpdateInvoiceUrl { get; set; }
 
         /// <summary>
+        /// Gets or sets the email invoice URL.
+        /// </summary>
+        public string EmailInvoiceUrl { get; set; }
+
+        /// <summary>
         /// Gets or sets the delete invoice URL.
         /// </summary>
         public string DeleteInvoiceUrl { get; set; }

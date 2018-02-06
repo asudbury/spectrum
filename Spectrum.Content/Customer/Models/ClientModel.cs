@@ -28,11 +28,13 @@
         /// <summary>
         /// Gets or sets the home phone number.
         /// </summary>
+        [NullSetting(NullSetting = NullSettings.Null)]
         public string HomePhoneNumber { get; set; }
 
         /// <summary>
         /// Gets or sets the moble phone number.
         /// </summary>
+        [NullSetting(NullSetting = NullSettings.Null)]
         public string MobilePhoneNumber { get; set; }
         
         /// <summary>

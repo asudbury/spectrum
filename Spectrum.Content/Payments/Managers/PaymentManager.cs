@@ -1,7 +1,4 @@
-﻿using Spectrum.Content.Customer.Managers;
-using Spectrum.Content.Customer.ViewModels;
-
-namespace Spectrum.Content.Payments.Managers
+﻿namespace Spectrum.Content.Payments.Managers
 {
     using Application.Services;
     using Autofac.Events;
@@ -9,7 +6,9 @@ namespace Spectrum.Content.Payments.Managers
     using Content.Models;
     using Content.Services;
     using ContentModels;
+    using Customer.Managers;
     using Customer.Providers;
+    using Customer.ViewModels;
     using Messages;
     using Models;
     using Newtonsoft.Json;
@@ -114,38 +113,41 @@ namespace Spectrum.Content.Payments.Managers
         }
 
         /// <summary>
-        /// Gets the name of the customer.
-        /// </summary>
-        /// <param name="umbracoContext">The umbraco context.</param>
-        /// <returns></returns>
-        public string GetCustomerName(UmbracoContext umbracoContext)
-        {
-            CustomerModel customerModel = customerProvider.GetCustomerModel(umbracoContext);
-            return customerModel.CustomerName;
-        }
-
-        /// <inheritdoc />
-        /// <summary>
         /// Gets the authentication token.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
+        /// <param name="encryptedCustomerId">The encrypted customer identifier.</param>
         /// <returns></returns>
-        public string GetAuthToken(UmbracoContext umbracoContext)
+        /// <inheritdoc />
+        public string GetAuthToken(
+            UmbracoContext umbracoContext,
+            string encryptedCustomerId = null)
         {
-            PaymentSettingsModel model = paymentProvider.GetPaymentSettingsModel(umbracoContext);
+            int? customerId = encryptionService.DecryptNumber(encryptedCustomerId);
+
+            PaymentSettingsModel model = paymentProvider.GetPaymentSettingsModel(
+                                                            umbracoContext,
+                                                            customerId);
 
             return model != null ? paymentProvider.GetAuthToken(model) : string.Empty;
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Gets the environment.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
+        /// <param name="encryptedCustomerId">The encrypted customer identifier.</param>
         /// <returns></returns>
-        public string GetEnvironment(UmbracoContext umbracoContext)
+        /// <inheritdoc />
+        public string GetEnvironment(
+            UmbracoContext umbracoContext,
+            string encryptedCustomerId = null)
         {
-            PaymentSettingsModel model = paymentProvider.GetPaymentSettingsModel(umbracoContext);
+            int? customerId = encryptionService.DecryptNumber(encryptedCustomerId);
+
+            PaymentSettingsModel model = paymentProvider.GetPaymentSettingsModel(
+                                                            umbracoContext,
+                                                            customerId);
 
             return model?.Environment;
         }
@@ -268,7 +270,9 @@ namespace Spectrum.Content.Payments.Managers
             loggingService.Info(GetType());
 
             //// check client id first
-            ClientViewModel clientViewModel = clientManager.GetClient(viewModel.ClientId);
+            ClientViewModel clientViewModel = clientManager.GetClient(
+                viewModel.ClientId,
+                viewModel.CustomerId);
 
             if (clientViewModel == null)
             {

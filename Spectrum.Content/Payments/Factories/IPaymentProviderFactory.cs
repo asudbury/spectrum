@@ -28,7 +28,10 @@
         /// Gets the payment partial view.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
+        /// <param name="customerId">The customer identifier.</param>
         /// <returns></returns>
-        string GetPaymentPartialView(UmbracoContext umbracoContext);
+        string GetPaymentPartialView(
+            UmbracoContext umbracoContext,
+            int?  customerId = null);
     }
 }

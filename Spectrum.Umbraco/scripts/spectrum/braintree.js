@@ -257,7 +257,8 @@ function setupBraintree(context) {
                                 amount: amt,
                                 autoAllocate: context.autoAllocate,
                                 invoiceId: context.invoiceId,
-                                clientId: context.clientId
+                                clientId: context.clientId,
+                                customerId: context.customerId
                             };
 
                             $.ajax({

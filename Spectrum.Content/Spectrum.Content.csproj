@@ -374,6 +374,8 @@
     <Compile Include="Appointments\AppointmentConstants.cs" />
     <Compile Include="Appointments\Controllers\AppointmentsController.cs" />
     <Compile Include="Appointments\Controllers\GoogleCalendarController.cs" />
+    <Compile Include="Customer\Managers\CustomerManager.cs" />
+    <Compile Include="Customer\Managers\ICustomerManager.cs" />
     <Compile Include="Invoices\Handlers\PaymentMadeHandler.cs" />
     <Compile Include="Appointments\Managers\AppointmentsManager.cs" />
     <Compile Include="Appointments\Managers\IAppointmentsManager.cs" />
@@ -557,12 +559,14 @@
     <Compile Include="Services\IRulesEngineService.cs" />
     <Compile Include="Services\ISettingsService.cs" />
     <Compile Include="Repositories\ITransactionsRepository.cs" />
+    <Compile Include="Services\ITokenService.cs" />
     <Compile Include="Services\IUrlService.cs" />
     <Compile Include="Services\IUserService.cs" />
     <Compile Include="Services\LoggingService.cs" />
     <Compile Include="Services\RulesEngineService.cs" />
     <Compile Include="Services\SettingsService.cs" />
     <Compile Include="Repositories\TransactionsRepository.cs" />
+    <Compile Include="Services\TokenService.cs" />
     <Compile Include="Services\UrlService.cs" />
     <Compile Include="Services\UserConstants.cs" />
     <Compile Include="Services\UserService.cs" />

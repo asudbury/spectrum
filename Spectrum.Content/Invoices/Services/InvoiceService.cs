@@ -45,7 +45,8 @@
                 .From(Content.Constants.Database.InvoiceTableName + " si")
                 .InnerJoin(Content.Constants.Database.ClientTableName + " sc")
                 .On("si.ClientId = sc.Id")
-                .Where("si.CustomerId=" + customerId + " and si.Id=" + invoiceId);
+                .Where("si.CustomerId = @0", customerId)
+                .Where("si.Id = @0", invoiceId);
 
             return context.Database.FirstOrDefault<ClientInvoiceModel>(sql);
         }
@@ -65,7 +66,8 @@
             Sql sql = new Sql()
                 .Select("*")
                 .From(Content.Constants.Database.InvoiceTableName + " si")
-                .Where("si.CustomerId=" + customerId + " and si.Id=" + invoiceId);
+                .Where("si.CustomerId = @0", customerId)
+                .Where("si.Id = @0", invoiceId);
 
             return context.Database.FirstOrDefault<InvoiceModel>(sql);
         }
@@ -84,7 +86,7 @@
                 .From(Content.Constants.Database.InvoiceTableName + " si")
                 .InnerJoin(Content.Constants.Database.ClientTableName + " sc")
                 .On("si.ClientId = sc.Id")
-                .Where("si.CustomerId=" + customerId)
+                .Where("si.CustomerId = @0", customerId)
                 .OrderByDescending("InvoiceDate", "Id");
 
             return context.Database.Fetch<ClientInvoiceModel>(sql);

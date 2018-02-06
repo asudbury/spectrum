@@ -8,14 +8,18 @@
         /// <summary>
         /// Gets the customer model.
         /// </summary>
+        /// <param name="customerId">The customer identifier.</param>
         /// <returns></returns>
-        CustomerModel GetCustomerModel();
+        CustomerModel GetCustomerModel(int? customerId = null);
 
         /// <summary>
         /// Gets the customer model.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
+        /// <param name="customerId">The customer identifier.</param>
         /// <returns></returns>
-        CustomerModel GetCustomerModel(UmbracoContext umbracoContext);
+        CustomerModel GetCustomerModel(
+            UmbracoContext umbracoContext,
+            int? customerId = null);
     }
 }

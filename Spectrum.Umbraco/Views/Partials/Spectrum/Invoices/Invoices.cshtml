@@ -49,6 +49,13 @@
         url: "/umbraco/Surface/Invoice/GetBootGridInvoices",
         formatters: {
             "date": function (column, row) {
+
+                var today = moment();
+
+                if (moment(row.invoiceDate).isSame(today, 'day')) {
+                    return "<b title='" + moment.utc(row.invoiceDate).format('ddd DD MMM') + "'>Today</b>";
+                }
+
                 return moment.utc(row.invoiceDate).format('ddd DD MMM');
             },
             "client": function (column, row) {

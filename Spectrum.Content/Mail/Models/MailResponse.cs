@@ -21,20 +21,5 @@
         /// Gets or sets the contents.
         /// </summary>
         public string Contents { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the attachment file.
-        /// </summary>
-        public string AttachmentFileName { get; set; }
-
-        /// <summary>
-        /// Gets or sets the calendar event data.
-        /// </summary>
-        public string AttachmentData { get; set; }
-
-        /// <summary>
-        /// Gets or sets the type of the attachment MIME.
-        /// </summary>
-        public string AttachmentMimeType { get; set; }
     }
 }

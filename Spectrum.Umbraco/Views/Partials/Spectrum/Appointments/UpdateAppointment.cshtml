@@ -19,8 +19,6 @@
 
                     <h2 class="partial-title">Update Appointment</h2>
 
-                    @Html.HiddenFor(model => model.Id)
-
                     <label class="control-label">Appointment Date *</label>
                     <div class="calendar-position form-group">
                         @Html.TextBoxFor(model => model.StartTime, "{0:dd-MMM-yyyy HH:mm}", new { @class = "date form-control" })
@@ -42,6 +40,8 @@
                     @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "5" })
                     @Html.ValidationMessageFor(model => model.Description)
                     
+                    @Html.HiddenFor(model => model.Id)
+
                     <script src="../../../../scripts/spectrum/appointment.js"></script>
 
                     <button value="submit" id="submit" class="btn btn-lg btn-primary btn-block">Update Appointment</button>

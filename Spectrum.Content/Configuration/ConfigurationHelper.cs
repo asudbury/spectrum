@@ -8,7 +8,6 @@
     using Umbraco.Core.Models;
     using Umbraco.Core.Models.Membership;
     using Umbraco.Core.Security;
-    using Umbraco.Web;
     using Umbraco.Web.Routing;
 
     public static class ConfigurationHelper
@@ -47,8 +46,7 @@
 
             return  settingsService.GetSettingsNode();
         }
-
-
+        
         /// <summary>
         /// Gets the settings model.
         /// </summary>

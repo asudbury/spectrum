@@ -11,8 +11,11 @@
         /// Gets the payment settings model.
         /// </summary>
         /// <param name="content">The content.</param>
+        /// <param name="customerId">The customer identifier.</param>
         /// <returns></returns>
-        PaymentSettingsModel GetPaymentSettingsModel(UmbracoContext content);
+        PaymentSettingsModel GetPaymentSettingsModel(
+            UmbracoContext content,
+            int? customerId = null);
 
         /// <summary>
         /// Gets the authentication token.
@@ -47,6 +50,5 @@
         Transaction GetTransaction(
             PaymentSettingsModel model,
             string transactionId);
-
     }
 }

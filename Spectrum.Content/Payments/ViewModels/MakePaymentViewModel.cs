@@ -14,8 +14,15 @@
         public string ClientId { get; set; }
 
         /// <summary>
+        /// Gets or sets the customer identifier.
+        /// </summary>
+        [JsonProperty(PropertyName = "customerId")]
+        public string CustomerId { get; set; }
+
+        /// <summary>
         /// Gets or sets the invoice identifier.
         /// </summary>
+        [JsonProperty(PropertyName = "invoiceId")]
         public string InvoiceId { get; set; }
 
         /// <summary>

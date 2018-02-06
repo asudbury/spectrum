@@ -2,37 +2,41 @@
 {
     using ContentModels;
     using Models;
+    using System;
     using System.Net.Mail;
 
     public class MailService : IMailService
     {
-        /// <inheritdoc />
         /// <summary>
         /// Sends the email.
         /// </summary>
-        /// <param name="to">To.</param>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        public MailResponse SendEmail(
-            string to, 
-            MailTemplateModel model)
+        /// <inheritdoc />
+        public MailResponse SendEmail(MailTemplateModel model)
         {
-            string mailTo = model.To;
-
-            if (string.IsNullOrEmpty(mailTo))
+            if (string.IsNullOrEmpty(model.From))
             {
-                mailTo = to;
+                throw new ArgumentException("From address is null");
             }
-          
+
+            if (string.IsNullOrEmpty(model.To))
+            {
+                throw new ArgumentException("To address is null");
+            }
+            
             MailResponse response = new MailResponse
             {
                 Contents = model.TokenizedText,
                 Sent = true,
-                ToEmailAddress = mailTo
+                ToEmailAddress = model.To,
+                Surpressed = true //// will be overridden below
             };
 
             if (model.SurpressSendEmail == false)
             {
+                response.Surpressed = false;
+
                 MailMessage mailMessage = new MailMessage
                 {
                     From = new MailAddress(model.From),
@@ -41,7 +45,7 @@
                     IsBodyHtml = model.IsHtml
                 };
 
-                string[] emailto = mailTo.Split(';');
+                string[] emailto = model.To.Split(';');
 
                 foreach (string mail in emailto)
                 {

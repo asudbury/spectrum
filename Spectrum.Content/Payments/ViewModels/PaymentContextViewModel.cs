@@ -3,9 +3,9 @@
     public class PaymentContextViewModel
     {
         /// <summary>
-        /// Gets or sets the name of the customer.
+        /// Gets or sets the customer identifier.
         /// </summary>
-        public string CustomerName { get; set; }
+        public string CustomerId { get; set; }
 
         /// <summary>
         /// Gets or sets the client identifier.
@@ -21,11 +21,6 @@
         /// Gets or sets the payment provider.
         /// </summary>
         public string PaymentProvider { get; set; }
-
-        /// <summary>
-        /// Gets or sets the automatic allocate.
-        /// </summary>
-        public string AutoAllocate { get; set; }
 
         /// <summary>
         /// Gets or sets the invoice identifier.

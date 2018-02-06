@@ -22,16 +22,24 @@
         private readonly IMailProvider mailProvider;
 
         /// <summary>
+        /// The settings service.
+        /// </summary>
+        private readonly ISettingsService settingsService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ContactUsManager" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
         /// <param name="mailProvider">The mail provider.</param>
+        /// <param name="settingsService">The settings service.</param>
         public ContactUsManager(
             ILoggingService loggingService, 
-            IMailProvider mailProvider)
+            IMailProvider mailProvider,
+            ISettingsService settingsService)
         {
             this.loggingService = loggingService;
             this.mailProvider = mailProvider;
+            this.settingsService = settingsService;
         }
 
         /// <summary>
@@ -48,6 +56,23 @@
         {
             ////loggingService.Info(GetType(), "Start");
 
+            IPublishedContent settingsNode = settingsService.GetSettingsNode();
+
+            SettingsModel settingsModel = new SettingsModel(settingsNode);
+
+            string emailAddress = settingsModel.EmailAddress;
+            string contactUsEmailAddress = settingsModel.ContactUsEmailAddress;
+            
+            IPublishedContent customerNode = settingsService.GetCustomerNode();
+
+            if (customerNode != null)
+            {
+                CustomerModel customerModel = new CustomerModel(customerNode);
+
+                emailAddress = customerModel.EmailAddress;
+                contactUsEmailAddress = customerModel.ContactUsEmailAddress;
+            }
+            
             PageModel pageModel = new PageModel(publishedContent);
 
             try
@@ -62,11 +87,13 @@
                             {"EmailAddress", viewModel.EmailAddress},
                             {"Message", viewModel.Message}
                         };
-
+                     
                     mailProvider.SendEmail(
                         umbracoContext,
                         emailTemplate,
-                        viewModel.EmailAddress,
+                        emailAddress,
+                        contactUsEmailAddress,
+                        string.Empty,
                         null,
                         dictionairy);
                 }
@@ -86,5 +113,6 @@
             }
 
             return pageModel.NextPageUrl;
-        }}
+        }
+    }
 }

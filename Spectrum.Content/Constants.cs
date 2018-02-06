@@ -7,17 +7,17 @@
             /// <summary>
             /// The client identifier
             /// </summary>
+            public const string CustomerId = "wsqdfff";
+
+            /// <summary>
+            /// The client identifier
+            /// </summary>
             public const string ClientId = "fkdssre";
 
             /// <summary>
             /// The payment identifier.
             /// </summary>
             public const string PaymentId = "opddewq";
-
-            /// <summary>
-            /// The automatic allocate.
-            /// </summary>
-            public const string AutoAllocate = "autoAllocate";
 
             /// <summary>
             /// The appointment identifier.

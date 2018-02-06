@@ -16,11 +16,21 @@
         string CreateClient(CreateClientViewModel viewModel);
 
         /// <summary>
+        /// Updates the client.
+        /// </summary>
+        /// <param name="viewModel">The view model.</param>
+        /// <returns></returns>
+        string UpdateClient(ClientViewModel viewModel);
+
+        /// <summary>
         /// Gets the client.
         /// </summary>
-        /// <param name="encryptedId">The encrypted identifier.</param>
+        /// <param name="encryptedClientId">The encrypted client identifier.</param>
+        /// <param name="encryptedCustomerId">The encrypted customer identifier.</param>
         /// <returns></returns>
-        ClientViewModel GetClient(string encryptedId);
+        ClientViewModel GetClient(
+            string encryptedClientId,
+            string encryptedCustomerId = null);
 
         /// <summary>
         /// Gets the clients.
@@ -61,7 +71,10 @@
         /// Gets the name of the client.
         /// </summary>
         /// <param name="clientId">The client identifier.</param>
+        /// <param name="customerId">The customer identifier.</param>
         /// <returns></returns>
-        LinkViewModel GetClientName(string clientId);
+        LinkViewModel GetClientName(
+            string clientId,
+            string customerId);
     }
 }

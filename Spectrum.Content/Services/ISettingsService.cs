@@ -18,8 +18,9 @@
         /// <summary>
         /// Gets the customer node.
         /// </summary>
+        /// <param name="customerId">The customer identifier.</param>
         /// <returns></returns>
-        IPublishedContent GetCustomerNode();
+        IPublishedContent GetCustomerNode(int? customerId = null);
 
         /// <summary>
         /// Gets the menus node.
@@ -37,8 +38,9 @@
         /// <summary>
         /// Gets the payments node.
         /// </summary>
+        /// <param name="customerId">The customer identifier.</param>
         /// <returns></returns>
-        IPublishedContent GetPaymentsNode();
+        IPublishedContent GetPaymentsNode(int? customerId = null);
 
         /// <summary>
         /// Gets the mail node.
@@ -51,6 +53,18 @@
         /// </summary>
         /// <returns></returns>
         IPublishedContent GetMailTemplatesFolderNode();
+
+        /// <summary>
+        /// Gets the customer mail node.
+        /// </summary>
+        /// <returns></returns>
+        IPublishedContent GetCustomerMailNode();
+
+        /// <summary>
+        /// Gets the customer mail templates folder node.
+        /// </summary>
+        /// <returns></returns>
+        IPublishedContent GetCustomerMailTemplatesFolderNode();
 
         /// <summary>
         /// Gets the mail template.

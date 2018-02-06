@@ -13,7 +13,7 @@
         private readonly ISettingsService settingsService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CustomerProvider"/> class.
+        /// Initializes a new instance of the <see cref="CustomerProvider" /> class.
         /// </summary>
         /// <param name="settingsService">The settings service.</param>
         public CustomerProvider(ISettingsService settingsService)
@@ -24,21 +24,27 @@
         /// <summary>
         /// Gets the customer model.
         /// </summary>
+        /// <param name="customerId">The customer identifier.</param>
         /// <returns></returns>
-        public CustomerModel GetCustomerModel()
+        public CustomerModel GetCustomerModel(int? customerId = null)
         {
-            return GetCustomerModel(UmbracoContext.Current);
+            return GetCustomerModel(
+                UmbracoContext.Current, 
+                customerId);
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Gets the customer model.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
+        /// <param name="customerId">The customer identifier.</param>
         /// <returns></returns>
-        public CustomerModel GetCustomerModel(UmbracoContext umbracoContext)
+        /// <inheritdoc />
+        public CustomerModel GetCustomerModel(
+            UmbracoContext umbracoContext,
+            int? customerId = null)
         {
-            IPublishedContent customerNode = settingsService.GetCustomerNode();
+            IPublishedContent customerNode = settingsService.GetCustomerNode(customerId);
 
             if (customerNode != null)
             {

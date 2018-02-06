@@ -16,22 +16,8 @@
           : base(content)
         {
             Attachments = new List<Attachment>();
+            Subject = this.GetPropertyValue<string>("subject");
         }
-
-        /// <summary>
-        /// Gets from.
-        /// </summary>
-        public string From => this.GetPropertyValue<string>("from");
-
-        /// <summary>
-        /// Gets to.
-        /// </summary>
-        public string To => this.GetPropertyValue<string>("to");
-
-        /// <summary>
-        /// Gets the blind copy.
-        /// </summary>
-        public string BlindCopy => this.GetPropertyValue<string>("blindCopy");
 
         /// <summary>
         /// Gets a value indicating whether [surpress send email].
@@ -39,9 +25,24 @@
         public bool SurpressSendEmail => this.GetPropertyValue<bool>("surpressSendEmail");
 
         /// <summary>
-        /// Gets the subject.
+        /// Gets or sets from.
         /// </summary>
-        public string Subject => this.GetPropertyValue<string>("subject");
+        public string From { get; set; }
+
+        /// <summary>
+        /// Gets or sets to.
+        /// </summary>
+        public string To { get; set; }
+
+        /// <summary>
+        /// Gets or sets the blind copy.
+        /// </summary>
+        public string BlindCopy { get; set; }
+
+        /// <summary>
+        /// Gets or sets the subject.
+        /// </summary>
+        public string Subject { get; set; }
 
         /// <summary>
         /// Gets the text.

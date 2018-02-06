@@ -8,31 +8,35 @@
 
     public interface IPaymentManager
     {
-        string GetCustomerName(UmbracoContext umbracoContext);
-
         /// <summary>
         /// Gets the authentication token.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
+        /// <param name="encryptedCustomerId">The encrypted customer identifier.</param>
         /// <returns></returns>
-        string GetAuthToken(UmbracoContext umbracoContext);
+        string GetAuthToken(
+            UmbracoContext umbracoContext,
+            string encryptedCustomerId = null);
 
         /// <summary>
         /// Gets the environment.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
+        /// <param name="encryptedCustomerId">The encrypted customer identifier.</param>
         /// <returns></returns>
-        string GetEnvironment(UmbracoContext umbracoContext);
+        string GetEnvironment(
+            UmbracoContext umbracoContext,
+            string encryptedCustomerId = null);
 
         /// <summary>
         /// Gets the transaction view model.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
-        /// <param name="encryptedId">The encrypted identifier.</param>
+        /// <param name="encryptedTransactionId">The encrypted transaction identifier.</param>
         /// <returns></returns>
         TransactionViewModel GetTransactionViewModel(
             UmbracoContext umbracoContext,
-            string encryptedId);
+            string encryptedTransactionId);
 
         /// <summary>
         /// Gets the transactions view model.

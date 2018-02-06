@@ -42,7 +42,8 @@
             Sql sql = new Sql()
                 .Select("*")
                 .From(Content.Constants.Database.ClientTableName)
-                .Where("AddressId=" + addressId + " and CustomerId=" + customerId);
+                .Where("AddressId = @0",addressId)
+                .Where("CustomerId = @0", customerId);
 
             ClientModel model = context.Database.FirstOrDefault<ClientModel>(sql);
 
@@ -87,7 +88,8 @@
             Sql sql = new Sql()
                 .Select("*")
                 .From(Content.Constants.Database.ClientTableName)
-                .Where("CustomerId=" + customerId + "and Id=" + id);
+                .Where("Id = @0", id)
+                .Where("CustomerId = @0", customerId);
 
             return context.Database.FirstOrDefault<ClientModel>(sql);
         }
@@ -129,7 +131,7 @@
             Sql sql = new Sql()
                 .Select("*")
                 .From(Content.Constants.Database.ClientTableName)
-                .Where("CustomerId=" + customerId)
+                .Where("CustomerId = @0", customerId)
                 .OrderBy("Name");
             return context.Database.Fetch<ClientModel>(sql);
         }

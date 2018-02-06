@@ -72,10 +72,37 @@
         /// <summary>
         /// Gets the customer node.
         /// </summary>
+        /// <param name="customerId">The customer identifier.</param>
         /// <returns></returns>
         /// <inheritdoc />
-        public IPublishedContent GetCustomerNode()
+        public IPublishedContent GetCustomerNode(int? customerId = null)
         {
+            //// TODO : maybe refactor this method a bit - starting to have quite a bit of logic in it!
+            
+            IPublishedContent settingsNode = GetSettingsNode();
+
+            if (settingsNode == null)
+            {
+                return null;
+            }
+
+            IEnumerable<IPublishedContent> customerNodes = settingsNode.Children.Where(x => x.DocumentTypeAlias == "customer");
+
+            if (customerId.HasValue)
+            {
+                //// will be client making a payment to a customer via securepayment page so wont be logged in (so far!)
+
+                foreach (IPublishedContent customerNode in customerNodes)
+                {
+                    CustomerModel customerModel = new CustomerModel(customerNode);
+
+                    if (customerModel.Id ==customerId)
+                    {
+                        return customerNode;
+                    }
+                }
+            }
+            
             MembershipHelper membershipHelper = new MembershipHelper(umbracoContext);
 
             IPublishedContent currentMember = membershipHelper.GetCurrentMember();
@@ -88,26 +115,19 @@
                 {
                     return Cache[Constants.Nodes.CustomerNodeName + currentUserName];
                 }
-                
-                IPublishedContent settingsNode = GetSettingsNode();
 
-                if (settingsNode != null)
+                foreach (IPublishedContent customerNode in customerNodes)
                 {
-                    IEnumerable<IPublishedContent> customerNodes = settingsNode.Children.Where(x => x.DocumentTypeAlias == "customer");
+                    CustomerModel customerModel = new CustomerModel(customerNode);
 
-                    foreach (IPublishedContent customerNode in customerNodes)
+                    if (customerModel.Users.Contains(currentUserName))
                     {
-                        CustomerModel customerModel = new CustomerModel(customerNode);
-
-                        if (customerModel.Users.Contains(currentUserName))
+                        if (customerModel.CacheSettings)
                         {
-                            if (customerModel.CacheSettings)
-                            {
-                                Cache.Add(Constants.Nodes.CustomerNodeName + currentUserName, customerNode);
-                            }
-
-                            return customerNode;
+                            Cache.Add(Constants.Nodes.CustomerNodeName + currentUserName, customerNode);
                         }
+
+                        return customerNode;
                     }
                 }
             }
@@ -155,11 +175,12 @@
         /// <summary>
         /// Gets the payments node.
         /// </summary>
+        /// <param name="customerId">The customer identifier.</param>
         /// <returns></returns>
         /// <inheritdoc />
-        public IPublishedContent GetPaymentsNode()
+        public IPublishedContent GetPaymentsNode(int? customerId = null)
         {
-            IPublishedContent customerNode = GetCustomerNode();
+            IPublishedContent customerNode = GetCustomerNode(customerId);
 
             return customerNode != null ? GetChildNode(
                                             customerNode, 
@@ -175,13 +196,13 @@
         /// <inheritdoc />
         public IPublishedContent GetMailNode()
         {
-            IPublishedContent customerNode = GetCustomerNode();
+            IPublishedContent settingsNode = GetSettingsNode();
 
-            return customerNode != null ? GetChildNode(
-                                            customerNode, 
+            return settingsNode != null ? GetChildNode(
+                                            settingsNode, 
                                             "mail", 
                                             Constants.Nodes.MailNodeName,
-                                            customerNode) : null;
+                                            settingsNode) : null;
         }
 
         /// <summary>
@@ -197,6 +218,32 @@
         }
 
         /// <summary>
+        /// Gets the customer mail node.
+        /// </summary>
+        /// <returns></returns>
+        public IPublishedContent GetCustomerMailNode()
+        {
+            IPublishedContent customerNode = GetCustomerNode();
+
+            return customerNode != null ? GetChildNode(
+                                            customerNode,
+                                            "mail",
+                                            Constants.Nodes.MailNodeName,
+                                            customerNode) : null;
+        }
+
+        /// <summary>
+        /// Gets the customer mail templates folder node.
+        /// </summary>
+        /// <returns></returns>
+        public IPublishedContent GetCustomerMailTemplatesFolderNode()
+        {
+            IPublishedContent mailNode = GetCustomerMailNode();
+
+            return mailNode?.Children.FirstOrDefault();
+        }
+
+        /// <summary>
         /// Gets the mail template.
         /// </summary>
         /// <param name="templateName">Name of the template.</param>
@@ -204,9 +251,18 @@
         /// <inheritdoc />
         public IPublishedContent GetMailTemplate(string templateName)
         {
-            IPublishedContent folderNode = GetMailTemplatesFolderNode();
+            IPublishedContent customerfolderNode = GetCustomerMailTemplatesFolderNode();
+            
+            IPublishedContent templateNode = customerfolderNode?.Children.FirstOrDefault(x => x.Name == templateName);
 
-            return folderNode?.Children.FirstOrDefault(x => x.Name == templateName);
+            if (templateNode == null)
+            {
+                IPublishedContent folderNode = GetMailTemplatesFolderNode();
+
+                return folderNode?.Children.FirstOrDefault(x => x.Name == templateName);
+            }
+
+            return templateNode;
         }
 
         /// <summary>

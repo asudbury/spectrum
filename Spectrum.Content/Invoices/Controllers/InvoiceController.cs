@@ -2,6 +2,7 @@
 {
     using Content.Models;
     using Content.Services;
+    using Customer.Managers;
     using Managers;
     using System;
     using System.Collections.Generic;
@@ -11,11 +12,6 @@
 
     public class InvoiceController : BaseController
     {
-        /// <summary>
-        /// The settings service.
-        /// </summary>
-        private readonly ISettingsService settingsService;
-
         /// <summary>
         /// The rules engine service.
         /// </summary>
@@ -30,18 +26,15 @@
         /// Initializes a new instance of the <see cref="T:Spectrum.Content.BaseController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
-        /// <param name="settingsService">The settings service.</param>
         /// <param name="rulesEngineService">The rules engine service.</param>
         /// <param name="invoiceManager">The invoice manager.</param>
         /// <inheritdoc />
         public InvoiceController(
             ILoggingService loggingService,
-            ISettingsService settingsService,
             IRulesEngineService rulesEngineService,
             IInvoiceManager invoiceManager)
             : base(loggingService)
         {
-            this.settingsService = settingsService;
             this.rulesEngineService = rulesEngineService;
             this.invoiceManager = invoiceManager;
         }
@@ -97,7 +90,7 @@
 
             if (rulesEngineService.IsCustomerInvoicesEnabled())
             {
-                CreateInvoiceViewModel viewModel = new CreateInvoiceViewModel {Code = fkdssre };
+                CreateInvoiceViewModel viewModel = new CreateInvoiceViewModel { Code = fkdssre };
 
                 return PartialView("Partials/Spectrum/Invoices/CreateInvoice", viewModel);
             }
@@ -158,6 +151,7 @@
             IPublishedContent publishedContent = GetContentById(CurrentPage.Id.ToString());
 
             string nextUrl = invoiceManager.CreateInvoice(
+                UmbracoContext,
                 publishedContent,
                 viewModel);
 

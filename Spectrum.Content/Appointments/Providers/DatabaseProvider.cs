@@ -53,7 +53,8 @@
                 .From(Content.Constants.Database.AppointmentTableName + " sa")
                 .InnerJoin(Content.Constants.Database.ClientTableName + " sc")
                 .On("sa.ClientId = sc.Id")
-                .Where("Status != " + deleted + " and sa.CustomerId=" + customerId)
+                .Where("Status !=  @0", deleted)
+                .Where("sa.CustomerId = @0", customerId)
                 .OrderByDescending("StartTime");
 
             return context.Database.Fetch<ClientAppointmentModel>(sql);
@@ -76,7 +77,8 @@
                 .From(Content.Constants.Database.AppointmentTableName + " sa")
                 .InnerJoin(Content.Constants.Database.ClientTableName + " sc")
                 .On("sa.ClientId = sc.Id")
-                .Where("sa.Id = " + appointmentId + " and sa.CustomerId= " + customerId);
+                .Where("sa.Id =  @0", appointmentId)
+                .Where("sa.CustomerId = @0", customerId);
             
             return context.Database.FirstOrDefault<ClientAppointmentModel>(sql);
         }
@@ -124,7 +126,7 @@
             Sql sql = new Sql()
                 .Select("*")
                 .From(Content.Constants.Database.IcalAppointmentTableName)
-                .Where("AppointmentId = " + appointmentId);
+                .Where("AppointmentId = @0", appointmentId);
 
             return context.Database.Fetch<ICalAppointmentModel>(sql).FirstOrDefault();
         }

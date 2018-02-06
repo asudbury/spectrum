@@ -2,38 +2,41 @@
 {
     using Content.Services;
     using ContentModels;
-    using Providers;
+    using Managers;
     using System.Web.Mvc;
 
     public class CustomerController : BaseController
     {
         /// <summary>
-        /// The customer provider.
+        /// Gets the customer manager.
         /// </summary>
-        private readonly ICustomerProvider customerProvider;
+        public ICustomerManager CustomerManager { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Spectrum.Content.BaseController" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
-        /// <param name="customerProvider">The customer provider.</param>
+        /// <param name="customerManager">The customer manager.</param>
         /// <inheritdoc />
         public CustomerController(
             ILoggingService loggingService,
-            ICustomerProvider customerProvider) 
+            ICustomerManager customerManager) 
             : base(loggingService)
         {
-            this.customerProvider = customerProvider;
+            CustomerManager = customerManager;
         }
 
         /// <summary>
         /// Gets the name of the customer.
         /// </summary>
+        /// <param name="wsqdfff">The encrypted customer id.</param>
         /// <returns></returns>
         [ChildActionOnly]
-        public ActionResult CustomerName()
+        public ActionResult CustomerName(string wsqdfff)
         {
-            CustomerModel model = customerProvider.GetCustomerModel(UmbracoContext);
+            CustomerModel model = CustomerManager.GetCustomerModel(
+                UmbracoContext,
+                wsqdfff);
 
             if (model != null)
             {

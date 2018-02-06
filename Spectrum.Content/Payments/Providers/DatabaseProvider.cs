@@ -44,7 +44,7 @@
             Sql sql = new Sql()
                 .Select("*")
                 .From(Content.Constants.Database.TransactionsTableName)
-                .Where("CustomerId=" + customerId)
+                .Where("CustomerId = @0", customerId)
                 .OrderByDescending("CreatedTime");
 
             return context.Database.Fetch<TransactionModel>(sql);
@@ -66,7 +66,8 @@
             Sql sql = new Sql()
                 .Select("*")
                 .From(Content.Constants.Database.TransactionsTableName)
-                .Where("TransactionId = '" + paymentId + "' and CustomerId= " + customerId);
+                .Where("TransactionId = @0", paymentId)
+                .Where("CustomerId = @0", customerId);
 
             TransactionModel model = context.Database.FirstOrDefault<TransactionModel>(sql);
 

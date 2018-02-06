@@ -1,5 +1,6 @@
 ﻿namespace Spectrum.Content.Payments.Factories
 {
+    using Application.Services;
     using ContentModels;
     using Umbraco.Core.Models;
     using Content.Services;
@@ -42,9 +43,9 @@
         /// The settings service.
         /// </summary>
         private readonly ISettingsService settingsService;
-
+        
         /// <summary>
-        /// Initializes a new instance of the <see cref="PaymentProviderFactory"/> class.
+        /// Initializes a new instance of the <see cref="PaymentProviderFactory" /> class.
         /// </summary>
         /// <param name="settingsService">The settings service.</param>
         public PaymentProviderFactory(ISettingsService settingsService)
@@ -120,13 +121,15 @@
         /// Gets the payment partial view.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
+        /// <param name="customerId">The customer identifier.</param>
         /// <returns></returns>
         /// <exception cref="ApplicationException">Payment Provider not setup.</exception>
         /// <inheritdoc />
         public string GetPaymentPartialView(
-            UmbracoContext umbracoContext)
+            UmbracoContext umbracoContext,
+            int?  customerId = null)
         {
-            PaymentSettingsModel model = GetPaymentSettingsModel(umbracoContext);
+            PaymentSettingsModel model = GetPaymentSettingsModel(umbracoContext, customerId);
 
             switch (model.Provider)
             {
@@ -145,10 +148,13 @@
         /// Gets the payment settings model.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
+        /// <param name="customerId">The customer identifier.</param>
         /// <returns></returns>
-        internal PaymentSettingsModel GetPaymentSettingsModel(UmbracoContext umbracoContext)
+        internal PaymentSettingsModel GetPaymentSettingsModel(
+            UmbracoContext umbracoContext,
+            int? customerId = null)
         {
-            IPublishedContent  paymentsNode = settingsService.GetPaymentsNode();
+            IPublishedContent  paymentsNode = settingsService.GetPaymentsNode(customerId);
 
             return new PaymentSettingsModel(paymentsNode);
         }

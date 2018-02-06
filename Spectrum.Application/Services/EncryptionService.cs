@@ -126,6 +126,30 @@ namespace Spectrum.Application.Services
         }
 
         /// <summary>
+        /// Decrypts the number.
+        /// </summary>
+        /// <param name="textToDecrypt">The text to decrypt.</param>
+        /// <returns></returns>
+        public int? DecryptNumber(string textToDecrypt)
+        {
+            if (string.IsNullOrEmpty(textToDecrypt))
+            {
+                return null;
+            }
+
+            string unencrypedString = DecryptString(textToDecrypt);
+
+            bool result = int.TryParse(unencrypedString, out int number);
+
+            if (result)
+            {
+                return number;
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Encrypts the specified buffer.
         /// </summary>
         /// <param name="buffer">The buffer.</param>

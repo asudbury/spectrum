@@ -201,7 +201,7 @@ namespace Spectrum.Content.Appointments.Managers
                 };
 
                 //// try and send the email
-                if (string.IsNullOrEmpty(settingsModel.IcalEmailAddress) == false)
+                /*if (string.IsNullOrEmpty(settingsModel.IcalEmailAddress) == false)
                 {
                     mailProvider.SendEmail(
                         umbracoContext, 
@@ -217,7 +217,7 @@ namespace Spectrum.Content.Appointments.Managers
 
                         databaseProvider.InsertIcalAppointment(iCalModel);
                     }
-                }
+                }*/
 
                 if (settingsModel.IcalSendToAttendees)
                 {
@@ -387,11 +387,11 @@ namespace Spectrum.Content.Appointments.Managers
                     {"AppointmentId", appointmentId}
                 };
 
-                mailProvider.SendEmail(
+                /*mailProvider.SendEmail(
                     umbracoContext,
                     appointmentSettingsModel.IcalDeleteEmailTemplate,
                     appointmentSettingsModel.IcalEmailAddress,
-                    attachment);
+                    attachment);*/
 
                 if (appointmentSettingsModel.IcalSendToAttendees)
                 {
@@ -466,12 +466,12 @@ namespace Spectrum.Content.Appointments.Managers
                     iCalAppointmentModel.SerializedString,
                     iCalAppointmentModel.ContentType);
 
-                mailProvider.SendEmail(
+                /*mailProvider.SendEmail(
                     umbracoContext,
                     appointmentSettingsModel.IcalUpdateEmailTemplate,
                     appointmentSettingsModel.IcalEmailAddress,
                     attachment,
-                    dictionary);
+                    dictionary);*/
 
                 if (appointmentSettingsModel.IcalSendToAttendees)
                 {

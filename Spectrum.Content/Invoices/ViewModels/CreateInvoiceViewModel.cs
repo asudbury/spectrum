@@ -12,7 +12,7 @@
         public CreateInvoiceViewModel()
         {
             Date = DateTime.Today;
-            EmailClientInvoice = true;
+            EmailInvoiceToClient = true;
         }
 
         /// <summary>
@@ -39,9 +39,12 @@
         public decimal? Amount { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether [email client invoice].
+        /// Gets or sets a value indicating whether [email invoice to client].
         /// </summary>
-        [DisplayName("Email client copy of invoice")]
-        public bool EmailClientInvoice { get; set; }
+        /// <value>
+        ///   <c>true</c> if [email invoice to client]; otherwise, <c>false</c>.
+        /// </value>
+        [DisplayName("Email invoice to client")]
+        public bool EmailInvoiceToClient { get; set; }
     }
 }

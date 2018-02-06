@@ -12,13 +12,17 @@
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="emailTemplateName">Name of the email template.</param>
+        /// <param name="from">From.</param>
         /// <param name="to">To.</param>
+        /// <param name="blindCopy">The blind copy.</param>
         /// <param name="attachment">The attachment.</param>
         /// <returns></returns>
         MailResponse SendEmail(
             UmbracoContext umbracoContext, 
-            string emailTemplateName, 
+            string emailTemplateName,
+            string from,
             string to,
+            string blindCopy,
             Attachment attachment);
 
         /// <summary>
@@ -26,14 +30,18 @@
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="emailTemplateName">Name of the email template.</param>
+        /// <param name="from">From.</param>
         /// <param name="to">To.</param>
+        /// <param name="blindCopy">The blind copy.</param>
         /// <param name="attachment">The attachment.</param>
         /// <param name="replacementTokens">The replacement tokens.</param>
         /// <returns></returns>
         MailResponse SendEmail(
             UmbracoContext umbracoContext, 
             string emailTemplateName, 
+            string from,
             string to, 
+            string blindCopy,
             Attachment attachment,
             Dictionary<string, string> replacementTokens);
     }

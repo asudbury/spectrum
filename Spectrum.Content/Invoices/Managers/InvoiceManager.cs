@@ -2,8 +2,12 @@
 {
     using Application.Services;
     using Content.Models;
+    using Content.Services;
     using ContentModels;
+    using Customer.Managers;
     using Customer.Providers;
+    using Customer.ViewModels;
+    using Mail.Providers;
     using Models;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
@@ -17,7 +21,12 @@
     using ViewModels;
 
     public class InvoiceManager : IInvoiceManager
-    { 
+    {
+        /// <summary>
+        /// The settings service.
+        /// </summary>
+        private readonly ISettingsService settingsService;
+
         /// <summary>
         /// The invoice translator.
         /// </summary>
@@ -44,42 +53,112 @@
         private readonly IEncryptionService encryptionService;
 
         /// <summary>
+        /// The mail provider.
+        /// </summary>
+        private readonly IMailProvider mailProvider;
+
+        /// <summary>
+        /// The URL service.
+        /// </summary>
+        private readonly IUrlService urlService;
+
+        /// <summary>
+        /// The client manager.
+        /// </summary>
+        private readonly IClientManager clientManager;
+
+        /// <summary>
+        /// The token service.
+        /// </summary>
+        private readonly ITokenService tokenService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="InvoiceManager" /> class.
         /// </summary>
+        /// <param name="settingsService">The settings service.</param>
         /// <param name="invoiceTranslator">The invoice translator.</param>
         /// <param name="invoiceService">The invoice service.</param>
         /// <param name="invoicesBootGridTranslator">The invoices boot grid translator.</param>
         /// <param name="customerProvider">The customer provider.</param>
         /// <param name="encryptionService">The encryption service.</param>
+        /// <param name="mailProvider">The mail provider.</param>
+        /// <param name="urlService">The URL service.</param>
+        /// <param name="clientManager">The client manager.</param>
+        /// <param name="tokenService">The token service.</param>
         public InvoiceManager(
+            ISettingsService settingsService,
             IInvoiceTranslator invoiceTranslator,
             IInvoiceService invoiceService,
             IInvoicesBootGridTranslator invoicesBootGridTranslator,
             ICustomerProvider customerProvider,
-            IEncryptionService encryptionService)
+            IEncryptionService encryptionService,
+            IMailProvider mailProvider,
+            IUrlService urlService,
+            IClientManager clientManager,
+            ITokenService tokenService)
         {
+            this.settingsService = settingsService;
             this.invoiceTranslator = invoiceTranslator;
             this.invoiceService = invoiceService;
             this.invoicesBootGridTranslator = invoicesBootGridTranslator;
             this.customerProvider = customerProvider;
             this.encryptionService = encryptionService;
+            this.mailProvider = mailProvider;
+            this.urlService = urlService;
+            this.clientManager = clientManager;
+            this.tokenService = tokenService;
         }
 
         /// <summary>
         /// Creates the invoice.
         /// </summary>
+        /// <param name="umbracoContext">The umbraco context.</param>
         /// <param name="publishedContent">Content of the published.</param>
         /// <param name="viewModel">The view model.</param>
         /// <returns></returns>
         public string CreateInvoice(
+            UmbracoContext umbracoContext,
             IPublishedContent publishedContent,
             CreateInvoiceViewModel viewModel)
         {
             InvoiceModel invoiceModel = invoiceTranslator.Translate(viewModel);
 
-            invoiceService.CreateInvoice(invoiceModel);
+            int invoiceId = invoiceService.CreateInvoice(invoiceModel);
 
             PageModel pageModel = new PageModel(publishedContent);
+
+            if (viewModel.EmailInvoiceToClient)
+            {
+                ClientViewModel clientViewModel = clientManager.GetClient(viewModel.Code);
+
+                IPublishedContent customerNode = settingsService.GetCustomerNode();
+
+                CustomerModel customerModel = new CustomerModel(customerNode);
+
+                string paymentLinkUrl = urlService.GetCustomerMakePaymentUrl(
+                                            customerModel.Id,
+                                            clientViewModel.Id,
+                                            invoiceId,
+                                            viewModel.Amount.ToString());
+
+                Dictionary<string, string> dictionary = tokenService.GetBaseTokens(customerModel, clientViewModel.Name);
+
+               dictionary.Add("InvoiceId", invoiceId.ToString());
+               dictionary.Add("InvoiceDate", viewModel.Date.ToLongTimeString());
+               dictionary.Add("InvoiceAmount", viewModel.Amount.ToString());
+               dictionary.Add("InvoiceDetails", viewModel.Details);
+               dictionary.Add("PaymentLinkUrl", paymentLinkUrl);
+
+                //// now send email
+                mailProvider.SendEmail(
+                    umbracoContext,
+                    pageModel.EmailTemplateName,
+                    customerModel.EmailAddress,
+                    clientViewModel.EmailAddress,
+                    string.Empty,
+                    null,
+                    dictionary);
+            }
 
             return pageModel.NextPageUrl;
         }
@@ -118,7 +197,7 @@
             DateTime dateRangeStart, 
             DateTime dateRangeEnd)
         {
-            IEnumerable<ClientInvoiceModel> models =  invoiceService.GetClientInvoices(GetCustomerId(umbracoContext));
+            IEnumerable<ClientInvoiceModel> models = invoiceService.GetClientInvoices(GetCustomerId(umbracoContext));
 
             List<InvoiceViewModel> viewModels = new List<InvoiceViewModel>();
 

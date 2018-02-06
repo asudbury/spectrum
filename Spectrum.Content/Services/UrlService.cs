@@ -1,4 +1,7 @@
-﻿namespace Spectrum.Content.Services
+﻿using System;
+using System.Web;
+
+namespace Spectrum.Content.Services
 {
     using Application.Services;
 
@@ -108,13 +111,13 @@
         }
 
         /// <summary>
-        /// Gets the make paymente URL.
+        /// Gets the make payment URL.
         /// </summary>
         /// <param name="clientId">The client identifier.</param>
         /// <param name="invoiceId">The invoice identifier.</param>
         /// <param name="amount">The amount.</param>
         /// <returns></returns>
-        public string GetMakePaymenteUrl(
+        public string GetMakePaymentUrl(
             int clientId, 
             int invoiceId,
             string amount)
@@ -129,6 +132,33 @@
             }
 
             return string.Empty;
+        }
+
+        /// <summary>
+        /// Gets the customer make payment URL.
+        /// </summary>
+        /// <param name="customerId">The customer identifier.</param>
+        /// <param name="clientId">The client identifier.</param>
+        /// <param name="invoiceId">The invoice identifier.</param>
+        /// <param name="amount">The amount.</param>
+        /// <returns></returns>
+        public string GetCustomerMakePaymentUrl(
+            int customerId,
+            int clientId, 
+            int invoiceId, 
+            string amount)
+        {
+            string clientIdParam = GetClientIdParam(clientId);
+
+            HttpContextWrapper httpContextWrapper = new HttpContextWrapper(HttpContext.Current);
+
+            string baseUrl = httpContextWrapper.Request.Url.Authority.ToString();
+
+            return GetHttpProtocol() + baseUrl + 
+                   "/securepayment" + clientIdParam +
+                   GetParam(Constants.QueryString.CustomerId, customerId) +
+                   GetParam(Constants.QueryString.InvoiceId, invoiceId) +
+                   GetParam(Constants.QueryString.PaymenyAmount, amount);
         }
 
         /// <summary>
@@ -233,6 +263,26 @@
         }
 
         /// <summary>
+        /// Gets the email invoice URL.
+        /// </summary>
+        /// <param name="clientId">The client identifier.</param>
+        /// <param name="invoiceId">The invoice identifier.</param>
+        /// <returns></returns>
+        public string GetEmailInvoiceUrl(
+            int clientId, 
+            int invoiceId)
+        {
+            if (rulesEngineService.IsCustomerInvoicesEnabled())
+            {
+                return "/customer/invoices/email" +
+                       GetClientIdParam(clientId) +
+                       GetParam(Constants.QueryString.InvoiceId, invoiceId);
+            }
+
+            return string.Empty;
+        }
+
+        /// <summary>
         /// Gets the view appointment URL.
         /// </summary>
         /// <param name="clientId">The client identifier.</param>
@@ -324,6 +374,15 @@
         internal string GetEncryptedString(string pararm)
         {
             return encryptParameters ? encryptionService.EncryptString(pararm) : pararm;
+        }
+
+        /// <summary>
+        /// Gets the HTTP protocol.
+        /// </summary>
+        /// <returns></returns>
+        internal string GetHttpProtocol()
+        {
+            return "http://";
         }
     }
 }

@@ -32,13 +32,19 @@
         /// <summary>
         /// Gets the name of the customer.
         /// </summary>
+        /// <param name="fkdssre">The client id.</param>
+        /// <param name="wsqdfff">The customer id.</param>
         /// <returns></returns>
         [ChildActionOnly]
-        public ActionResult ClientName(string fkdssre)
+        public ActionResult ClientName(
+            string fkdssre,
+            string wsqdfff)
         {
             if (string.IsNullOrEmpty(fkdssre) == false)
             {
-                LinkViewModel viewModel = clientManager.GetClientName(fkdssre);
+                LinkViewModel viewModel = clientManager.GetClientName(
+                                                    fkdssre, 
+                                                    wsqdfff);
 
                 if (viewModel != null)
                 {
@@ -135,6 +141,38 @@
             return Redirect(url);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateClient(ClientViewModel viewModel)
+        {
+            LoggingService.Info(GetType());
+
+            /* This doesnt work if the client doesnt update these values - need to take a look!
+            bool inUse = clientManager.CheckNameInUse(viewModel.Name);
+
+            if (inUse)
+            {
+                ModelState.AddModelError("Name", "There is already a client with this Name");
+            }
+
+            inUse = clientManager.CheckEmailInUse(viewModel.EmailAddress);
+
+            if (inUse)
+            {
+                ModelState.AddModelError("EmailAddress", "There is already a client with this Email Address");
+            }
+            */
+
+            if (!ModelState.IsValid)
+            {
+                return CurrentUmbracoPage();
+            }
+
+            string url = clientManager.UpdateClient(viewModel);
+
+            return Redirect(url);
+        }
+
         /// <summary>
         /// Views the client.
         /// </summary>
@@ -164,11 +202,11 @@
         }
 
         /// <summary>
-        /// Updates the client.
+        /// Get the update client.
         /// </summary>
         /// <param name="fkdssre">The fkdssre. (encryptred client id)</param>
         /// <returns></returns>
-        public PartialViewResult UpdateClient(string fkdssre)
+        public PartialViewResult GetUpdateClient(string fkdssre)
         {
             LoggingService.Info(GetType());
 

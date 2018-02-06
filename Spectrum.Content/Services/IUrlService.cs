@@ -38,13 +38,27 @@
         string GetCreateAppointmentUrl(int clientId);
 
         /// <summary>
-        /// Gets the make paymente URL.
+        /// Gets the make payment URL.
         /// </summary>
         /// <param name="clientId">The client identifier.</param>
         /// <param name="invoiceId">The invoice identifier.</param>
         /// <param name="amount">The amount.</param>
         /// <returns></returns>
-        string GetMakePaymenteUrl(
+        string GetMakePaymentUrl(
+            int clientId,
+            int invoiceId,
+            string amount);
+
+        /// <summary>
+        /// Gets the customer make payment URL.
+        /// </summary>
+        /// <param name="customerId">The customer identifier.</param>
+        /// <param name="clientId">The client identifier.</param>
+        /// <param name="invoiceId">The invoice identifier.</param>
+        /// <param name="amount">The amount.</param>
+        /// <returns></returns>
+        string GetCustomerMakePaymentUrl(
+            int customerId,
             int clientId,
             int invoiceId,
             string amount);
@@ -96,6 +110,16 @@
         /// <param name="invoiceId">The invoice identifier.</param>
         /// <returns></returns>
         string GetUpdateInvoiceUrl(
+            int clientId,
+            int invoiceId);
+
+        /// <summary>
+        /// Gets the email invoice URL.
+        /// </summary>
+        /// <param name="clientId">The client identifier.</param>
+        /// <param name="invoiceId">The invoice identifier.</param>
+        /// <returns></returns>
+        string GetEmailInvoiceUrl(
             int clientId,
             int invoiceId);
 

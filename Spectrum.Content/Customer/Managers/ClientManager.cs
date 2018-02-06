@@ -1,8 +1,7 @@
-﻿using Spectrum.Content.Components.ViewModels;
-
-namespace Spectrum.Content.Customer.Managers
+﻿namespace Spectrum.Content.Customer.Managers
 {
     using Application.Services;
+    using Components.ViewModels;
     using Content.Models;
     using Content.Services;
     using ContentModels;
@@ -92,23 +91,54 @@ namespace Spectrum.Content.Customer.Managers
         }
 
         /// <summary>
+        /// Updates the client.
+        /// </summary>
+        /// <param name="viewModel">The view model.</param>
+        /// <returns></returns>
+        public string UpdateClient(ClientViewModel viewModel)
+        {
+            CustomerModel customerModel = customerProvider.GetCustomerModel();
+
+            ClientModel model = clientService.GetClient(customerModel.Id, viewModel.Id);
+
+            model.Name = viewModel.Name;
+            model.EmailAddress = viewModel.EmailAddress;
+            model.HomePhoneNumber = viewModel.HomePhoneNumber;
+            model.MobilePhoneNumber = viewModel.MobilePhoneNumber;
+
+            clientService.UpdateClient(model);
+
+            string url = urlService.GetViewClientUrl(viewModel.Id);
+
+            return url;
+        }
+
+        /// <summary>
         /// Gets the client.
         /// </summary>
-        /// <param name="encryptedId">The encrypted identifier.</param>
+        /// <param name="encryptedClientId">The encrypted client identifier.</param>
+        /// <param name="encryptedCustomerId">The encrypted customer identifier.</param>
         /// <returns></returns>
-        public ClientViewModel GetClient(string encryptedId)
+        public ClientViewModel GetClient(
+            string encryptedClientId,
+            string encryptedCustomerId = null)
         {
-            string clientId = encryptionService.DecryptString(encryptedId);
+            string clientId = encryptionService.DecryptString(encryptedClientId);
 
-            CustomerModel customerModel = customerProvider.GetCustomerModel();
-            
-            ClientModel model = clientService.GetClient(customerModel.Id, Convert.ToInt32(clientId));
+            int? customerId = encryptionService.DecryptNumber(encryptedCustomerId);
 
-            if (model != null)
+            CustomerModel customerModel = customerProvider.GetCustomerModel(customerId);
+
+            if (customerModel != null)
             {
-                return clientTranslator.Translate(model);
+                ClientModel model = clientService.GetClient(customerModel.Id, Convert.ToInt32(clientId));
+
+                if (model != null)
+                {
+                    return clientTranslator.Translate(model);
+                }
             }
-            
+
             return null;
         }
 
@@ -217,18 +247,33 @@ namespace Spectrum.Content.Customer.Managers
         /// <summary>
         /// Gets the name of the client.
         /// </summary>
+        /// <param name="clientId">The client identifier.</param>
+        /// <param name="customerId">The customer identifier.</param>
         /// <returns></returns>
-        public LinkViewModel GetClientName(string clientId)
+        public LinkViewModel GetClientName(
+            string clientId,
+            string customerId)
         {
-            ClientViewModel viewModel = GetClient(clientId);
+            ClientViewModel viewModel = GetClient(
+                                         clientId, 
+                                         customerId);
 
             if (viewModel != null)
             {
                 LinkViewModel linkViewModel = new LinkViewModel
                 {
                     Text = viewModel.Name,
-                    Url = urlService.GetViewClientUrl(viewModel.Id)
                 };
+
+                //// we only provide a link to the client if we dont have a customer id
+                //// customer id will be null when are passed it on the querystring 
+                //// (secure payment link in customer email)
+                
+                if (string.IsNullOrEmpty(customerId))
+                {
+                    linkViewModel.Url = urlService.GetViewClientUrl(viewModel.Id);
+                }
+
 
                 return linkViewModel;
             }

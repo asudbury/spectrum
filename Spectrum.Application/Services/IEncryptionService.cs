@@ -42,5 +42,12 @@
         string DecryptString(
             string textToDecrypt,
             string key);
+
+        /// <summary>
+        /// Decrypts the number.
+        /// </summary>
+        /// <param name="textToDecrypt">The text to decrypt.</param>
+        /// <returns></returns>
+        int? DecryptNumber(string textToDecrypt);
     }
 }

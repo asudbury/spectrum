@@ -61,27 +61,26 @@
         /// <summary>
         /// Gets the payment context.
         /// </summary>
+        /// <param name="wsqdfff">The encrypted customer id.</param>
         /// <returns></returns>
         [ChildActionOnly]
-        public ActionResult GetPaymentContext()
+        public ActionResult GetPaymentContext(string wsqdfff)
         {
             //// TODO :-move to a translator at some point?
             
             PaymentContextViewModel viewModel = new PaymentContextViewModel
             {
-                CustomerName = paymentManager.GetCustomerName(UmbracoContext),
-                AuthToken = paymentManager.GetAuthToken(UmbracoContext),
-                Environment = paymentManager.GetEnvironment(UmbracoContext),
+                AuthToken = paymentManager.GetAuthToken(UmbracoContext, wsqdfff),
+                Environment = paymentManager.GetEnvironment(UmbracoContext, wsqdfff),
                 NodeId = CurrentPage.Id.ToString(),
                 MakePaymentUrl = "/umbraco/Surface/Payment/MakePayment",
-                AutoAllocate = Request.QueryString[Constants.QueryString.AutoAllocate],
                 InvoiceId = Request.QueryString[Constants.QueryString.InvoiceId],
                 ClientId = Request.QueryString[Constants.QueryString.ClientId],
+                CustomerId = wsqdfff,
                 PaymentAmount = encryptionService.DecryptString(Request.QueryString[Constants.QueryString.PaymenyAmount])
             };
 
-            string jsonString = JsonConvert.SerializeObject(viewModel,
-                new JsonSerializerSettings
+            string jsonString = JsonConvert.SerializeObject(viewModel, new JsonSerializerSettings
                 {
                     ContractResolver = new CamelCasePropertyNamesContractResolver()
 
@@ -101,8 +100,7 @@
 
             if (rulesEngineService.IsCustomerPaymentsEnabled())
             {
-                string partialView = paymentProviderFactory
-                                        .GetTransactionsPartialView(UmbracoContext, true);
+                string partialView = paymentProviderFactory.GetTransactionsPartialView(UmbracoContext, true);
 
                 IEnumerable<TransactionViewModel> viewModels = paymentManager.GetTransactionsViewModel(UmbracoContext);
 
@@ -115,7 +113,7 @@
         /// <summary>
         /// Gets the transaction page.
         /// </summary>
-        /// <param name="fkdssre">The fkdssre.</param>
+        /// <param name="fkdssre">The clietn id.</param>
         /// <param name="opddewq">The opddewq.</param>
         /// <returns></returns>
         [ChildActionOnly]
@@ -127,8 +125,7 @@
 
             if (rulesEngineService.IsCustomerPaymentsEnabled())
             {
-                string partialView = paymentProviderFactory
-                    .GetTransactionPartialView(UmbracoContext, true);
+                string partialView = paymentProviderFactory.GetTransactionPartialView(UmbracoContext, true);
 
                 TransactionViewModel viewModel = paymentManager.GetTransactionViewModel(UmbracoContext, opddewq);
 
@@ -162,27 +159,31 @@
         /// <summary>
         /// Gets the payment page.
         /// </summary>
+        /// <param name="fkdssre">The encrypted client id.</param>
+        /// <param name="wsqdfff">The eccrypted customer id.</param>
         /// <returns></returns>
         [ChildActionOnly]
-        public PartialViewResult GetPaymentPage(string fkdssre)
+        public PartialViewResult GetPaymentPage(
+            string fkdssre,
+            string wsqdfff)
         {
             LoggingService.Info(GetType());
 
-            if (rulesEngineService.IsCustomerPaymentsEnabled())
+            int? customerId = encryptionService.DecryptNumber(wsqdfff);
+
+            ///// the factory will return different payment pages
+            //// currently only braintree payments supported.
+            string partialView = paymentProviderFactory.GetPaymentPartialView(
+                                                            UmbracoContext,
+                                                            customerId);
+
+            MakePaymentViewModel viewModel = new MakePaymentViewModel
             {
-                ///// the factory will return different payment pages
-                //// currently only braintree payments supported.
-                string partialView = paymentProviderFactory.GetPaymentPartialView(UmbracoContext);
+                ClientId = fkdssre,
+                CustomerId = wsqdfff
+            };
 
-                MakePaymentViewModel viewModel = new MakePaymentViewModel
-                {
-                    ClientId = fkdssre
-                };
-                
-                return PartialView(partialView, viewModel);
-            }
-
-            return default(PartialViewResult);
+            return PartialView(partialView, viewModel);
         }
 
         /// <summary>

@@ -49,14 +49,17 @@
 }
                             </td>
                         </tr>
-                        <tr>
-                            <td>Created</td>
-                            <td>
-                                @Model.CreatedTime.ToString("ddd dd MMM HH:mm")
-                                <br />
-                                @Model.CreatedUser
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>Created</td>
+                        <td>
+                            @Model.CreatedTime.ToString("ddd dd MMM HH:mm")
+                            <br />
+                            @Model.CreatedUser
+                        </td>
+                    </tr>
+                    
+                    @if (Model.CreatedTime != Model.LastUpdatedTime)
+                    {
                         <tr>
                             <td>Last Updated</td>
                             <td>
@@ -65,18 +68,23 @@
                                 @Model.LastedUpdatedUser
                             </td>
                         </tr>
+                    }
                     </tbody>
                 </table>
 
                 @if (string.IsNullOrEmpty(Model.UpdateInvoiceUrl) == false)
-    {
-            <a class="btn btn-lg btn-primary btn-block button-stack" role-"button" href="@Model.UpdateInvoiceUrl">Update Invoice</a>
-}
+                {
+                        <a class="btn btn-lg btn-primary btn-block button-stack" role-"button" href="@Model.UpdateInvoiceUrl">Update Invoice</a>
+                }
 
+                @if (string.IsNullOrEmpty(Model.EmailInvoiceUrl) == false)
+                {
+                    <a class="btn btn-lg btn-primary btn-block button-stack" role-"button" href="@Model.EmailInvoiceUrl">Email Invoice</a>
+                }
                 @if (string.IsNullOrEmpty(Model.DeleteInvoiceUrl) == false)
-    {
-            <a class="btn btn-lg btn-primary btn-block button-stack" role-"button" href="@Model.DeleteInvoiceUrl" id="deleteAppointment">Delete Invoice</a>
-}
+                {
+                        <a class="btn btn-lg btn-primary btn-block button-stack" role-"button" href="@Model.DeleteInvoiceUrl" id="deleteAppointment">Delete Invoice</a>
+                }
             </div>
     </div>
 </div>

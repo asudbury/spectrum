@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using Spectrum.Content.Payments.Models;
-
-namespace Spectrum.Content.Payments.Providers
+﻿namespace Spectrum.Content.Payments.Providers
 {
+    using Application.Services;
     using Braintree;
-    using ContentModels;
     using Content.Services;
+    using ContentModels;
     using Services;
+    using System;
     using Umbraco.Core.Models;
     using Umbraco.Web;
     using ViewModels;
@@ -24,27 +23,38 @@ namespace Spectrum.Content.Payments.Providers
         private readonly IBraintreeService braintreeService;
 
         /// <summary>
+        /// The encryption service.
+        /// </summary>
+        private readonly IEncryptionService encryptionService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="PaymentProvider" /> class.
         /// </summary>
         /// <param name="settingsService">The settings service.</param>
         /// <param name="braintreeService">The braintree service.</param>
+        /// <param name="encryptionService">The encryption service.</param>
         public PaymentProvider(
             ISettingsService settingsService,
-            IBraintreeService braintreeService)
+            IBraintreeService braintreeService,
+            IEncryptionService encryptionService)
         {
             this.settingsService = settingsService;
             this.braintreeService = braintreeService;
+            this.encryptionService = encryptionService;
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Gets the payment settings model.
         /// </summary>
         /// <param name="umbracoContext">The umbraco context.</param>
+        /// <param name="customerId">The customer identifier.</param>
         /// <returns></returns>
-        public PaymentSettingsModel GetPaymentSettingsModel(UmbracoContext umbracoContext)
+        /// <inheritdoc />
+        public PaymentSettingsModel GetPaymentSettingsModel(
+            UmbracoContext umbracoContext,
+            int? customerId = null)
         {
-            IPublishedContent content = settingsService.GetPaymentsNode();
+            IPublishedContent content = settingsService.GetPaymentsNode(customerId);
 
             return content != null ? new PaymentSettingsModel(content) : null;
         }
@@ -57,7 +67,15 @@ namespace Spectrum.Content.Payments.Providers
         /// <returns></returns>
         public string GetAuthToken(PaymentSettingsModel model)
         {
-            return braintreeService.GetAuthToken(model);
+            string authToken = braintreeService.GetAuthToken(model);
+
+            if (string.IsNullOrEmpty(authToken))
+            {
+                throw new ApplicationException("Invalid AuthToken");
+            }
+
+            return authToken;
+
         }
 
         /// <inheritdoc />

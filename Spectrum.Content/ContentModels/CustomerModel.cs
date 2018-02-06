@@ -61,14 +61,19 @@
         public string EmailAddress => this.GetPropertyValue<string>("emailAddress");
 
         /// <summary>
+        /// Gets the contact us email address.
+        /// </summary>
+        public string ContactUsEmailAddress => this.GetPropertyValue<string>("contactUsEmailAddress");
+
+        /// <summary>
         /// Gets the daytime phone number.
         /// </summary>
-        public string DaytimePhoneNumber => this.GetPropertyValue<string>("dayTimePhone");
+        public string DayTimePhoneNumber => this.GetPropertyValue<string>("dayTimePhone");
 
         /// <summary>
         /// Gets the evening phone number.
         /// </summary>
-        public string EveningPhoneNumber => this.GetPropertyValue<string>("dayTimePhone");
+        public string EveningPhoneNumber => this.GetPropertyValue<string>("eveningPhone");
 
         /// <summary>
         /// Gets the mobile phone number.
