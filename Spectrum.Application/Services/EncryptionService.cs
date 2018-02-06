@@ -139,7 +139,9 @@ namespace Spectrum.Application.Services
 
             string unencrypedString = DecryptString(textToDecrypt);
 
-            bool result = int.TryParse(unencrypedString, out int number);
+            int number;
+
+            bool result = int.TryParse(unencrypedString, out number);
 
             if (result)
             {
