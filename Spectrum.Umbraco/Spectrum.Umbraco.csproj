@@ -45,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="AutoMapper, Version=3.3.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.dll</HintPath>
       <Private>True</Private>
@@ -320,6 +323,9 @@
       <HintPath>..\packages\UrlRewritingNet.2.0.7\lib\UrlRewritingNet.UrlRewriter.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Plugins\ModelsBuilder\modelsbuilder.controller.js" />
@@ -399,6 +405,10 @@
     <Content Include="css\spectrum\landingPage.css" />
     <Content Include="css\spectrum\mainFooter.css" />
     <Content Include="css\spectrum\mainNavigation.css" />
+    <Content Include="css\spectrum\min\spectrum.css" />
+    <Content Include="css\spectrum\min\spectrum.min.css">
+      <DependentUpon>spectrum.css</DependentUpon>
+    </Content>
     <Content Include="css\spectrum\paymentPage.css" />
     <Content Include="css\spectrum\style.css" />
     <Content Include="default.aspx" />
@@ -412,14 +422,11 @@
     </Content>
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
+    <None Include="bundleconfig.json" />
     <None Include="Properties\PublishProfiles\MyWatchWorld.pubxml" />
     <None Include="Properties\PublishProfiles\TheDragon.pubxml" />
     <None Include="Properties\PublishProfiles\UmbracoClean.pubxml" />
     <None Include="Properties\PublishProfiles\UmbracoDeploy.pubxml" />
-    <None Include="scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="scripts\jquery-1.10.2.js" />
-    <Content Include="scripts\jquery-1.10.2.min.js" />
-    <Content Include="scripts\jquery-1.10.2.min.map" />
     <None Include="scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="scripts\i18n\jquery-ui-timepicker-addon-i18n.js" />
     <Content Include="scripts\i18n\jquery-ui-timepicker-addon-i18n.min.js" />
@@ -469,6 +476,11 @@
     <Content Include="scripts\i18n\jquery-ui-timepicker-zh-TW.js" />
     <Content Include="scripts\jquery-1.12.4.js" />
     <Content Include="scripts\jquery-1.12.4.min.js" />
+    <None Include="scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="scripts\jquery-3.3.1.js" />
+    <Content Include="scripts\jquery-3.3.1.min.js" />
+    <Content Include="scripts\jquery-3.3.1.slim.js" />
+    <Content Include="scripts\jquery-3.3.1.slim.min.js" />
     <Content Include="scripts\jquery-ui-1.12.1.js" />
     <Content Include="scripts\jquery-ui-1.12.1.min.js" />
     <Content Include="scripts\jquery-ui-sliderAccess.js" />
@@ -495,6 +507,10 @@
     <Content Include="scripts\Overflow.js" />
     <Content Include="scripts\Overflow.min.js" />
     <Content Include="scripts\skel.min.js" />
+    <Content Include="scripts\spectrum\min\spectrum.js" />
+    <Content Include="scripts\spectrum\min\spectrum.min.js">
+      <DependentUpon>spectrum.js</DependentUpon>
+    </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Config\imageprocessor\security.config" />
     <Content Include="Config\imageprocessor\processing.config" />
@@ -576,6 +592,8 @@
     <Content Include="Views\Partials\Spectrum\Components\Link.cshtml" />
     <Content Include="Views\Partials\Spectrum\Components\NoLink.cshtml" />
     <Content Include="Views\Partials\Spectrum\Customer\ClientHeader.cshtml" />
+    <Content Include="scripts\jquery-3.3.1.slim.min.map" />
+    <Content Include="scripts\jquery-3.3.1.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -637,6 +655,7 @@
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
     <Error Condition="!Exists('..\packages\UmbracoCms.7.6.3\build\UmbracoCms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.7.6.3\build\UmbracoCms.props'))" />
     <Error Condition="!Exists('..\packages\UmbracoCms.7.6.3\build\UmbracoCms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.7.6.3\build\UmbracoCms.targets'))" />
+    <Error Condition="!Exists('..\packages\BuildBundlerMinifier.2.6.362\build\BuildBundlerMinifier.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\BuildBundlerMinifier.2.6.362\build\BuildBundlerMinifier.targets'))" />
   </Target>
   <Import Project="..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -665,4 +684,5 @@
     </CopyAllFilesToSingleFolderForMsdeployDependsOn>
   </PropertyGroup>
   <Import Project="..\packages\UmbracoCms.7.6.3\build\UmbracoCms.targets" Condition="Exists('..\packages\UmbracoCms.7.6.3\build\UmbracoCms.targets')" />
+  <Import Project="..\packages\BuildBundlerMinifier.2.6.362\build\BuildBundlerMinifier.targets" Condition="Exists('..\packages\BuildBundlerMinifier.2.6.362\build\BuildBundlerMinifier.targets')" />
 </Project>

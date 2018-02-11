@@ -31,11 +31,11 @@
         /*color: #777;*/
         font-size: 16px;
         /* The margin the nav would have had */
-        margin-bottom: 20p;
+        margin-bottom: 20px;
     }
 	
     .user-id.home {
-        color: #9d9d9d; 
+        color: #9d9d9d;
     }
 	
 
@@ -95,8 +95,7 @@
 }
 
 .logo {
-	padding: 5px; 15px;
-	/*padding: 15px;*/
+	padding: 5px;
 }
 
 .logo img {

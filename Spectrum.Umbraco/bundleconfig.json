@@ -1,0 +1,22 @@
+[
+  {
+    "outputFileName": "css/spectrum/min/spectrum.css",
+    "inputFiles": [
+      "css/spectrum/*.css"
+    ],
+    "minify": {
+      "enabled": true,
+      "commentMode": "all"
+    }
+  },
+  {
+    "outputFileName": "scripts/spectrum/min/spectrum.js",
+    "inputFiles": [
+      "scripts/spectrum/*.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "commentMode": "all"
+    }
+  }
+]
