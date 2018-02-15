@@ -565,7 +565,6 @@
     <Content Include="Views\Partials\Spectrum\Appointments\Appointments.cshtml" />
     <Content Include="Views\Partials\Spectrum\Payments\Braintree\Transaction.cshtml" />
     <Content Include="Views\Partials\Spectrum\Appointments\Appointment.cshtml" />
-    <Content Include="Views\Partials\Spectrum\Correspondence\GuestBook.cshtml" />
     <Content Include="Views\Partials\Spectrum\Correspondence\ContactUs.cshtml" />
     <Content Include="Views\Partials\Spectrum\Navigation\Footer.cshtml" />
     <Content Include="Views\Partials\Spectrum\Appointments\UpdateAppointment.cshtml" />

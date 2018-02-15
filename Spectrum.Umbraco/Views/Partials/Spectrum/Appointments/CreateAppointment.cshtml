@@ -54,8 +54,6 @@
                     <label class="control-label">Description *</label>
                     @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = "5" })
                     @Html.ValidationMessageFor(model => model.Description)
-
-                    <script src="../../../../scripts/spectrum/appointment.js"></script>
                     
                     @Html.HiddenFor(model => model.ClientId)
 
