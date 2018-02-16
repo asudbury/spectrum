@@ -2,7 +2,6 @@
 {
     using Content.Models;
     using Content.Services;
-    using Customer.Managers;
     using Managers;
     using System;
     using System.Collections.Generic;
@@ -59,8 +58,8 @@
         /// <summary>
         /// Views the invoice.
         /// </summary>
-        /// <param name="fkdssre">The fkdssre.</param>
-        /// <param name="fdwpoe">The fdwpoe.</param>
+        /// <param name="fkdssre">The encrypted client id.</param>
+        /// <param name="fdwpoe">The encrypted invoice id.</param>
         /// <returns></returns>
         [ChildActionOnly]
         public PartialViewResult ViewInvoice(

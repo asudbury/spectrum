@@ -1,4 +1,6 @@
-﻿namespace Spectrum.Content.Payments.Managers
+﻿using Spectrum.Content.Invoices.Models;
+
+namespace Spectrum.Content.Payments.Managers
 {
     using Application.Services;
     using Autofac.Events;
@@ -9,6 +11,7 @@
     using Customer.Managers;
     using Customer.Providers;
     using Customer.ViewModels;
+    using Invoices.Services;
     using Messages;
     using Models;
     using Newtonsoft.Json;
@@ -76,6 +79,11 @@
         private readonly IClientManager clientManager;
 
         /// <summary>
+        /// The invoice service.
+        /// </summary>
+        private readonly IInvoiceService invoiceService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="PaymentManager" /> class.
         /// </summary>
         /// <param name="loggingService">The logging service.</param>
@@ -88,6 +96,7 @@
         /// <param name="transactionsBootGridTranslator">The transactions boot grid translator.</param>
         /// <param name="encryptionService">The encryption service.</param>
         /// <param name="clientManager">The client manager.</param>
+        /// <param name="invoiceService">The invoice service.</param>
         public PaymentManager(
             ILoggingService loggingService,
             ICustomerProvider customerProvider,
@@ -98,7 +107,8 @@
             IDatabaseProvider databaseProvider,
             ITransactionsBootGridTranslator transactionsBootGridTranslator,
             IEncryptionService encryptionService,
-            IClientManager clientManager)
+            IClientManager clientManager,
+            IInvoiceService invoiceService)
         {
             this.loggingService = loggingService;
             this.customerProvider = customerProvider;
@@ -110,6 +120,7 @@
             this.transactionsBootGridTranslator = transactionsBootGridTranslator;
             this.encryptionService = encryptionService;
             this.clientManager = clientManager;
+            this.invoiceService = invoiceService;
         }
 
         /// <summary>
@@ -173,7 +184,10 @@
 
                 TransactionModel model = databaseProvider.GetTransaction(paymentId, customerModel.Id);
 
-                return transactionTranslator.Translate(model);
+                InvoiceModel invoiceModel = invoiceService.GetInvoiceByPaymentId(model.CustomerId, model.TransactionId);
+
+
+                return transactionTranslator.Translate(model, invoiceModel);
             }
 
             return new TransactionViewModel();
@@ -208,7 +222,7 @@
 
                 viewModels = (from TransactionModel transaction
                             in transactions
-                        select transactionTranslator.Translate(transaction))
+                        select transactionTranslator.Translate(transaction, null))
                     .ToList();
             }
 

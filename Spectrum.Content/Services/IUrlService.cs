@@ -64,12 +64,12 @@
             string amount);
 
         /// <summary>
-        /// Gets the view paymente URL.
+        /// Gets the view payment URL.
         /// </summary>
         /// <param name="clientId">The client identifier.</param>
         /// <param name="paymentId">The payment identifier.</param>
         /// <returns></returns>
-        string GetViewPaymenteUrl(
+        string GetViewPaymentUrl(
             int clientId,
             string paymentId);
 

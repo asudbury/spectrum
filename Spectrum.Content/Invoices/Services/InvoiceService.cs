@@ -15,7 +15,7 @@
         /// <returns></returns>
         public int CreateInvoice(InvoiceModel model)
         {
-            //// catch client id not set - might occur if code is regressed!
+            //// catch client id not set - might occur if code has regressed!
             if (model.ClientId == 0)
             {
                 throw new ApplicationException("Create Invoice - Client Id not set");
@@ -68,6 +68,27 @@
                 .From(Content.Constants.Database.InvoiceTableName + " si")
                 .Where("si.CustomerId = @0", customerId)
                 .Where("si.Id = @0", invoiceId);
+
+            return context.Database.FirstOrDefault<InvoiceModel>(sql);
+        }
+
+        /// <summary>
+        /// Gets the invoice by payment identifier.
+        /// </summary>
+        /// <param name="customerId">The customer identifier.</param>
+        /// <param name="paymentId">The payment identifier.</param>
+        /// <returns></returns>
+        public InvoiceModel GetInvoiceByPaymentId(
+            int customerId, 
+            string paymentId)
+        {
+            DatabaseContext context = ApplicationContext.Current.DatabaseContext;
+
+            Sql sql = new Sql()
+                .Select("*")
+                .From(Content.Constants.Database.InvoiceTableName + " si")
+                .Where("si.CustomerId = @0", customerId)
+                .Where("si.PaymentId = @0", paymentId);
 
             return context.Database.FirstOrDefault<InvoiceModel>(sql);
         }

@@ -2,6 +2,7 @@
 {
     using Content.Services;
     using Interfaces;
+    using Invoices.Models;
     using Models;
     using System;
     using ViewModels;
@@ -22,14 +23,24 @@
             this.urlService = urlService;
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// Translates the specified transaction.
         /// </summary>
         /// <param name="model">The model.</param>
+        /// <param name="invoiceModel">The invoice model.</param>
         /// <returns></returns>
-        public TransactionViewModel Translate(TransactionModel model)
+        /// <inheritdoc />
+        public TransactionViewModel Translate(
+            TransactionModel model,
+            InvoiceModel invoiceModel)
         {
+            string viewInvoiceUrl = string.Empty;
+
+            if (invoiceModel != null)
+            {
+                viewInvoiceUrl = urlService.GetViewInvoiceUrl(model.ClientId, invoiceModel.Id);
+            }
+
             return new TransactionViewModel
             {
                 Id = model.TransactionId,
@@ -43,7 +54,9 @@
                 Type = GetType(model.TransactionType),
                 CardType = model.CardType,
                 MaskedNumber = model.MaskedCardNumber,
-                ViewTransactionUrl = urlService.GetViewPaymenteUrl(model.ClientId, model.TransactionId)
+                ViewTransactionUrl = urlService.GetViewPaymentUrl(model.ClientId, model.TransactionId),
+                ViewInvoiceUrl = viewInvoiceUrl
+                
             };
         }
 

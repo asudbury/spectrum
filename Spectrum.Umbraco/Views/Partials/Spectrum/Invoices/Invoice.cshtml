@@ -38,15 +38,15 @@
                         <tr>
                             <td>Payment</td>
                             <td>
-                                @if (string.IsNullOrEmpty(Model.PaymentId) == false)
-                    {
-                        <a href="@Model.ViewPaymentUrl">@Model.PaymentId</a>
-        }
+                             @if (string.IsNullOrEmpty(Model.PaymentId) == false)
+                            {
+                                <a href="@Model.ViewPaymentUrl">@Model.PaymentId</a>
+                            }
 
-        else
-        {
-            <a href="@Model.MakePaymentUrl" style="color: red">Take Payment</a>
-}
+                            else
+                            {
+                                <a href="@Model.MakePaymentUrl" style="color: red">Take Payment</a>
+                            }
                             </td>
                         </tr>
                     <tr>

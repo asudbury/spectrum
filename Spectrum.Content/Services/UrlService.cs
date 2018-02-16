@@ -152,13 +152,18 @@ namespace Spectrum.Content.Services
 
             HttpContextWrapper httpContextWrapper = new HttpContextWrapper(HttpContext.Current);
 
-            string baseUrl = httpContextWrapper.Request.Url.Authority.ToString();
+            if (httpContextWrapper.Request.Url != null)
+            {
+                string baseUrl = httpContextWrapper.Request.Url.Authority;
 
-            return GetHttpProtocol() + baseUrl + 
-                   "/securepayment" + clientIdParam +
-                   GetParam(Constants.QueryString.CustomerId, customerId) +
-                   GetParam(Constants.QueryString.InvoiceId, invoiceId) +
-                   GetParam(Constants.QueryString.PaymenyAmount, amount);
+                return GetHttpProtocol() + baseUrl +
+                       "/securepayment" + clientIdParam +
+                       GetParam(Constants.QueryString.CustomerId, customerId) +
+                       GetParam(Constants.QueryString.InvoiceId, invoiceId) +
+                       GetParam(Constants.QueryString.PaymenyAmount, amount);
+            }
+
+            return string.Empty;
         }
 
         /// <summary>
@@ -167,7 +172,7 @@ namespace Spectrum.Content.Services
         /// <param name="clientId">The client identifier.</param>
         /// <param name="paymentId">The payment identifier.</param>
         /// <returns></returns>
-        public string GetViewPaymenteUrl(
+        public string GetViewPaymentUrl(
             int clientId, 
             string paymentId)
         {

@@ -16,39 +16,39 @@
 
                 <table class="table-responsive table table-striped table-bordered">
                     <tbody>
-                        <tr>
-                            <td>Payment Id</td>
-                            <td>@Model.Id</td>
-                        </tr>
-                        <tr>
-                            <td>Transaction Date</td>
-                            <td>
-                                @if (Model.TransactionDateTime.HasValue)
-                                {
-                                    @Model.TransactionDateTime.Value.ToString("dd MMM yyyy HH:mm:ss")
-                                }
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Environment</td>
-                            <td>@Model.Environment</td>
-                        </tr>
-                        <tr>
-                            <td>Payment Provider</td>
-                            <td>@Model.PaymentProvider</td>
-                        </tr>
-                        <tr>
-                            <td>Type</td>
-                            <td>@Model.Type</td>
-                        </tr>
-                        <tr>
-                            <td>Status</td>
-                            <td>@Model.Status</td>
-                        </tr>
-                        <tr>
-                            <td>Payment Information</td>
-                            <td>@Model.CardType @Model.MaskedNumber</td>
-                        </tr>
+                    <tr>
+                        <td>Payment Id</td>
+                        <td>@Model.Id</td>
+                    </tr>
+                    <tr>
+                        <td>Transaction Date</td>
+                        <td>
+                            @if (Model.TransactionDateTime.HasValue)
+                            {
+                                @Model.TransactionDateTime.Value.ToString("dd MMM yyyy HH:mm:ss")
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Environment</td>
+                        <td>@Model.Environment</td>
+                    </tr>
+                    <tr>
+                        <td>Payment Provider</td>
+                        <td>@Model.PaymentProvider</td>
+                    </tr>
+                    <tr>
+                        <td>Type</td>
+                        <td>@Model.Type</td>
+                    </tr>
+                    <tr>
+                        <td>Status</td>
+                        <td>@Model.Status</td>
+                    </tr>
+                    <tr>
+                        <td>Payment Information</td>
+                        <td>@Model.CardType @Model.MaskedNumber</td>
+                    </tr>
                     <tr>
                         <td>Amount</td>
                         <td>@Model.Amount</td>
@@ -57,12 +57,17 @@
                         <td>Created</td>
                         <td>
                             @Model.CreatedTime.ToString("ddd dd MMM HH:mm")
-                            <br/>
+                            <br />
                             @Model.CreatedUser
                         </td>
                     </tr>
                     </tbody>
                 </table>
+                
+                @if (string.IsNullOrEmpty(Model.ViewInvoiceUrl) == false)
+                {
+                    <a class="btn btn-lg btn-primary btn-block button-stack" role-"button" href="@Model.ViewInvoiceUrl">View Invoice</a>
+                }
             </div>
         </div>
     </div>

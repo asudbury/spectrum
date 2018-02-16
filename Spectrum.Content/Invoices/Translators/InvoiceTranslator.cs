@@ -1,12 +1,11 @@
-﻿using System.Globalization;
-
-namespace Spectrum.Content.Invoices.Translators
+﻿namespace Spectrum.Content.Invoices.Translators
 {
     using Application.Services;
     using Content.Services;
     using ContentModels;
     using Models;
     using System;
+    using System.Globalization;
     using Umbraco.Core.Models;
     using ViewModels;
 
@@ -96,7 +95,7 @@ namespace Spectrum.Content.Invoices.Translators
                 UpdateInvoiceUrl = urlService.GetUpdateInvoiceUrl(model.ClientId, model.Id),
                 EmailInvoiceUrl = urlService.GetEmailInvoiceUrl(model.ClientId, model.Id),
                 MakePaymentUrl = urlService.GetMakePaymentUrl(model.ClientId, model.Id, amount.ToString(CultureInfo.InvariantCulture)),
-                ViewPaymentUrl = urlService.GetViewPaymenteUrl(model.ClientId, model.PaymentId),
+                ViewPaymentUrl = urlService.GetViewPaymentUrl(model.ClientId, model.PaymentId),
                 ClientName = encryptionService.DecryptString(model.ClientName),
                 ClientUrl = urlService.GetViewClientUrl(model.ClientId),
                 CreatedTime = model.CreatedTime,

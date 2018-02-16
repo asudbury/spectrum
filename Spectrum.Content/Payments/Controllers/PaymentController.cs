@@ -113,8 +113,8 @@
         /// <summary>
         /// Gets the transaction page.
         /// </summary>
-        /// <param name="fkdssre">The clietn id.</param>
-        /// <param name="opddewq">The opddewq.</param>
+        /// <param name="fkdssre">The encrypted client id.</param>
+        /// <param name="opddewq">The encrypted payment id.</param>
         /// <returns></returns>
         [ChildActionOnly]
         public PartialViewResult GetTransactionPage(

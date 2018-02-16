@@ -63,5 +63,10 @@
         /// Gets or sets the view transaction URL.
         /// </summary>
         public string ViewTransactionUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets the view invoice URL.
+        /// </summary>
+        public string ViewInvoiceUrl { get; set; }
     }
 }

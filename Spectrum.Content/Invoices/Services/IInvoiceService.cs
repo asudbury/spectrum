@@ -33,6 +33,16 @@
             string invoiceId);
 
         /// <summary>
+        /// Gets the invoice by payment identifier.
+        /// </summary>
+        /// <param name="customerId">The customer identifier.</param>
+        /// <param name="paymentId">The payment identifier.</param>
+        /// <returns></returns>
+        InvoiceModel GetInvoiceByPaymentId(
+            int customerId,
+            string paymentId);
+
+        /// <summary>
         /// Gets the client invoices.
         /// </summary>
         /// <param name="customerId">The customer identifier.</param>

@@ -1,5 +1,6 @@
 ﻿namespace Spectrum.Content.Payments.Translators.Interfaces
 {
+    using Invoices.Models;
     using Models;
     using ViewModels;
 
@@ -9,7 +10,10 @@
         /// Translates the specified transaction.
         /// </summary>
         /// <param name="model">The model.</param>
+        /// <param name="invoiceModel">The invoice model.</param>
         /// <returns></returns>
-        TransactionViewModel Translate(TransactionModel model);
+        TransactionViewModel Translate(
+            TransactionModel model,
+            InvoiceModel invoiceModel);
     }
 }
