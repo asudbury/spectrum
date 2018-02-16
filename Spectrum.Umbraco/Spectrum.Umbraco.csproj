@@ -412,6 +412,15 @@
     <Content Include="css\spectrum\paymentPage.css" />
     <Content Include="css\spectrum\style.css" />
     <Content Include="default.aspx" />
+    <Content Include="fav-icons\android-chrome-192x192.png" />
+    <Content Include="fav-icons\android-chrome-256x256.png" />
+    <Content Include="fav-icons\apple-touch-icon.png" />
+    <Content Include="fav-icons\browserconfig.xml" />
+    <Content Include="fav-icons\favicon-16x16.png" />
+    <Content Include="fav-icons\favicon-32x32.png" />
+    <Content Include="fav-icons\favicon.ico" />
+    <Content Include="fav-icons\mstile-150x150.png" />
+    <Content Include="fav-icons\safari-pinned-tab.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="images\spectrum\icons8-accounting-64.png" />
@@ -423,6 +432,7 @@
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
     <None Include="bundleconfig.json" />
+    <Content Include="fav-icons\site.webmanifest" />
     <None Include="Properties\PublishProfiles\MyWatchWorld.pubxml" />
     <None Include="Properties\PublishProfiles\TheDragon.pubxml" />
     <None Include="Properties\PublishProfiles\UmbracoClean.pubxml" />
@@ -620,7 +630,9 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="icons\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
