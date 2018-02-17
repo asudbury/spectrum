@@ -12,16 +12,26 @@
 
 <script>
 
-    var transactionsGrid = $("#invoicesGrid").bootgrid({
-        labels: {
-            noResults: "No invoices found"
-        },
-        searchSettings: {
-            delay: 100,
-            characters: 1
-        },
-        templates: {
-            header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\">" +
+    $(document).ready(function () {
+
+        var searchString = "unpaid";
+
+        $("#invoicesGrid").on("initialize.rs.jquery.bootgrid", function (e) {
+            $("#invoicesGrid").bootgrid("setSearchPhrase", searchString);
+        }).on("initialized.rs.jquery.bootgrid", function (e) {
+            $("#invoicesGrid").bootgrid("setSearchBoxText", searchString);
+        });
+
+        $("#invoicesGrid").bootgrid({
+            labels: {
+                noResults: "No invoices found"
+            },
+            searchSettings: {
+                delay: 100,
+                characters: 1
+            },
+            templates: {
+                header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\">" +
                 "<div class=\"row\">" +
                 "<h2 class=\"partial-title\">Invoices</h2>" +
                 "</div>" +
@@ -33,46 +43,50 @@
                 "</div>" +
                 "</div>" +
                 "</div>"
-        },
-        ajax: true,
-        requestHandler: function (request) {
-            request.sortItems = [];
-            if (request.sort == null)
+            },
+            ajax: true,
+            requestHandler: function (request) {
+                request.sortItems = [];
+                if (request.sort == null)
+                    return request;
+                for (var property in request.sort) {
+                    if (request.sort.hasOwnProperty(property)) {
+                        request.sortItems.push({ Field: property, Type: request.sort[property] });
+                    }
+                }
                 return request;
-            for (var property in request.sort) {
-                if (request.sort.hasOwnProperty(property)) {
-                    request.sortItems.push({ Field: property, Type: request.sort[property] });
+            },
+            url: "/umbraco/Surface/Invoice/GetBootGridInvoices",
+            formatters: {
+                "date": function (column, row) {
+
+                    var today = moment();
+
+                    if (moment(row.invoiceDate).isSame(today, 'day')) {
+                        return "<b title='" + moment.utc(row.invoiceDate).format('ddd DD MMM') + "'>Today</b>";
+                    }
+
+                    return moment.utc(row.invoiceDate).format('ddd DD MMM');
+                },
+                "client": function (column, row) {
+                    return '<a href=' + row.clientUrl + '>' + row.clientName + '</a>';
+                },
+                "status": function (column, row) {
+
+                    if (row.paymentId == null) {
+                        return '<a href=' + row.makePaymentUrl + ' style="color:red">Unpaid</a>';
+                    }
+
+                    return '<a href=' + row.viewPaymentUrl + '>Paid</a>';
+                },
+                "actions": function (column, row) {
+                    return '<a href="' + row.viewInvoiceUrl + '">View</a>';
                 }
             }
-            return request;
-        },
-        url: "/umbraco/Surface/Invoice/GetBootGridInvoices",
-        formatters: {
-            "date": function (column, row) {
-
-                var today = moment();
-
-                if (moment(row.invoiceDate).isSame(today, 'day')) {
-                    return "<b title='" + moment.utc(row.invoiceDate).format('ddd DD MMM') + "'>Today</b>";
-                }
-
-                return moment.utc(row.invoiceDate).format('ddd DD MMM');
-            },
-            "client": function (column, row) {
-                return '<a href=' + row.clientUrl + '>' + row.clientName + '</a>';
-            },
-            "status": function(column, row) {
-
-                if (row.paymentId == null) {
-                    return '<a href=' + row.makePaymentUrl + ' style="color:red">Unpaid</a>';
-                }
-
-                return '<a href=' + row.viewPaymentUrl + '>Paid</a>';
-            },
-            "actions": function (column, row) {
-                return '<a href="' + row.viewInvoiceUrl + '">View</a>';
-            }
-        }
+        });
     });
+
+ 
+
 </script>
 
