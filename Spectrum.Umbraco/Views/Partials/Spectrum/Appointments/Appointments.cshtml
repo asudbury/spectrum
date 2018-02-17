@@ -13,83 +13,94 @@
 
 <script>
 
-    var appointmentsGrid = $("#appointmentsGrid").bootgrid({
-        labels: {
-            noResults: "No appointments found"
-        },
-        searchSettings: {
-            delay: 100,
-            characters: 1
-        },
-        templates: {
+    $(document).ready(function () {
 
-            header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\">" +
-                        "<div class=\"row\">" +
-                        "<h2 class=\"partial-title\">Appointments</h2>" +
-                        "</div>" +
-                        "<div class=\"row\">" +
-                            "<div class=\"col-sm-12 actionBar\">" +
-                                "<p class=\"{{css.search}}\"></p>" +
-                                "<p class=\"{{css.actions}}\">" +
-                                "</p>" +
-                            "</div>" +
-                        "</div>" +
-                    "</div>"
-        },
-        ajax: true,
-        requestHandler: function (request) {
-            request.sortItems = [];
-            if (request.sort == null)
-                return request;
-            for (var property in request.sort) {
-                if (request.sort.hasOwnProperty(property)) {
-                    request.sortItems.push({ Field: property, Type: request.sort[property] });
-                }
-            }
-            return request;
-        },
-        url: "/umbraco/Surface/Appointments/GetBootGridAppointments",
-        formatters: {
-            "startTime": function (column, row) {
+        var searchString = "outstanding";
 
-                var today = moment();
+        $("#appointmentsGrid").on("initialize.rs.jquery.bootgrid", function (e) {
+            $("#appointmentsGrid").bootgrid("setSearchPhrase", searchString);
+        }).on("initialized.rs.jquery.bootgrid", function (e) {
+            $("#appointmentsGrid").bootgrid("setSearchBoxText", searchString);
+        });
 
-                if (moment(row.startTime).isSame(today, 'day')) {
-                    return "<b>Today " + moment(row.startTime).format('HH:mm') + "</b>";
-                }
-
-                return moment(row.startTime).format('ddd DD MMM HH:mm');
+        var appointmentsGrid = $("#appointmentsGrid").bootgrid({
+            labels: {
+                noResults: "No appointments found"
             },
-            "location": function(column, row) {
-                if (row.location) {
-                    return '<a href=' + row.googleSearchUrl + '>' + row.location + '</a>';
-                }
-
-                return '';
+            searchSettings: {
+                delay: 100,
+                characters: 1
             },
-            "client": function (column, row) {
-                return '<a href=' + row.clientUrl + '>' + row.clientName + '</a>';
+            templates: {
+
+                header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\">" +
+                "<div class=\"row\">" +
+                "<h2 class=\"partial-title\">Appointments</h2>" +
+                "</div>" +
+                "<div class=\"row\">" +
+                "<div class=\"col-sm-12 actionBar\">" +
+                "<p class=\"{{css.search}}\"></p>" +
+                "<p class=\"{{css.actions}}\">" +
+                "</p>" +
+                "</div>" +
+                "</div>" +
+                "</div>"
             },
-            "actions": function (column, row) {
-                return '<a href="' + row.viewAppointmentUrl + '"class="link-view-appointment">View</a>';
-            }
-        }
-    }).on("loaded.rs.jquery.bootgrid", function () {
-
-        appointmentsGrid.find(".link-payment").on("click",
-            function(e) {
-                var transactionsId = $(this).data("payment-id");
-                event.preventDefault();
-
-                $.ajax({
-                     url: '/umbraco/Surface/Braintree/ViewTransaction/' + transactionsId,
-                    success: function(data) {
-                        onTransaction(data);
+            ajax: true,
+            requestHandler: function (request) {
+                request.sortItems = [];
+                if (request.sort == null)
+                    return request;
+                for (var property in request.sort) {
+                    if (request.sort.hasOwnProperty(property)) {
+                        request.sortItems.push({ Field: property, Type: request.sort[property] });
                     }
-                });
-            });
-    });
+                }
+                return request;
+            },
+            url: "/umbraco/Surface/Appointments/GetBootGridAppointments",
+            formatters: {
+                "startTime": function (column, row) {
 
+                    var today = moment();
+
+                    if (moment(row.startTime).isSame(today, 'day')) {
+                        return "<b>Today " + moment(row.startTime).format('HH:mm') + "</b>";
+                    }
+
+                    return moment(row.startTime).format('ddd DD MMM HH:mm');
+                },
+                "location": function (column, row) {
+                    if (row.location) {
+                        return '<a href=' + row.googleSearchUrl + '>' + row.location + '</a>';
+                    }
+
+                    return '';
+                },
+                "client": function (column, row) {
+                    return '<a href=' + row.clientUrl + '>' + row.clientName + '</a>';
+                },
+                "actions": function (column, row) {
+                    return '<a href="' + row.viewAppointmentUrl + '"class="link-view-appointment">View</a>';
+                }
+            }
+        }).on("loaded.rs.jquery.bootgrid", function () {
+
+            appointmentsGrid.find(".link-payment").on("click",
+                function (e) {
+                    var transactionsId = $(this).data("payment-id");
+                    event.preventDefault();
+
+                    $.ajax({
+                        url: '/umbraco/Surface/Braintree/ViewTransaction/' + transactionsId,
+                        success: function (data) {
+                            onTransaction(data);
+                        }
+                    });
+                });
+        });
+    });
+ 
 </script>
 
 <div id="transaction"></div>
