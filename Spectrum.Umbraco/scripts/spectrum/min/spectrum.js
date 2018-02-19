@@ -43,7 +43,6 @@ $(document).ready(function () {
             data: JSON.stringify(postData),
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
-                //console.log('Server success ', data);
                 //Hide the spinner
                 $('#loading').addClass('disp-none');
 
@@ -65,12 +64,7 @@ $(document).ready(function () {
 
             },
             error: function (request, status, errorThrown) {
-                //console.log('Server error ' + errorThrown);
-                //Hide the spinner
-                $('#loading').addClass('disp-none');
-                $('.find-address').removeClass('disp-none');
-
-                $('#addressList').removeClass('disp-none');
+                console.log('Server error ' + errorThrown);
                 window.location.href = "/error";
             }
         });

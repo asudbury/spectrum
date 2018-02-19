@@ -2,7 +2,7 @@
 {
     using Content.Services;
     using Managers;
-    using Models;
+    using Scorchio.PostalAddressSearch.Models;
     using System.Collections.Generic;
     using System.Web.Mvc;
     using ViewModels;

@@ -1,7 +1,7 @@
 ﻿namespace Spectrum.Content.Customer.Managers
 {
-    using Models;
-    using Services;
+    using Scorchio.PostalAddressSearch.Models;
+    using Scorchio.PostalAddressSearch.Services;
     using System.Collections.Generic;
 
     public class SearchManager : ISearchManager
@@ -24,8 +24,8 @@
         /// <param name="buildingNumber">The building number.</param>
         /// <returns></returns>
         public IEnumerable<AddressModel> GetAddresses(
-            string postCode, string 
-            buildingNumber)
+            string postCode, 
+            string buildingNumber)
         {
             if (string.IsNullOrEmpty(buildingNumber))
             {

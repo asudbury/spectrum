@@ -6,6 +6,7 @@
     using Autofac.Features.Variance;
     using Autofac.Integration.Mvc;
     using Autofac.Integration.WebApi;
+    using Scorchio.PostalAddressSearch.Services;
     using System.Reflection;
     using System.Web.Mvc;
     using Umbraco.Web;
@@ -36,6 +37,9 @@
 
             //// this will register all the interfaces in the application assembly.
             builder.RegisterAssemblyTypes(typeof(CacheService).Assembly).AsImplementedInterfaces();
+
+            ///// we register the postal address service.
+            builder.RegisterType<PostalAddressService>().As<IPostalAddressService>();
 
             IContainer container = builder.Build();
 

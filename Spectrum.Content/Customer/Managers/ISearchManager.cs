@@ -1,6 +1,6 @@
 ﻿namespace Spectrum.Content.Customer.Managers
 {
-    using Models;
+    using Scorchio.PostalAddressSearch.Models;
     using System.Collections.Generic;
 
     public interface ISearchManager

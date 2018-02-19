@@ -234,6 +234,9 @@
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Scorchio.PostalAddressSearch, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Scorchio.PostalAddressSearch.1.0.1\lib\Scorchio.PostalAddressSearch.dll</HintPath>
+    </Reference>
     <Reference Include="ScrapySharp.Core, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ScrapySharp.2.6.2\lib\net45\ScrapySharp.Core.dll</HintPath>
     </Reference>
@@ -394,7 +397,6 @@
     <Compile Include="Customer\Controllers\ClientController.cs" />
     <Compile Include="Customer\Managers\ClientManager.cs" />
     <Compile Include="Customer\Managers\IClientManager.cs" />
-    <Compile Include="Customer\Models\AddressModel.cs" />
     <Compile Include="Customer\Translators\ClientsBootGridTranslator.cs" />
     <Compile Include="Customer\Translators\ClientTranslator.cs" />
     <Compile Include="Customer\Translators\IClientsBootGridTranslator.cs" />
@@ -423,8 +425,6 @@
     <Compile Include="Customer\Providers\ICustomerProvider.cs" />
     <Compile Include="Customer\Services\ClientService.cs" />
     <Compile Include="Customer\Services\IClientService.cs" />
-    <Compile Include="Customer\Services\IPostalAddressService.cs" />
-    <Compile Include="Customer\Services\PostalAddressService.cs" />
     <Compile Include="Customer\ViewModels\AddressSearchViewModel.cs" />
     <Compile Include="Invoices\Controllers\InvoiceController.cs" />
     <Compile Include="Invoices\Managers\IInvoiceManager.cs" />
