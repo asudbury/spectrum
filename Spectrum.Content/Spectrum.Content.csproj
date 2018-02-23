@@ -234,6 +234,9 @@
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Scorchio.ExtensionMethods, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Scorchio.ExtensionMethods.1.0.0\lib\Scorchio.ExtensionMethods.dll</HintPath>
+    </Reference>
     <Reference Include="Scorchio.PostalAddressSearch, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Scorchio.PostalAddressSearch.1.0.1\lib\Scorchio.PostalAddressSearch.dll</HintPath>
     </Reference>

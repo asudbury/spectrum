@@ -1,8 +1,7 @@
-﻿using Spectrum.Content.Models;
-
-namespace Spectrum.Content
+﻿namespace Spectrum.Content
 {
-    using Application.Extensions;
+    using Models;
+    using Scorchio.ExtensionMethods;
     using System;
 
     public abstract class BaseBootGridTranslator

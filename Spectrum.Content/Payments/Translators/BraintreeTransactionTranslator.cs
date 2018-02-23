@@ -1,8 +1,8 @@
 ﻿namespace Spectrum.Content.Payments.Translators
 {
-    using Application.Extensions;
     using Braintree;
     using Interfaces;
+    using Scorchio.ExtensionMethods;
     using ViewModels;
 
     public class BraintreeTransactionTranslator : IBraintreeTransactionTranslator
@@ -20,8 +20,8 @@
                 Id = transaction.Id,
                 Amount = transaction.Amount,
                 TransactionDateTime = transaction.CreatedAt,
-                Status = transaction.Status.ToString().UppercaseFirst(),
-                Type = transaction.Type.ToString().UppercaseFirst(),
+                Status = transaction.Status.ToString().UpperCaseFirstCharacter(),
+                Type = transaction.Type.ToString().UpperCaseFirstCharacter(),
                 CurrencyType = transaction.CurrencyIsoCode,
                 CardType = GetCardType(transaction),
                 MaskedNumber = GetMaskedNumber(transaction)
