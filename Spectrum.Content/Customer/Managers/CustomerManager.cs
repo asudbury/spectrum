@@ -1,8 +1,8 @@
 ﻿namespace Spectrum.Content.Customer.Managers
 {
-    using Application.Services;
-    using Providers;
     using ContentModels;
+    using Providers;
+    using Scorchio.Services;
     using Umbraco.Web;
 
     public class CustomerManager : ICustomerManager

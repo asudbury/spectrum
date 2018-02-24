@@ -1,6 +1,4 @@
-﻿using Spectrum.Application.Services;
-
-namespace Spectrum.Content.Payments.Managers
+﻿namespace Spectrum.Content.Payments.Managers
 {
     using Content.Services;
     using ContentModels;
@@ -9,6 +7,7 @@ namespace Spectrum.Content.Payments.Managers
     using Messages;
     using Models;
     using Providers;
+    using Scorchio.Services;
     using System.Collections.Generic;
     using System.Globalization;
     using Translators.Interfaces;

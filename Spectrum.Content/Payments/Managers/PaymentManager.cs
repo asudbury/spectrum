@@ -1,8 +1,5 @@
-﻿using Spectrum.Content.Invoices.Models;
-
-namespace Spectrum.Content.Payments.Managers
+﻿namespace Spectrum.Content.Payments.Managers
 {
-    using Application.Services;
     using Autofac.Events;
     using Braintree;
     using Content.Models;
@@ -11,6 +8,7 @@ namespace Spectrum.Content.Payments.Managers
     using Customer.Managers;
     using Customer.Providers;
     using Customer.ViewModels;
+    using Invoices.Models;
     using Invoices.Services;
     using Messages;
     using Models;
@@ -18,6 +16,7 @@ namespace Spectrum.Content.Payments.Managers
     using Newtonsoft.Json.Serialization;
     using Providers;
     using Repositories;
+    using Scorchio.Services;
     using System;
     using System.Collections.Generic;
     using System.Linq;

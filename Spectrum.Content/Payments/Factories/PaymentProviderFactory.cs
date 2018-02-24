@@ -1,6 +1,5 @@
 ﻿namespace Spectrum.Content.Payments.Factories
 {
-    using Application.Services;
     using ContentModels;
     using Umbraco.Core.Models;
     using Content.Services;

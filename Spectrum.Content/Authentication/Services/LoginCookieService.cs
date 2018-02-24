@@ -1,8 +1,8 @@
 ﻿namespace Spectrum.Content.Authentication.Services
 {
-    using Application.Services;
     using Content.Services;
     using ContentModels;
+    using Scorchio.Services;
     using System;
     using Umbraco.Core.Models;
     using Umbraco.Web;

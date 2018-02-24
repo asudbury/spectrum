@@ -1,6 +1,6 @@
 ﻿namespace Spectrum.Content.Repositories
 {
-    using Application.Services;
+    using Scorchio.Services;
     using System;
 
     public abstract class BaseRepository

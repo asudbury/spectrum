@@ -1,7 +1,8 @@
 ﻿namespace Spectrum.Content.Repositories
 {
     using ContentModels;
-    using Application.Services;
+    using Scorchio.Services;
+
     using Services;
     using System;
     using Umbraco.Core.Models;

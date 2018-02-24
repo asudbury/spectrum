@@ -1,6 +1,5 @@
 ﻿namespace Spectrum.Content.Customer.Managers
 {
-    using Application.Services;
     using Components.ViewModels;
     using Content.Models;
     using Content.Services;
@@ -9,6 +8,7 @@
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
     using Providers;
+    using Scorchio.Services;
     using Services;
     using System;
     using System.Collections.Generic;

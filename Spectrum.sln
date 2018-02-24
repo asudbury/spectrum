@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.Umbraco", "Spectrum.Umbraco\Spectrum.Umbraco.csproj", "{99FEDF2D-01E6-442D-A6A2-17942D48B0C8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.Content", "Spectrum.Content\Spectrum.Content.csproj", "{77D65CE9-6648-47B5-87AD-5E033F15A3A0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectrum.Application", "Spectrum.Application\Spectrum.Application.csproj", "{B4F98FC2-0FCE-40F3-8090-7D656CF482DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		{77D65CE9-6648-47B5-87AD-5E033F15A3A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77D65CE9-6648-47B5-87AD-5E033F15A3A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77D65CE9-6648-47B5-87AD-5E033F15A3A0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B4F98FC2-0FCE-40F3-8090-7D656CF482DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B4F98FC2-0FCE-40F3-8090-7D656CF482DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B4F98FC2-0FCE-40F3-8090-7D656CF482DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B4F98FC2-0FCE-40F3-8090-7D656CF482DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

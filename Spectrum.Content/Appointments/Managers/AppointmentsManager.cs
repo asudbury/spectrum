@@ -1,6 +1,5 @@
 namespace Spectrum.Content.Appointments.Managers
 {
-    using Application.Services;
     using Autofac.Events;
     using Content.Models;
     using Content.Services;
@@ -12,6 +11,7 @@ namespace Spectrum.Content.Appointments.Managers
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
     using Providers;
+    using Scorchio.Services;
     using Services;
     using System;
     using System.Collections.Generic;

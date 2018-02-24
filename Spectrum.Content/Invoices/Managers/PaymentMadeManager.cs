@@ -1,12 +1,11 @@
-﻿using Spectrum.Application.Services;
-
-namespace Spectrum.Content.Invoices.Managers
+﻿namespace Spectrum.Content.Invoices.Managers
 {
     using Models;
     using Content.Services;
     using ContentModels;
     using Customer.Providers;
     using Messages;
+    using Scorchio.Services;
     using Services;
 
     public class PaymentMadeManager : IPaymentMadeManager

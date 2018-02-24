@@ -1,12 +1,12 @@
 ﻿namespace Spectrum.Content.Payments.Controllers
 {
-    using Application.Services;
     using Content.Models;
     using Content.Services;
     using Factories;
     using Managers;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
+    using Scorchio.Services;
     using System;
     using System.Collections.Generic;
     using System.Web.Mvc;

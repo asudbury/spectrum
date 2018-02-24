@@ -1,9 +1,9 @@
 ﻿namespace Spectrum.Content.Customer.Translators
 {
-    using Application.Services;
     using Content.Services;
     using ContentModels;
     using Models;
+    using Scorchio.Services;
     using System;
     using Umbraco.Core.Models;
     using ViewModels;

@@ -1,6 +1,5 @@
 ﻿namespace Spectrum.Content.Payments.Providers
 {
-    using Application.Services;
     using Braintree;
     using Content.Services;
     using ContentModels;
@@ -23,24 +22,16 @@
         private readonly IBraintreeService braintreeService;
 
         /// <summary>
-        /// The encryption service.
-        /// </summary>
-        private readonly IEncryptionService encryptionService;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="PaymentProvider" /> class.
         /// </summary>
         /// <param name="settingsService">The settings service.</param>
         /// <param name="braintreeService">The braintree service.</param>
-        /// <param name="encryptionService">The encryption service.</param>
         public PaymentProvider(
             ISettingsService settingsService,
-            IBraintreeService braintreeService,
-            IEncryptionService encryptionService)
+            IBraintreeService braintreeService)
         {
             this.settingsService = settingsService;
             this.braintreeService = braintreeService;
-            this.encryptionService = encryptionService;
         }
 
         /// <summary>

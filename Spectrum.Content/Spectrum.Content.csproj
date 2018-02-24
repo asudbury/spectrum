@@ -240,6 +240,9 @@
     <Reference Include="Scorchio.PostalAddressSearch, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Scorchio.PostalAddressSearch.1.0.1\lib\Scorchio.PostalAddressSearch.dll</HintPath>
     </Reference>
+    <Reference Include="Scorchio.Services, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Scorchio.Services.1.0.0\lib\Scorchio.Services.dll</HintPath>
+    </Reference>
     <Reference Include="ScrapySharp.Core, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ScrapySharp.2.6.2\lib\net45\ScrapySharp.Core.dll</HintPath>
     </Reference>
@@ -582,12 +585,6 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Spectrum.Application\Spectrum.Application.csproj">
-      <Project>{b4f98fc2-0fce-40f3-8090-7d656cf482dd}</Project>
-      <Name>Spectrum.Application</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets')" />

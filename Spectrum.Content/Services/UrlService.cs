@@ -1,9 +1,7 @@
-﻿using System;
-using System.Web;
-
-namespace Spectrum.Content.Services
+﻿namespace Spectrum.Content.Services
 {
-    using Application.Services;
+    using Scorchio.Services;
+    using System.Web;
 
     public class UrlService : IUrlService
     {

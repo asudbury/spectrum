@@ -1,8 +1,8 @@
 ﻿namespace Spectrum.Content.Appointments.Translators
 {
-    using Application.Services;
     using Content.Services;
     using Models;
+    using Scorchio.Services;
     using System;
     using ViewModels;
 

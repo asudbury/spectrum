@@ -1,6 +1,5 @@
 ﻿namespace Spectrum.Content.Invoices.Managers
 {
-    using Application.Services;
     using Content.Models;
     using Content.Services;
     using ContentModels;
@@ -11,6 +10,7 @@
     using Models;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
+    using Scorchio.Services;
     using Services;
     using System;
     using System.Collections.Generic;
