@@ -4,7 +4,8 @@
 	<img src="http://vm-scorchio.westeurope.cloudapp.azure.com:888/app/rest/builds/buildType:(id:Spectrum_Build)/statusIcon"/>
 </a>
 
-http://vm-scorchio.westeurope.cloudapp.azure.com:888/viewType.html?buildTypeId=Spectrum_Build&guest=1
+[View Build Status](http://vm-scorchio.westeurope.cloudapp.azure.com:888/viewType.html?buildTypeId=Spectrum_Build&guest=1)
+
 
 # About Spectrum
 Umbraco Project
