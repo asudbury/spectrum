@@ -7,7 +7,7 @@
 </a></td>
     </tr>
     <tr>
-        <td align="center">AppVeyor Build Status</td>
+        <td align="center"><a href='https://ci.appveyor.com/project/asudbury/spectrum'>AppVeyor Build Status</a></td>
         <td align="center"><a href="https://ci.appveyor.com/project/asudbury/spectrum/">
 	<img src='https://ci.appveyor.com/api/projects/status/ilna9ubax355iwjy?svg=true'/>
 </a></td>
