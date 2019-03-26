@@ -1,17 +1,21 @@
-# Appveyor Build Status
-[![Build status](https://ci.appveyor.com/api/projects/status/ilna9ubax355iwjy?svg=true)](https://ci.appveyor.com/project/asudbury/spectrum)
 
-# Team City Build Status
-
-<a href="http://vm-scorchio.westeurope.cloudapp.azure.com:888/viewType.html?buildTypeId=Spectrum_Build&guest=1">
+<table align="center">
+    <tr>
+        <td align="center"><a href=http://vm-scorchio.westeurope.cloudapp.azure.com:888/viewType.html?buildTypeId=Spectrum_Build&guest=1)>Team City Build Status</a></td>
+        <td align="center"><a href="http://vm-scorchio.westeurope.cloudapp.azure.com:888/viewType.html?buildTypeId=Spectrum_Build&guest=1">
 	<img src="http://vm-scorchio.westeurope.cloudapp.azure.com:888/app/rest/builds/buildType:(id:Spectrum_Build)/statusIcon"/>
-</a>
-
-[View Build Status](http://vm-scorchio.westeurope.cloudapp.azure.com:888/viewType.html?buildTypeId=Spectrum_Build&guest=1)
+</a></td>
+    </tr>
+    <tr>
+        <td align="center">AppVeyor Build Status</td>
+        <td align="center"><a href="https://ci.appveyor.com/project/asudbury/spectrum/">
+	<img src='https://ci.appveyor.com/api/projects/status/ilna9ubax355iwjy?svg=true'/>
+</a></td>
+    </tr>
+</table>
 
 
 # About Spectrum
-Umbraco Project
 
 An umbraco project to support various requirements.
 
