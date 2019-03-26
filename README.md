@@ -10,7 +10,15 @@
 # About Spectrum
 Umbraco Project
 
-An attempt at creating an umbraco project to support various requirements.
+An umbraco project to support various requirements.
+
+Current requirements include:-
+
+	Take payments via a third party (braintree/paypal)
+	Booking of appointments
+	Invoicing
+	Quoting
+	
 
 Makes use of the following modules
 
