@@ -1,3 +1,6 @@
+# Appveyor Build Status
+[![Build status](https://ci.appveyor.com/api/projects/status/ilna9ubax355iwjy?svg=true)](https://ci.appveyor.com/project/asudbury/spectrum)
+
 # Team City Build Status
 
 <a href="http://vm-scorchio.westeurope.cloudapp.azure.com:888/viewType.html?buildTypeId=Spectrum_Build&guest=1">
